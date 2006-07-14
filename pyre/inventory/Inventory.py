@@ -131,6 +131,30 @@ class Inventory(object):
         return registry
 
 
+    def collectDefaults(self, registry):
+        """place my default values in the given registry"""
+
+        from Facility import Facility
+
+        node = registry.getNode(self._priv_name)
+
+        for prop in self._traitRegistry.itervalues():
+            name = prop.name
+            value, locator = prop._getDefaultValue(self)
+            if isinstance(prop, Facility):
+                # This isn't necessarily true.
+                value = value.name
+            node.setProperty(name, value, locator)
+
+        for facility in self._facilityRegistry.itervalues():
+            components = facility._retrieveAllComponents(self)
+            for component in components:
+                component.setCurator(self._priv_curator)
+                component.collectDefaults(node)
+
+        return registry
+
+
     def configureComponent(self, component, registry=None):
         """configure <component> using options from the given registry"""
 
@@ -167,6 +191,19 @@ class Inventory(object):
 
         return self._priv_curator.retrieveComponent(
             name=name, facility=factory, args=args, encoding=encoding,
+            vault=vault, extraDepositories=self._priv_depositories)
+        
+
+    def retrieveAllComponents(
+        self, factory, args=(), encoding='odb', vault=[], extraDepositories=[]):
+        """retrieve all possible components for <factory> from the persistent store"""
+
+        if extraDepositories:
+            import journal
+            journal.firewall("inventory").log("non-null extraDepositories")
+
+        return self._priv_curator.retrieveAllComponents(
+            facility=factory, args=args, encoding=encoding,
             vault=vault, extraDepositories=self._priv_depositories)
         
 

@@ -145,6 +145,15 @@ class Application(Component, Executive):
         return []
 
 
+    def dumpDefaults(self):
+        configuration = self.collectDefaults()
+        # save the configuation as a PML file
+        configPml = self.name + "-defaults.pml"
+        pml = open(configPml, 'w')
+        print >> pml, "\n".join(self.weaver.render(configuration))
+        pml.close()
+
+
 
 # version
 __id__ = "$Id: Application.py,v 1.6 2005/04/05 21:34:12 aivazis Exp $"

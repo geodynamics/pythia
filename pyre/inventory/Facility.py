@@ -114,6 +114,10 @@ class Facility(Trait):
         return component, locator
 
 
+    def _retrieveAllComponents(self, instance):
+        return instance.retrieveAllComponents(factory=self.family)
+
+
     def _import(self, name):
         try:
             module = __import__(name, {}, {})

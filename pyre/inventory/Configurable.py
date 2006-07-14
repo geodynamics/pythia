@@ -111,6 +111,13 @@ class Configurable(Traceable):
         return up, uc
 
 
+    def collectDefaults(self, registry=None):
+        """return a registry containing my default values"""
+        if registry is None:
+            registry = self.createRegistry()
+        return self.inventory.collectDefaults(registry)
+
+
     # curator accessors
     def getCurator(self):
         """return my persistent store manager"""

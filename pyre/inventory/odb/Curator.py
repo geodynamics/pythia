@@ -94,6 +94,44 @@ class Curator(Base):
         return None
 
 
+    def retrieveAllComponents(
+        self, facility, args=(), encoding='odb', vault=[], extraDepositories=[]):
+        """construct all possible components by locating and invoking the component factories"""
+
+        # get the requested codec
+        codec = self.codecs[encoding]
+
+        components = []
+
+        # loop over my depositories looking for apprpriate factories
+        for factory, locator in self.loadSymbols(
+            codec=codec, address=vault, symbol=facility, extras=extraDepositories,
+            errorHandler=self._recordComponentLookup):
+
+            if not callable(factory):
+                self._recordComponentLookup(
+                    facility, locator, "factory '%s' found but not callable" % facility)
+                continue
+
+            try:
+                component = factory(*args)
+            except TypeError, message:
+                self._recordComponentLookup(
+                    facility, locator, "error invoking '%s': %s" % (facility, message))
+                continue
+
+            # set the locator
+            if component:
+                component.setLocator(locator)
+
+            # record this request
+            self._recordComponentLookup(facility, locator, "success")
+
+            components.append(component)
+                
+        return components
+
+
     def config(self, registry):
         # gain access to the installation defaults
         import prefix

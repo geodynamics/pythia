@@ -87,6 +87,48 @@ class Curator(Base):
         return
 
 
+    def loadSymbols(self, codec, address, symbol, extras=[], errorHandler=None):
+        """extract all symbols named <symbol> from the vault pointed to by <address>"""
+
+        import pyre.parsing.locators
+        from os.path import basename
+
+        # loop over the depositories
+        for depository in self.searchOrder(extraDepositories=extras):
+            
+            files = depository.retrieveShelves(address, codec.extension)
+            
+            # loop over the shelves
+            for file in files:
+
+                spec = depository.resolve(address + [file])
+                filename = codec.resolve(spec)
+                locator = pyre.parsing.locators.file(filename)
+
+                # open the shelf
+                try:
+                    shelf = codec.open(spec, 'r')
+                except IOError, error:
+                    # the codec failed to open the spec
+                    if callable(errorHandler):
+                        errorHandler(symbol, locator, error)
+                    continue
+                
+                # retrieve the factory method
+                try:
+                    item = shelf[symbol]
+                except KeyError:
+                    # no factory by that name exists
+                    if callable(errorHandler):
+                        errorHandler(symbol, locator, "'%s' not found" % symbol)
+                    continue
+
+                # success
+                yield item, locator
+            
+        return
+
+
     # depository management
     def createDepository(self, directory):
         """create a new depository rooted at <directory>"""
