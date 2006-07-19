@@ -81,17 +81,17 @@ public:
 
 // the injection operators: leave these in the global namespace
 
-journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::set_t m)
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::set_t m)
 {
     return (*m._f)(s, m._key, m._value);
 }
 
-journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc2_t m)
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc2_t m)
 {
     return (*m._f)(s, m._file, m._line);
 }
 
-journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc3_t m)
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc3_t m)
 {
     return (*m._f)(s, m._file, m._line, m._function);
 }

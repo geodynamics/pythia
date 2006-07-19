@@ -93,6 +93,9 @@ mpi::Communicator * mpi::Communicator::communicator(const Group & group) const {
 }
 
 
+#include "_mpimodule.h"
+
+
 #endif
 
 // version

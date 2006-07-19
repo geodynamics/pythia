@@ -26,29 +26,29 @@ namespace journal {
     class Diagnostic;
 
     // end of entry
-    Diagnostic & endl(Diagnostic & diag) {
+    inline Diagnostic & endl(Diagnostic & diag) {
         diag.record();
         return diag;
     }
     
     // add a newline
-    Diagnostic & newline(Diagnostic & diag) {
+    inline Diagnostic & newline(Diagnostic & diag) {
         diag.newline();
         return diag;
     }
 
     // set metadata key to value
-    Diagnostic & __diagmanip_set(Diagnostic & s, const char * key, const char * value) {
+    inline Diagnostic & __diagmanip_set(Diagnostic & s, const char * key, const char * value) {
         s.attribute(key, value);
         return s;
     }
 
-    set_t set(const char * key, const char * value) {
+    inline set_t set(const char * key, const char * value) {
         return set_t(__diagmanip_set, key, value);
     }
     
     // location information
-    Diagnostic & __diagmanip_loc(Diagnostic & s, const char * filename, long line) {
+    inline Diagnostic & __diagmanip_loc(Diagnostic & s, const char * filename, long line) {
         s.attribute("filename", filename);
 
         std::stringstream tmp;
@@ -59,11 +59,11 @@ namespace journal {
         return s;
     }
 
-    loc2_t at(const char * file, long line) {
+    inline loc2_t at(const char * file, long line) {
         return loc2_t(__diagmanip_loc, file, line);
     }
 
-    Diagnostic & __diagmanip_loc(
+    inline Diagnostic & __diagmanip_loc(
         Diagnostic & s, const char * filename, long line, const char * function) 
     {
         s.attribute("filename", filename);
@@ -77,13 +77,13 @@ namespace journal {
         return s;
     }
 
-    loc3_t at(const char * file, long line, const char * function) {
+    inline loc3_t at(const char * file, long line, const char * function) {
         return loc3_t(__diagmanip_loc, file, line, function);
     }
 
 }
 
-journal::Diagnostic & 
+inline journal::Diagnostic & 
 operator<< (journal::Diagnostic & s, journal::Diagnostic & (m)(journal::Diagnostic &))
 {
     return (*m)(s);

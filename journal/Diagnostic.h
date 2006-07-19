@@ -98,7 +98,7 @@ private:
 
 // the injection operator
 template <typename item_t>
-journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, item_t item) {
+inline journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, item_t item) {
     return diagnostic.inject(item);
 }
 

@@ -95,6 +95,9 @@ mpi::Group * mpi::Group::group(const mpi::Communicator & comm) {
 }
 
 
+#include "_mpimodule.h"
+
+
 // version
 // $Id: Group.h,v 1.1.1.1 2005/03/08 16:13:30 aivazis Exp $
 

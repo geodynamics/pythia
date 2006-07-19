@@ -61,7 +61,7 @@ namespace journal {
 
 // the injection operator
 template <typename item_t>
-journal::NullDiagnostic & operator<< (journal::NullDiagnostic & diagnostic, item_t) {
+inline journal::NullDiagnostic & operator<< (journal::NullDiagnostic & diagnostic, item_t) {
     return diagnostic;
 }
 

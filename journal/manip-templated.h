@@ -34,15 +34,15 @@ namespace journal {
 // the injection operators: leave these in the global namespace
 
 template <typename arg1_t>
-journal::Diagnostic & operator << (
+inline journal::Diagnostic & operator << (
     journal::Diagnostic &, journal::manip_1<arg1_t>);
 
 template <typename arg1_t, typename arg2_t>
-journal::Diagnostic & operator << (
+inline journal::Diagnostic & operator << (
     journal::Diagnostic &, journal::manip_2<arg1_t, arg2_t>);
 
 template <typename arg1_t, typename arg2_t, typename arg3_t>
-journal::Diagnostic & operator << (
+inline journal::Diagnostic & operator << (
     journal::Diagnostic &, journal::manip_3<arg1_t, arg2_t, arg3_t>);
 
 
@@ -71,7 +71,7 @@ private:
 
 
 template <typename arg1_t>
-journal::Diagnostic & operator<< (
+inline journal::Diagnostic & operator<< (
     journal::Diagnostic & s, journal::manip_1<arg1_t> m)
 {
     return (*m._f)(s, m._arg1);
@@ -104,7 +104,7 @@ private:
 
 
 template <typename arg1_t, typename arg2_t>
-journal::Diagnostic & 
+inline journal::Diagnostic & 
 operator<< (
     journal::Diagnostic & s, journal::manip_2<arg1_t, arg2_t> m) 
 {
@@ -139,7 +139,7 @@ private:
 
 
 template <typename arg1_t, typename arg2_t, typename arg3_t>
-journal::Diagnostic & operator<< 
+inline journal::Diagnostic & operator<< 
 (journal::Diagnostic & s, journal::manip_3<arg1_t, arg2_t, arg3_t> m) {
     return (*m._f)(s, m._arg1, m._arg2, m._arg3);
 }
