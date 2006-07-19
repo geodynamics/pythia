@@ -19,24 +19,18 @@
 namespace journal {
     class Diagnostic;
     class SeverityInfo;
-    class Index;
 }
 
 
 class journal::SeverityInfo : public journal::Diagnostic {
 
-// types
-public:
-    typedef Index index_t;
-
 // interface
 public:
     string_t name() const { return  "info." + facility(); }
-    static state_t & lookup(string_t);
 
 // meta-methods
 public:
-    virtual ~SeverityInfo();
+    ~SeverityInfo() {}
     
     SeverityInfo(string_t name) :
         Diagnostic(name, "info", lookup(name)) {}
@@ -45,10 +39,6 @@ public:
 private:
     SeverityInfo(const SeverityInfo &);
     const SeverityInfo & operator=(const SeverityInfo &);
-
-// data
-private:
-    static index_t * _index;
 };
 
 

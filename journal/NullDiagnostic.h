@@ -48,11 +48,11 @@ private:
 // manipulators
 namespace journal {
     
-    const NullDiagnostic & endl(const NullDiagnostic &) {
+    const NullDiagnostic & endl(const NullDiagnostic & diagnostic) {
         return diagnostic;
     }
     
-    const NullDiagnostic & newline(const NullDiagnostic &) {
+    const NullDiagnostic & newline(const NullDiagnostic & diagnostic) {
         return diagnostic;
     }
     

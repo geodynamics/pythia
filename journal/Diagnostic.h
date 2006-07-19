@@ -29,7 +29,7 @@ class journal::Diagnostic {
 // types
 public:
     typedef Entry entry_t;
-    typedef Facility state_t;
+    typedef bool state_t;
     typedef Journal journal_t;
 
     typedef std::string string_t;
@@ -37,8 +37,9 @@ public:
 
 // interface
 public:
-    void state(bool);
-    bool state() const;
+    void state(bool flag) { _state = flag; }
+    bool state() const { return _state; }
+    static state_t & lookup(string_t name) { static state_t dummy; return dummy; }
     
     void activate() { state(true); }
     void deactivate() { state(false); }
@@ -46,9 +47,11 @@ public:
     string_t facility() const { return _facility; }
 
     // entry manipulation
-    void record();
-    void newline();
-    void attribute(string_t, string_t);
+    void record() { /**/ }
+    void newline() { if (state()) _newline(); }
+    void attribute(string_t key, string_t value) {
+        /*(*_entry)[key] = value;*/
+    }
 
     // access to the buffered data
     string_t str() const { return _buffer.str(); }
@@ -58,19 +61,24 @@ public:
 
     // builtin data type injection
     template <typename item_t> 
-    Diagnostic & inject(item_t datum) {
+    Diagnostic & inject(item_t item) {
         _buffer << item;
         return *this;
     }
 
 // meta-methods
 public:
-    ~Diagnostic();
-    Diagnostic(string_t, string_t, state_t &);
+    ~Diagnostic() { /*delete _entry;*/ }
+    Diagnostic(string_t facility, string_t severity, state_t & state):
+        _facility(facility), _severity(severity),
+        _state(state), _buffer(), _entry(0 /*new entry_t*/) {}
 
 // implementation
 private:
-    void _newline();
+    void _newline() {
+        /*_entry->newline(str());*/
+        _buffer.str(string_t());
+    }
 
 // disable these
 private:
