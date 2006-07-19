@@ -36,7 +36,7 @@ public:
 // meta-methods
 public:
     virtual ~Index();
-    inline Index();
+    Index() {}
 
 // disable these
 private:
@@ -44,10 +44,6 @@ private:
     const Index & operator=(const Index &);
 };
 
-// get the inline definitions
-#define journal_Index_icc
-#include "Index.icc"
-#undef journal_Index_icc
 
 #endif
 // version

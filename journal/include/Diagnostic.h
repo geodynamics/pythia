@@ -23,10 +23,6 @@ namespace journal {
     class Diagnostic;
 }
 
-// injection operator
-template <typename item_t>
-inline journal::Diagnostic & operator<< (journal::Diagnostic &, item_t);
-
 
 class journal::Diagnostic {
 
@@ -43,11 +39,11 @@ public:
 public:
     void state(bool);
     bool state() const;
+    
+    void activate() { state(true); }
+    void deactivate() { state(false); }
 
-    inline void activate();
-    inline void deactivate();
-
-    inline string_t facility() const;
+    string_t facility() const { return _facility; }
 
     // entry manipulation
     void record();
@@ -55,14 +51,17 @@ public:
     void attribute(string_t, string_t);
 
     // access to the buffered data
-    inline string_t str() const;
+    string_t str() const { return _buffer.str(); }
 
     // access to the journal singleton
     static journal_t & journal();
 
     // builtin data type injection
     template <typename item_t> 
-    inline Diagnostic & inject(item_t datum);
+    Diagnostic & inject(item_t datum) {
+        _buffer << item;
+        return *this;
+    }
 
 // meta-methods
 public:
@@ -88,10 +87,13 @@ private:
     entry_t * _entry;
 };
 
-// get the inline definitions
-#define journal_Diagnostic_icc
-#include "Diagnostic.icc"
-#undef journal_Diagnostic_icc
+
+// the injection operator
+template <typename item_t>
+journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, item_t item) {
+    return diagnostic.inject(item);
+}
+
 
 #endif
 

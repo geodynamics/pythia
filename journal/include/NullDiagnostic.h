@@ -20,10 +20,6 @@ namespace journal {
     class NullDiagnostic;
 }
 
-// injection operator
-template <typename item_t>
-inline journal::NullDiagnostic & operator<< (journal::NullDiagnostic &, item_t);
-
 
 class journal::NullDiagnostic {
 
@@ -33,11 +29,11 @@ public:
 
 // interface
 public:
-    inline void state(bool) const { return; }
-    inline bool state() const { return false; }
+    void state(bool) const { return; }
+    bool state() const { return false; }
 
-    inline void activate() const { return; }
-    inline void deactvate() const { return; }
+    void activate() const { return; }
+    void deactvate() const { return; }
 
 // meta-methods
     ~NullDiagnostic() {}
@@ -51,17 +47,26 @@ private:
 
 // manipulators
 namespace journal {
-    inline const NullDiagnostic & endl(const NullDiagnostic &);
-    inline const NullDiagnostic & newline(const NullDiagnostic &);
+    
+    const NullDiagnostic & endl(const NullDiagnostic &) {
+        return diagnostic;
+    }
+    
+    const NullDiagnostic & newline(const NullDiagnostic &) {
+        return diagnostic;
+    }
+    
 }
 
 
-// get the inline definitions
-#define journal_NullDiagnostic_icc
-#include "NullDiagnostic.icc"
-#undef journal_NullDiagnostic_icc
+// the injection operator
+template <typename item_t>
+journal::NullDiagnostic & operator<< (journal::NullDiagnostic & diagnostic, item_t) {
+    return diagnostic;
+}
 
-# endif
+
+#endif
 
 // version
 // $Id: NullDiagnostic.h,v 1.1.1.1 2005/03/08 16:13:55 aivazis Exp $

@@ -31,13 +31,15 @@ public:
 
 // interface
 public:
-    inline string_t name() const;
+    string_t name() const { return  "error." + facility(); }
     static state_t & lookup(string_t);
 
 // meta-methods
 public:
     virtual ~SeverityError();
-    inline SeverityError(string_t);
+    
+    SeverityError(string_t name) :
+        Diagnostic(name, "error", lookup(name)) {}
 
 // disable these
 private:
@@ -49,10 +51,6 @@ private:
     static index_t * _index;
 };
 
-// get the inline definitions
-#define journal_SeverityError_icc
-#include "SeverityError.icc"
-#undef journal_SeverityError_icc
 
 #endif
 // version

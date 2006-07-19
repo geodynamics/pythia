@@ -31,13 +31,15 @@ public:
 
 // interface
 public:
-    inline string_t name() const;
+    string_t name() const { return  "info." + facility(); }
     static state_t & lookup(string_t);
 
 // meta-methods
 public:
     virtual ~SeverityInfo();
-    inline SeverityInfo(string_t);
+    
+    SeverityInfo(string_t name) :
+        Diagnostic(name, "info", lookup(name)) {}
 
 // disable these
 private:
@@ -49,10 +51,6 @@ private:
     static index_t * _index;
 };
 
-// get the inline definitions
-#define journal_SeverityInfo_icc
-#include "SeverityInfo.icc"
-#undef journal_SeverityInfo_icc
 
 #endif
 // version

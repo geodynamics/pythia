@@ -59,7 +59,8 @@ public:
 // meta-methods
 public:
 
-    manip_1(factory_t f, arg1_t arg1);
+    manip_1(factory_t f, arg1_t arg1) :
+        _f(f), _arg1(arg1) {}
 
 // data
 private:
@@ -67,6 +68,14 @@ private:
     factory_t _f;
     arg1_t _arg1;
 };
+
+
+template <typename arg1_t>
+journal::Diagnostic & operator<< (
+    journal::Diagnostic & s, journal::manip_1<arg1_t> m)
+{
+    return (*m._f)(s, m._arg1);
+}
 
 
 template <typename arg1_t, typename arg2_t>
@@ -82,7 +91,8 @@ public:
 // meta-methods
 public:
 
-    manip_2(factory_t f, arg1_t arg1, arg2_t arg2);
+    manip_2(factory_t f, arg1_t arg1, arg2_t arg2) :
+        _f(f), _arg1(arg1), _arg2(arg2) {}
 
 // data
 private:
@@ -91,6 +101,15 @@ private:
     arg1_t _arg1;
     arg2_t _arg2;
 };
+
+
+template <typename arg1_t, typename arg2_t>
+journal::Diagnostic & 
+operator<< (
+    journal::Diagnostic & s, journal::manip_2<arg1_t, arg2_t> m) 
+{
+    return (*m._f)(s, m._arg1, m._arg2);
+}
 
 
 template <typename arg1_t, typename arg2_t, typename arg3_t>
@@ -106,7 +125,8 @@ public:
 // meta-methods
 public:
 
-    manip_3(factory_t f, arg1_t arg1, arg2_t arg2, arg3_t arg3);
+    manip_3(factory_t f, arg1_t arg1, arg2_t arg2, arg3_t arg3) :
+        _f(f), _arg1(arg1), _arg2(arg2), _arg3(arg3) {}
 
 // data
 private:
@@ -117,10 +137,13 @@ private:
     arg3_t _arg3;
 };
 
-// get the inlined definitions
-#define journal_manip_templated_icc
-#include "manip-templated.icc"
-#undef journal_manip_templated_icc
+
+template <typename arg1_t, typename arg2_t, typename arg3_t>
+journal::Diagnostic & operator<< 
+(journal::Diagnostic & s, journal::manip_3<arg1_t, arg2_t, arg3_t> m) {
+    return (*m._f)(s, m._arg1, m._arg2, m._arg3);
+}
+
 
 #endif
 

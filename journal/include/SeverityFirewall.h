@@ -31,13 +31,15 @@ public:
 
 // interface
 public:
-    inline string_t name() const;
+    string_t name() const { return  "firewall." + facility(); }
     static state_t & lookup(string_t);
 
 // meta-methods
 public:
     virtual ~SeverityFirewall();
-    inline SeverityFirewall(string_t);
+    
+    SeverityFirewall(string_t name) :
+        Diagnostic(name, "firewall", lookup(name)) {}
 
 // disable these
 private:
@@ -49,10 +51,6 @@ private:
     static index_t * _index;
 };
 
-// get the inline definitions
-#define journal_SeverityFirewall_icc
-#include "SeverityFirewall.icc"
-#undef journal_SeverityFirewall_icc
 
 #endif
 // version

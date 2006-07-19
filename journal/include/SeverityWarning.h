@@ -31,13 +31,15 @@ public:
 
 // interface
 public:
-    inline string_t name() const;
+    string_t name() const { return  "warning." + facility(); }
     static state_t & lookup(string_t);
 
 // meta-methods
 public:
     virtual ~SeverityWarning();
-    inline SeverityWarning(string_t);
+    
+    SeverityWarning(string_t name) :
+        Diagnostic(name, "warning", lookup(name)) {}
 
 // disable these
 private:
@@ -49,10 +51,6 @@ private:
     static index_t * _index;
 };
 
-// get the inline definitions
-#define journal_SeverityWarning_icc
-#include "SeverityWarning.icc"
-#undef journal_SeverityWarning_icc
 
 #endif
 // version

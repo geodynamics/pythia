@@ -25,26 +25,70 @@
 namespace journal {
     class Diagnostic;
 
-    inline Diagnostic & endl(Diagnostic &);
-    inline Diagnostic & newline(Diagnostic &);
+    // end of entry
+    Diagnostic & endl(Diagnostic & diag) {
+        diag.record();
+        return diag;
+    }
+    
+    // add a newline
+    Diagnostic & newline(Diagnostic & diag) {
+        diag.newline();
+        return diag;
+    }
 
-    inline set_t set(const char *, const char *);
-    inline Diagnostic & __diagmanip_set(Diagnostic &, const char *, const char *);
+    // set metadata key to value
+    Diagnostic & __diagmanip_set(Diagnostic & s, const char * key, const char * value) {
+        s.attribute(key, value);
+        return s;
+    }
 
-    inline loc2_t at(const char *, long);
-    inline Diagnostic & __diagmanip_loc(Diagnostic &, const char *, long);
+    set_t set(const char * key, const char * value) {
+        return set_t(__diagmanip_set, key, value);
+    }
+    
+    // location information
+    Diagnostic & __diagmanip_loc(Diagnostic & s, const char * filename, long line) {
+        s.attribute("filename", filename);
 
-    inline loc3_t at(const char *, long, const char *);
-    inline Diagnostic & __diagmanip_loc(Diagnostic &, const char *, long, const char *);
+        std::stringstream tmp;
+        tmp << line;
+
+        s.attribute("line", tmp.str());
+
+        return s;
+    }
+
+    loc2_t at(const char * file, long line) {
+        return loc2_t(__diagmanip_loc, file, line);
+    }
+
+    Diagnostic & __diagmanip_loc(
+        Diagnostic & s, const char * filename, long line, const char * function) 
+    {
+        s.attribute("filename", filename);
+        s.attribute("function", function);
+
+        std::stringstream tmp;
+        tmp << line;
+
+        s.attribute("line", tmp.str());
+
+        return s;
+    }
+
+    loc3_t at(const char * file, long line, const char * function) {
+        return loc3_t(__diagmanip_loc, file, line, function);
+    }
+
 }
 
-inline journal::Diagnostic & 
-operator<< (journal::Diagnostic &, journal::Diagnostic & (*)(journal::Diagnostic &));
+journal::Diagnostic & 
+operator<< (journal::Diagnostic & s, journal::Diagnostic & (m)(journal::Diagnostic &))
+{
+    return (*m)(s);
+}
 
-// get the inline definitions
-#define journal_manipulators_icc
-#include "manipulators.icc"
-#undef journal_manipulators_icc
 
 #endif
 

@@ -22,10 +22,6 @@ namespace journal {
     class loc3_t;
 }
 
-// the injection operators: leave these in the global namespace
-inline journal::Diagnostic & operator << (journal::Diagnostic &, journal::set_t);
-inline journal::Diagnostic & operator << (journal::Diagnostic &, journal::loc2_t);
-inline journal::Diagnostic & operator << (journal::Diagnostic &, journal::loc3_t);
 
 class journal::set_t {
 // types
@@ -34,7 +30,8 @@ public:
 
 // meta-methods
 public:
-    set_t(factory_t, const char *, const char *);
+    set_t(factory_t f, const char * key, const char * value) :
+        _f(f), _key(key), _value(value) {}
 
 // data
 public:
@@ -52,7 +49,8 @@ public:
 
 // meta-methods
 public:
-    loc2_t(factory_t, const char *, long);
+    loc2_t(factory_t f, const char * file, long line) :
+        _f(f), _file(file), _line(line) {}
 
 // data
 public:
@@ -69,7 +67,8 @@ public:
 
 // meta-methods
 public:
-    loc3_t(factory_t, const char *, long, const char *);
+    loc3_t(factory_t f, const char * file, long line, const char * function) :
+        _f(f), _file(file), _line(line), _function(function) {}
 
 // data
 public:
@@ -79,10 +78,24 @@ public:
     const char * _function;
 };
 
-// get the inline definitions
-#define journal_manip_explicit_icc
-#include "manip-explicit.icc"
-#undef journal_manip_explicit_icc
+
+// the injection operators: leave these in the global namespace
+
+journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::set_t m)
+{
+    return (*m._f)(s, m._key, m._value);
+}
+
+journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc2_t m)
+{
+    return (*m._f)(s, m._file, m._line);
+}
+
+journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc3_t m)
+{
+    return (*m._f)(s, m._file, m._line, m._function);
+}
+
 
 #endif
 
