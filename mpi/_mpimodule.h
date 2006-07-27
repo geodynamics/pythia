@@ -35,7 +35,11 @@ class mpi::_mpimodule {
 public:
     
     _mpimodule() {
-        PyImport_AppendInittab("_mpi", &init_mpi);
+        static bool once = true;
+        if (once) {
+            once = false;
+            PyImport_AppendInittab("_mpi", &init_mpi);
+        }
     }
     
     ~_mpimodule() {}
@@ -94,7 +98,7 @@ inline void mpi::_mpimodule::init_mpi()
 
 
 namespace mpi {
-    static _mpimodule _mpimodule;
+    static _mpimodule _theModule;
 }
 
 

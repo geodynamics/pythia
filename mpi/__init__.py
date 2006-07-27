@@ -21,22 +21,34 @@ def timer(name):
     return timingCenter().timer(name)
 
 
-# attempt to load the mpi python bindings
-try:
-    import _mpi
-except:
-
-    def world():
+def world():
+    try:
+        import _mpi
+    except:
         from DummyCommunicator import DummyCommunicator
         return DummyCommunicator()
-    def inParallel(): return 0
-    def processors(): return 1
-    
-else:
-    from Communicator import world
-    def inParallel(): return 1
-    def processors(): return world().size
+    else:
+        import Communicator
+        return Communicator.world()
 
+
+def inParallel():
+    try:
+        import _mpi
+    except:
+        return 0
+    else:
+        return 1
+
+
+def processors():
+    try:
+        import _mpi
+    except:
+        return 1
+    else:
+        return world().size
+    
 
 def copyright():
     return "pythia.mpi: Copyright (c) 1998-2005 Michael A.G. Aivazis"
