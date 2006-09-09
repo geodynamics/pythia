@@ -104,6 +104,32 @@ class Diagnostic(object):
         def __str__(self):
             return self.msg
 
+    
+    # C++ interface
+
+    def attribute(self, key, value):
+        meta = self._entry.meta
+        meta[key] = value
+
+
+    def record(self):
+        if not self.state:
+            return
+
+        meta = self._entry.meta
+        meta["facility"] = self.facility
+        meta["severity"] = self.severity
+        if not meta.has_key("function"):
+            meta["function"] = "<unknown>"
+
+        journal.journal().record(self._entry)
+
+        if self.fatal:
+            raise self.Fatal()
+     
+        self._entry = Entry()
+        return self
+
 
 # version
 __id__ = "$Id: Diagnostic.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"

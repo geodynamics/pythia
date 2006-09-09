@@ -21,8 +21,6 @@ class Firewall(Index):
 
     def init(self):
         Index.init(self, "firewall", defaultState=True, fatal=True)
-        if journal.hasProxy:
-            self._stateFactory = self._proxyState
         return
 
 

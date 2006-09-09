@@ -14,12 +14,89 @@
 #if !defined(journal_manipulators_h)
 #define journal_manipulators_h
 
-// get infrastructure manipulator definitions/declaration
-#if defined(JOURNAL_NON_TEMPLATED_MANIPULATORS)
-#include "manip-explicit.h"
-#else
-#include "manip-templated.h"
-#endif
+
+namespace journal {
+
+    // declarations of the builtin manipulators
+    class set_t;
+    class loc2_t;
+    class loc3_t;
+}
+
+
+class journal::set_t {
+// types
+public:
+    typedef Diagnostic & (*factory_t)(Diagnostic &, const char *, const char *);
+
+// meta-methods
+public:
+    set_t(factory_t f, const char * key, const char * value) :
+        _f(f), _key(key), _value(value) {}
+
+// data
+public:
+    factory_t _f;
+    const char * _key;
+    const char * _value;
+};
+
+
+class journal::loc2_t {
+
+// types
+public:
+    typedef Diagnostic & (*factory_t)(Diagnostic &, const char *, long);
+
+// meta-methods
+public:
+    loc2_t(factory_t f, const char * file, long line) :
+        _f(f), _file(file), _line(line) {}
+
+// data
+public:
+    factory_t _f;
+    const char * _file;
+    long _line;
+};
+
+
+class journal::loc3_t {
+// types
+public:
+    typedef Diagnostic & (*factory_t)(Diagnostic &, const char *, long, const char *);
+
+// meta-methods
+public:
+    loc3_t(factory_t f, const char * file, long line, const char * function) :
+        _f(f), _file(file), _line(line), _function(function) {}
+
+// data
+public:
+    factory_t _f;
+    const char * _file;
+    long _line;
+    const char * _function;
+};
+
+
+// the injection operators: leave these in the global namespace
+
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::set_t m)
+{
+    return (*m._f)(s, m._key, m._value);
+}
+
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc2_t m)
+{
+    return (*m._f)(s, m._file, m._line);
+}
+
+inline journal::Diagnostic & operator<< (journal::Diagnostic & s, journal::loc3_t m)
+{
+    return (*m._f)(s, m._file, m._line, m._function);
+}
+
 
 // forward declarations
 namespace journal {
@@ -50,12 +127,7 @@ namespace journal {
     // location information
     inline Diagnostic & __diagmanip_loc(Diagnostic & s, const char * filename, long line) {
         s.attribute("filename", filename);
-
-        std::stringstream tmp;
-        tmp << line;
-
-        s.attribute("line", tmp.str());
-
+        s.attribute("line", line);
         return s;
     }
 
@@ -68,12 +140,7 @@ namespace journal {
     {
         s.attribute("filename", filename);
         s.attribute("function", function);
-
-        std::stringstream tmp;
-        tmp << line;
-
-        s.attribute("line", tmp.str());
-
+        s.attribute("line", line);
         return s;
     }
 

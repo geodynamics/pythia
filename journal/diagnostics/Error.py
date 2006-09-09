@@ -21,8 +21,6 @@ class Error(Index):
 
     def init(self):
         Index.init(self, "error", True)
-        if journal.hasProxy:
-            self._stateFactory = self._proxyState
         return
 
 

@@ -21,8 +21,6 @@ class Warning(Index):
 
     def init(self):
         Index.init(self, "warning", True)
-        if journal.hasProxy:
-            self._stateFactory = self._proxyState
         return
 
 

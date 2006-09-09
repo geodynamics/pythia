@@ -33,7 +33,7 @@ public:
     ~SeverityError() {}
     
     SeverityError(string_t name) :
-        Diagnostic(name, "error", lookup(name)) {}
+        Diagnostic(name, "error") {}
 
 // disable these
 private:

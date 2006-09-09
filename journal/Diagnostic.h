@@ -15,11 +15,11 @@
 #define journal_Diagnostic_h
 
 
+#include <Python.h>
+
+
 // forward declarations
 namespace journal {
-    class Entry;
-    class Facility;
-    class Journal;
     class Diagnostic;
 }
 
@@ -28,18 +28,25 @@ class journal::Diagnostic {
 
 // types
 public:
-    typedef Entry entry_t;
-    typedef bool state_t;
-    typedef Journal journal_t;
-
     typedef std::string string_t;
     typedef std::stringstream buffer_t;
 
 // interface
 public:
-    void state(bool flag) { _state = flag; }
-    bool state() const { return _state; }
-    static state_t & lookup(string_t name) { static state_t dummy; return dummy; }
+    void state(bool flag) {
+        PyObject *ret = PyObject_CallMethod(_self, (char *)(flag ? "activate" : "deactivate"), 0);
+        if (ret) { Py_DECREF(ret); } else { _error(); }
+    }
+    bool state() const {
+        PyObject *state = PyObject_GetAttrString(_self, "state"); if (!state) { _error(); }
+        bool ret = false;
+        switch (PyObject_IsTrue(state)) {
+        case 1: ret = true; break;
+        case -1: _error(); break;
+        }
+        Py_DECREF(state);
+        return ret;
+    }
     
     void activate() { state(true); }
     void deactivate() { state(false); }
@@ -47,17 +54,30 @@ public:
     string_t facility() const { return _facility; }
 
     // entry manipulation
-    void record() { /**/ }
-    void newline() { if (state()) _newline(); }
+    void record() {
+        newline();
+        PyObject *ret = PyObject_CallMethod(_self, "record", 0);
+        if (ret) { Py_DECREF(ret); } else { _error(); }
+    }
+    void newline() {
+        string_t message = str();
+        PyObject *ret = PyObject_CallMethod(_self, "line", "s#", message.c_str(), message.size());
+        if (ret) { Py_DECREF(ret); } else { _error(); }
+        _buffer.str(string_t());
+    }
     void attribute(string_t key, string_t value) {
-        /*(*_entry)[key] = value;*/
+        PyObject *ret = PyObject_CallMethod(_self, "attribute", "s#s#",
+                                            key.c_str(), key.size(),
+                                            value.c_str(), value.size());
+        if (ret) { Py_DECREF(ret); } else { _error(); }
+    }
+    void attribute(string_t key, long value) {
+        PyObject *ret = PyObject_CallMethod(_self, "attribute", "s#l", key.c_str(), key.size(), value);
+        if (ret) { Py_DECREF(ret); } else { _error(); }
     }
 
     // access to the buffered data
     string_t str() const { return _buffer.str(); }
-
-    // access to the journal singleton
-    static journal_t & journal();
 
     // builtin data type injection
     template <typename item_t> 
@@ -66,18 +86,39 @@ public:
         return *this;
     }
 
+private:
+    static PyObject *_journal() {
+        static PyObject *journal;
+        if (!journal) {
+            journal = PyImport_ImportModule("journal");
+            if (!journal) {
+                PyErr_Print();
+                Py_FatalError("could not import journal module");
+            }
+        }
+        return journal;
+    }
+    static PyObject *_getDiagnostic(string_t facility, string_t severity) {
+        PyObject *factory = PyObject_GetAttrString(_journal(), (char *)severity.c_str()); if (!factory) { _error(); }
+        PyObject *diag = PyObject_CallFunction(factory, "s#", facility.c_str(), facility.size()); if (!diag) { _error(); }
+        Py_DECREF(factory);
+        return diag;
+    }
+    static void _error() {
+        PyErr_Print();
+        Py_Exit(1);
+    }
+    
 // meta-methods
 public:
-    ~Diagnostic() { /*delete _entry;*/ }
-    Diagnostic(string_t facility, string_t severity, state_t & state):
+    ~Diagnostic() { Py_DECREF(_self); }
+    Diagnostic(string_t facility, string_t severity):
         _facility(facility), _severity(severity),
-        _state(state), _buffer(), _entry(0 /*new entry_t*/) {}
-
-// implementation
-private:
-    void _newline() {
-        /*_entry->newline(str());*/
-        _buffer.str(string_t());
+        _buffer(),
+        _self(_getDiagnostic(facility, severity)) {
+        if (PyErr_Occurred()) {
+            _error();
+        }
     }
 
 // disable these
@@ -90,9 +131,9 @@ private:
     const string_t _facility;
     const string_t _severity;
 
-    state_t & _state;
     buffer_t _buffer;
-    entry_t * _entry;
+
+    PyObject *_self;
 };
 
 

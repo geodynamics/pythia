@@ -33,7 +33,7 @@ public:
     ~SeverityFirewall() {}
     
     SeverityFirewall(string_t name) :
-        Diagnostic(name, "firewall", lookup(name)) {}
+        Diagnostic(name, "firewall") {}
 
 // disable these
 private:

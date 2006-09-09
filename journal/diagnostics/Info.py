@@ -20,8 +20,6 @@ class Info(Index):
 
     def init(self):
         Index.init(self, "info", False)
-        if journal.hasProxy:
-            self._stateFactory = self._proxyState
         return
 
 

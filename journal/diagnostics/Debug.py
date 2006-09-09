@@ -21,8 +21,6 @@ class Debug(Index):
 
     def init(self):
         Index.init(self, "debug", False)
-        if journal.hasProxy:
-            self._stateFactory = self._proxyState
         return
 
 

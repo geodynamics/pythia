@@ -156,18 +156,6 @@ def copyright():
 # statics
 _theJournal = None
 
-# initialize
-try:
-    #print " ** __init__.py: importing _journal"
-    import _journal
-except ImportError:
-    hasProxy = False
-else:
-    #print " ** __init__.py: initializing C++ bindings"
-
-    _journal.initialize(journal())
-    hasProxy = True
-
 # register the known indices
 register()
         

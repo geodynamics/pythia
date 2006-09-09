@@ -33,7 +33,7 @@ public:
     ~SeverityInfo() {}
     
     SeverityInfo(string_t name) :
-        Diagnostic(name, "info", lookup(name)) {}
+        Diagnostic(name, "info") {}
 
 // disable these
 private:
