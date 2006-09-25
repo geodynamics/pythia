@@ -13,8 +13,8 @@ setup(
     zip_safe = False,
     packages = find_packages(),
     package_data = {
-    # If any package contains *.pml or *.odb files, include them:
-    '': ['*.pml', '*.odb'],
+    # If any package contains *.pml, *.odb, or *.h files, include them:
+    '': ['*.pml', '*.odb', '*.h'],
     },
     
     author = 'Michael A.G. Aivazis',
