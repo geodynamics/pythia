@@ -13,7 +13,7 @@ from pyre import __version__
 setup(
     
     name = 'pythia', 
-    version = __version__ + "-1.0",
+    version = __version__ + "-1.0b1",
 
     zip_safe = False,
     packages = find_packages(),
