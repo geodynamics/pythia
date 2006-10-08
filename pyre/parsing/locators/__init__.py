@@ -17,6 +17,14 @@ def simple(tag):
     return SimpleLocator(tag)
 
 
+def default():
+    return simple('default')
+
+
+def error():
+    return simple('error')
+
+
 def script(source, line, function):
     from ScriptLocator import ScriptLocator
     return ScriptLocator(source, line, function)

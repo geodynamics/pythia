@@ -14,6 +14,7 @@
 
 import journal
 import traceback
+import linecache
 from Entry import Entry
 
 
@@ -28,25 +29,41 @@ class Diagnostic(object):
         return self
 
 
-    def log(self, message=None):
+    def log(self, message=None, locator=None):
         if not self.state:
             return
 
         if message is not None:
             self._entry.line(message)
 
-        stackDepth = -2
-        stackTrace = traceback.extract_stack()
-        file, line, function, src = stackTrace[stackDepth]
-
         meta = self._entry.meta
+        
+        if locator is None:
+            stackDepth = -2
+            stackTrace = traceback.extract_stack()
+            meta["stack-trace"] = stackTrace[:stackDepth+1]
+            file, line, function, src = stackTrace[stackDepth]
+        else:
+            try:
+                file = locator.source
+            except AttributeError:
+                file = ""
+            try:
+                line = locator.line
+            except AttributeError:
+                line = ""
+                src = ""
+            else:
+                src = linecache.getline(locator.source, locator.line)
+                src = src.rstrip()
+            function = ""
+
         meta["facility"] = self.facility
         meta["severity"] = self.severity
         meta["filename"] = file
         meta["function"] = function
         meta["line"] = line
         meta["src"] = src
-        meta["stack-trace"] = stackTrace[:stackDepth+1]
 
         journal.journal().record(self._entry)
 

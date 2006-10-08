@@ -65,50 +65,59 @@ class Configurable(Traceable):
         return self.inventory.updateConfiguration(registry)
 
 
-    def applyConfiguration(self):
+    def applyConfiguration(self, context=None):
         """transfer user settings to my inventory"""
 
+        if context is None:
+            context = self.newConfigContext()
+        
         # apply user settings to my properties
-        up, uc = self.configureProperties()
-        unknownProperties = up
-        unknownComponents = uc
+        self.configureProperties(context)
 
         # apply user settings to my components
-        up, uc = self.configureComponents()
-        unknownProperties += up
-        unknownComponents += uc
+        self.configureComponents(context)
 
         # give descendants a chance to adjust to configuration changes
         self._configure()
         
-        return (unknownProperties, unknownComponents)
+        return context
 
 
-    def configureProperties(self):
+    def newConfigContext(self):
+        from ConfigContext import ConfigContext
+        return ConfigContext()
+
+
+    def configureProperties(self, context):
         """set the values of all the properties and facilities in my inventory"""
-        up, uc = self.inventory.configureProperties()
-        return self._claim(up, uc)
+        self.inventory.configureProperties(context)
+        self._claim(context)
 
 
-    def configureComponents(self):
+    def configureComponents(self, context):
         """guide my subcomponents through the configuration process"""
-        up, uc = self.inventory.configureComponents()
-        return self._claim(up, uc)
+        self.inventory.configureComponents(context)
+        self._claim(context)
 
 
     def getDepositories(self):
         return self.inventory.getDepositories()
 
     # single component management
-    def retrieveComponent(self, name, factory, args=(), encoding='odb', vault=[], extras=[]):
+    def retrieveComponent(self, name, factory, args=(), encodings=['odb'], vault=[], extras=[]):
         """retrieve component <name> from the persistent store"""
-        return self.inventory.retrieveComponent(name, factory, args, encoding, vault, extras)
+        return self.inventory.retrieveComponent(name, factory, args, encodings, vault, extras)
 
 
-    def configureComponent(self, component, registry=None):
+    def configureComponent(self, component, context=None, registry=None):
         """guide <component> through the configuration process"""
-        up, uc = self.inventory.configureComponent(component, registry)
-        return up, uc
+        
+        if context is None:
+            context = self.newConfigContext()
+        
+        self.inventory.configureComponent(component, context, registry)
+        
+        return context
 
 
     def collectDefaults(self, registry=None):
@@ -116,6 +125,27 @@ class Configurable(Traceable):
         if registry is None:
             registry = self.createRegistry()
         return self.inventory.collectDefaults(registry)
+
+
+    # resource management
+    def retrieveObject(self, name, symbol, encodings, vault=[], extras=[]):
+        """retrieve object <name> from the persistent store"""
+        return self.inventory.retrieveObject(name, symbol, encodings, vault, extras)
+
+
+    def retrieveTemplate(self, name, vault=[], extras=[]):
+        return self.retrieveObject(name, 'template', ['tmpl'], vault, extras)
+
+
+    # vault accessors
+    def getVault(self):
+        """return the address of my vault"""
+        return self.inventory.getVault()
+
+
+    def setVault(self, vault):
+        """set the address of my vault"""
+        return self.inventory.setVault(vault)
 
 
     # curator accessors
@@ -278,18 +308,23 @@ class Configurable(Traceable):
         return self.Inventory(self.name)
 
 
-    def __init__(self, name):
+    def __init__(self, name=None):
         Traceable.__init__(self)
-        
-        self.name = name
+
+        if name is None:
+            name = self.name # class attribute
+        else:
+            self.name = name
         self.inventory = self.createInventory()
 
         # other names by which I am known for configuration purposes
         self.aliases = [ name ]
 
         import journal
-        self._info = journal.info(name)
         self._debug = journal.debug(name)
+        self._info = journal.info(name)
+        self._error = journal.error(name)
+        self._warning = journal.warning(name)
 
         # modify the inventory defaults that were hardwired at compile time
         # gives derived components an opportunity to modify their default behavior
@@ -321,15 +356,18 @@ class Configurable(Traceable):
 
 
     # misc
-    def _claim(self, up, uc):
+    def _claim(self, context):
         """decorate the missing traits with my name"""
-        rup = [ (self.name + '.' + key, value, locator) for key, value, locator in up ]
-        ruc = [ self.name + '.' + key for key in uc]
-        return rup, ruc
-        
+        return context.claim(self.name)
+
 
     # inventory
     from Inventory import Inventory
+
+
+    # metaclass
+    from ConfigurableClass import ConfigurableClass
+    __metaclass__ = ConfigurableClass
 
 
 # version

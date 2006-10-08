@@ -2,11 +2,10 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                             Michael A.G. Aivazis
 #                      California Institute of Technology
-#                      (C) 1998-2005  All Rights Reserved
+#                        (C) 2006  All Rights Reserved
 #
-# <LicenseText>
+# {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -18,57 +17,74 @@ from pyre.applications.Script import Script
 class Application(Script):
 
 
-    class Inventory(Script.Inventory):
+    import pyre.inventory
+    nodes = pyre.inventory.int("nodes", default=1)
 
-        import pyre.inventory
+    import pyre.schedulers
+    scheduler = pyre.schedulers.scheduler("scheduler", default="none")
+    job = pyre.schedulers.job("job")
+        
+    import pyre.launchers
+    launcher = pyre.launchers.facility("launcher", default="mpich")
 
-        from LauncherMPICH import LauncherMPICH
 
-        mode = pyre.inventory.str(
-            name="mode", default="server", validator=pyre.inventory.choice(["server", "worker"]))
-        launcher = pyre.inventory.facility("launcher", factory=LauncherMPICH)
+    nodes.meta['tip'] = """number of machine nodes"""
 
 
     def execute(self, *args, **kwds):
+        self.onLoginNode(*args, **kwds)
 
-        if self.inventory.mode == "worker":
-            self.onComputeNodes(*args, **kwds)
-            return
+
+    def onLoginNode(self, *args, **kwds):
+        import sys
+        from pkg_resources import resource_filename
         
-        self.onServer(*args, **kwds)
+        jobstart = resource_filename("pyre", "scripts/jobstart.py")
+        entry = self.entryName()
+        argv = self.getArgv(*args, **kwds)
+        
+        # initialize the job
+        job = self.job
+        job.nodes = self.nodes
+        job.executable = self.executable
+        job.arguments = [jobstart, entry] + argv
 
+        # schedule
+        self.scheduler.schedule(job)
+        
+        return
+
+
+    def onLauncherNode(self, *args, **kwds):
+        import sys
+        from pkg_resources import resource_filename
+
+        mpistart = resource_filename(__name__, "scripts/mpistart.py")
+        entry = self.entryName()
+        argv = self.getArgv(*args, **kwds)
+        
+        # initialize the launcher
+        launcher = self.launcher
+        launcher.nodes = self.nodes
+        self.getNodes()
+        launcher.executable = self.executable
+        launcher.arguments = [mpistart, entry] + argv
+        
+        # launch
+        launcher.launch()
+        
         return
 
 
     def onComputeNodes(self, *args, **kwds):
         self.main(*args, **kwds)
-        return
 
 
-    def onServer(self, *args, **kwds):
-        self._debug.log("%s: onServer" % self.name)
+    def __init__(self, name=None):
+        super(Application, self).__init__(name)
 
-        launcher = self.inventory.launcher
-        launched = launcher.launch()
-        if not launched:
-            self.onComputeNodes(*args, **kwds)
-        
-        return
+        import sys
+        self.executable = sys.executable
 
 
-    def __init__(self, name):
-        Script.__init__(self, name)
-        self.launcher = None
-        return
-
-
-    def _configure(self):
-        Script._configure(self)
-        self.launcher = self.inventory.launcher
-        return
-
-
-# version
-__id__ = "$Id: Application.py,v 1.1.1.1 2005/03/08 16:13:30 aivazis Exp $"
-
-# End of file 
+# end of file

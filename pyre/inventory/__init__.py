@@ -35,6 +35,11 @@ def codecPML():
     return CodecPML()
 
 
+def codecConfig():
+    from cfg.CodecConfig import CodecConfig
+    return CodecConfig()
+
+
 def renderer(mode="pml"):
     if mode == "pml":
         from pml.Renderer import Renderer

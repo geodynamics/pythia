@@ -33,7 +33,7 @@ class Merlin(Script):
         print " ** NYI"
 
         spell = self.retrieveComponent(
-            name='', factory='project', args=[self], encoding='merlin')
+            name='', factory='project', args=[self], encodings=['merlin'])
 
         if spell:
             self._info.log("loaded project definition file from %s" % spell.getLocator())
@@ -118,7 +118,7 @@ class Merlin(Script):
 
         agents = filter(None, self.agents(project, actions))
         for agent in agents:
-            up, uc = self.configureComponent(agent)
+            self.configureComponent(agent)
             agent.init()
             agent.execute(self, project)
             agent.fini()

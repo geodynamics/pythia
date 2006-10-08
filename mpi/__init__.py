@@ -1,61 +1,49 @@
 #!/usr/bin/env python
 #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                               Michael A.G. Aivazis
-#                        California Institute of Technology
-#                        (C) 1998-2005 All Rights Reserved
+#                      California Institute of Technology
+#                        (C) 2006  All Rights Reserved
 #
-# <LicenseText>
+# {LicenseText}
 #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# timers
-def timingCenter():
-    from TimingCenter import timingCenter
-    return timingCenter()
 
-
-def timer(name):
-    return timingCenter().timer(name)
+from _mpi import *
 
 
 def world():
-    try:
-        import _mpi
-    except:
-        from DummyCommunicator import DummyCommunicator
-        return DummyCommunicator()
-    else:
-        import Communicator
-        return Communicator.world()
+    import Communicator
+    return Communicator.world()
 
 
-def inParallel():
-    try:
-        import _mpi
-    except:
-        return 0
-    else:
-        return 1
+def mpistart(argv=None, **kwds):
+    """entry point for MPI applications"""
 
+    import sys
+    from pyre.applications import start, AppRunner
 
-def processors():
-    try:
-        import _mpi
-    except:
-        return 1
-    else:
-        return world().size
+    if argv is None:
+        argv = sys.argv
+    argv = [sys.executable] + argv
     
+    MPI_Init(argv)
 
-def copyright():
-    return "pythia.mpi: Copyright (c) 1998-2005 Michael A.G. Aivazis"
+    argv = argv[1:]
+
+    try:
+        start(argv,
+              applicationClass = AppRunner,
+              kwds = dict(message = 'onComputeNodes'))
+    except:
+        #MPI_Abort(MPI_COMM_WORLD, 1)
+        raise
+    
+    MPI_Finalize()
+    
+    return 0
 
 
-# version
-__version__ = "0.8"
-__id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:30 aivazis Exp $"
-
-# End of file
+# end of file

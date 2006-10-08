@@ -46,37 +46,31 @@ class Executive(object):
 
 
     # configuration
-    def processCommandline(self, registry, parser=None):
+    def getArgv(self, *args, **kwds):
+        argv = kwds.get('argv')
+        if argv is None:
+            import sys
+            argv = sys.argv
+        self.arg0 = argv[0]
+        argv = argv[1:]
+        return argv
+
+
+    def processCommandline(self, registry, argv=None, parser=None):
         """convert the command line arguments to a trait registry"""
 
         if parser is None:
             parser = self.createCommandlineParser()
 
-        help, unprocessedArguments = parser.parse(registry)    
+        parser.parse(registry, argv)
 
-        return help, unprocessedArguments
+        return parser
 
 
-    def verifyConfiguration(self, unknownProperties, unknownComponents, mode='strict'):
+    def verifyConfiguration(self, context, mode='strict'):
         """verify that the user input did not contain any typos"""
 
-        if mode == 'relaxed':
-            return True
-        
-        if unknownProperties:
-            print " ## unrecognized properties:"
-            for key, value, locator in unknownProperties:
-                print "    %s <- '%s' from %s" % (key, value, locator)
-
-            self.usage()
-            return False
-
-        if mode == 'pedantic' and unknownComponents:
-            print ' ## unknown components: %s' % ", ".join(unknownComponents)
-            self.usage()
-            return False
-        
-        return True
+        return context.verifyConfiguration(mode)
 
 
     def pruneRegistry(self):
@@ -104,9 +98,18 @@ class Executive(object):
         return
 
 
+    def complete(self):
+        # NYI: bash tab-completion
+        return
+
+
     def usage(self):
         print 'Please consider writing a usage screen for this application'
         return
+
+
+    def __init__(self):
+        self.arg0 = self.name
 
 
 # version

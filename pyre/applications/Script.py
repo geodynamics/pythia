@@ -19,30 +19,10 @@ from Stager import Stager
 class Script(Application, Stager):
 
 
-    def __init__(self, name):
+    def __init__(self, name=None):
         Application.__init__(self, name)
         Stager.__init__(self)
         return
-
-
-    def run(self, *args, **kwds):
-        
-        # Fire-up pdb and IPython when an exception occurs -- if IPython is available.
-        try:
-            import sys, IPython.ultraTB
-            if sys.stderr.isatty():
-                colorScheme = 'Linux'
-            else:
-                colorScheme = 'NoColor'
-            if sys.stdin.isatty() and sys.stdout.isatty() and sys.stderr.isatty():
-                callPdb = 1
-            else:
-                callPdb = 0
-            sys.excepthook = IPython.ultraTB.FormattedTB(mode='Verbose', color_scheme=colorScheme, call_pdb=callPdb)
-        except ImportError:
-            pass
-
-        return super(Script, self).run(*args, **kwds)
 
 
 # version

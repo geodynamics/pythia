@@ -19,6 +19,9 @@ from Executive import Executive
 class Application(Component, Executive):
 
 
+    name = "application"
+
+
     class Inventory(Component.Inventory):
 
         import pyre.inventory
@@ -44,7 +47,11 @@ class Application(Component, Executive):
         self.registry = registry
 
         # command line
-        help, self.argv = self.processCommandline(registry)
+        argv = self.getArgv(*args, **kwds)
+        commandLine = self.processCommandline(registry, argv)
+        action = commandLine.action
+        self.argv = commandLine.processed
+        self.unprocessedArguments = commandLine.unprocessed
 
         # curator
         curator = self.createCurator()
@@ -53,6 +60,9 @@ class Application(Component, Executive):
         # look for my settings
         self.initializeConfiguration()
 
+        # read parameter files given on the command line
+        self.readParameterFiles(registry)
+
         # give descendants an opportunity to collect input from other (unregistered) sources
         self.collectUserInput(registry)
 
@@ -60,7 +70,12 @@ class Application(Component, Executive):
         self.updateConfiguration(registry)
 
         # transfer user input to my inventory
-        unknownProperties, unknownComponents = self.applyConfiguration()
+        context = self.applyConfiguration()
+
+        # verify that the user input did not contain any typos
+        if not self.verifyConfiguration(context, self.inventory.typos):
+            import sys
+            sys.exit("%s: configuration error(s)" % self.name)
 
         # initialize the trait cascade
         self.init()
@@ -69,12 +84,15 @@ class Application(Component, Executive):
         self.generateBanner()
 
         # the main application behavior
-        if help:
-            self.help()
+        action = action and getattr(self, action)
+        if action:
+            action()
         elif self._showHelpOnly:
             pass
-        elif self.verifyConfiguration(unknownProperties, unknownComponents, self.inventory.typos):
-            self.execute(*args, **kwds)
+        else:
+            message = kwds.get('message', 'execute')
+            method = getattr(self, message)
+            method(*args, **kwds)
 
         # shutdown
         self.fini()
@@ -98,6 +116,31 @@ class Application(Component, Executive):
         return curator
 
 
+    def readParameterFiles(self, registry):
+        """read parameter files given on the command line"""
+        import journal
+        error = journal.error(self.name)
+        from os.path import isfile, splitext
+        argv = self.argv
+        self.argv = []
+        for arg in argv:
+            base, ext = splitext(arg)
+            encoding = ext[1:] # NYI: not quite
+            codec = self.getCurator().codecs.get(encoding)
+            if codec:
+                try:
+                    shelf = codec.open(base)
+                except Exception, e:
+                    error.log(str(e))
+                else:
+                    paramRegistry = shelf['inventory'].getFacility(self.name)
+                    if paramRegistry:
+                        self.updateConfiguration(paramRegistry)
+            else:
+                self.argv.append(arg)
+        return
+
+    
     def collectUserInput(self, registry):
         """collect user input from additional sources"""
         return
@@ -108,10 +151,11 @@ class Application(Component, Executive):
         return
 
 
-    def __init__(self, name, facility=None):
-        if facility is None:
-            facility = "application"
-            
+    def entryName(self):
+        return self.__class__.__module__ + ':' + self.__class__.__name__
+
+
+    def __init__(self, name=None, facility=None):
         Component.__init__(self, name, facility)
         Executive.__init__(self)
     
@@ -121,6 +165,7 @@ class Application(Component, Executive):
 
         # commandline arguments left over after parsing
         self.argv = []
+        self.unprocessedArguments = []
 
         # the user input
         self.registry = None

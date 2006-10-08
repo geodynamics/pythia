@@ -18,7 +18,8 @@ from Trait import Trait
 class Facility(Trait):
 
 
-    def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None):
+    def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None,
+                 vault=None):
         Trait.__init__(self, name, 'facility', default, meta)
 
         self.args = args
@@ -28,23 +29,25 @@ class Facility(Trait):
             family = name
         self.family = family
 
+        if vault is not None:
+            self.vault = vault
+
         return
 
 
     def _getDefaultValue(self, instance):
         component = self.default
 
-        # build a default locator
         import pyre.parsing.locators
-        here = pyre.parsing.locators.simple('default')
+        locator = pyre.parsing.locators.default()
 
         if component is not None:
             # if we got a string, resolve
             if isinstance(component, basestring):
-                component, locator = self._retrieveComponent(instance, component)
-                here = pyre.parsing.locators.chain(locator, here)
+                component, loc = self._retrieveComponent(instance, component)
+                locator = pyre.parsing.locators.chain(loc, locator)
                 
-            return component, here
+            return component, locator
 
         if self.factory is not None:
             # instantiate the component
@@ -54,9 +57,6 @@ class Facility(Trait):
             if self.name not in aliases:
                 aliases.append(self.name)
             
-            # build a default locator
-            import pyre.parsing.locators
-            locator = pyre.parsing.locators.simple('default')
             # return
             return component, locator
 
@@ -94,13 +94,16 @@ class Facility(Trait):
 
 
     def _retrieveComponent(self, instance, componentName):
-        component = instance.retrieveComponent(name=componentName, factory=self.family)
+        component = instance.retrieveComponent(
+            name=componentName,
+            factory=self.family,
+            vault=self.vault)
 
         if component is not None:
             locator = component.getLocator()
         else:
             import pyre.parsing.locators
-            component = self._import(componentName)
+            component = self._import(instance, componentName)
 
             if component:
                 locator = pyre.parsing.locators.simple('imported')
@@ -118,33 +121,74 @@ class Facility(Trait):
         return instance.retrieveAllComponents(factory=self.family)
 
 
-    def _import(self, name):
-        try:
-            module = __import__(name, {}, {})
-        except ImportError:
-            import journal
-            journal.error("pyre.inventory").log(
-                "could not bind facility '%s': component '%s' not found" % (self.name, name)
-                )
-            return
+    class Error(Exception):
+        def __init__(self, **kwds):
+            self.__dict__.update(kwds)
 
-        try:
-            factory = module.__dict__[self.family]
-        except KeyError:
-            import journal
-            journal.error("pyre.inventory").log(
-                "no factory for facility '%s' in '%s'" % (self.name, module.__file__))
-            return
 
+    class ComponentNotFound(Error):
+        def __str__(self):
+            return "could not bind facility '%(facility)s': component '%(component)s' not found" % self.__dict__
+
+
+    class FactoryNotFound(Error):
+        def __str__(self):
+            return "could not bind facility '%(facility)s': no factory named '%(factory)s' in '%(module)s'" % self.__dict__
+
+
+    class FactoryNotCallable(Error):
+        def __str__(self):
+            return "could not bind facility '%(facility)s': factory '%(module)s:%(factory)s' is not callable" % self.__dict__
+
+
+    def _import(self, instance, name):
+
+        # Initialize my value (preventing further lookups), in case we
+        # don't make it out of here alive.
+        import pyre.parsing.locators
+        locator = pyre.parsing.locators.error()
+        instance._initializeTraitValue(self.name, None, locator)
+
+        factoryName = self.family
+        path = name.split(':')
+        c = len(path)
+        if c == 1:
+            factoryPath = [factoryName]
+        elif c == 2:
+            factoryPath = path[1].split('.')
+            if not factoryPath[-1]:
+                factoryPath.pop()
+                if not factoryPath:
+                    factoryPath.append(factoryName)
+            else:
+                factoryPath.append(factoryName)
+        else:
+            raise Facility.ComponentNotFound(
+                facility=self.name, component=name)
+        module = path[0]
+        factoryName = '.'.join(factoryPath)
+        objName = module + ':' + factoryName
+        
         try:
-            item = factory(*self.args)
-        except TypeError:
-            import journal
-            journal.error("pyre.inventory").log(
-                "no factory for facility '%s' in '%s'" % (self.name, module.__file__))
-            return
+            from pyre.util import loadObject
+            factory = loadObject(objName)
+        except (ImportError, ValueError):
+            raise Facility.ComponentNotFound(
+                facility=self.name, component=name)
+        except AttributeError:
+            raise Facility.FactoryNotFound(
+                facility=self.name, module=module, factory=factoryName)
+
+        if not callable(factory):
+            raise Facility.FactoryNotCallable(
+                facility=self.name, module=module, factory=factoryName)
+
+        item = factory(*self.args)
 
         return item
+
+
+    vault = []
 
 
     # interface registry

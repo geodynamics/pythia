@@ -47,9 +47,9 @@ class Component(Configurable):
         return Configurable.updateConfiguration(self, registry)
 
 
-    def __init__(self, name, facility):
+    def __init__(self, name=None, facility=None):
         Configurable.__init__(self, name)
-        self.facility = facility
+        #self.facility = facility # not used
 
         self._showHelpOnly = False
         

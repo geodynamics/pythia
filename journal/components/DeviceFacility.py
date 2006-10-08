@@ -18,13 +18,35 @@ class DeviceFacility(Facility):
 
 
     def __init__(self, factory=None, args=[]):
-        if factory is None:
-            args = []
-            from Console import Console as factory
+        Facility.__init__(self, name="device", factory=factory, args=args,
+                          vault=['devices'])
 
-        Facility.__init__(self, name="device", factory=factory, args=args)
 
-        return
+    def _getDefaultValue(self, instance):
+        
+        if (self.default is None) and (self.factory is None):
+            
+            import pyre.parsing.locators
+            locator = pyre.parsing.locators.default()
+            
+            import sys
+            if hasattr(sys.stdout, 'isatty') and sys.stdout.isatty():
+                from os import environ
+                term = environ.get('TERM', 'console')
+                component = instance.retrieveComponent(term, factory=self.family, vault=self.vault)
+                if component is None:
+                    from Console import Console
+                    component = Console()
+                else:
+                    component.aliases.append(self.name)
+                    locator = pyre.parsing.locators.chain(component.getLocator(), locator)
+            else:
+                from Stream import Stream
+                component = Stream(sys.stdout, "stdout")
+
+            return component, locator
+        
+        return super(DeviceFacility, self)._getDefaultValue(instance)
 
 
 # version

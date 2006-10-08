@@ -11,10 +11,32 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
+from Application import Application
+from AppRunner import AppRunner
+from Script import Script
+from SuperScript import SuperScript
+
+
 def commandlineParser():
     from CommandlineParser import CommandlineParser
     return CommandlineParser()
     
+
+def superCommandlineParser():
+    from SuperCommandlineParser import SuperCommandlineParser
+    return SuperCommandlineParser()
+    
+
+def start(argv=None, **kwds):
+    """general-purpose entry point for applications"""
+    cls = kwds.get('applicationClass')
+    app = cls()
+    kwds = dict(**kwds)
+    kwds['argv'] = argv
+    app.run(**kwds)
+    return 0
+
 
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:49 aivazis Exp $"

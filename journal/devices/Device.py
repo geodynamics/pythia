@@ -16,7 +16,7 @@ class Device(object):
 
 
     def record(self, entry):
-        text = self.renderer.render(entry)
+        text = self.renderer.render(entry, self)
         self._write(text)
         return
 

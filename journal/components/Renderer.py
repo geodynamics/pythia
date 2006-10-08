@@ -40,8 +40,7 @@ class Renderer(Component):
 
 
     def _init(self):
-        from journal.devices.Renderer import Renderer
-        renderer = Renderer()
+        renderer = self.createRenderer()
 
         renderer.header = self.inventory.header
         renderer.footer = self.inventory.footer
@@ -50,6 +49,11 @@ class Renderer(Component):
         self.renderer = renderer
         
         return renderer
+
+
+    def createRenderer(self):
+        from journal.devices.Renderer import Renderer
+        return Renderer()
 
 
 # version

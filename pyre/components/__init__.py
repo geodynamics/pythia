@@ -12,6 +12,9 @@
 #
 
 
+from Component import Component
+
+
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:44 aivazis Exp $"
 

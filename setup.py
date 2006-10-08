@@ -18,9 +18,14 @@ setup(
     zip_safe = False,
     packages = find_packages(),
     package_data = {
+    'mpi': ['_mpi.c', '_mpi.pyx', 'cmpi.pxd'],
     # If any package contains *.pml, *.odb, or *.h files, include them:
     '': ['*.pml', '*.odb', '*.h'],
     },
+    
+    install_requires = [
+    'Cheetah',
+    ],
     
     author = 'Michael A.G. Aivazis',
     author_email = 'aivazis@caltech.edu',

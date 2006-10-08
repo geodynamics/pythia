@@ -71,11 +71,13 @@ class Communicator:
         return Port(self, peer, tag)
 
     def __init__(self, handle):
-        import _mpi
 
         self._handle = handle
-        self.rank = _mpi.communicatorRank(self._handle)
-        self.size = _mpi.communicatorSize(self._handle)
+        
+        from mpi import MPI_Comm_rank, MPI_Comm_size
+        self.rank = MPI_Comm_rank(self._handle)
+        self.size = MPI_Comm_size(self._handle)
+        
         return
 
 
@@ -86,14 +88,8 @@ class Communicator:
 def world():
     global _mpi_world
     if not _mpi_world:
-
-        try:
-            import _mpi
-        except:
-            _mpi_world = None
-        else:
-            _mpi_world = Communicator(_mpi.world)
-
+        from mpi import MPI_COMM_WORLD
+        _mpi_world = Communicator(MPI_COMM_WORLD)
     return _mpi_world
 
 

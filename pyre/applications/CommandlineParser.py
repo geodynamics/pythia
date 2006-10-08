@@ -20,14 +20,24 @@ class CommandlineParser(object):
             import sys
             argv = sys.argv[1:]
 
-        return self._parse(argv, root)
+        self._parse(argv, root)
+
+        return
 
 
     def __init__(self):
-        self.help = ['?', 'h']
+        self.actions = {
+            'help': ['?', 'h'],
+            'complete': ['c'],
+            }
         self.assignment = '='
         self.prefixes = ['--', '-']
         self.separator = '.'
+
+        self.action = None
+        self.argv = []
+        self.processed = []
+        self.unprocessed = []
 
         import pyre.parsing.locators
         self.locator = pyre.parsing.locators.simple('command line')
@@ -39,53 +49,79 @@ class CommandlineParser(object):
 
 
     def _parse(self, argv, root):
-        help = False
-        unprocessed = []
+        self.action = None
+        self.argv = argv
+        self.processed = []
+        self.unprocessed = []
 
-        for arg in argv:
+        while self.argv:
+            arg = self.argv.pop(0)
+            
             self._debug.line("processing '%s'" % arg)
 
             # is this an option
-            for prefix in self.prefixes:
-                if arg.startswith(prefix):
-                    self._debug.line("    prefix: '%s starts with '%s'" % (arg, prefix))
-                    candidate = arg[len(prefix):]
-                    break
-            else:
-                # prefix matching failed; leave this argument alone
-                self._debug.line("    prefix: '%s' is not an option" % arg)
-                unprocessed.append(arg)
-                continue
-                
-            self._debug.line("    prefix: arg='%s' after prefix stripping" % candidate)
-
-            # check for assignment
-            tokens = candidate.split(self.assignment)
-            self._debug.line("    tokens: %s" % `candidate`)
-
-            # dangling =
-            if len(tokens) > 1 and not tokens[1]:
-                self._debug.log("tokens: bad expression: %s" % arg)
-                raise CommandlineParser.CommandlineException("bad expression: '%s': no rhs" % arg)
-
-            # lhs, rhs
-            lhs = tokens[0]
-            if len(tokens) > 1:
-                rhs = tokens[1]
-            else:
-                rhs = "true"
-            self._debug.line("    tokens: key={%s}, value={%s}" % (lhs,  rhs))
-
-            if lhs in self.help:
-                help = True
+            candidate = self._filterNonOptionArgument(arg)
+            if candidate is None:
                 continue
 
+            candidate = self._filterAction(candidate)
+            if candidate is None:
+                continue
+
+            lhs, rhs = self._parseArgument(candidate)
+            
             # store this option
             self._processArgument(lhs, rhs, root)
             
         self._debug.log()
 
-        return help, unprocessed
+        return
+
+
+    def _filterNonOptionArgument(self, arg):
+        for prefix in self.prefixes:
+            if arg.startswith(prefix):
+                self._debug.line("    prefix: '%s starts with '%s'" % (arg, prefix))
+                candidate = arg[len(prefix):]
+                return candidate
+        else:
+            # prefix matching failed; leave this argument alone
+            self._debug.line("    prefix: '%s' is not an option" % arg)
+        self.processed.append(arg)
+        return None
+
+
+    def _parseArgument(self, candidate):
+        self._debug.line("    prefix: arg='%s' after prefix stripping" % candidate)
+
+        # check for assignment
+        tokens = candidate.split(self.assignment)
+        self._debug.line("    tokens: %s" % `candidate`)
+
+        # dangling =
+        if len(tokens) > 1 and not tokens[1]:
+            self._debug.log("tokens: bad expression: %s" % arg)
+            raise CommandlineParser.CommandlineException("bad expression: '%s': no rhs" % arg)
+
+        # lhs, rhs
+        lhs = tokens[0]
+        if len(tokens) > 1:
+            rhs = tokens[1]
+        else:
+            rhs = "true"
+        self._debug.line("    tokens: key={%s}, value={%s}" % (lhs,  rhs))
+
+        return lhs, rhs
+
+
+    def _filterAction(self, candidate):
+        for action, args in self.actions.iteritems():
+            if candidate in args:
+                self.action = action
+                self.unprocessed.extend(self.argv)
+                self.argv = []
+                return None
+        return candidate
 
 
     def _processArgument(self, key, value, root):

@@ -26,7 +26,7 @@ class CodecODB(Codec):
         import os
         exists = os.path.isfile(filename)
         
-        if mode in ['w'] and not exists:
+        if mode in ['r'] and not exists:
             raise IOError("file not found: '%s'" % filename)
 
         shelf = self._shelf(filename, False)

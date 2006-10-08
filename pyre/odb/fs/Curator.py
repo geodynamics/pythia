@@ -49,7 +49,7 @@ class Curator(Base):
         return names
 
 
-    def loadSymbol(self, tag, codec, address, symbol, extras=[], errorHandler=None):
+    def loadSymbol(self, tag, codecs, address, symbol, extras=[], errorHandler=None):
         """extract <symbol> from a shelf pointed to by <address>"""
 
         import pyre.parsing.locators
@@ -58,31 +58,33 @@ class Curator(Base):
 
         # loop over the depositories
         for depository in self.searchOrder(extraDepositories=extras):
-            spec = depository.resolve(address)
-            filename = codec.resolve(spec)
+            # loop over the codecs
+            for codec in codecs:
+                spec = depository.resolve(address)
+                filename = codec.resolve(spec)
 
-            locator = pyre.parsing.locators.file(filename)
+                locator = pyre.parsing.locators.file(filename)
 
-            # open the shelf
-            try:
-                shelf = codec.open(spec, 'r')
-            except IOError, error:
-                # the codec failed to open the spec
-                if callable(errorHandler):
-                    errorHandler(tag, locator, error)
-                continue
+                # open the shelf
+                try:
+                    shelf = codec.open(spec, 'r')
+                except IOError, error:
+                    # the codec failed to open the spec
+                    if callable(errorHandler):
+                        errorHandler(tag, locator, error)
+                    continue
 
-            # retrieve the factory method
-            try:
-                item = shelf[symbol]
-            except KeyError:
-                # no factory by that name exists
-                if callable(errorHandler):
-                    errorHandler(tag, locator, "'%s' not found" % symbol)
-                continue
+                # retrieve the factory method
+                try:
+                    item = shelf[symbol]
+                except KeyError:
+                    # no factory by that name exists
+                    if callable(errorHandler):
+                        errorHandler(tag, locator, "'%s' not found" % symbol)
+                    continue
 
-            # success
-            yield item, locator
+                # success
+                yield item, locator
             
         return
 

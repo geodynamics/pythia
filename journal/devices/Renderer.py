@@ -15,7 +15,7 @@
 class Renderer(object):
 
 
-    def render(self, entry):
+    def render(self, entry, device):
 
         text = []
         meta = entry.meta
@@ -25,15 +25,19 @@ class Renderer(object):
             if self.trimFilename and len(filename) > 53:
                 filename = filename[0:20] + "..." + filename[-30:]
                 meta["filename"] = filename
-            text.append(self.header % meta)
+            text.append(self.header % self.subst(meta, device))
 
         for line in entry.text:
             text.append(self.format % line)
 
         if self.footer:
-            text.append(self.footer % meta)
+            text.append(self.footer % self.subst(meta, device))
 
         return text
+
+
+    def subst(self, dct, device):
+        return dct
 
 
     def __init__(self, header=None, format=None, footer=None):

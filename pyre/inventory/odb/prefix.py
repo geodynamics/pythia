@@ -13,8 +13,9 @@
 
 import os
 from os.path import dirname
+from pyre import __version__
 
-_SYSTEM_ROOT = dirname(dirname(dirname(dirname(__file__))))
+_SYSTEM_ROOT = '/etc/pythia-' + __version__ # PORTABILITY: unix only
 _USER_ROOT = os.path.join(os.path.expanduser('~'), '.pyre')
 _LOCAL_ROOT = [ '.' ]
 

@@ -21,7 +21,9 @@ class Inventory(object):
         #      it might be useful when we auto-generate settings for an entire group of clients
         #      whose names may not be known when their configurations are built
         self._priv_registry = self._priv_curator.getTraits(
-            self._priv_name, self._priv_depositories)
+            self._priv_name,
+            vault=self._priv_vault,
+            extraDepositories=self._priv_depositories)
 
         return
 
@@ -40,32 +42,30 @@ class Inventory(object):
         return self._priv_registry.update(registry)
 
 
-    def configureProperties(self):
+    def configureProperties(self, context):
         """configure my properties using user settings in my registry"""
         
-        unknownProperties = []
-
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
         for name, descriptor in self._priv_registry.properties.iteritems():
             try:
                 prop = self._traitRegistry[name]
             except KeyError:
-                unknownProperties.append((name, descriptor.value, descriptor.locator))
+                context.unknownProperty(name, descriptor.value, descriptor.locator)
                 continue
             
-            prop._set(self, descriptor.value, descriptor.locator)
+            try:
+                prop._set(self, descriptor.value, descriptor.locator)
+            except Exception, error:
+                context.error(error, name, descriptor.value, descriptor.locator)
 
-        return unknownProperties, []
+        return
 
 
-    def configureComponents(self):
+    def configureComponents(self, context):
         """configure my components using options from my registry"""
 
-        unknownProperties = []
-        unknownComponents = []
-
-        myComponents = self.components()
+        myComponents = self.components(context)
 
         aliases = {}
         for component in myComponents:
@@ -86,9 +86,7 @@ class Inventory(object):
                 if registry:
                     component.updateConfiguration(registry)
 
-            up, uc = component.applyConfiguration()
-            unknownProperties += up
-            unknownComponents += uc
+            component.applyConfiguration(context)
 
         # loop over the registry facility entries and
         # update the configuration of all the named components/facilities
@@ -99,10 +97,10 @@ class Inventory(object):
             try:
                 component = aliases[name]
             except KeyError:
-                unknownComponents.append(name)
+                context.unknownComponent(name)
                 continue
 
-        return (unknownProperties, unknownComponents)
+        return
 
 
     def retrieveConfiguration(self, registry):
@@ -155,7 +153,7 @@ class Inventory(object):
         return registry
 
 
-    def configureComponent(self, component, registry=None):
+    def configureComponent(self, component, context, registry=None):
         """configure <component> using options from the given registry"""
 
         # if none were given, let the registry be our own
@@ -175,14 +173,13 @@ class Inventory(object):
             component.updateConfiguration(traits)
 
         # apply the settings
-        unknownProperties, unknownComponents = component.applyConfiguration()
+        component.applyConfiguration(context)
 
-        # return the unrecognized traits
-        return (unknownProperties, unknownComponents)
+        return
 
 
     def retrieveComponent(
-        self, name, factory, args=(), encoding='odb', vault=[], extraDepositories=[]):
+        self, name, factory, args=(), encodings=['odb'], vault=[], extraDepositories=[]):
         """retrieve component <name> from the persistent store"""
 
         if extraDepositories:
@@ -190,7 +187,7 @@ class Inventory(object):
             journal.firewall("inventory").log("non-null extraDepositories")
 
         return self._priv_curator.retrieveComponent(
-            name=name, facility=factory, args=args, encoding=encoding,
+            name=name, facility=factory, args=args, encodings=encodings,
             vault=vault, extraDepositories=self._priv_depositories)
         
 
@@ -204,6 +201,19 @@ class Inventory(object):
 
         return self._priv_curator.retrieveAllComponents(
             facility=factory, args=args, encoding=encoding,
+            vault=vault, extraDepositories=self._priv_depositories)
+        
+
+    def retrieveObject(
+        self, name, symbol, encodings, vault=[], extraDepositories=[]):
+        """retrieve object <name> from the persistent store"""
+
+        if extraDepositories:
+            import journal
+            journal.firewall("inventory").log("non-null extraDepositories")
+
+        return self._priv_curator.retrieveObject(
+            name=name, symbol=symbol, encodings=encodings,
             vault=vault, extraDepositories=self._priv_depositories)
         
 
@@ -226,6 +236,18 @@ class Inventory(object):
 
 
     # lower level interface
+    def getVault(self):
+        """return the address of my vault"""
+        return self._priv_vault
+
+
+    def setVault(self, vault):
+        """set the address of my vault"""
+        assert self._priv_depositories is None # must be called before setCurator()
+        self._priv_vault = vault
+        return
+
+
     def getCurator(self):
         """return the curator that resolves my trait requests"""
         return self._priv_curator
@@ -304,19 +326,39 @@ class Inventory(object):
         return self._facilityRegistry.keys()
 
 
-    def components(self):
+    def components(self, context=None):
         """return a list of my components"""
-        candidates = [
-            facility.__get__(self) for facility in self._facilityRegistry.itervalues() ]
+
+        candidates = []
+
+        import pyre.parsing.locators
+        locator = pyre.parsing.locators.default()
+
+        for name, facility in self._facilityRegistry.iteritems():
+            try:
+                component = facility.__get__(self)
+                candidates.append(component)
+            except Exception, error:
+                if context:
+                    context.error(error, name, None, locator)
+                else:
+                    raise
+        
         return filter(None, candidates)
 
 
     def __init__(self, name):
         # the name of the configurable that manages me
         self._priv_name = name
+
+        # the name of my vault
+        self._priv_vault = []
         
         # the manager of my persistent trait store
         self._priv_curator = None
+
+        # the private depositories
+        self._priv_depositories = None
 
         # the accumulator of user supplied state
         self._priv_registry = None
