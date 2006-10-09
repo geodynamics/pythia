@@ -8,17 +8,16 @@ except:
     use_setuptools()
 
 from setuptools import setup, find_packages
-from pyre import __version__
 
 setup(
     
     name = 'pythia', 
-    version = __version__ + "-1.0",
+    version = '0.8.1.0',
 
     zip_safe = False,
     packages = find_packages(),
     package_data = {
-    'mpi': ['_mpi.c', '_mpi.pyx', 'cmpi.pxd'],
+    'pythia.mpi': ['_mpi.c', '_mpi.pyx', 'cmpi.pxd'],
     # If any package contains *.pml, *.odb, or *.h files, include them:
     '': ['*.pml', '*.odb', '*.h'],
     },
@@ -26,6 +25,18 @@ setup(
     install_requires = [
     'Cheetah',
     ],
+    extras_require = {
+    'acis':     [],
+    'blade':    [],
+    'elc':      [],
+    'journal':  [],
+    'merlin':   [],
+    'mpi':      [],
+    'opal':     [],
+    'pulse':    [],
+    'pyre':     [],
+    'rigid':    [],
+    },
     
     author = 'Michael A.G. Aivazis',
     author_email = 'aivazis@caltech.edu',
