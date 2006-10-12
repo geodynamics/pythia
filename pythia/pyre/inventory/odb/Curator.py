@@ -193,8 +193,10 @@ class Curator(Base):
         # create the built-in depositories
         from pkg_resources import resource_listdir, resource_isdir, resource_exists, resource_filename, Requirement
         pythia = Requirement.parse("pythia")
-        entries = resource_listdir(pythia, "")
+        namespace = "pythia"
+        entries = resource_listdir(pythia, namespace)
         for entry in entries:
+            entry = namespace + '/' + entry
             if resource_isdir(pythia, entry):
                 vault = entry + '/__vault__.odb'
                 if resource_exists(pythia, vault):

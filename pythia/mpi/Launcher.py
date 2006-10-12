@@ -32,7 +32,7 @@ class Launcher(Base):
 
 
     def launch(self):
-        import os
+        import os, sys
 
         self.executable = os.path.abspath(self.executable)
 
@@ -75,7 +75,7 @@ class Launcher(Base):
 
     def _appendMpiRunArgs(self, args):
         args.append(self.extra)
-        args.append("-np %d" % self.nodes)
+        args.extend(['-np', '%d' % self.nodes])
         
         # use only the specific nodes specified explicitly
         if self.nodelist:

@@ -1,4 +1,4 @@
-// 
+/* 
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // 
 //                        California Institute of Technology
@@ -7,7 +7,7 @@
 //  <LicenseText>
 // 
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// 
+*/ 
 
 #if !defined(mpi_pympi_h)
 #define mpi_pympi_h
@@ -21,10 +21,10 @@
 extern "C" {
 #endif
 
-    struct PyMPICommObject {
+    typedef struct {
         PyObject_HEAD
         MPI_Comm comm;
-    };
+    } PyMPICommObject;
 
 #ifdef __cplusplus
 }

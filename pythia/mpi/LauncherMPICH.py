@@ -33,7 +33,7 @@ class LauncherMPICH(Launcher):
         for node in self.nodelist:
             file.write((nodegen + '\n') % node)
         file.close()
-        args.append("-machinefile %s" % machinefile)
+        args.extend(['-machinefile', machinefile])
 
 
 # end of file 
