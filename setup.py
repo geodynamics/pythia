@@ -16,11 +16,8 @@ setup(
 
     zip_safe = False,
     packages = find_packages(),
-    package_data = {
-    'pythia.mpi': ['_mpi.c', '_mpi.pyx', 'cmpi.pxd'],
-    # If any package contains *.pml, *.odb, or *.h files, include them:
-    '': ['*.pml', '*.odb', '*.h'],
-    },
+    # include everything under version control
+    include_package_data = True,
     
     install_requires = [
     'Cheetah',

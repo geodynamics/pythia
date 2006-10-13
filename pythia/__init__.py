@@ -12,7 +12,7 @@
 
 
 import sys
-sys.path.append(__path__[0])
+sys.path.insert(1, __path__[0])
 
 
 # end of file 
