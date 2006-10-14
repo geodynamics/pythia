@@ -1,11 +1,6 @@
 
-try:
-    # If setuptools 0.6b1 or later is installed, run with it.
-    from pkg_resources import require
-    require("setuptools>=0.6b1")
-except:
-    from ez_setup import use_setuptools
-    use_setuptools()
+from ez_setup import use_setuptools
+use_setuptools()
 
 from setuptools import setup, find_packages
 
