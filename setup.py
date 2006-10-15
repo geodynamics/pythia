@@ -22,7 +22,6 @@ setup(
     'blade':    [],
     'elc':      [],
     'journal':  [],
-    'merlin':   [],
     'mpi':      [],
     'opal':     [],
     'pulse':    [],
