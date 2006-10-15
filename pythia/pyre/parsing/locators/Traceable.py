@@ -20,7 +20,7 @@ class Traceable(object):
         
         if self.locator is not None:
             import pyre.parsing.locators
-            locator = pyre.parsing.locators.chain(locator, self.locator)
+            locator = pyre.parsing.locators.chain(self.locator, locator)
 
         self.locator = locator
 
