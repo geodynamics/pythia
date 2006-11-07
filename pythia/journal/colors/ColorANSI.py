@@ -10,16 +10,16 @@ $Id: ColorANSI.py,v 1.10 2004/11/04 07:58:16 fperez Exp $"""
 #  the file COPYING, distributed as part of this software.
 #*****************************************************************************
 
-from IPython import Release
-__author__  = '%s <%s>' % Release.authors['Fernando']
-__license__ = Release.license
+#from IPython import Release
+#__author__  = '%s <%s>' % Release.authors['Fernando']
+#__license__ = Release.license
 
 __all__ = ['TermColors','InputTermColors','ColorScheme','ColorSchemeTable']
 
 import os
 from UserDict import UserDict
 
-from IPython.Struct import Struct
+#from IPython.Struct import Struct
 
 def make_color_table(in_class):
     """Build a set of color attributes in a class.
