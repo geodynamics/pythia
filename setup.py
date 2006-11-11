@@ -17,16 +17,26 @@ setup(
     install_requires = [
     'Cheetah',
     ],
+
     extras_require = {
+
+    # * acis: "a set of Python bindings for ACIS, the solid modeler from Spatial"
+    # In the old 'configure' script, the following was toggled using
+    # '--with-acis'.  ACIS had to be installed for it to build.
     'acis':     [],
+
+    # * blade: "a generalization of Glade, the popular user interface builder for Gtk+"
+    # Does this introduce any dependencies?
     'blade':    [],
+    
+    # In the old 'configure' script, the following were all toggled
+    # together using '--with-mpi'.  Do they all depend only on MPI?
+    # If so, perhaps it should be a single "extra".
     'elc':      [],
-    'journal':  [],
-    'mpi':      [],
-    'opal':     [],
+    'mpi':      [], ### This is the only "extra" currently supported by CIG-Pythia. ###
     'pulse':    [],
-    'pyre':     [],
     'rigid':    [],
+    
     },
     
     author = 'Michael A.G. Aivazis',
