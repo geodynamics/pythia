@@ -37,6 +37,8 @@ setup(
     'pulse':    [],
     'rigid':    [],
     
+    # Standalone, but might depend upon Django someday :-)
+    'opal':    [],
     },
     
     author = 'Michael A.G. Aivazis',
