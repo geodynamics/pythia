@@ -11,7 +11,7 @@
 #
 
 
-from pythia.mpi import mpistart
+from mpi import mpistart
 mpistart()
 
 

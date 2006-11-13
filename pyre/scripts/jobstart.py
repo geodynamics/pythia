@@ -11,7 +11,7 @@
 #
 
 
-from pythia.pyre.schedulers import jobstart
+from pyre.schedulers import jobstart
 jobstart()
 
 
