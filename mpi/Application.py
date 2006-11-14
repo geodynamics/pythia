@@ -37,17 +37,17 @@ class Application(Script):
 
     def onLoginNode(self, *args, **kwds):
         import sys
-        from pkg_resources import resource_filename
         
-        jobstart = resource_filename("pyre", "scripts/jobstart.py")
+        path = self.pathString()
+        requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
         
         # initialize the job
         job = self.job
         job.nodes = self.nodes
-        job.executable = self.executable
-        job.arguments = [jobstart, entry] + argv
+        job.executable = self.jobExecutable
+        job.arguments = ["--pyre-start", path, requires, "pyre.schedulers:jobstart", entry] + argv
 
         # schedule
         self.scheduler.schedule(job)
@@ -57,18 +57,17 @@ class Application(Script):
 
     def onLauncherNode(self, *args, **kwds):
         import sys
-        from pkg_resources import resource_filename
 
-        mpistart = resource_filename(__name__, "scripts/mpistart.py")
+        path = self.pathString()
+        requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
         
         # initialize the launcher
         launcher = self.launcher
         launcher.nodes = self.nodes
-        self.getNodes()
-        launcher.executable = self.executable
-        launcher.arguments = [mpistart, entry] + argv
+        launcher.executable = self.mpiExecutable
+        launcher.arguments = ["--pyre-start", requires, path, "mpi:mpistart", entry] + argv
         
         # launch
         launcher.launch()
@@ -84,7 +83,12 @@ class Application(Script):
         super(Application, self).__init__(name)
 
         import sys
+        from os.path import join, split
+
         self.executable = sys.executable
+        exe = split(self.executable)
+        self.jobExecutable = self.executable
+        self.mpiExecutable = join(exe[0], "mpi" + exe[1])
 
 
 # end of file

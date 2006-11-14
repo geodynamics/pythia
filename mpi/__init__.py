@@ -25,23 +25,16 @@ def mpistart(argv=None, **kwds):
     import sys
     from pyre.applications import start, AppRunner
 
-    if argv is None:
-        argv = sys.argv
-    argv = [sys.executable] + argv
-    
-    MPI_Init(argv)
-
-    argv = argv[1:]
+    kwds = kwds.get('kwds', dict())
+    kwds['message'] = 'onComputeNodes'
 
     try:
         start(argv,
               applicationClass = AppRunner,
-              kwds = dict(message = 'onComputeNodes'))
+              kwds = kwds)
     except:
         #MPI_Abort(MPI_COMM_WORLD, 1)
         raise
-    
-    MPI_Finalize()
     
     return 0
 

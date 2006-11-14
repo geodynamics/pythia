@@ -155,6 +155,31 @@ class Application(Component, Executive):
         return self.__class__.__module__ + ':' + self.__class__.__name__
 
 
+    def workingSet(self):
+        """Return the minimal working set for this application."""
+        
+        from pkg_resources import WorkingSet, Environment, parse_requirements
+        
+        requires = self.requires()
+        workingSet = WorkingSet([])
+        requirements = parse_requirements(requires)
+        
+        for dist in workingSet.resolve(requirements, Environment()):
+            workingSet.add(dist)
+
+        return workingSet
+
+
+    def path(self):
+        """Return the minimal Python search path for this application."""
+        workingSet = self.workingSet()
+        return workingSet.entries
+
+
+    def pathString(self):
+        return ':'.join(self.path())
+
+
     def __init__(self, name=None, facility=None):
         Component.__init__(self, name, facility)
         Executive.__init__(self)

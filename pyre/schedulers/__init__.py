@@ -41,9 +41,12 @@ def jobstart(argv=None, **kwds):
     import sys
     from pyre.applications import start, AppRunner
 
+    kwds = kwds.get('kwds', dict())
+    kwds['message'] = 'onLauncherNode'
+    
     return start(argv,
                  applicationClass = AppRunner,
-                 kwds = dict(message='onLauncherNode'))
+                 kwds = kwds)
 
 
 # end of file 

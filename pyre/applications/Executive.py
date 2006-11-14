@@ -52,8 +52,16 @@ class Executive(object):
             import sys
             argv = sys.argv
         self.arg0 = argv[0]
+        self._requires = kwds.get('requires')
         argv = argv[1:]
         return argv
+
+
+    def requires(self):
+        if self._requires is None:
+            from __main__ import __requires__
+            self._requires = __requires__
+        return self._requires
 
 
     def processCommandline(self, registry, argv=None, parser=None):
@@ -110,6 +118,7 @@ class Executive(object):
 
     def __init__(self):
         self.arg0 = self.name
+        self._requires = None
 
 
 # version
