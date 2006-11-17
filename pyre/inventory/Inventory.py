@@ -331,15 +331,15 @@ class Inventory(object):
 
         candidates = []
 
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.default()
-
         for name, facility in self._facilityRegistry.iteritems():
             try:
                 component = facility.__get__(self)
                 candidates.append(component)
             except Exception, error:
                 if context:
+                    import sys, traceback, pyre.parsing.locators
+                    file, line, function, text = traceback.extract_tb(sys.exc_info()[2])[-1]
+                    locator = pyre.parsing.locators.script(file, line, function)
                     context.error(error, name, None, locator)
                 else:
                     raise
