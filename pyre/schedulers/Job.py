@@ -39,6 +39,8 @@ class Job(Component):
     executable        = pyre.str("executable")
     arguments         = pyre.list("arguments")
 
+    comments          = pyre.list("comments")
+
     
     def __init__(self):
         super(Job, self).__init__()

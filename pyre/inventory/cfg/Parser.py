@@ -50,9 +50,13 @@ class Parser(SafeConfigParser):
             self.node = node
             self.fp = fp
         
-        def __setitem__(self, key, value):
+        def __setitem__(self, trait, value):
             locator = locators.file(self.fp.name, self.fp.lineno)
-            self.node.setProperty(key, value, locator)
+            path = trait.split('.')
+            key = path[-1]
+            path = path[:-1]
+            node = _getNode(self.node, path)
+            node.setProperty(key, value, locator)
             dict.__setitem__(self, key, value)
 
     class SectionDict(dict):
@@ -66,7 +70,7 @@ class Parser(SafeConfigParser):
             # Prevent 'ConfigParser' from creating section
             # dictionaries; instead, create our own.
             if not dict.__contains__(self, sectname):
-                node = self._getNode(self.root, sectname.split('.'))
+                node = _getNode(self.root, sectname.split('.'))
                 cursect = Parser.Section(sectname, node, self.fp)
                 self[sectname] = cursect
             return True
@@ -74,12 +78,6 @@ class Parser(SafeConfigParser):
         def __setitem__(self, key, value):
             dict.__setitem__(self, key, value)
 
-        def _getNode(self, node, path):
-            if len(path) == 0:
-                return node
-            key = path[0].strip()
-            return self._getNode(node.getNode(key), path[1:])
-    
     def __init__(self, root, defaults=None):
         SafeConfigParser.__init__(self, defaults)
         self._sections = Parser.SectionDict(root)
@@ -94,6 +92,13 @@ class Parser(SafeConfigParser):
     def optionxform(self, optionstr):
         # Don't lower() option names.
         return optionstr
+
+
+def _getNode(node, path):
+    if len(path) == 0:
+        return node
+    key = path[0].strip()
+    return _getNode(node.getNode(key), path[1:])
 
 
 # end of file

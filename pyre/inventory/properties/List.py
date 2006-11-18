@@ -18,7 +18,9 @@ from pyre.inventory.Property import Property
 class List(Property):
 
 
-    def __init__(self, name, default=[], meta=None, validator=None):
+    def __init__(self, name, default=None, meta=None, validator=None):
+        if default is None:
+            default = list()
         Property.__init__(self, name, "list", default, meta, validator)
         return
 
@@ -31,6 +33,10 @@ class List(Property):
                 text = text[:-1]
                 
             value = text.split(",")
+
+            # allow trailing comma
+            if len(value) and not value[-1]:
+                value.pop()
         else:
             value = text
 

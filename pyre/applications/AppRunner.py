@@ -21,7 +21,7 @@ class AppRunner(SuperScript):
 
 
     def createSubscript(self, name):
-        from pyre.util import loadObject
+        from merlin import loadObject
         cls = loadObject(name)
         return cls()
 

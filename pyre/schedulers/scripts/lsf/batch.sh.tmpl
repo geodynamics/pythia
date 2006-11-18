@@ -41,5 +41,12 @@ directiveStartToken = @
 
 ${job.executable} @echo ' '.join($job.arguments)
 
-# submit with:
+@if $job.comments
+# ~~~~ comments ~~~~
+@for line in $job.comments
+# ${line}
+@end for
+@end if
+
+# ~~~~ submit command ~~~~
 # ${scheduler.batchCommand} < [script]

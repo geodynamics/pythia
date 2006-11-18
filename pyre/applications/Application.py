@@ -157,17 +157,8 @@ class Application(Component, Executive):
 
     def workingSet(self):
         """Return the minimal working set for this application."""
-        
-        from pkg_resources import WorkingSet, Environment, parse_requirements
-        
-        requires = self.requires()
-        workingSet = WorkingSet([])
-        requirements = parse_requirements(requires)
-        
-        for dist in workingSet.resolve(requirements, Environment()):
-            workingSet.add(dist)
-
-        return workingSet
+        from merlin import WorkingSet
+        return WorkingSet.minimal(self.requires())
 
 
     def path(self):

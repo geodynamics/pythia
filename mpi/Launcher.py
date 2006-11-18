@@ -34,17 +34,12 @@ class Launcher(Base):
     def launch(self):
         import os, sys
 
-        self.executable = os.path.abspath(self.executable)
-
-        argv = self._buildArgumentList()
-        if not argv:
-            return self.dry
-        
+        argv = self.argv()
         command = ' '.join(argv)
         
         if self.dry:
             print command
-            return True
+            return
         
         self._info.log("spawning: %s" % command)
         status = os.spawnvp(os.P_WAIT, argv[0], argv)
@@ -53,10 +48,15 @@ class Launcher(Base):
             sys.exit(statusMsg)
         self._info.log(statusMsg)
 
-        return True
+        return
+
+
+    def argv(self): return self._buildArgumentList()
 
 
     def _buildArgumentList(self):
+        import os
+        
         if not self.nodes:
             self.nodes = len(self.nodelist)
 
@@ -67,7 +67,7 @@ class Launcher(Base):
         args = self.command.split(' ')
         self._appendMpiRunArgs(args)
 
-        args.append(self.executable)
+        args.append(os.path.abspath(self.executable))
         args += self.arguments
 
         return args

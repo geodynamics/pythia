@@ -49,13 +49,17 @@ class Application(Script):
         job.executable = self.jobExecutable
         job.arguments = ["--pyre-start", path, requires, "pyre.schedulers:jobstart", entry] + argv
 
+        # for debugging purposes, add 'mpirun' command as a comment
+        launcher = self.prepareLauncher()
+        job.comments.extend(["[%s] %s" % (launcher.name, comment) for comment in launcher.comments()])
+
         # schedule
         self.scheduler.schedule(job)
         
         return
 
 
-    def onLauncherNode(self, *args, **kwds):
+    def prepareLauncher(self, *args, **kwds):
         import sys
 
         path = self.pathString()
@@ -67,13 +71,19 @@ class Application(Script):
         launcher = self.launcher
         launcher.nodes = self.nodes
         launcher.executable = self.mpiExecutable
-        launcher.arguments = ["--pyre-start", requires, path, "mpi:mpistart", entry] + argv
-        
+        launcher.arguments = ["--pyre-start", path, requires, "mpi:mpistart", entry] + argv
+
+        return launcher
+
+    
+    def onLauncherNode(self, *args, **kwds):
+
+        launcher = self.prepareLauncher()
+
         # launch
         launcher.launch()
         
         return
-
 
     def onComputeNodes(self, *args, **kwds):
         self.main(*args, **kwds)

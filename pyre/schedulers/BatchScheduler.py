@@ -15,7 +15,12 @@ from Scheduler import Scheduler
 
 
 class BatchScheduler(Scheduler):
-    pass
+
+    import pyre.inventory as pyre
+
+    # override the default for 'wait'
+    wait = pyre.bool("wait", default=False)
+    wait.meta['tip'] = """wait for the job to finish"""
 
 
 # end of file 

@@ -33,4 +33,12 @@ class Launcher(Component):
         raise NotImplementedError("class '%s' must override 'launch'" % self.__class__.__name__)
 
 
+    def argv(self):
+        raise NotImplementedError("class '%s' must override 'argv'" % self.__class__.__name__)
+
+
+    def comments(self):
+        return ["command: " + ' '.join(self.argv())]
+
+
 # end of file 
