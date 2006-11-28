@@ -74,7 +74,9 @@ class Launcher(Base):
 
 
     def _appendMpiRunArgs(self, args):
-        args.append(self.extra)
+        extra = self.extra
+        if extra:
+            args.extend(extra.split(' '))
         args.extend(['-np', '%d' % self.nodes])
         
         # use only the specific nodes specified explicitly
