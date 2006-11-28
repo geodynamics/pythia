@@ -26,7 +26,7 @@ class CGI(Script):
         stream.meta['tip'] = "where to place the generated text"
 
 
-    def collectUserInput(self, registry):
+    def collectUserInput(self, registry, context):
 
         # first extract standard commandline arguments
         help, argv = self.processCommandline(registry)

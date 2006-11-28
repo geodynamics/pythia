@@ -40,7 +40,7 @@ class CommandlineParser(object):
         self.unprocessed = []
 
         import pyre.parsing.locators
-        self.locator = pyre.parsing.locators.simple('command line')
+        self.locator = pyre.parsing.locators.commandLine()
 
         import journal
         self._debug = journal.debug("pyre.commandline")

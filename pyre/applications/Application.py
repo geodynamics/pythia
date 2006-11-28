@@ -35,10 +35,6 @@ class Application(Component, Executive):
         weaver = pyre.inventory.facility("weaver", factory=pyre.weaver.weaver)
         weaver.meta['tip'] = 'the pretty printer of my configuration as an XML document'
 
-        import journal
-        journal = journal.facility()
-        journal.meta['tip'] = 'the logging facility'
-
 
     def run(self, *args, **kwds):
 
@@ -57,20 +53,23 @@ class Application(Component, Executive):
         curator = self.createCurator()
         self.initializeCurator(curator, registry)
 
+        # config context
+        context = self.newConfigContext()
+
         # look for my settings
         self.initializeConfiguration()
 
         # read parameter files given on the command line
-        self.readParameterFiles(registry)
+        self.readParameterFiles(registry, context)
 
         # give descendants an opportunity to collect input from other (unregistered) sources
-        self.collectUserInput(registry)
+        self.collectUserInput(registry, context)
 
         # update user options from the command line
         self.updateConfiguration(registry)
 
         # transfer user input to my inventory
-        context = self.applyConfiguration()
+        self.applyConfiguration(context)
 
         # verify that the user input did not contain any typos
         if not self.verifyConfiguration(context, self.inventory.typos):
@@ -116,11 +115,11 @@ class Application(Component, Executive):
         return curator
 
 
-    def readParameterFiles(self, registry):
+    def readParameterFiles(self, registry, context):
         """read parameter files given on the command line"""
-        import journal
-        error = journal.error(self.name)
         from os.path import isfile, splitext
+        import pyre.parsing.locators
+        locator = pyre.parsing.locators.commandLine()
         argv = self.argv
         self.argv = []
         for arg in argv:
@@ -130,8 +129,8 @@ class Application(Component, Executive):
             if codec:
                 try:
                     shelf = codec.open(base)
-                except Exception, e:
-                    error.log(str(e))
+                except Exception, error:
+                    context.error(error, 'inventory', None, locator)
                 else:
                     paramRegistry = shelf['inventory'].getFacility(self.name)
                     if paramRegistry:
@@ -141,7 +140,7 @@ class Application(Component, Executive):
         return
 
     
-    def collectUserInput(self, registry):
+    def collectUserInput(self, registry, context):
         """collect user input from additional sources"""
         return
 

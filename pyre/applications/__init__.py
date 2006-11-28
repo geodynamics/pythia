@@ -15,6 +15,7 @@
 from Application import Application
 from AppRunner import AppRunner
 from Script import Script
+from Shell import Shell
 from SuperScript import SuperScript
 
 
@@ -31,10 +32,10 @@ def superCommandlineParser():
 def start(argv=None, **kwds):
     """general-purpose entry point for applications"""
     cls = kwds.get('applicationClass')
-    app = cls()
     kwds = dict(**kwds)
     kwds['argv'] = argv
-    app.run(**kwds)
+    shell = Shell()
+    shell.runApplication(cls, **kwds)
     return 0
 
 

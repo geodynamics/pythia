@@ -23,44 +23,4 @@ __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:40 aivazis Exp $"
 
 
 
-# a component which allows the user to configure the Python system
-# itself using Pyre
-
-
-from pyre.components import Component
-
-
-class System(Component):
-
-
-    name = "sys"
-
-
-    import pyre.hooks
-    excepthook = pyre.hooks.facility("excepthook", family="excepthook", default="ultraTB")
-
-
-    def startup(self):
-        import pyre.inventory
-        registry = self.createRegistry()
-        self.registry = registry
-        curator = pyre.inventory.curator(self.name)
-        curator.config(registry)
-        self.setCurator(curator)
-        curator.depositories += self.inventory.getDepositories()
-        self.initializeConfiguration()
-        self.applyConfiguration()
-        self.init()
-
-        import sys
-        if self.excepthook:
-            sys.excepthook = self.excepthook.excepthook
-
-        return
-
-
-system = System()
-system.startup()
-
-
 # End of file 

@@ -25,6 +25,10 @@ def error():
     return simple('error')
 
 
+def commandLine():
+    return simple('command line')
+
+
 def script(source, line, function):
     from ScriptLocator import ScriptLocator
     return ScriptLocator(source, line, function)
