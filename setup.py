@@ -45,7 +45,6 @@ setup(
     author_email = 'aivazis@caltech.edu',
     description = 'An extensible, object-oriented framework for specifying and staging complex, multi-physics simulations.',
     license = 'BSD',
-    url = 'http://www.geodynamics.org/cig/software/packages/pythia/',
-    download_url = 'http://crust.geodynamics.org/~leif/shipping/', # temporary
+    url = 'http://www.geodynamics.org/cig/software/packages/cs/pythia/',
     
     )
