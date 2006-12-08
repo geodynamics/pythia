@@ -7,7 +7,7 @@ from merlin import setup, find_packages
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.0',
+    version = '0.8.1.1',
 
     zip_safe = False,
     packages = find_packages(),
@@ -45,7 +45,6 @@ setup(
     author_email = 'aivazis@caltech.edu',
     description = 'An extensible, object-oriented framework for specifying and staging complex, multi-physics simulations.',
     license = 'BSD',
-    url = 'http://www.geodynamics.org/cig/software/packages/pythia/',
-    download_url = 'http://crust.geodynamics.org/~leif/shipping/', # temporary
+    url = 'http://www.geodynamics.org/cig/software/packages/cs/pythia/',
     
     )

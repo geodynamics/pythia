@@ -50,7 +50,37 @@ class SchedulerLSF(BatchScheduler):
             return
 
         try:
-            exitStatus = self.bsub(script)
+            import os
+            from popen2 import Popen4
+
+            cmd = [self.batchCommand]
+            if self.wait:
+                cmd.append("-K")
+            self._info.log("spawning: %s" % ' '.join(cmd))
+            child = Popen4(cmd)
+            self._info.log("spawned process %d" % child.pid)
+
+            print >> child.tochild, script
+            child.tochild.close()
+
+            if self.wait:
+                self._info.log("Waiting for dispatch...")
+
+            for line in child.fromchild:
+                self._info.line("    " + line.rstrip())
+            status = child.wait()
+            self._info.log()
+
+            exitStatus = None
+            if (os.WIFSIGNALED(status)):
+                statusStr = "signal %d" % os.WTERMSIG(status)
+            elif (os.WIFEXITED(status)):
+                exitStatus = os.WEXITSTATUS(status)
+                statusStr = "exit %d" % exitStatus
+            else:
+                statusStr = "status %d" % status
+            self._info.log("%s: %s" % (cmd[0], statusStr))
+        
         except IOError, e:
             self._error.log("%s: %s" % (self.batchCommand, e))
             return
@@ -70,40 +100,6 @@ class SchedulerLSF(BatchScheduler):
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
         
         return
-
-
-    def bsub(self, script):
-        import os
-        from popen2 import Popen4
-        
-        cmd = [self.batchCommand]
-        if self.wait:
-            cmd.append("-K")
-        self._info.log("spawning: %s" % ' '.join(cmd))
-        child = Popen4(cmd)
-        self._info.log("spawned process %d" % child.pid)
-        
-        print >> child.tochild, script
-        child.tochild.close()
-
-        if self.wait:
-            self._info.log("Waiting for dispatch...")
-        
-        for line in child.fromchild:
-            self._info.line("    " + line.rstrip())
-        status = child.wait()
-
-        exitStatus = None
-        if (os.WIFSIGNALED(status)):
-            statusStr = "signal %d" % os.WTERMSIG(status)
-        elif (os.WIFEXITED(status)):
-            exitStatus = os.WEXITSTATUS(status)
-            statusStr = "exit %d" % exitStatus
-        else:
-            statusStr = "status %d" % status
-        self._info.log("%s: %s" % (cmd[0], statusStr))
-
-        return exitStatus
 
 
 # end of file 
