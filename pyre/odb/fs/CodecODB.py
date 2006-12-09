@@ -53,9 +53,6 @@ class CodecODB(Codec):
         # public data
         self.renderer = self._createRenderer()
 
-        # private data
-        self._locker = self._createLocker()
-        
         return
 
 
@@ -71,9 +68,7 @@ class CodecODB(Codec):
 
         stream = file(shelf.name)
 
-        self._locker.lock(stream, self._locker.LOCK_EX)
         exec stream in shelf
-        self._locker.unlock(stream)
 
         return
 
@@ -84,11 +79,6 @@ class CodecODB(Codec):
         from pyre.weaver.Weaver import Weaver
         weaver = Weaver()
         return weaver
-
-
-    def _createLocker(self):
-        from FileLocking import FileLocking
-        return FileLocking()
 
         
 # version

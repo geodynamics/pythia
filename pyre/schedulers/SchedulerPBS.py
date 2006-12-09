@@ -14,16 +14,17 @@
 from BatchScheduler import BatchScheduler
 
 
-class SchedulerLSF(BatchScheduler):
+class SchedulerPBS(BatchScheduler):
     
     
-    name = "lsf"
+    name = "pbs"
     
 
     import pyre.inventory as pyre
     
-    command      = pyre.str("command", default="bsub")
-    bsubOptions  = pyre.list("bsub-options")
+    command      = pyre.str("command", default="qsub")
+    qsubOptions  = pyre.list("qsub-options")
+    ppn          = pyre.int("ppn", default=1)
     
     
     def schedule(self, job):
@@ -32,15 +33,13 @@ class SchedulerLSF(BatchScheduler):
 
         # Fix-up the job.
         if not job.task:
-            # LSF scripts must have a job name; otherwise strange
-            # "/bin/sh: Event not found" errors occur (tested on
-            # TACC's Lonestar system).
             job.task = "jobname"
         job.walltime = util.hms(job.dwalltime.value)
         job.arguments = ' '.join(job.arguments)
+        job.resourceList = self.buildResourceList(job)
         
-        # Generate the main LSF batch script.
-        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', 'lsf'])
+        # Generate the main PBS batch script.
+        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', 'pbs'])
         script.scheduler = self
         script.job = job
         
@@ -53,17 +52,12 @@ class SchedulerLSF(BatchScheduler):
             from popen2 import Popen4
 
             cmd = [self.command]
-            if self.wait:
-                cmd.append("-K")
             self._info.log("spawning: %s" % ' '.join(cmd))
             child = Popen4(cmd)
             self._info.log("spawned process %d" % child.pid)
 
             print >> child.tochild, script
             child.tochild.close()
-
-            if self.wait:
-                self._info.log("Waiting for dispatch...")
 
             for line in child.fromchild:
                 self._info.line("    " + line.rstrip())
@@ -84,21 +78,31 @@ class SchedulerLSF(BatchScheduler):
             self._error.log("%s: %s" % (self.command, e))
             return
         
-        # "[When given the -K option], bsub will exit with the same
-        # exit code as the job so that job scripts can take
-        # appropriate actions based on the exit codes. bsub exits with
-        # value 126 if the job was terminated while pending."
-        if exitStatus == 126:
-            pass
-        elif self.wait:
-            sys.exit(exitStatus)
-        
         if exitStatus == 0:
             pass
         else:
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
         
         return
+
+
+    def buildResourceList(self, job):
+
+        resourceList = []
+        if self.ppn:
+            resourceList.append(
+                "nodes=%d:ppn=%d" % ((job.nodes / self.ppn) + (job.nodes % self.ppn and 1 or 0), self.ppn)
+                )
+        else:
+            resourceList.append(
+                "nodes=%d" % job.nodes
+                )
+
+        walltime = job.walltime
+        if max(walltime):
+            resourceList.append("walltime=%d:%02d:%02d" % walltime)
+
+        return resourceList
 
 
 # end of file 

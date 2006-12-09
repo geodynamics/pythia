@@ -69,8 +69,11 @@ class Launcher(Base):
         # 'ibrun' (the number of nodes is not given).
         
         from pyre.util import expandMacros
+        from os import environ
         args = self.command.split(' ')
-        substitutions = {'nodes': '%d' % self.nodes }
+        substitutions = dict()
+        substitutions.update(environ) # to allow, for example, ${PBS_NODEFILE}
+        substitutions['nodes'] =  '%d' % self.nodes
         args = [expandMacros(arg, substitutions) for arg in args]
         
         # use only the specific nodes specified explicitly
