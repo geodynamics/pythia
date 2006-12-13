@@ -39,9 +39,7 @@ class CodecPML(CodecODB):
 
         stream = file(shelf.name)
 
-        self._locker.lock(stream, self._locker.LOCK_EX)
         document = self._parser.parse(stream, self.parserFactory)
-        self._locker.unlock(stream)
 
         shelf['blade'] = document
         shelf._frozen = True
