@@ -12,6 +12,7 @@
 
 
 from _mpi import *
+from Application import Application
 
 
 def world():
