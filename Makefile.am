@@ -1,0 +1,19 @@
+ACLOCAL_AMFLAGS = -I m4
+
+SUBDIRS = \
+	src
+
+if ENABLE_TESTING
+  SUBDIRS += tests
+endif
+
+DISTCHECK_CONFIGURE_FLAGS = \
+	--enable-testing \
+	CPPFLAGS="-I${CPPUNIT_INCDIR} -I${PYTHIA_INCDIR} -I${CIG_INCDIR}" \
+	LDFLAGS="-L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
+
+EXTRA_DIST = \
+	CHANGES
+
+
+# End of file
