@@ -29,9 +29,9 @@ class ComponentHarness(object):
 
         # configure the component
         # collect unknown traits for the components and its subcomponents
-        up, uc = self.configureHarnessedComponent(component, curator, registry)
+        context = self.configureHarnessedComponent(component, curator, registry)
 
-        if not self.verifyConfiguration(up, uc):
+        if not context.verifyConfiguration('strict'):
             return
 
         # initialize the component
@@ -90,10 +90,9 @@ class ComponentHarness(object):
         component.updateConfiguration(registry)
 
         # load the configuration onto the inventory
-        up, uc = component.applyConfiguration()
+        context = component.applyConfiguration()
 
-        # return the rejected settings
-        return up, uc
+        return context
 
 
     def __init__(self):
