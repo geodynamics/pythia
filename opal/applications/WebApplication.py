@@ -13,7 +13,6 @@
 
 
 from opal.applications.CGI import CGI
-from pyre.applications.ComponentHarness import ComponentHarness
 
 
 class WebApplication(CGI):

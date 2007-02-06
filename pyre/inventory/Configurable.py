@@ -83,6 +83,31 @@ class Configurable(Traceable):
         return context
 
 
+    def filterConfiguration(self, registry):
+        """split <registry> in two, according to which traits are in my inventory"""
+
+        myRegistry = self.createRegistry()
+        yourRegistry = self.createRegistry()
+        yourRegistry.update(registry)
+
+        # Filter-out my properties.
+        for trait in self.inventory.properties():
+            name = trait.name
+            descriptor = registry.properties.get(name)
+            if descriptor:
+                myRegistry.setProperty(name, descriptor.value, descriptor.locator)
+                yourRegistry.deleteProperty(name)
+
+        # Steal nodes which belong to my components.
+        for trait in self.inventory.components():
+            for name in trait.aliases:
+                node = yourRegistry.extractNode(name)
+                if node:
+                    myRegistry.attachNode(node)
+
+        return myRegistry, yourRegistry
+
+
     def newConfigContext(self):
         from ConfigContext import ConfigContext
         return ConfigContext()

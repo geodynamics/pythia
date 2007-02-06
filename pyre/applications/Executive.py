@@ -81,20 +81,6 @@ class Executive(object):
         return context.verifyConfiguration(mode)
 
 
-    def pruneRegistry(self):
-        registry = self.registry
-        
-        for trait in self.inventory.properties():
-            name = trait.name
-            registry.deleteProperty(name)
-
-        for trait in self.inventory.components():
-            for name in trait.aliases:
-                registry.extractNode(name)
-
-        return registry
-
-
     # the default application action
     def main(self, *args, **kwds):
         return

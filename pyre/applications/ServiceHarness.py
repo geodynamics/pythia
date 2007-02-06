@@ -16,7 +16,7 @@ from pyre.applications.Script import Script
 from DynamicComponentHarness import DynamicComponentHarness
 
 
-class ServiceHarness(Script, DynamicComponentHarness):
+class ServiceHarness(DynamicComponentHarness, Script):
 
 
     class Inventory(Script.Inventory):

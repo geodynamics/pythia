@@ -43,39 +43,10 @@ class ComponentHarness(object):
         return component
 
 
-    def fini(self):
-        """finalize the component"""
-        
-        if self.component:
-            self.component.fini()
-
-        return
-
-
     def createComponent(self):
         """create the harnessed component"""
         raise NotImplementedError(
             "class %r must override 'createComponent'" % self.__class__.__name__)
-
-
-    def prepareComponentCurator(self):
-        """prepare the persistent store manager for the harnessed component"""
-
-        # by default, assume that this is a mixin class and the host has a
-        # notion of its persistent store that it wants to share with the
-        # harnessed component
-        return self.getCurator()
-        
-
-    def prepareComponentConfiguration(self, component):
-        """prepare the persistent store manager for the harnessed component"""
-
-        # by default, assume that this is a mixin class and the host has a
-        # registry with settings for the harnessed component
-        registry = self.pruneRegistry()
-        registry.name = component.name
-
-        return registry
 
 
     def configureHarnessedComponent(self, component, curator, registry):

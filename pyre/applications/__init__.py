@@ -14,6 +14,8 @@
 
 from Application import Application
 from AppRunner import AppRunner
+from ComponentHarness import ComponentHarness
+from ComponentHarnessAdapter import ComponentHarnessAdapter
 from Script import Script
 from Shell import Shell
 from SuperScript import SuperScript

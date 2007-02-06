@@ -12,10 +12,10 @@
 #
 
 
-from ComponentHarness import ComponentHarness
+from ComponentHarnessAdapter import ComponentHarnessAdapter
 
 
-class DynamicComponentHarness(ComponentHarness):
+class DynamicComponentHarness(ComponentHarnessAdapter):
 
 
     def createComponent(self):
