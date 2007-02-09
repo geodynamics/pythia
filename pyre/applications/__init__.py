@@ -36,8 +36,9 @@ def start(argv=None, **kwds):
     cls = kwds.get('applicationClass')
     kwds = dict(**kwds)
     kwds['argv'] = argv
-    shell = Shell()
-    shell.runApplication(cls, **kwds)
+    app = cls()
+    shell = Shell(app)
+    shell.run(**kwds)
     return 0
 
 

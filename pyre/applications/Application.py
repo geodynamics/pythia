@@ -37,65 +37,9 @@ class Application(Component, Executive):
 
 
     def run(self, *args, **kwds):
-
-        # build storage for the user input
-        registry = self.createRegistry()
-        self.registry = registry
-
-        # command line
-        argv = self.getArgv(*args, **kwds)
-        commandLine = self.processCommandline(registry, argv)
-        action = commandLine.action
-        self.argv = commandLine.processed
-        self.unprocessedArguments = commandLine.unprocessed
-
-        # curator
-        curator = self.createCurator()
-        self.initializeCurator(curator, registry)
-
-        # config context
-        context = self.newConfigContext()
-
-        # look for my settings
-        self.initializeConfiguration()
-
-        # read parameter files given on the command line
-        self.readParameterFiles(registry, context)
-
-        # give descendants an opportunity to collect input from other (unregistered) sources
-        self.collectUserInput(registry, context)
-
-        # update user options from the command line
-        self.updateConfiguration(registry)
-
-        # transfer user input to my inventory
-        self.applyConfiguration(context)
-
-        # verify that the user input did not contain any typos
-        if not self.verifyConfiguration(context, self.inventory.typos):
-            import sys
-            sys.exit("%s: configuration error(s)" % self.name)
-
-        # initialize the trait cascade
-        self.init()
-
-        # print a startup page
-        self.generateBanner()
-
-        # the main application behavior
-        action = action and getattr(self, action)
-        if action:
-            action()
-        elif self._showHelpOnly:
-            pass
-        else:
-            message = kwds.get('message', 'execute')
-            method = getattr(self, message)
-            method(*args, **kwds)
-
-        # shutdown
-        self.fini()
-
+        from Shell import Shell
+        shell = Shell(self)
+        shell.run(*args, **kwds)
         return
 
 
@@ -134,7 +78,7 @@ class Application(Component, Executive):
                 else:
                     paramRegistry = shelf['inventory'].getFacility(self.name)
                     if paramRegistry:
-                        self.updateConfiguration(paramRegistry)
+                        registry.update(paramRegistry)
             else:
                 self.argv.append(arg)
         return

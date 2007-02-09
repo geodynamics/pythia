@@ -32,7 +32,7 @@ def excepthook():
 
         mode         = pyre.str("mode", default="Verbose")
         colorScheme  = pyre.str("color-scheme", default="Linux")
-        callPdb      = pyre.bool("call-pdb", default=True)
+        callPdb      = pyre.bool("call-pdb", default=False)
 
         callPdb.meta['tip'] = 'call pdb when an exception occurs'
 
