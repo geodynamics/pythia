@@ -93,7 +93,69 @@ class Executive(object):
 
 
     def complete(self):
-        # NYI: bash tab-completion
+        """perform shell command completion"""
+        
+        from glob import glob
+        import os
+        
+        arg, prevArg = self.unprocessedArguments[1:3]
+        if arg == "":
+            line = os.environ['COMP_LINE']
+            point = int(os.environ['COMP_POINT'])
+            if line[point - 1] == "=":
+                # NYI: value completion
+                return
+        
+        parser = self.createCommandlineParser()
+        prefix, fields, value, filenameStem = parser.parseArgument(arg, prevArg)
+
+        # Match filenames.
+        if filenameStem is not None:
+            for codec in self.getCurator().codecs.itervalues():
+                extension = "." + codec.extension
+                if filenameStem:
+                    pattern = "%s*" % filenameStem
+                    for filename in glob(pattern):
+                        if filename.endswith(extension):
+                            print filename
+                else:
+                    pattern = "%s*%s" % (filenameStem, extension)
+                    for filename in glob(pattern):
+                        print filename
+
+        # Match traits.
+        if fields is not None:
+            component = self
+            path = ""
+            for field in fields[:-1]:
+                facilityNames = component.inventory.facilityNames()
+                if not field in facilityNames:
+                    return
+                path += field + "."
+                component = component.getTraitValue(field)
+            if fields:
+                field = fields[-1]
+            else:
+                field = ""
+            propertyNames = component.inventory.propertyNames()
+            candidates = []
+            for prop in propertyNames:
+                if prop.startswith(field):
+                    candidates.append(prop)
+            if not candidates:
+                return
+            if len(candidates) == 1:
+                prop = candidates[0]
+                facilityNames = component.inventory.facilityNames()
+                if prop in facilityNames:
+                    print "%s%s%s." % (prefix, path, prop)
+                    print "%s%s%s=" % (prefix, path, prop)
+                else:
+                    print "%s%s%s" % (prefix, path, prop)
+            else:
+                for prop in candidates:
+                    print "%s%s%s" % (prefix, path, prop)        
+
         return
 
 

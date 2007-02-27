@@ -25,6 +25,22 @@ class CommandlineParser(object):
         return
 
 
+    def parseArgument(self, arg, prevArg):
+        if arg == "":
+            return self.prefixes[0], [], "", ""
+        candidate = self._filterNonOptionArgument(arg)
+        for p in self.prefixes:
+            if arg.startswith(p):
+                prefix = p
+                candidate = arg[len(p):]
+                break
+        else:
+            return None, None, None, arg
+        key, value = self._parseArgument(candidate)
+        fields = key.split(self.separator)
+        return prefix, fields, value, None
+
+
     def __init__(self):
         self.actions = {
             'help': ['?', 'h'],
