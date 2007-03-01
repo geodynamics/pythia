@@ -22,6 +22,10 @@ class CodecConfig(CodecODB):
         CodecODB.__init__(self, encoding='cfg')
         return
 
+    def _createRenderer(self):
+        from Renderer import Renderer
+        return Renderer()
+
     def _decode(self, shelf):
         root = Registry("root")
         parser = Parser(root)

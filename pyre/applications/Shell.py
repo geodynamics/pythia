@@ -40,14 +40,6 @@ class Shell(Component):
         self.registry = None
 
 
-    def xupdateConfiguration(self, registry):
-        """divide settings between myself and the application"""
-        
-        myRegistry, yourRegistry = self.filterConfiguration(registry)
-        self.app.updateConfiguration(yourRegistry)
-        return super(Shell, self).updateConfiguration(myRegistry)
-
-
     def run(self, *args, **kwds):
 
         app = self.app
