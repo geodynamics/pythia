@@ -204,6 +204,16 @@ class Inventory(object):
             vault=vault, extraDepositories=self._priv_depositories)
         
 
+    def retrieveBuiltInComponent(self, name, factory, args=(), vault=[]):
+        import merlin
+        group = "pyre.odb." + (".".join([self._priv_name] + vault))
+        for ep in merlin.iter_entry_points(group, name):
+            factory = ep.load()
+            component = factory(*args)
+            return component
+        return None
+
+
     def retrieveObject(
         self, name, symbol, encodings, vault=[], extraDepositories=[]):
         """retrieve object <name> from the persistent store"""

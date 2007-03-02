@@ -29,6 +29,10 @@ def commandLine():
     return simple('command line')
 
 
+def builtIn():
+    return simple('built-in')
+
+
 def script(source, line, function):
     from ScriptLocator import ScriptLocator
     return ScriptLocator(source, line, function)

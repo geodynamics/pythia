@@ -103,13 +103,16 @@ class Facility(Trait):
             locator = component.getLocator()
         else:
             import pyre.parsing.locators
-            component = self._import(instance, componentName)
-
-            if component:
-                locator = pyre.parsing.locators.simple('imported')
+            component = self._retrieveBuiltInComponent(instance, componentName)
+            if component is not None:
+                locator = pyre.parsing.locators.builtIn()
             else:
-                locator = pyre.parsing.locators.simple('not found')
-                return None, locator
+                component = self._import(instance, componentName)
+                if component:
+                    locator = pyre.parsing.locators.simple('imported')
+                else:
+                    locator = pyre.parsing.locators.simple('not found')
+                    return None, locator
 
         # adjust the names by which this component is known
         component.aliases.append(self.name)
@@ -139,6 +142,13 @@ class Facility(Trait):
     class FactoryNotCallable(Error):
         def __str__(self):
             return "could not bind facility '%(facility)s': factory '%(module)s:%(factory)s' is not callable" % self.__dict__
+
+
+    def _retrieveBuiltInComponent(self, instance, name):
+        return instance.retrieveBuiltInComponent(
+            name=name,
+            factory=self.family,
+            vault=self.vault)
 
 
     def _import(self, instance, name):

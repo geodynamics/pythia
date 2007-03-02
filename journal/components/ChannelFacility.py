@@ -29,7 +29,7 @@ class ChannelFacility(Facility):
         channel = Channel(componentName)
 
         import pyre.parsing.locators
-        locator = pyre.parsing.locators.simple('built-in')
+        locator = pyre.parsing.locators.builtIn()
 
         return channel, locator
     
