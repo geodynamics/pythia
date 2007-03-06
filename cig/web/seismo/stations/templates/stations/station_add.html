@@ -1,0 +1,23 @@
+
+{% extends "stations/base.html" %}
+
+{% block content %}
+
+<h1>Add Stations</h1>
+
+<p>The following stations have been added to your list:
+
+<ul>
+{% for station in stations %}
+    <li>{{ station }}
+{% endfor %}
+</ul>
+
+<hr>
+
+<ul>
+    <li><a href="../search/location/">Search for stations</a>
+    <li><a href="../networks/">Browse station networks</a>
+</ul>
+
+{% endblock %}

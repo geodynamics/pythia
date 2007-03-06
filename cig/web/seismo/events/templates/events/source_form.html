@@ -1,0 +1,156 @@
+
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<h1>Edit Source</h1>
+
+<p>
+{% if form.has_errors %}
+<b class=error>Please correct the following error{{ form.error_dict|pluralize }}:</b>
+{% else %}
+&nbsp;
+{% endif %}
+
+<form method="post" action=".">
+
+    <input type="hidden" name="event" value="{{ object.event.id }}">
+
+    <table border="0">
+
+        <tr>
+            <td align="right" valign="top"><label for="id_dataSource">data source:</label></td>
+            <td valign="top">{{ form.dataSource }}</td>
+            <td valign="top">{% if form.dataSource.errors %}<span class=error>{{ form.dataSource.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_when_date">when_date:</label></td>
+            <td valign="top">{{ form.when_date }}</td>
+            <td valign="top">{% if form.when_date.errors %}<span class=error>{{ form.when_date.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_when_time">when_time:</label></td>
+            <td valign="top">{{ form.when_time }}</td>
+            <td valign="top">{% if form.when_time.errors %}<span class=error>{{ form.when_time.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_microsecond">microsecond:</label></td>
+            <td valign="top">{{ form.microsecond }}</td>
+            <td valign="top">{% if form.microsecond.errors %}<span class=error>{{ form.microsecond.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_sourceLatitude">sourceLatitude:</label></td>
+            <td valign="top">{{ form.sourceLatitude }}</td>
+            <td valign="top">{% if form.sourceLatitude.errors %}<span class=error>{{ form.sourceLatitude.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_sourceLongitude">sourceLongitude:</label></td>
+            <td valign="top">{{ form.sourceLongitude }}</td>
+            <td valign="top">{% if form.sourceLongitude.errors %}<span class=error>{{ form.sourceLongitude.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_sourceDepth">sourceDepth:</label></td>
+            <td valign="top">{{ form.sourceDepth }}</td>
+            <td valign="top">{% if form.sourceDepth.errors %}<span class=error>{{ form.sourceDepth.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_sourceMB">sourceMB:</label></td>
+            <td valign="top">{{ form.sourceMB }}</td>
+            <td valign="top">{% if form.sourceMB.errors %}<span class=error>{{ form.sourceMB.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_sourceMs">sourceMs:</label></td>
+            <td valign="top">{{ form.sourceMs }}</td>
+            <td valign="top">{% if form.sourceMs.errors %}<span class=error>{{ form.sourceMs.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_region">region:</label></td>
+            <td valign="top">{{ form.region }}</td>
+            <td valign="top">{% if form.region.errors %}<span class=error>{{ form.region.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_eventName">event name:</label></td>
+            <td valign="top">{{ form.eventName }}</td>
+            <td valign="top">{% if form.eventName.errors %}<span class=error>{{ form.eventName.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_timeShift">time shift:</label></td>
+            <td valign="top">{{ form.timeShift }}</td>
+            <td valign="top">{% if form.timeShift.errors %}<span class=error>{{ form.timeShift.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_halfDuration">half duration:</label></td>
+            <td valign="top">{{ form.halfDuration }}</td>
+            <td valign="top">{% if form.halfDuration.errors %}<span class=error>{{ form.halfDuration.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_latitude">latitude:</label></td>
+            <td valign="top">{{ form.latitude }}</td>
+            <td valign="top">{% if form.latitude.errors %}<span class=error>{{ form.latitude.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_longitude">longitude:</label></td>
+            <td valign="top">{{ form.longitude }}</td>
+            <td valign="top">{% if form.longitude.errors %}<span class=error>{{ form.longitude.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_depth">depth:</label></td>
+            <td valign="top">{{ form.depth }}</td>
+            <td valign="top">{% if form.depth.errors %}<span class=error>{{ form.depth.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mrr">Mrr:</label></td>
+            <td valign="top">{{ form.Mrr }}</td>
+            <td valign="top">{% if form.Mrr.errors %}<span class=error>{{ form.Mrr.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mtt">Mtt:</label></td>
+            <td valign="top">{{ form.Mtt }}</td>
+            <td valign="top">{% if form.Mtt.errors %}<span class=error>{{ form.Mtt.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mpp">Mpp:</label></td>
+            <td valign="top">{{ form.Mpp }}</td>
+            <td valign="top">{% if form.Mpp.errors %}<span class=error>{{ form.Mpp.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mrt">Mrt:</label></td>
+            <td valign="top">{{ form.Mrt }}</td>
+            <td valign="top">{% if form.Mrt.errors %}<span class=error>{{ form.Mrt.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mrp">Mrp:</label></td>
+            <td valign="top">{{ form.Mrp }}</td>
+            <td valign="top">{% if form.Mrp.errors %}<span class=error>{{ form.Mrp.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td align="right" valign="top"><label for="id_Mtp">Mtp:</label></td>
+            <td valign="top">{{ form.Mtp }}</td>
+            <td valign="top">{% if form.Mtp.errors %}<span class=error>{{ form.Mtp.errors|join:", " }}</span>{% endif %}</td>
+        </tr>
+
+    </table>
+    <p><input type="submit" value="Save" />
+</form>
+{% endblock %}

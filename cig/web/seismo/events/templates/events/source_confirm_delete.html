@@ -1,0 +1,13 @@
+
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<h1>Delete Source</h1>
+
+<form method="post" action=".">
+    <p>Are you sure you want to delete the source "{{ object }}"?
+    <p><input type="submit" value="Delete" />
+</form>
+
+{% endblock %}

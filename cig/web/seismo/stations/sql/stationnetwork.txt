@@ -1,0 +1,401 @@
+AAE 	Geophysical Observatory, Adis Abeba University, Ethiopia
+AAM 	University of Michigan, Ann Arbor, USA
+ACI 	Università di Calabria, Cosenza, Italy
+ACP 	Autoridad del Canal de Panamá, Balboa-Ancón, Panama
+ADE 	Primary Industries and Resources SA, Adelaide, SA, Australia
+AGS 	USGS Alaska Seismic Project, Menlo Park, California, USA
+ALG 	CRAAG, Alger-Bouzareah, Algeria
+ALQ 	USGS Albuquerque Seismological Laboratory, Albuquerque, New Mexico, USA
+ANZA 	Anza Seismic Network, IGPP, UC San Diego, La Jolla, Calif, USA
+ARO 	Observatoire Géophysique d'Arta, Djibouti
+AS 	Modified High Gain Long Period Network (ASRO), Albuquerque, USA
+ASRS 	GSRAS Siberian Branch, Altay-Sayan Reg. Seis. Ctr., Novosibirsk, Russia
+ATH 	National Observatory of Athens, Greece
+ATL 	Georgia Institute of Technology, Atlanta, USA
+ATX 	University of Texas Institute for Geophysics, Austin, USA
+AUST 	Geoscience Australia, Canberra, ACT, Australia
+AWIB 	Alfred Wegener Inst. of Polar and Marine Research, Bremerhaven, Germany
+AZER 	Republic Center of Seismic Survey, Azerbaijan Academy of Science, Baku
+  	 
+BARI 	Osservatorio Sismologico, Università degli Studi di Bari, Italy
+BASV 	British Antarctic Survey, Cambridge, England, UK
+BDF 	Observatório Sismológico, Universidade de Brasília, Brazil
+BELR 	Inst. of Geochemistry and Geophysics, Belarus Academy of Science, Minsk
+BEO 	Seismological Survey of Serbia, Belgrade, Serbia and Montenegro
+BER 	Institutt for geovitenskap, Universitetet i Bergen, Norway
+BGRD 	Bundesanstalt für Geowissenschaften und Rohstoffe, Hannover, Germany
+BGS 	British Geological Survey, Edinburgh, Scotland, UK
+BHD 	Seismology Unit, Scientific Research Council, Baghdad, Iraq
+BHKY 	University of Kentucky, Lexington, USA
+BHL 	Conseil National de la Recherche Scientifique, Beirut, Lebanon
+BJI 	Institute of Geophysics, China Earthquake Administration, Beijing
+BK 	Berkeley Digital Seismograph Network, California, USA
+BKK 	Meteorological Department, Bangkok, Thailand
+BKN 	Procurement Executive, Ministry of Defence, Blacknest, England, UK
+BLA 	Virginia Polytechnic Institute and State University, Blacksburg, USA
+BLMY 	Indian Point Network, Woodward-Clyde Consultants, New Jersey, USA
+BMU 	Bahrain Meteorological Service, Bahrain
+BNG 	Inst. de Recherche pour le Developpement, Bangui, Central African Rep.
+BNS 	Geologisches Inst. der Universität Köln, Bergisch Gladbach, Germany
+BOG 	Instituto Geofísico, Universidad Javeriana, Bogotá, Colombia
+BOU 	University of Colorado, Boulder, USA
+BRA 	Geofyzikálny ústav SAV, Bratislava, Slovakia
+BRK 	University of California, Berkeley, USA
+BRL 	Freie Universität Berlin, Berlin, Germany
+BRS 	University of Queensland, Brisbane, Australia
+BSE 	Boise State University, Idaho, USA
+BUC 	National Institute for Earth Physics, Bucharest-Magurele, Romania
+BUD 	Hungarian Seismological Institute, Budapest, Hungary
+BUG 	Ruhr-Universität, Bochum, Germany
+BUL 	Goetz Observatory, Bulawayo, Zimbabwe
+BUT 	Montana Bureau of Mines and Geology, Butte, USA
+BYKL 	GSRAS Siberian Branch, Baykal Regional Seis. Center, Irkutsk, Russia
+BYT 	Central Institute of Mines, Katowice, Poland
+  	 
+CAM 	Massachusetts Institute of Technology, Cambridge, USA
+CAN 	Australian National University, Canberra, ACT, Australia
+CAR 	FUNVISIS, Caracas, Venezuela
+CAT 	Istituto Scienze della Terra, Catania, Italy
+CD 	China Digital Broadband Seismic Network (CDSN), Beijing, China
+CDMG 	California Division of Mines and Geology, Sacramento, USA
+CDPJ 	Nat. Research Ctr for Disaster Prevention, Ibaraki-ken, Japan--now NIED
+CDR 	Commissariat a l'Energie Atomique (CEA), Fontenay aux Roses, France
+CDWR 	California Department of Water Resources, Sacramento, USA
+CELS 	Comisión Hidroelectrica del Rio Lempa, El Salvador
+CERI 	Center for Earthquake Research and Information, Memphis, Tennessee, USA
+CFF 	Inst. et Observatoire de Physique du Globe, Clermont-Ferrand, France
+CHC 	University of North Carolina, Chapel Hill, USA
+CIG 	Cen. de Investigaciones Geotecnicas, San Salvador, El Salvador (closed)
+CLE 	John Carroll University, Cleveland, Ohio, USA (closed)
+CLTN 	GSC Charlevoix Local Telemetered Network, Ottawa, Canada
+CN 	Canadian National Seismic Network (CNSN) BB stations, Ottawa, Canada
+CNRM 	Centre National de la Recherche Scient. et Tech., Rabat, Morocco
+COR 	College of Oceanography, Oregon State University, Corvallis, USA
+CRT 	Instituto Andaluz de Geofísica, Universidad de Granada, Spain
+CSC 	University of South Carolina, Columbia, USA
+  	 
+DAL 	Southern Methodist University, Dallas, Texas, USA
+DBN 	Koninkijk Nederlands Meteorologisch Instituut, De Bilt, Netherlands
+DDA 	Directorate of Disaster Affairs, Lodumlu, Ankara, Turkey
+DESU 	CADAFE, Desarrollo Uribante Caparo (DESURCA), San Cristóbal, Venezuela
+DHMR 	National Seismological Observatory Center, Dhamar, Yemen
+DIAS 	Dublin Institute for Advanced Studies, Ireland
+DJA 	Badan Meteorologi dan Geofisika, Jakarta, Indonesia
+DMN 	Department of Mines and Geology, Kathmandu, Nepal
+DNGM 	Direcção Nacional de Geologia, Maputo, Mozambique
+DNK 	Danmarks og Grønlands Geologiske Undersøgelse, Copenhagen, Denmark
+DRI 	Disaster Prevention Research Institute, Kyoto University, Japan
+DRS 	GSRAS, Dagestan Regional Seismological Center, Makhachkala, Russia
+DSIT 	State Water Works Division (DSI), Ankara, Turkey
+DTM 	Carnegie Institution of Washington, Washington DC, USA
+DUKE 	Duke Power Company, South Carolina, USA
+DW 	Digital Worldwide Std. Seismograph Network (DWSSN), Albuquerque, USA
+  	 
+ECTN 	GSC Eastern Canada Telemetered Network, Ottawa, Canada
+ECX 	RESNOM, CICESE, Ensenada, Baja California, Mexico
+EDM 	University of Alberta, Edmonton, Canada
+ENI 	Ente Nazionale Idrocarburi, Rome, Italy
+ENT 	Geological Survey and Mines Department, Entebbe, Uganda
+EPT 	Kidd Seismological Observatory, University of Texas, El Paso, USA
+ERC 	Centro Ettore Majorana, Erice, Italy
+ERIJ 	Earthquake Research Institute, Univ. of Tokyo, Japan
+EUO 	Department of Geological Sciences, University of Oregon, Eugene, USA
+  	 
+FBB 	Geologisches Landesamt Baden-Württemberg (LEDBW), Freiburg, Germany
+FDF 	IPG Observatoire Géophysique, St. Pierre, Martinique
+FLAG 	Arizona Earthquake Information Center, Flagstaff, USA
+FNET 	F-net Broadband Seismograph Network, University of Tokyo, Japan
+FOG 	Osservatorio V. Nigri, Foggia, Italy
+FR 	Réseau National de Surveillance Sismique (ReNaSS), Strasbourg, France
+FUR 	Geophysikalisches Obs. der Univ. München, Fürstenfeldbruck, Germany
+  	 
+GAR 	Complex Seismological Expedition, Garm, Tajikistan
+GBZT 	TUBITAK, Marmara Research Center, Gebze, Turkey
+GCG 	INSIVUMEH, Guatemala City, Guatemala
+GE 	GEOFON (GeoForschungsNetz) Program, Potsdam, Germany
+GEN 	Dipart. Studio del Territorio e Risorse, Università di Genova, Italy
+GEOS 	Programme GEOSCOPE, Paris, France
+GEOT 	Teledyne Geotech Corporation, Garland, Texas, USA
+GFU 	Geofyzikální ústav Akademie vìd Ceské republiky, Praha, Czech Republic
+GIA 	Geophysical Institute, University of Alaska, Fairbanks, USA
+GII 	Geophysical Institute of Israel, Lod, Israel
+GOL 	Geophysics Department, Colorado School of Mines, Golden, Colorado, USA
+GOM 	Observatoire Volcanologique de Goma, Goma, Dem. Republic of the Congo
+GR 	German Regional Seismic Network (GRSN), Hannover, Germany
+GRF 	BGR, Zentralobservatorium Gräfenberg, Erlangen, Germany
+GRN 	Lab. de Géophysique Interne et de Tectonophysique, Grenoble, France
+GSDM 	Geological Survey Department of Malawi, Zomba, Malawi
+GT 	Global Telemetered Seismic Network (GTSN), Albuquerque, USA
+GUC 	Departamento de Geofísica, Universidad de Chile, Santiago, Chile
+GUV 	CVG Electrificacion del Caroní (EDELCA), Guri, Venezuela
+  	 
+HACU 	Hacettepe University, Ankara, Turkey
+HDC 	Universidad Nacional, Campus Omar Dengo, Heredia, Costa Rica
+HEL 	Seismologian Laitos, Helsingin Yliopisto, Helsinki, Finland
+HFS 	The Swedish Defence Research Agency, FOI, Stockholm, Sweden
+HG 	High Gain Long Period Network (HGLP), Albuquerque, USA
+HIG 	Hawaii Institute of Geophysics, Honolulu, USA
+HKC 	Hong Kong Observatory, Kowloon, Hong Kong, China
+HKT 	University of Texas Marine Science Institute, Galveston, USA (now ATX)
+HLW 	National Research Institute of Astronomy and Geophysics, Helwan, Egypt
+HNR 	Ministry of Natural Resources, Honiara, Solomon Islands
+HON 	NOAA, Pacific Tsunami Warning Center, Ewa Beach, Hawaii, USA
+HRS 	Earthquake and Volcano Observatory, Hirosaki University, Japan
+HSS 	Inst. of Seismology and Volcanology, Hokkaido Univ., Sapporo, Japan
+HVO 	USGS Hawaiian Volcano Observatory, Hawaii, USA
+HYB 	National Geophysical Research Institute, Hyderabad, India
+  	 
+IC 	IRIS/USGS China Digital Broadband Seismic Network, Beijing, China
+ICE 	Instituto Costariccense de Electricidad, San José, Costa Rica
+ID 	Project IDA (Intl. Deployment of Accelerometers), San Diego, USA
+IGIL 	Inst. Geofísico do Infante D. Luis, Univ. de Lisboa, Lisbon, Portugal
+IGSN 	IRIS Global Seismograph Network miscellaneous stations, Seattle, USA
+II 	IRIS/IDA Global Seismograph Network, Seattle and San Diego, USA
+IIM 	Instituto de Ingeniería, UNAM, Mexico City, Mexico
+INDR 	Inst. Nacional de Recursos Hidraulicos, Santo Domingo, Dominican Rep.
+INEL 	Idaho Nat. Engineering and Environmental Lab., Idaho Falls, Idaho, USA
+INET 	Instituto Nicaragüense de Estudios Territoriales, Managua, Nicaragua
+INMG 	Instituto de Meteorologia, Lisbon, Portugal
+INPP 	Ignalina Nuclear Power Plant, Ignalina, Lithuania
+INTV 	INTEVEP, Caracas, Venezuela
+INY 	Cornell University, Ithaca, New York, USA
+IPEC 	Ústav fyziky Zemè, Masaryk University, Brno, Czech Republic
+IRSA 	Institutul Roman de Seismologie Aplicata, Bucharest, Romania
+ISK 	Kandilli Observatory and Earthquake Research Inst., Istanbul, Turkey
+IST 	Istanbul Technical University, Maslak, Istanbul, Turkey
+ISTP 	Instituto Superior Tecnico, Lisbon, Portugal
+IU 	IRIS/USGS Global Seismograph Network, Seattle and Albuquerque, USA
+  	 
+JCK 	Geologisches Landesamt Nordrhein-Westfalen, Krefeld, Germany
+JEN 	Inst. für Geowissenschaften, Friedrich-Schiller-Univ., Jena, Germany
+JHI 	Regional Research Laboratory, Jorhat, India
+JMA 	Japan Meteorological Agency, Tokyo, Japan
+JSN 	Jamaica Seismograph Network, Univ. of the West Indies, Mona, Jamaica
+JSO 	Jordan Seismological Observatory, Amman
+  	 
+KAZK 	Seismological Institute, Kazakhstan Academy of Sciences, Almaty
+KBC 	Institut de Recherches Géologiques et Minières, Ekona, Cameroon
+KGS 	Kansas Geological Survey, University of Kansas, Lawrence, USA
+KISR 	Kuwait Institute for Scientific Research, Safat, Kuwait
+KLM 	Malaysian Meteorological Service, Petaling Jaya, Selangor, Malaysia
+KORS 	GSRAS, Kola Regional Seismological Center, Apatity, Russia
+KOWA 	Ecole Nationale d'Ingénieurs, Département de Géologie, Bamako, Mali
+KRSC 	GSRAS, Kamchatka Regional Seismological Center, Petropavlovsk, Russia
+KRW 	Geophysikalisches Institut, Karlsruhe, Germany
+KRYM 	Crimean Geophysical Institute, Ukraine Academy of Science, Ukraine
+KUK 	Ghana Geological Survey Department, Accra, Ghana
+KYRG 	Institute of Seismology, Kyrgyzstan Academy of Sciences, Bishkek
+KYT 	Faculty of Science, Kyoto University, Japan
+  	 
+LASA 	Large Aperture Seismic Array, Billings, Montana, USA (closed)
+LBTB 	Geological Survey of Botswana, Lobatse, Botswana
+LDG 	CEA Lab. de Détection et de Géophysique, Bruyères-le-Châtel, France
+LDN 	University of Western Ontario, London, Ontario, Canada
+LDSN 	Libyan Center for Remote Sensing and Space Science, Tripoli, Libya
+LEI 	Institut für Geophysik und Geologie, Universität Leipzig, Germany
+LGS 	Lithuanian Geological Survey, Vilnius, Lithuania
+LIC 	Station Géophysique de Lamto, N'Douci, Cote d'Ivoire
+LIM 	Instituto Geofísico del Perú, Lima, Peru
+LJC 	Inst. of Geop. and Planet. Phys., UC San Diego, La Jolla, Calif, USA
+LJU 	ARSO, Urad za seizmologijo, Ljubljana, Slovenia
+LLI 	Istituto Internazionale di Vulcanologia--CNR, Catania, Italy
+LMM 	Servico Meteorologico de Moçambique, Maputo, Mozambique (closed)
+LOA 	Los Alamos Scientific Laboratories, Los Alamos, New Mexico, USA
+LPA 	Observatorio Astronomico, Universidad Nacional de La Plata, Argentina
+LPZ 	Observatorio San Calixto, La Paz, Bolivia
+LRSM 	Long Range Seismic Monitoring Network, Garland, Texas, USA (closed)
+LSZ 	Geological Survey Department, Lusaka, Zambia
+LUB 	Texas Tech University, Lubbock, USA
+LVM 	Lawrence Livermore National Laboratory, Livermore, California, USA
+LVV 	Carpathian Seismo. Dept., Ukraine Academy of Science, Lviv, Ukraine
+LWI 	Departement de Géophysique, Lwiro, Democratic Republic of the Congo
+  	 
+MBO 	Institut de Recherche pour le Developpement, M'Bour, Senegal
+MDD 	Instituto Geográfico y Catastral, Madrid, Spain
+MEL 	Seismology Research Centre, Melbourne, Australia
+MERI 	Maharashtra Engineering Research Institute, Nashik, Maharashtra, India
+MES 	Istituto Geofisico e Geodetico, Messina, Italy
+MEX 	RESMAC, IIMAS-UNAM, Mexico City, Mexico (now part of UNM network)
+MN 	Mediterranean Very Broadband Seismograph Network (MedNet), Rome, Italy
+MNLO 	USGS National Center for Earthquake Research, Menlo Park, Calif, USA
+MNM 	University of Minnesota, Minneapolis, USA
+MOLD 	Institute of Geophysics and Geology, Chisinau, Moldova
+MRB 	Institut Cartogràfic de Catalunya (ICC), Barcelona, Spain
+MSCO 	Mesa State College, Grand Junction, Colorado, USA
+MSKU 	Université des Sciences et Techniques de Masuku, Franceville, Gabon
+MSO 	University of Montana, Missoula, USA
+MTAT 	Mineral Research and Exploration Institute (MTA), Ankara, Turkey
+MUI 	Geophysics Department, Ferdowsi University, Mashhad, Iran
+MVOV 	Montserrat Volcano Observatory, Mango Hill, Montserrat
+MX 	Red Sismológica Nacional de México (MNSN) BB stations, Mexico City
+  	 
+NAI 	Geology Department, University of Nairobi, Nairobi, Kenya
+NAO 	NTNF/NORSAR, Kjeller, Norway
+NARS 	NARS network, University of Utrecht, The Netherlands
+NASC 	National Antarctic Scientific Center of Ukraine, Kiev, Ukraine
+NAT 	Departamento de Física Teórica e Experimental, UFRN, Natal, Brazil
+NDI 	India Meteorological Department, New Delhi, India
+NED 	Delaware Geological Survey, Newark, USA
+NEIC 	USGS Nat. Earthquake Information Center, Golden, USA (and predecessors)
+NERS 	GSRAS, Northeastern Regional Seismological Center, Magadan, Russia
+NGY 	RCSVDM, Graduate School of Environmental Studies, Nagoya Univ., Japan
+NIC 	Geological Survey Department, Nicosia, Cyprus
+NIED 	Nat. Res. Inst. for Earth Sci. and Disaster Prevention, Tsukuba, Japan
+NIPR 	National Institute of Polar Research, Tokyo, Japan
+NNC 	Nat. Nuclear Center, Inst. of Geophysical Research, Almaty, Kazakhstan
+NOU 	Institut de Recherche pour le Developpement, Noumea, New Caledonia
+NSAU 	National Space Agency of Ukraine, Kiev, Ukraine
+NSSC 	National Syrian Seismological Center, Damascus, Syria
+NSSP 	National Survey of Seismic Protection, Yerevan, Armenia
+  	 
+OBM 	Mongolian Academy of Sciences, Ulaanbaatar, Mongolia
+OBN 	GSRAS, Russian National Seismological Center, Obninsk, Russia
+OGSO 	OhioSeis Network, Ohio Geological Survey, Columbus, Ohio, USA
+OMAN 	Department of Earth Sciences, Sultan Qaboos University, Al-Khod, Oman
+OMPT 	Observatoire Midi-Pyrénées, Toulouse, France
+OTT 	Geological Survey of Canada, Ottawa, Canada
+OTTR 	Geological Survey of Canada Regional Stations, Ottawa, Canada
+OVO 	Osservatorio Vesuviano, Naples, Italy
+  	 
+PAL 	Lamont-Doherty Earth Observatory, Palisades, New York, USA
+PAR 	Institut de Physique du Globe, Univ. P et M Curie, Paris, France
+PAS 	USGS/CalTech, California Institute of Technology, Pasadena, USA
+PDA 	Instituto de Meteorologia, Obs. Afonso Chaves, Ponta Delgada, Azores
+PDG 	Seizmoloski zavod Crne Gore, Podgorica, Montenegro, Serbia & Montenegro
+PEPP 	Princeton Earth Physics Project, Princeton, New Jersey, USA
+PINS 	Pakistan Inst. of Nuclear Science and Technology, Rawalpindi, Pakistan
+PIVS 	Philippine Inst. of Volcanology & Seismology, Quezon City, Philippines
+PLV 	Inst. of Geophysics, Vietnamese Acad. of Science and Technology, Hanoi
+PMG 	Geological Survey, Port Moresby, Papua New Guinea
+PMR 	NOAA, West Coast and Alaska Tsunami Warning Center, Palmer, Alaska, USA
+PNNL 	Pacific Northwest National Laboratory, Richland, Washington, USA
+POLR 	POLARIS Project, Ottawa, Canada
+PPT 	Laboratoire de Géophysique, Papeete, French Polynesia
+PRE 	Council for Geoscience, Pretoria, South Africa
+PRT 	Osservatorio San Domenico, Prato, Italy
+PS 	Ocean Hemisphere Project (formerly POSEIDON), Tokyo, Japan
+PSNT 	Public Seismic Network - PSN (homepage: www.seismicnet.com)
+PTN 	State University of New York, Potsdam, New York, USA
+  	 
+QCP 	Manila Observatory, Ateneo de Manila University, Manila, Philippines
+QDM 	Queensland Department of Mines, Brisbane, Australia
+QMB 	University of Leeds, Yorkshire, England, UK
+QUE 	Pakistan Meteorological Department, Quetta, Pakistan
+QUI 	Escuela Politécnica Nacional, Quito, Ecuador
+  	 
+RAB 	Geological Survey, Vulcanological Observatory, Rabaul, Papua New Guinea
+RDJ 	Observatorio Nacional, Rio de Janeiro, Brazil
+REN 	University of Nevada, Reno, USA
+REX 	Brigham Young University - Idaho, Rexburg, Idaho, USA
+REY 	Veðurstofa Íslands, Reykjavík, Iceland
+RIPT 	Research Inst. of Pulse Technique, Ministry for Atomic Energy, Russia
+RLP 	Landeserdbebendienst Rheinland-Pfalz, Mainz, Germany
+RMOD 	Russian Ministry of Defense, Russia
+ROM 	Istituto Nazionale di Geofisica e Vulcanologia, Rome, Italy
+RS 	Regional Seismic Test Network (RSTN), Albuquerque, USA
+RSNC 	Red Sísmica Nacional de Colombia, INGEOMINAS, Bogotá, Colombia
+RSPR 	Red Sísmica de Puerto Rico, Universidad de Puerto Rico, Mayagüez
+RUVS 	Rede Universitaria de Vigilancia Sismovulcanica, São Miguel, Azores
+RYD 	King Saud University, Riyadh, Saudi Arabia
+  	 
+SAKL 	Sakhalin Complex Research Institute, Novoalexandrovsk -- now SKHL net
+SAND 	Sandia Laboratories, Albuquerque, New Mexico, USA
+SAPN 	Emergency Management Office, Saipan, Northern Mariana Islands
+SBS 	Institut National de la Météorologie, Tunis, Tunisia
+SCP 	Pennsylvania State University, State College, USA
+SDD 	Universidad Autónoma de Santo Domingo, Dominican Republic
+SEA 	Geophysics Program, University of Washington, Seattle, USA
+SEO 	Korean Meteorological Agency, Seoul, South Korea
+SFS 	Real Instituto y Observatorio de la Armada, San Fernando, Spain
+SHV 	Inst. of Seismology and Volcanology, Kyushu Univ., Shimabara, Japan
+SJA 	Instituto Nacional de Prevención Sísmica, San Juan, Argentina
+SKHL 	GSRAS, Sakhalin Regional Seismological Ctr., Yuzhno-Sakhalinsk, Russia
+SKO 	Seismological Observatory, Skopje University, Macedonia
+SLC 	University of Utah, Salt Lake City, USA
+SLCI 	University of Utah Research Institute, Salt Lake City, USA
+SLCY 	University of Utah Yellowstone network, Salt Lake City, USA
+SLM 	St. Louis University, St. Louis, Missouri, USA
+SNET 	Servicio Nacional de Estudios Territoriales, San Salvador, El Salvador
+SNM 	New Mexico Institute of Mining and Technology, Socorro, USA
+SNSN 	Saudi NSN, King Abdulaziz City for Sci. and Tech., Riyadh, Saudi Arabia
+SOF 	Section of Seismology, Bulgarian Academy of Sciences, Sofia, Bulgaria
+SORS 	Republic Hydrometeorological Institute, Banja Luka, Bosnia-Herzegovina
+SPGM 	Service de Physique du Globe, Rabat Agdal, Morocco
+SR 	Seismic Research Observatory Network (SRO), Albuquerque, USA
+SRPD 	Savannah River Laboratory, Aiken, South Carolina, USA
+SSNC 	Centro Nacional de Investigaciones Sismológicas, Santiago de Cuba, Cuba
+SSO 	Osservatorio Geofisico Sperimentale, Macerata, Italy
+STR 	École et Observatoire des Sciences de la Terre, Strasbourg, France
+STU 	Institut für Geophysik der Universität Stuttgart, Stuttgart, Germany
+SVA 	Department of Mineral Resources, Suva, Fiji
+SXNET 	Sächsiches Landesamt für Umwelt und Geologie, Dresden, Germany
+  	 
+TAJK 	Tajikistan Academy of Sciences, Dushanbe, Tajikistan
+TAN 	Institut et Observatoire Géophysique d'Antananarivo, Madagascar
+TAP 	Central Weather Bureau, Taipei, Taiwan
+TATO 	Institute of Earth Sciences, Academia Sinica, Taipei, Taiwan
+TAU 	University of Tasmania, Hobart, Australia
+TBU 	Environmental Physics Institute, Tibet University, Lhasa, Tibet, China
+TEH 	Institute of Geophysics, University of Tehran, Tehran, Iran
+THE 	Geophysical Laboratory, University of Thessaloniki, Greece
+THR 	Intl. Inst. of Earthquake Engineering and Seismology, Tehran, Iran
+TIF 	Inst. of Geophysics, Academy of Sciences of Georgia, Tbilisi, Georgia
+TIR 	Seismological Center, Academy of Sciences of Albania, Tirana, Albania
+TOH 	AOB, Graduate School of Science, Tohoku University, Sendai, Japan
+TRI 	Ist. Nazle. di Oceanografia e di Geofisica Sperimentale, Trieste, Italy
+TRKM 	Institute of Seismology, Turkmenistan Academy of Science, Ashgabat
+TRN 	University of the West Indies, St. Augustine, Trinidad
+TS 	TERRAscope Network, Pasadena, USA
+TUL 	Oklahoma Geological Survey, Leonard, USA
+TVA 	Tennessee Valley Authority, Knoxville, Tennessee, USA
+TW 	Broadband Array in Taiwan for Seismology (BATS), Taipei, Taiwan
+TZN 	University of Dar es Salaam, Tanzania
+  	 
+UAV 	Laboratorio de Geofísica, Universidad de los Andes, Mérida, Venezuela
+UBC 	University of British Columbia, Vancouver, B.C., Canada
+UBIC 	Univ. de Barcelona i Institut d'Estudis Catalans, Barcelona, Spain
+UCC 	Observatoire Royal de Belgique, Uccle, Brussels, Belgium
+UCR 	Seccion de Sismología, Univ. de Costa Rica, San José, Costa Rica
+UDEC 	Universidad de Concepción, Concepción, Chile
+UDO 	Centro de Sismología, Universidad de Oriente, Cumaná, Venezuela
+UNAH 	Universidad Nacional Autónoma de Honduras, Tegucigalpa, Honduras
+UNM 	Instituto de Geofísica, UNAM, Mexico City, DF, Mexico
+UPA 	Instituto de Geociencias, Universidad de Panamá, Panama
+UPP 	Seismological Institute, Uppsala, Sweden
+URS 	Kochi University, Kochi, Japan
+US 	United States National Seismic Network (USNSN), Golden USA
+USAF 	US Air Force Technical Applications Center, Melbourne, Florida, USA
+USAV 	USGS Alaska Volcano Observatory, Anchorage, USA
+USBR 	US Bureau of Reclamation, Denver, Colorado, USA
+USC 	University of Southern California, Los Angeles, USA
+USGS 	US Geological Survey--other than ABQ, AGS, MNLO, NEIC, HVO and USAVO
+UTSU 	Utsunomiya University, Japan
+UVC 	Universidad del Valle, Cali, Colombia
+UZBK 	Institute of Seismology, Uzbekistan Academy of Sciences, Tashkent
+  	 
+VAO 	Inst. de Astron., Geof. e Ciências Atmos., Univ. de São Paulo, Brazil
+  	 
+WAR 	Instytutu Geofizyki, Polskeij Akademii Nauk, Warsaw, Poland
+WCTN 	GSC Western Canada Telemetered Network, Sidney, B.C., Canada
+WEL 	Institute of Geological and Nuclear Sciences, Lower Hutt, New Zealand
+WELA 	IGNS Auckland network, Lower Hutt, New Zealand
+WELC 	IGNS Clyde network, Lower Hutt, New Zealand
+WELE 	IGNS Taranaki network, Lower Hutt, New Zealand
+WELH 	IGNS Hawkes Bay network, Lower Hutt, New Zealand
+WELO 	IGNS Tongariro Volcanic network, Lower Hutt, New Zealand
+WELP 	IGNS Pukaki network, Lower Hutt, New Zealand
+WELR 	IGNS Rotorua network, Lower Hutt, New Zealand
+WELT 	IGNS Taupo network, Lower Hutt, New Zealand
+WELW 	IGNS Wellington network, Lower Hutt, New Zealand
+WES 	Weston Observatory, Boston College, Weston, Massachusetts, USA
+WIEN 	Institut für Meteorologie und Geophysik, Univ. Wien, Vienna, Austria
+WIHG 	Wadia Institute of Himalayan Geology, Dehra Dun, India
+WWC 	Woodward-Clyde Consultants, California, USA
+WWSS 	Worldwide Standard Seismograph Network (WWSSN), Albuquerque, USA
+  	 
+YARS 	GSRAS Siberian Branch, Yakutiya Regional Seis. Center, Yakutsk, Russia
+  	 
+ZAG 	Geophysical Institute, University of Zagreb, Croatia
+ZAMG 	ZentralAnstalt für Meteorologie und Geodynamik, Vienna, Austria
+ZON 	Universidad Nacional de San Juan, San Juan, Argentina
+ZUR 	Schweizerischer Erdbebendienst, Zürich, Switzerland

@@ -1,0 +1,39 @@
+
+{% extends "stations/base.html" %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "stations/check_all.html" %}
+{% endblock %}
+
+{% block content %}
+
+<h1>Station Search Results</h1>
+
+{% if station_list %}
+    <form method="post" action="../../add/">
+        <p><input type="submit" value="Add selected stations" /> ~
+           <input type="button" value="Check all" onClick="checkAll(this.form.stations, true)" />
+           <input type="button" value="Unheck all" onClick="checkAll(this.form.stations, false)" />
+        <table border="0">
+            <tr>
+                <th align="left" valign="top"></th>
+                <th align="left" valign="top">code</th>
+                <th align="left" valign="top">name</th>
+            </tr>
+
+            {% for station in station_list %}
+            <tr>
+                <td valign="top"><input type="checkbox" name="stations" value="{{ station.code }}" /></td>
+                <td valign="top"><a href="../../{{ station.code }}/">{{ station.code }}</a></td>
+                <td valign="top">{{ station.name }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </form>
+{% else %}
+    <p>No stations found.</p>
+{% endif %}
+
+{% endblock %}

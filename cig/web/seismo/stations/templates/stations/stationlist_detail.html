@@ -1,0 +1,41 @@
+
+{% extends "stations/base.html" %}
+
+{% block content %}
+
+<h1>{{ object.name }}</h1>
+
+    <p><a href="edit/">Edit</a> ~ <a href="delete/">Delete</a>
+
+    <p>{{ object.station_set.count }} station{{ object.station_set.count|pluralize }}
+
+  {% if object.station_set.count %}
+    <p><a href="gearth.kml"><img src="http://crust.geodynamics.org/~leif/kml.jpg" align="center"> View in Google Earth</a>
+
+    <table border=1 rules=groups>
+        <colgroup><col class=odd></colgroup>
+        <colgroup><col class=even><col class=odd></colgroup>
+
+        <thead>
+        <tr>
+            <th align="left" valign="top">code</th>
+            <th align="left" valign="top">network code</th>
+            <th align="left" valign="top">network name</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for station in object.station_set.all %}
+        <tr>
+            <td valign="top">{{ station.code }}</td>
+            <td valign="top">{{ station.network.code }}</td>
+            <td valign="top">{{ station.network.name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+    <p>
+  {% endif %}
+
+{% endblock %}

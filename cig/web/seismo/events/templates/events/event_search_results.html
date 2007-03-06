@@ -1,0 +1,82 @@
+
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<h1>Event Search Results</h1>
+
+{% if event_list %}
+    <table border="0">
+        <tr>
+            <th align="left" valign="top"></th>
+            <th align="left" valign="top"></th>
+            <th align="left" valign="top">event name</th>
+            <th align="left" valign="top">time shift</th>
+            <th align="left" valign="top">half duration</th>
+            <th align="left" valign="top">latitude</th>
+            <th align="left" valign="top">longitude</th>
+            <th align="left" valign="top">depth</th>
+            <th align="left" valign="top">Mrr</th>
+            <th align="left" valign="top">Mtt</th>
+            <th align="left" valign="top">Mpp</th>
+            <th align="left" valign="top">Mrt</th>
+            <th align="left" valign="top">Mrp</th>
+            <th align="left" valign="top">Mtp</th>
+        </tr>
+
+        {% for event in event_list %}
+        <tr>
+            <td valign="top">
+                <!-- an inline events/add form, already filled-out -->
+	        <form method="post" action="../add/">
+		    <input type="hidden" name="name"             value="{{ event.eventName }}"/>
+		    <input type="hidden" name="dataSource"       value="{{ event.dataSource }}"/>
+		    <input type="hidden" name="when_date"        value="{{ event.year }}-{{ event.month }}-{{ event.day }}"/>
+		    <input type="hidden" name="when_time"        value="{{ event.hour }}:{{ event.minuteStr }}:{{ event.secondStr }}"/>
+		    <input type="hidden" name="microsecond"      value="{{ event.microsecond }}"/>
+		    <input type="hidden" name="sourceLatitude"   value="{{ event.sourceLatitude }}"/>
+		    <input type="hidden" name="sourceLongitude"  value="{{ event.sourceLongitude }}"/>
+		    <input type="hidden" name="sourceDepth"      value="{{ event.sourceDepth }}"/>
+		    <input type="hidden" name="sourceMB"         value="{{ event.sourceMB }}"/>
+		    <input type="hidden" name="sourceMs"         value="{{ event.sourceMs }}"/>
+		    <input type="hidden" name="region"           value="{{ event.regionName }}"/>
+		    <input type="hidden" name="eventName"        value="{{ event.eventName }}"/>
+		    <input type="hidden" name="timeShift"        value="{{ event.timeShift }}"/>
+		    <input type="hidden" name="halfDuration"     value="{{ event.halfDuration }}"/>
+		    <input type="hidden" name="latitude"         value="{{ event.latitude }}"/>
+		    <input type="hidden" name="longitude"        value="{{ event.longitude }}"/>
+		    <input type="hidden" name="depth"            value="{{ event.depth }}"/>
+		    <input type="hidden" name="Mrr"              value="{{ event.Mrr }}"/>
+		    <input type="hidden" name="Mtt"              value="{{ event.Mtt }}"/>
+		    <input type="hidden" name="Mpp"              value="{{ event.Mpp }}"/>
+		    <input type="hidden" name="Mrt"              value="{{ event.Mrt }}"/>
+		    <input type="hidden" name="Mrp"              value="{{ event.Mrp }}"/>
+		    <input type="hidden" name="Mtp"              value="{{ event.Mtp }}"/>
+		<input type="submit" value="Add" />
+		</form>
+	    </td>
+            <td valign="top"><img width=49 height=49 src="http://www.seismology.harvard.edu/cgi-bin/webCMTgif/form?mrr={{event.mrr}}&mtt={{event.mtt}}&mpp={{event.mpp}}&mrt={{event.mrt}}&mrp={{event.mrp}}&mtp={{event.mtp}}"></td>
+            <td valign="top">{{ event.eventName }}</td>
+            <td valign="top">{{ event.timeShift }}</td>
+            <td valign="top">{{ event.halfDuration }}</td>
+            <td valign="top">{{ event.latitude }}</td>
+            <td valign="top">{{ event.longitude }}</td>
+            <td valign="top">{{ event.depth }}</td>
+            <td valign="top">{{ event.Mrr }}</td>
+            <td valign="top">{{ event.Mtt }}</td>
+            <td valign="top">{{ event.Mpp }}</td>
+            <td valign="top">{{ event.Mrt }}</td>
+            <td valign="top">{{ event.Mrp }}</td>
+            <td valign="top">{{ event.Mtp }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{% else %}
+    <p>No events found.</p>
+{% endif %}
+
+<p>Powered by<br>
+<a href="http://www.seismology.harvard.edu"><img src="http://www.seismology.harvard.edu/top_sm.gif"  height=54 width=302  alt="H A R V A R D  S E I S M O L O G Y" border=0></a>
+
+{% endblock %}

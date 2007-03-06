@@ -1,0 +1,54 @@
+
+{% extends "stations/base.html" %}
+
+{% block content %}
+
+<h1>Station Search</h1>
+
+<p><a href="../code/">by code</a> | <b>by location</b>
+
+<p>
+{% if form.has_errors %}
+<b class=error>Please correct the following error{{ form.error_dict|pluralize }}:</b>
+{% else %}
+&nbsp;
+{% endif %}
+
+<form method="post" action=".">
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td></td>
+            <td align="center" valign="bottom">
+                max. latitude:<br>
+                {{ form.lat_max }}<br>
+                {% if form.lat_max.errors %}<span class=error>{{ form.lat_max.errors|join:", " }}</span>{% endif %}
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right">
+                min. longitude:<br>
+                {{ form.long_min }}<br>
+                {% if form.long_min.errors %}<span class=error>{{ form.long_min.errors|join:", " }}</span>{% endif %}
+            </td>
+            <td><img src="http://crust.geodynamics.org/~leif/images/map.gif"></td>
+            <td>
+                max. longitude:<br>
+                {{ form.long_max }}<br>
+                {% if form.long_max.errors %}<span class=error>{{ form.long_max.errors|join:", " }}</span>{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center" valign="top">
+                min. latitude:<br>
+                {{ form.lat_min }}<br>
+                {% if form.lat_min.errors %}<span class=error>{{ form.lat_min.errors|join:", " }}</span>{% endif %}
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <p><input type="submit" value="Search" />
+</form>
+
+{% endblock %}

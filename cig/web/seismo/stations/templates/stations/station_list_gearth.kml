@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+    <Document>
+        <Folder>
+            <name>{{ name }}</name>
+            <open>1</open>
+          {% for object in object_list %}
+            <Placemark>
+                <name><![CDATA[{{object.code}} {{object.name}}]]></name>
+                <description><![CDATA[{{ object.description }}]]></description>
+                <Point>
+                    <coordinates>{{object.longitude}},{{object.latitude}},{{object.elevation}}</coordinates>
+                </Point>
+                <IconStyle>
+                    <scale>1.1</scale>
+                    <Icon>
+                        <href>root://icons/palette-3.png</href>
+                        <x>224</x>
+                        <w>32</w>
+                        <h>32</h>
+                    </Icon>
+                </IconStyle>
+                <LabelStyle>
+                    <scale>1.1</scale>
+                </LabelStyle>
+            </Placemark>
+          {% endfor %}
+        </Folder>
+    </Document>
+</kml>

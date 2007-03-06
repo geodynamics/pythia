@@ -1,0 +1,19 @@
+
+{% extends "stations/base.html" %}
+
+{% block content %}
+
+<h1>Station {{ object.code }}</h1>
+
+<table border="0">
+    <tr><td align="right" valign="top">name:</td><td valign="top">{{ object.name }}</td></tr>
+    <tr><td align="right" valign="top">network:</td><td valign="top">{{ object.network.code }} ({{ object.network.name }})</td></tr>
+    <tr><td align="right" valign="top">status:</td><td valign="top">{{ object.status }}</td></tr>
+    <tr><td align="right" valign="top">latitude:</td><td valign="top">{{ object.latitude }}</td></tr>
+    <tr><td align="right" valign="top">longitude:</td><td valign="top">{{ object.longitude }}</td></tr>
+    <tr><td align="right" valign="top">elevation:</td><td valign="top">{{ object.elevation }}</td></tr>
+</table>
+
+<p><a href="http://maps.google.com/maps?ll={{object.latitude}},{{object.longitude}}&spn=3,3">Google Map</a>
+
+{% endblock %}

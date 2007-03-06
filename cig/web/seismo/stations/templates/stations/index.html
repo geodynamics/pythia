@@ -1,0 +1,23 @@
+
+{% extends "stations/base.html" %}
+
+{% block content %}
+
+<h1>Stations</h1>
+
+    <p><font color="#888888">Search for stations</font> ~
+       <a href="create/">Create a station list</a> ~
+       <a href="upload/">Upload a station list</a>
+
+{% if station_lists %}
+    <ul>
+        {% for station_list in station_lists %}
+        <li><a href="{{ station_list.id }}/">{{ station_list.name }}</a>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <p>You have no stations.</p>
+{% endif %}
+
+{% endblock %}

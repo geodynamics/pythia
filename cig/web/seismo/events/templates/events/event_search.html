@@ -1,0 +1,110 @@
+
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<h1>Event Search</h1>
+
+{% if form.has_errors %}
+<p><b class=error>Please correct the following error{{ form.error_dict|pluralize }}:</b>
+{% endif %}
+
+<p>Powered by<br>
+<a href="http://www.seismology.harvard.edu"><img src="http://www.seismology.harvard.edu/top_sm.gif"  height=54 width=302  alt="H A R V A R D  S E I S M O L O G Y" border=0></a>
+
+      <FORM ACTION="." METHOD="POST">
+
+        <table border=0 width="100%">
+          <tr>
+	    <td>Enter parameters for CMT catalog search.  All constraints are 'AND' logic.</td>
+	    <td align="right"><INPUT TYPE="reset" VALUE="Reset"></td>
+          </tr>
+        </table>
+
+	<b>Date constraints:</b>  catalog starts in 1976 and goes through present<br>
+	<small>There are several methods to choose date ranges--use the radio buttons to select which method you want to use</small>
+	<table border=0 cellpadding=4>
+	  <tr>
+	    <th width="40%" align=center>Starting Date:</th>
+	    <th width="40%" align=center>Ending Date:</th>
+	  </tr>
+
+	  <tr>
+	    <td  ><i>
+	      <input type=radio checked name="itype" value="ymd"></input>
+	      Year: <input type="text" name="yr" value="1976" size="4" maxlength="4"></input>
+	      Month: <input type="text" name="mo" value="1" size="2" maxlength="2"></input>
+	      Day: <input type="text" name="day" value="1" size="2" maxlength="2"></input></i>
+	    </td>
+
+	    <td>
+	      <input type=radio name="otype" value="ymd"></input>
+	      <i>Year: <input type="text" name="oyr" value="1976" size="4" maxlength="4"></input>
+	      Month: <input type="text" name="omo" value="1" size="2" maxlength="2"></input>
+	      Day: <input type="text" name="oday" value="1" size="2" maxlength="2"></input></i>
+	    </td>
+
+	  </tr>
+	    <td></td>
+	  <tr>
+	    <td>
+	      <input type=radio name="itype" value="jul"></input>
+	      <i>Year:<input type="text" name="jyr" value="1976" size="4" maxlength="4"></input>
+	      Julian Day: <input type="text" name="jday" value="1" size="3" maxlength="4"></input></i>
+	    </td>
+
+	    <td >
+	      <input type=radio name="otype" value="jul"></input>
+	      <i>Year:<input type="text" name="ojyr" value="1976" size="4" maxlength="4"></input>
+	      Julian Day: <input type="text" name="ojday" value="1" size="3" maxlength="4"></input></i>
+	    </td>
+	  </tr>
+	  <tr><td></td>
+
+	    <td ><input type=radio checked name="otype" value="nd"></input>
+	      <i>Number of days:</i> <input type="text" name="nday" value="1" size="5"  maxlength="6"></input> <small>Including starting day</small>
+	    </td>
+	  </tr>
+	</table>
+	<br>
+
+	<p>
+	  <b>Magnitude constraints:</b> catalog includes moderate to large earthquakes only<br>
+             <small>
+             (see <a href="CMTsearch.html#MWnote">note on calculation of magnitudes</a>)
+             </small><br>
+	<i>Moment magnitude:</i> <input name="lmw" value="0" size="4" maxlength="4"> &lt= Mw &lt= <input name="umw" value="10" size="4" maxlength="4"> 
+	<br>
+
+	<i>Surface wave magnitude:</i> <input name="lms" value="0" size="4" maxlength="4"> &lt= Ms &lt= <input name="ums" value="10" size="4" maxlength="4"> 
+	<br>
+	  <i>Body wave magnitude:</i> <input name="lmb" value="0" size="4" maxlength="4">&lt= mb &lt= <input name="umb" value="10" size="4" maxlength="4">
+	</p>
+	<p>
+
+	  <b>Location constraints:</b><br>
+	  <i>Latitude: (degrees) </i> from <input name="llat" value="-90" size="6" maxlength="6"> to <input name="ulat" value="90" size="6" maxlength="6"> <small>Must be between -90 and 90</small><br> 
+	  <i>Longitude:  (degrees) </i> from <input name="llon" value="-180" size="7" maxlength="7"> to <input name="ulon" value="180" size="7" maxlength="7"> <small>Must be between -180 and 180</small><br>
+
+	  <i>Depth: (kilometers) </i> from <input name="lhd" value="0" size="7" maxlength="7"> to <input name="uhd" value="1000" size="7" maxlength="7"> <small></small>
+	</p>
+	<p>
+	  <b>Source time and mechanism constraints:</b><br>
+	  <i>Centroid time shift: (seconds)</i> from <input name="lts" value="-9999" size="6" maxlength="6"> to <input name="uts" value="9999" size="6" maxlength="6"><br> 
+	  <i>Tension axis plunge: (degrees)</i> from <input name="lpe1" value="0" size="2" maxlength="2"> to <input name="upe1" value="90" size="2" maxlength="2"><br> 
+	  <i>Null axis plunge: (degrees)</i> from <input name="lpe2" value="0" size="2" maxlength="2"> to <input name="upe2" value="90" size="2" maxlength="2"><br> 
+	  <small>Use tension and null axis plunge to search by
+	    mechanism.  For example, thrust faults have large plunge
+	  (&gt;45) of tension axis, strike-slip faults have large
+	  plunge of null axis, and normal faults have small (&lt;45)
+	  for both tension and null axes.</small>
+
+	</p>
+
+	<p>
+	  <input type="hidden" name="list" value="4">
+
+	  <INPUT TYPE="submit" VALUE="Search">
+	</p>
+
+{% endblock %}
