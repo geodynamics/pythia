@@ -43,8 +43,10 @@ class CommandlineParser(object):
 
     def __init__(self):
         self.actions = {
-            'help': ['?', 'h'],
             'complete': ['c'],
+            }
+        self.aliases = {
+            'help': ['?', 'h'],
             }
         self.assignment = '='
         self.prefixes = ['--', '-']
@@ -83,6 +85,8 @@ class CommandlineParser(object):
             candidate = self._filterAction(candidate)
             if candidate is None:
                 continue
+
+            candidate = self._mapAlias(candidate)
 
             lhs, rhs = self._parseArgument(candidate)
             
@@ -140,6 +144,13 @@ class CommandlineParser(object):
         return candidate
 
 
+    def _mapAlias(self, candidate):
+        for realName, args in self.aliases.iteritems():
+            if candidate in args:
+                return realName
+        return candidate
+
+
     def _processArgument(self, key, value, root):
         separator = self.separator
         fields = key.split(separator)
@@ -147,6 +158,8 @@ class CommandlineParser(object):
 
         children = []
         for level, field in enumerate(fields):
+            if not field:
+                raise CommandlineParser.CommandlineException("bad name: '%s'" % key)
             if field[0] == '[' and field[-1] == ']':
                 candidates = field[1:-1].split(',')
             else:

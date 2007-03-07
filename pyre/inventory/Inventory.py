@@ -245,6 +245,12 @@ class Inventory(object):
         return
 
 
+    def showHelp(self):
+        for component in self.components():
+            component.showHelp()
+        return
+
+
     # lower level interface
     def getVault(self):
         """return the address of my vault"""

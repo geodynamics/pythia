@@ -43,6 +43,8 @@
 
 
 from pyre.applications.CommandlineParser import CommandlineParser
+from pyre.inventory.properties.String import String
+from mpi.Application import Application as MPIApplication
 
 
 class PetscCommandlineParser(CommandlineParser):
@@ -68,6 +70,12 @@ class PetscCommandlineParser(CommandlineParser):
             if iname is None:
                 continue
             
+            iname = self._filterAction(iname)
+            if iname is None:
+                continue
+
+            iname = self._mapAlias(iname)
+
             if iname.lower() == "options_file":
                 # NYI
                 if self.argv:
@@ -169,6 +177,56 @@ class PetscFacility(Facility):
         locator = pyre.parsing.locators.simple('built-in')
 
         return petsc, locator
+
+
+
+class PetscProperty(String):
+
+    def __init__(self, name=None, default="", meta=None, validator=None, petscOptionName=None):
+        String.__init__(self, name, default, meta, validator)
+        self._petscOptionName = petscOptionName
+        return
+
+    def _getPetscOptionName(self): return self._petscOptionName or self.name
+    petscOptionName = property(_getPetscOptionName)
+
+
+class PetscApplication(MPIApplication):
+
+
+    class Inventory(MPIApplication.Inventory):
+
+        # a dummy facility for passing arbitrary options to PETSc
+        petsc = PetscFacility("petsc")
+
+
+    def _configure(self):
+
+        super(PetscApplication, self)._configure()
+        
+        import sys
+        
+        self.petscArgs = [sys.executable]
+
+        for prop in self.properties():
+            if isinstance(prop, PetscProperty):
+                descriptor = self.inventory.getTraitDescriptor(prop.name)
+                value = descriptor.value
+                if value:
+                    self.petscArgs.append("-" + prop.petscOptionName)
+                    if value != "true":
+                        self.petscArgs.append(value)
+
+        self.petscArgs.extend(self.inventory.petsc.getArgs())
+
+        return
+
+
+    def onComputeNodes(self, *args, **kwds):
+        petsc = self.petsc
+        petsc.PetscInitialize(self.petscArgs)
+        super(PetscApplication, self).onComputeNodes(*args, **kwds)
+        petsc.PetscFinalize()
 
 
 

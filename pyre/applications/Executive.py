@@ -16,11 +16,13 @@ class Executive(object):
 
 
     # factories
+
+    from CommandlineParser import CommandlineParser
+    
     def createCommandlineParser(self):
         """create a command line parser"""
-        
-        import pyre.applications
-        return pyre.applications.commandlineParser()
+
+        return self.CommandlineParser()
 
 
     def createRegistry(self, name=None):
@@ -88,7 +90,7 @@ class Executive(object):
 
     # user assistance
     def help(self):
-        print 'Please consider writing a help screen for this application'
+        self.showHelp()
         return
 
 
@@ -160,7 +162,9 @@ class Executive(object):
 
 
     def usage(self):
-        print 'Please consider writing a usage screen for this application'
+        from os.path import basename
+        print 'usage: %s [--<property>=<value>] [--<facility>.<property>=<value>] [FILE.cfg] ...' % basename(self.arg0)
+        self.showUsage()
         return
 
 

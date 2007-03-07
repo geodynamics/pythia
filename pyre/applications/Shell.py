@@ -11,7 +11,7 @@
 #
 
 
-from pyre.components import Component
+from pyre.inventory.Configurable import Configurable
 
 
 try:
@@ -21,7 +21,7 @@ except ImportError:
     defaultExceptHook = "current"
 
 
-class Shell(Component):
+class Shell(Configurable):
 
 
     import pyre.hooks
@@ -34,7 +34,7 @@ class Shell(Component):
 
 
     def __init__(self, app):
-        Component.__init__(self, app.name)
+        Configurable.__init__(self, app.name)
 
         self.app = app
         self.registry = None
@@ -100,6 +100,7 @@ class Shell(Component):
 
         # verify that the application input did not contain any typos
         if not app.verifyConfiguration(context, app.inventory.typos):
+            app.usage()
             import sys
             sys.exit("%s: configuration error(s)" % app.name)
 
@@ -112,8 +113,8 @@ class Shell(Component):
         action = action and getattr(app, action)
         if action:
             action()
-        elif app._showHelpOnly:
-            pass
+        elif app._helpRequested:
+            app.help()
         else:
             message = kwds.get('message', 'execute')
             method = getattr(app, message)

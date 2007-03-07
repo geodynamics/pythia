@@ -51,35 +51,44 @@ class Component(Configurable):
         Configurable.__init__(self, name)
         #self.facility = facility # not used
 
-        self._showHelpOnly = False
-        
+        self._helpRequested = False
+
         return
 
 
-    def _init(self):
-        Configurable._init(self)
+    def _configure(self):
+        Configurable._configure(self)
+        if (self.inventory.usage or
+            self.inventory.showProperties or
+            self.inventory.showComponents or
+            self.inventory.showCurator):
+            self._helpRequested = True
+        else:
+            for component in self.components():
+                if component._helpRequested:
+                    self._helpRequested = True
+                    break
+        return
 
+
+    def showHelp(self):
+        self.inventory.showHelp()
+        self._showHelp()
+        return
+
+
+    def _showHelp(self):
         if self.inventory.usage:
             self.showUsage()
-            self._showHelpOnly = True
 
         if self.inventory.showProperties:
             self.showProperties()
-            self._showHelpOnly = True
 
         if self.inventory.showComponents:
             self.showComponents()
-            self._showHelpOnly = True
 
         if self.inventory.showCurator:
             self.showCurator()
-            self._showHelpOnly = True
-
-        if not self._showHelpOnly:
-            for component in self.components():
-                if component._showHelpOnly:
-                    self._showHelpOnly = True
-                    break
 
         return
 
