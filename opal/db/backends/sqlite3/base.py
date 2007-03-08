@@ -45,8 +45,8 @@ class DatabaseWrapper(local):
                 detect_types=Database.PARSE_DECLTYPES | Database.PARSE_COLNAMES)
 
             # Register extract and date_trunc functions.
-            self.connection.create_function("django_extract", 2, _sqlite_extract)
-            self.connection.create_function("django_date_trunc", 2, _sqlite_date_trunc)
+            self.connection.create_function("opal_extract", 2, _sqlite_extract)
+            self.connection.create_function("opal_date_trunc", 2, _sqlite_date_trunc)
         cursor = self.connection.cursor(factory=SQLiteCursorWrapper)
         cursor.row_factory = utf8rowFactory
         if settings.DEBUG:
@@ -101,7 +101,7 @@ def get_date_extract_sql(lookup_type, table_name):
     # lookup_type is 'year', 'month', 'day'
     # sqlite doesn't support extract, so we fake it with the user-defined
     # function _sqlite_extract that's registered in connect(), above.
-    return 'django_extract("%s", %s)' % (lookup_type.lower(), table_name)
+    return 'opal_extract("%s", %s)' % (lookup_type.lower(), table_name)
 
 def _sqlite_extract(lookup_type, dt):
     try:
@@ -113,7 +113,7 @@ def _sqlite_extract(lookup_type, dt):
 def get_date_trunc_sql(lookup_type, field_name):
     # lookup_type is 'year', 'month', 'day'
     # sqlite doesn't support DATE_TRUNC, so we fake it as above.
-    return 'django_date_trunc("%s", %s)' % (lookup_type.lower(), field_name)
+    return 'opal_date_trunc("%s", %s)' % (lookup_type.lower(), field_name)
 
 def get_limit_offset_sql(limit, offset=None):
     sql = "LIMIT %s" % limit

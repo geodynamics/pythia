@@ -1,5 +1,5 @@
 from opal.contrib.redirects.models import Redirect
-from django import http
+from opal import http
 from opal.conf import settings
 
 class RedirectFallbackMiddleware(object):

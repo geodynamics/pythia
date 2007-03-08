@@ -24,7 +24,7 @@ class LogEntry(models.Model):
     class Meta:
         verbose_name = _('log entry')
         verbose_name_plural = _('log entries')
-        db_table = 'django_admin_log'
+        db_table = 'opal_admin_log'
         ordering = ('-action_time',)
 
     def __repr__(self):

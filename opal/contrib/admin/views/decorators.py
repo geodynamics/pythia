@@ -1,4 +1,4 @@
-from django import http, template
+from opal import http, template
 from opal.conf import settings
 from opal.contrib.auth.models import User
 from opal.contrib.auth import authenticate, login

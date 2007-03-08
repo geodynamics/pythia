@@ -1,4 +1,4 @@
-from django import template
+from opal import template
 from opal.db.models import get_models
 
 register = template.Library()

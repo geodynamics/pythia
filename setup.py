@@ -13,9 +13,15 @@ setup(
     packages = find_packages(),
     # include everything under version control
     include_package_data = True,
+
+    entry_points = {
+        'console_scripts': [
+            'opal = opal.core.management:execute_from_command_line [opal]',
+        ],
+    },
     
     install_requires = [
-    'Cheetah',
+        'Cheetah',
     ],
 
     extras_require = {
@@ -37,7 +43,6 @@ setup(
     'pulse':    [],
     'rigid':    [],
     
-    # Standalone, but might depend upon Django someday :-)
     'opal':    [],
     },
     

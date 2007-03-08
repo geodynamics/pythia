@@ -1,4 +1,4 @@
-from django import forms, template
+from opal import forms, template
 from opal.conf import settings
 from opal.contrib.admin.filterspecs import FilterSpec
 from opal.contrib.admin.views.decorators import staff_member_required

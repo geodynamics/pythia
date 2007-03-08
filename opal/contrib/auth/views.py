@@ -1,6 +1,6 @@
 from opal.contrib.auth.forms import AuthenticationForm
 from opal.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
-from django import forms
+from opal import forms
 from opal.shortcuts import render_to_response
 from opal.template import RequestContext
 from opal.contrib.sites.models import Site

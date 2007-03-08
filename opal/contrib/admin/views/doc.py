@@ -1,4 +1,4 @@
-from django import template, templatetags
+from opal import template, templatetags
 from opal.template import RequestContext
 from opal.conf import settings
 from opal.contrib.admin.views.decorators import staff_member_required

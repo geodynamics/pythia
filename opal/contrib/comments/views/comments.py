@@ -1,5 +1,5 @@
 from opal.core import validators
-from django import forms
+from opal import forms
 from opal.core.mail import mail_admins, mail_managers
 from opal.http import Http404
 from opal.core.exceptions import ObjectDoesNotExist

@@ -1,6 +1,6 @@
 from opal.core import signals
 from opal.dispatch import dispatcher
-from django import http
+from opal import http
 import sys
 
 class BaseHandler(object):

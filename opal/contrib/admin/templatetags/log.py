@@ -1,4 +1,4 @@
-from django import template
+from opal import template
 from opal.contrib.admin.models import LogEntry
 
 register = template.Library()

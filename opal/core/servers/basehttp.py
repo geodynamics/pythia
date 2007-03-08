@@ -600,7 +600,7 @@ class AdminMediaHandler(object):
     """
     def __init__(self, application):
         from opal.conf import settings
-        import django
+        import opal
         self.application = application
         self.media_dir = opal.__path__[0] + '/contrib/admin/media'
         self.media_url = settings.ADMIN_MEDIA_PREFIX

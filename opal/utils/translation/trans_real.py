@@ -61,7 +61,7 @@ class DjangoTranslation(gettext_module.GNUTranslations):
             self.set_output_charset(settings.DEFAULT_CHARSET)
         except AttributeError:
             pass
-        self.django_output_charset = settings.DEFAULT_CHARSET
+        self.opal_output_charset = settings.DEFAULT_CHARSET
         self.__language = '??'
 
     def merge(self, other):
@@ -87,11 +87,11 @@ class DjangoTranslation23(DjangoTranslation):
     """
     def gettext(self, msgid):
         res = self.ugettext(msgid)
-        return res.encode(self.django_output_charset)
+        return res.encode(self.opal_output_charset)
 
     def ngettext(self, msgid1, msgid2, n):
         res = self.ungettext(msgid1, msgid2, n)
-        return res.encode(self.django_output_charset)
+        return res.encode(self.opal_output_charset)
 
 def translation(language):
     """
@@ -305,11 +305,11 @@ def get_language_from_request(request):
     supported = dict(settings.LANGUAGES)
 
     if hasattr(request, 'session'):
-        lang_code = request.session.get('django_language', None)
+        lang_code = request.session.get('opal_language', None)
         if lang_code in supported and lang_code is not None and check_for_language(lang_code):
             return lang_code
 
-    lang_code = request.COOKIES.get('django_language', None)
+    lang_code = request.COOKIES.get('opal_language', None)
     if lang_code in supported and lang_code is not None and check_for_language(lang_code):
         return lang_code
 

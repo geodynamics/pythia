@@ -22,7 +22,7 @@ class ContentType(models.Model):
     class Meta:
         verbose_name = _('content type')
         verbose_name_plural = _('content types')
-        db_table = 'django_content_type'
+        db_table = 'opal_content_type'
         ordering = ('name',)
         unique_together = (('app_label', 'model'),)
 

@@ -53,7 +53,7 @@ class Session(models.Model):
     expire_date = models.DateTimeField(_('expire date'))
     objects = SessionManager()
     class Meta:
-        db_table = 'django_session'
+        db_table = 'opal_session'
         verbose_name = _('session')
         verbose_name_plural = _('sessions')
 

@@ -1,6 +1,6 @@
 from opal.core.xheaders import populate_xheaders
 from opal.template import loader
-from django import forms
+from opal import forms
 from opal.db.models import FileField
 from opal.contrib.auth.views import redirect_to_login
 from opal.template import RequestContext

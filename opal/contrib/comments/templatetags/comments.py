@@ -1,7 +1,7 @@
 from opal.contrib.comments.models import Comment, FreeComment
 from opal.contrib.comments.models import PHOTOS_REQUIRED, PHOTOS_OPTIONAL, RATINGS_REQUIRED, RATINGS_OPTIONAL, IS_PUBLIC
 from opal.contrib.comments.models import MIN_PHOTO_DIMENSION, MAX_PHOTO_DIMENSION
-from django import template
+from opal import template
 from opal.template import loader
 from opal.core.exceptions import ObjectDoesNotExist
 from opal.contrib.contenttypes.models import ContentType

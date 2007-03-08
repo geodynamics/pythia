@@ -1,7 +1,7 @@
 # Django management-related functions, including "CREATE TABLE" generation and
 # development-server initialization.
 
-import django
+import opal
 from opal.core.exceptions import ImproperlyConfigured
 import os, re, shutil, sys, textwrap
 from optparse import OptionParser
@@ -75,11 +75,7 @@ get_rel_data_type = lambda f: (f.get_internal_type() in ('AutoField', 'PositiveI
 
 def get_version():
     "Returns the version as a human-format string."
-    from django import VERSION
-    v = '.'.join([str(i) for i in VERSION[:-1]])
-    if VERSION[-1]:
-        v += '-' + VERSION[-1]
-    return v
+    return "0.8.1"
 
 def get_sql_create(app):
     "Returns a list of the CREATE TABLE SQL statements for the given app."

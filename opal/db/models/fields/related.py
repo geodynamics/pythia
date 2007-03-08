@@ -5,7 +5,7 @@ from opal.db.models.related import RelatedObject
 from opal.utils.translation import gettext_lazy, string_concat
 from opal.utils.functional import curry
 from opal.core import validators
-from django import forms
+from opal import forms
 from opal.dispatch import dispatcher
 
 # For Python 2.3

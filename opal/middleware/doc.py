@@ -1,5 +1,5 @@
 from opal.conf import settings
-from django import http
+from opal import http
 
 class XViewMiddleware(object):
     """

@@ -3,7 +3,7 @@ from opal.contrib.auth import authenticate
 from opal.contrib.sites.models import Site
 from opal.template import Context, loader
 from opal.core import validators
-from django import forms
+from opal import forms
 
 class AuthenticationForm(forms.Manipulator):
     """

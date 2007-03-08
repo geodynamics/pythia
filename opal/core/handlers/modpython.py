@@ -2,7 +2,7 @@ from opal.core.handlers.base import BaseHandler
 from opal.core import signals
 from opal.dispatch import dispatcher
 from opal.utils import datastructures
-from django import http
+from opal import http
 from pprint import pformat
 import os
 

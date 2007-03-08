@@ -1,4 +1,4 @@
-from django import http
+from opal import http
 from opal.utils.translation import check_for_language, activate, to_locale, get_language
 from opal.utils.text import javascript_quote
 from opal.conf import settings
@@ -20,9 +20,9 @@ def set_language(request):
     response = http.HttpResponseRedirect(next)
     if check_for_language(lang_code):
         if hasattr(request, 'session'):
-            request.session['django_language'] = lang_code
+            request.session['opal_language'] = lang_code
         else:
-            response.set_cookie('django_language', lang_code)
+            response.set_cookie('opal_language', lang_code)
     return response
 
 NullSource = """

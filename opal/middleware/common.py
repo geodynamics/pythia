@@ -1,5 +1,5 @@
 from opal.conf import settings
-from django import http
+from opal import http
 from opal.core.mail import mail_managers
 import md5
 

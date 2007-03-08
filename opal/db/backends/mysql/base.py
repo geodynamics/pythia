@@ -16,8 +16,8 @@ import types
 
 DatabaseError = Database.DatabaseError
 
-django_conversions = conversions.copy()
-django_conversions.update({
+opal_conversions = conversions.copy()
+opal_conversions.update({
     types.BooleanType: util.rev_typecast_boolean,
     FIELD_TYPE.DATETIME: util.typecast_timestamp,
     FIELD_TYPE.DATE: util.typecast_date,
@@ -79,7 +79,7 @@ class DatabaseWrapper(local):
                 'user': settings.DATABASE_USER,
                 'db': settings.DATABASE_NAME,
                 'passwd': settings.DATABASE_PASSWORD,
-                'conv': django_conversions,
+                'conv': opal_conversions,
             }
             if settings.DATABASE_HOST.startswith('/'):
                 kwargs['unix_socket'] = settings.DATABASE_HOST

@@ -1,4 +1,4 @@
-from django import template
+from opal import template
 import re
 
 register = template.Library()

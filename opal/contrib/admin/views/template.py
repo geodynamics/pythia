@@ -1,6 +1,6 @@
 from opal.contrib.admin.views.decorators import staff_member_required
 from opal.core import validators
-from django import template, forms
+from opal import template, forms
 from opal.template import loader
 from opal.shortcuts import render_to_response
 from opal.contrib.sites.models import Site

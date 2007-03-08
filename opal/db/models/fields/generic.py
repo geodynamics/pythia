@@ -2,7 +2,7 @@
 Classes allowing "generic" relations through ContentType and object-id fields.
 """
 
-from django import forms
+from opal import forms
 from opal.core.exceptions import ObjectDoesNotExist
 from opal.db import backend
 from opal.db.models import signals

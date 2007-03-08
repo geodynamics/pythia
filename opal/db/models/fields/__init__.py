@@ -2,7 +2,7 @@ from opal.db.models import signals
 from opal.dispatch import dispatcher
 from opal.conf import settings
 from opal.core import validators
-from django import forms
+from opal import forms
 from opal.core.exceptions import ObjectDoesNotExist
 from opal.utils.functional import curry
 from opal.utils.text import capfirst

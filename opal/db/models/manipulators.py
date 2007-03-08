@@ -1,5 +1,5 @@
 from opal.core.exceptions import ObjectDoesNotExist
-from django import forms
+from opal import forms
 from opal.core import validators
 from opal.db.models.fields import FileField, AutoField
 from opal.dispatch import dispatcher

@@ -1,4 +1,4 @@
-from django import template
+from opal import template
 from opal.contrib.admin.views.main import AdminBoundField
 from opal.template import loader
 from opal.utils.text import capfirst
