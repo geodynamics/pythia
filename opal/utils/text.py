@@ -1,6 +1,6 @@
 import re
 
-from django.conf import settings
+from opal.conf import settings
 
 # Capitalizes the first letter of a string.
 capfirst = lambda x: x and x[0].upper() + x[1:]

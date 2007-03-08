@@ -1,6 +1,6 @@
-from django.conf import settings
-from django.db import models
-from django.db.models.fields import FieldDoesNotExist
+from opal.conf import settings
+from opal.db import models
+from opal.db.models.fields import FieldDoesNotExist
 
 class CurrentSiteManager(models.Manager):
     "Use this to limit objects to those associated with the current site."

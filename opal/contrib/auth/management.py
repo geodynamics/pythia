@@ -2,9 +2,9 @@
 Creates permissions for all installed apps that need permissions.
 """
 
-from django.dispatch import dispatcher
-from django.db.models import get_models, signals
-from django.contrib.auth import models as auth_app
+from opal.dispatch import dispatcher
+from opal.db.models import get_models, signals
+from opal.contrib.auth import models as auth_app
 
 def _get_permission_codename(action, opts):
     return '%s_%s' % (action, opts.object_name.lower())
@@ -17,8 +17,8 @@ def _get_all_permissions(opts):
     return perms + list(opts.permissions)
 
 def create_permissions(app, created_models):
-    from django.contrib.contenttypes.models import ContentType
-    from django.contrib.auth.models import Permission
+    from opal.contrib.contenttypes.models import ContentType
+    from opal.contrib.auth.models import Permission
     app_models = get_models(app)
     if not app_models:
         return
@@ -31,8 +31,8 @@ def create_permissions(app, created_models):
                 print "Adding permission '%s'" % p
 
 def create_superuser(app, created_models):
-    from django.contrib.auth.models import User
-    from django.contrib.auth.create_superuser import createsuperuser as do_create
+    from opal.contrib.auth.models import User
+    from opal.contrib.auth.create_superuser import createsuperuser as do_create
     if User in created_models:
         msg = "\nYou just installed Django's auth system, which means you don't have " \
                 "any superusers defined.\nWould you like to create one now? (yes/no): "

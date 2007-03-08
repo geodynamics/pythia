@@ -1,5 +1,5 @@
-from django.contrib.auth import LOGIN_URL, REDIRECT_FIELD_NAME
-from django.http import HttpResponseRedirect
+from opal.contrib.auth import LOGIN_URL, REDIRECT_FIELD_NAME
+from opal.http import HttpResponseRedirect
 from urllib import quote
 
 def user_passes_test(test_func, login_url=LOGIN_URL):

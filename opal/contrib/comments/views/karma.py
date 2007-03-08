@@ -1,7 +1,7 @@
-from django.http import Http404
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.contrib.comments.models import Comment, KarmaScore
+from opal.http import Http404
+from opal.shortcuts import render_to_response
+from opal.template import RequestContext
+from opal.contrib.comments.models import Comment, KarmaScore
 
 def vote(request, comment_id, vote):
     """

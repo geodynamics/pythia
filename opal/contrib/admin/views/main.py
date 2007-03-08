@@ -1,25 +1,25 @@
 from django import forms, template
-from django.conf import settings
-from django.contrib.admin.filterspecs import FilterSpec
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.cache import never_cache
-from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist, PermissionDenied
-from django.core.paginator import ObjectPaginator, InvalidPage
-from django.shortcuts import get_object_or_404, render_to_response
-from django.db import models
-from django.db.models.query import handle_legacy_orderlist, QuerySet
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.utils.html import escape
-from django.utils.text import capfirst, get_text_list
+from opal.conf import settings
+from opal.contrib.admin.filterspecs import FilterSpec
+from opal.contrib.admin.views.decorators import staff_member_required
+from opal.views.decorators.cache import never_cache
+from opal.contrib.contenttypes.models import ContentType
+from opal.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist, PermissionDenied
+from opal.core.paginator import ObjectPaginator, InvalidPage
+from opal.shortcuts import get_object_or_404, render_to_response
+from opal.db import models
+from opal.db.models.query import handle_legacy_orderlist, QuerySet
+from opal.http import Http404, HttpResponse, HttpResponseRedirect
+from opal.utils.html import escape
+from opal.utils.text import capfirst, get_text_list
 import operator
 
-from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from opal.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 if not LogEntry._meta.installed:
-    raise ImproperlyConfigured, "You'll need to put 'django.contrib.admin' in your INSTALLED_APPS setting before you can use the admin application."
+    raise ImproperlyConfigured, "You'll need to put 'opal.contrib.admin' in your INSTALLED_APPS setting before you can use the admin application."
 
-if 'django.core.context_processors.auth' not in settings.TEMPLATE_CONTEXT_PROCESSORS:
-    raise ImproperlyConfigured, "You'll need to put 'django.core.context_processors.auth' in your TEMPLATE_CONTEXT_PROCESSORS setting before you can use the admin application."
+if 'opal.core.context_processors.auth' not in settings.TEMPLATE_CONTEXT_PROCESSORS:
+    raise ImproperlyConfigured, "You'll need to put 'opal.core.context_processors.auth' in your TEMPLATE_CONTEXT_PROCESSORS setting before you can use the admin application."
 
 # The system will display a "Show all" link on the change list only if the
 # total result count is less than or equal to this setting.

@@ -1,8 +1,8 @@
-from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
-from django.template import Context, loader, Template, TemplateDoesNotExist
-from django.contrib.sites.models import Site
-from django.utils import feedgenerator
-from django.conf import settings
+from opal.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from opal.template import Context, loader, Template, TemplateDoesNotExist
+from opal.contrib.sites.models import Site
+from opal.utils import feedgenerator
+from opal.conf import settings
 
 def add_domain(domain, url):
     if not url.startswith('http://'):

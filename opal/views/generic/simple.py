@@ -1,6 +1,6 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseGone
+from opal.shortcuts import render_to_response
+from opal.template import RequestContext
+from opal.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseGone
 
 def direct_to_template(request, template, **kwargs):
     """
@@ -18,7 +18,7 @@ def redirect_to(request, url, **kwargs):
     ``/foo/<id>/`` to ``/bar/<id>/``, you could use the following URLconf::
 
         urlpatterns = patterns('',
-            ('^foo/(?p<id>\d+)/$', 'django.views.generic.simple.redirect_to', {'url' : '/bar/%(id)s/'}),
+            ('^foo/(?p<id>\d+)/$', 'opal.views.generic.simple.redirect_to', {'url' : '/bar/%(id)s/'}),
         )
 
     If the given url is ``None``, a HttpResponseGone (410) will be issued.

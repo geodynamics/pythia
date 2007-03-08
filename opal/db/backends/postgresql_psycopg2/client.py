@@ -1,1 +1,1 @@
-from django.db.backends.postgresql.client import *
+from opal.db.backends.postgresql.client import *

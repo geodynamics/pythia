@@ -1,7 +1,7 @@
 # Wrapper for loading templates from the filesystem.
 
-from django.conf import settings
-from django.template import TemplateDoesNotExist
+from opal.conf import settings
+from opal.template import TemplateDoesNotExist
 import os
 
 def get_template_sources(template_name, template_dirs=None):

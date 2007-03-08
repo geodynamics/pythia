@@ -1,12 +1,12 @@
-from django.core.exceptions import ObjectDoesNotExist
+from opal.core.exceptions import ObjectDoesNotExist
 from django import forms
-from django.core import validators
-from django.db.models.fields import FileField, AutoField
-from django.dispatch import dispatcher
-from django.db.models import signals
-from django.utils.functional import curry
-from django.utils.datastructures import DotExpandedDict
-from django.utils.text import capfirst
+from opal.core import validators
+from opal.db.models.fields import FileField, AutoField
+from opal.dispatch import dispatcher
+from opal.db.models import signals
+from opal.utils.functional import curry
+from opal.utils.datastructures import DotExpandedDict
+from opal.utils.text import capfirst
 import types
 
 def add_manipulators(sender):
@@ -272,8 +272,8 @@ class AutomaticChangeManipulator(AutomaticManipulator):
         super(AutomaticChangeManipulator, self).__init__(follow=follow)
 
 def manipulator_validator_unique_together(field_name_list, opts, self, field_data, all_data):
-    from django.db.models.fields.related import ManyToOneRel
-    from django.utils.text import get_text_list
+    from opal.db.models.fields.related import ManyToOneRel
+    from opal.utils.text import get_text_list
     field_list = [opts.get_field(field_name) for field_name in field_name_list]
     if isinstance(field_list[0].rel, ManyToOneRel):
         kwargs = {'%s__%s__iexact' % (field_name_list[0], field_list[0].rel.field_name): field_data}
@@ -303,7 +303,7 @@ def manipulator_validator_unique_together(field_name_list, opts, self, field_dat
             {'object': capfirst(opts.verbose_name), 'type': field_list[0].verbose_name, 'field': get_text_list(field_name_list[1:], 'and')}
 
 def manipulator_validator_unique_for_date(from_field, date_field, opts, lookup_type, self, field_data, all_data):
-    from django.db.models.fields.related import ManyToOneRel
+    from opal.db.models.fields.related import ManyToOneRel
     date_str = all_data.get(date_field.get_manipulator_field_names('')[0], None)
     date_val = forms.DateField.html2python(date_str)
     if date_val is None:

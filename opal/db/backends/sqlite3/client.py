@@ -1,4 +1,4 @@
-from django.conf import settings
+from opal.conf import settings
 import os
 
 def runshell():

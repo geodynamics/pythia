@@ -20,9 +20,9 @@
 # Python eggs) sets is_usable to False if the "pkg_resources" module isn't
 # installed, because pkg_resources is necessary to read eggs.
 
-from django.core.exceptions import ImproperlyConfigured
-from django.template import Origin, Template, Context, TemplateDoesNotExist, add_to_builtins
-from django.conf import settings
+from opal.core.exceptions import ImproperlyConfigured
+from opal.template import Origin, Template, Context, TemplateDoesNotExist, add_to_builtins
+from opal.conf import settings
 
 template_source_loaders = None
 
@@ -113,4 +113,4 @@ def select_template(template_name_list):
     # If we get here, none of the templates could be loaded
     raise TemplateDoesNotExist, ', '.join(template_name_list)
 
-add_to_builtins('django.template.loader_tags')
+add_to_builtins('opal.template.loader_tags')

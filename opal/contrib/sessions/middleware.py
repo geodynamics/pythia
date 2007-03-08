@@ -1,6 +1,6 @@
-from django.conf import settings
-from django.contrib.sessions.models import Session
-from django.utils.cache import patch_vary_headers
+from opal.conf import settings
+from opal.contrib.sessions.models import Session
+from opal.utils.cache import patch_vary_headers
 import datetime
 
 TEST_COOKIE_NAME = 'testcookie'

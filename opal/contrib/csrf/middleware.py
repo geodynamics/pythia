@@ -5,8 +5,8 @@ This module provides a middleware that implements protection
 against request forgeries from other sites. 
 
 """
-from django.conf import settings
-from django.http import HttpResponseForbidden
+from opal.conf import settings
+from opal.http import HttpResponseForbidden
 import md5
 import re
 import itertools

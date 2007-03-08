@@ -1,7 +1,7 @@
 from django import http
-from django.utils.translation import check_for_language, activate, to_locale, get_language
-from django.utils.text import javascript_quote
-from django.conf import settings
+from opal.utils.translation import check_for_language, activate, to_locale, get_language
+from opal.utils.text import javascript_quote
+from opal.conf import settings
 import os
 import gettext as gettext_module
 
@@ -89,7 +89,7 @@ def javascript_catalog(request, domain='djangojs', packages=None):
 
     Receives the list of packages to check for translations in the
     packages parameter either from an infodict or as a +-delimited
-    string from the request. Default is 'django.conf'.
+    string from the request. Default is 'opal.conf'.
 
     Additionally you can override the gettext domain for this view,
     but usually you don't want to do that, as JavaScript messages
@@ -101,10 +101,10 @@ def javascript_catalog(request, domain='djangojs', packages=None):
             if check_for_language(request.GET['language']):
                 activate(request.GET['language'])
     if packages is None:
-        packages = ['django.conf']
+        packages = ['opal.conf']
     if type(packages) in (str, unicode):
         packages = packages.split('+')
-    packages = [p for p in packages if p == 'django.conf' or p in settings.INSTALLED_APPS]
+    packages = [p for p in packages if p == 'opal.conf' or p in settings.INSTALLED_APPS]
     default_locale = to_locale(settings.LANGUAGE_CODE)
     locale = to_locale(get_language())
     t = {}

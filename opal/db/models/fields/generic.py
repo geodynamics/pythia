@@ -3,13 +3,13 @@ Classes allowing "generic" relations through ContentType and object-id fields.
 """
 
 from django import forms
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import backend
-from django.db.models import signals
-from django.db.models.fields.related import RelatedField, Field, ManyToManyRel
-from django.db.models.loading import get_model
-from django.dispatch import dispatcher
-from django.utils.functional import curry
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.db import backend
+from opal.db.models import signals
+from opal.db.models.fields.related import RelatedField, Field, ManyToManyRel
+from opal.db.models.loading import get_model
+from opal.dispatch import dispatcher
+from opal.utils.functional import curry
 
 class GenericForeignKey(object):
     """
@@ -154,7 +154,7 @@ class ReverseGenericRelatedObjectsDescriptor(object):
             raise AttributeError, "Manager must be accessed via instance"
 
         # This import is done here to avoid circular import importing this module
-        from django.contrib.contenttypes.models import ContentType
+        from opal.contrib.contenttypes.models import ContentType
 
         # Dynamically create a class that subclasses the related model's
         # default manager.

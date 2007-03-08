@@ -2,8 +2,8 @@
 # of MVC. In other words, these functions/classes introduce controlled coupling
 # for convenience's sake.
 
-from django.template import loader
-from django.http import HttpResponse, Http404
+from opal.template import loader
+from opal.http import HttpResponse, Http404
 
 
 def render_to_response(*args, **kwargs):

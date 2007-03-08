@@ -6,7 +6,7 @@ try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
-from django.db import models
+from opal.db import models
 
 class SerializationError(Exception):
     """Something bad happened during serialization."""

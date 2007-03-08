@@ -1,10 +1,10 @@
-from django.contrib.comments.models import Comment, FreeComment
-from django.contrib.comments.models import PHOTOS_REQUIRED, PHOTOS_OPTIONAL, RATINGS_REQUIRED, RATINGS_OPTIONAL, IS_PUBLIC
-from django.contrib.comments.models import MIN_PHOTO_DIMENSION, MAX_PHOTO_DIMENSION
+from opal.contrib.comments.models import Comment, FreeComment
+from opal.contrib.comments.models import PHOTOS_REQUIRED, PHOTOS_OPTIONAL, RATINGS_REQUIRED, RATINGS_OPTIONAL, IS_PUBLIC
+from opal.contrib.comments.models import MIN_PHOTO_DIMENSION, MAX_PHOTO_DIMENSION
 from django import template
-from django.template import loader
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.contenttypes.models import ContentType
+from opal.template import loader
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.contrib.contenttypes.models import ContentType
 import re
 
 register = template.Library()
@@ -25,7 +25,7 @@ class CommentFormNode(template.Node):
         self.is_public = is_public
 
     def render(self, context):
-        from django.utils.text import normalize_newlines
+        from opal.utils.text import normalize_newlines
         import base64
         context.push()
         if self.obj_id_lookup_var is not None:
@@ -76,7 +76,7 @@ class CommentCountNode(template.Node):
         self.var_name, self.free = var_name, free
 
     def render(self, context):
-        from django.conf import settings
+        from opal.conf import settings
         manager = self.free and FreeComment.objects or Comment.objects
         if self.context_var_name is not None:
             self.obj_id = template.resolve_variable(self.context_var_name, context)
@@ -95,7 +95,7 @@ class CommentListNode(template.Node):
         self.extra_kwargs = extra_kwargs or {}
 
     def render(self, context):
-        from django.conf import settings
+        from opal.conf import settings
         get_list_function = self.free and FreeComment.objects.filter or Comment.objects.get_list_with_karma
         if self.context_var_name is not None:
             try:

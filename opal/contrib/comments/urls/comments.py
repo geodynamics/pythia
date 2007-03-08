@@ -1,6 +1,6 @@
-from django.conf.urls.defaults import *
+from opal.conf.urls.defaults import *
 
-urlpatterns = patterns('django.contrib.comments.views',
+urlpatterns = patterns('opal.contrib.comments.views',
     (r'^post/$', 'comments.post_comment'),
     (r'^postfree/$', 'comments.post_free_comment'),
     (r'^posted/$', 'comments.comment_was_posted'),

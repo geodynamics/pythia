@@ -1,7 +1,7 @@
 "Utilities for loading models and the modules that contain them."
 
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from opal.conf import settings
+from opal.core.exceptions import ImproperlyConfigured
 import sys
 import os
 

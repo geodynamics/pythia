@@ -1,4 +1,4 @@
-from django.db.backends.postgresql_psycopg2.base import quote_name
+from opal.db.backends.postgresql_psycopg2.base import quote_name
 
 def get_table_list(cursor):
     "Returns a list of table names in the current database."

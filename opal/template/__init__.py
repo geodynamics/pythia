@@ -56,10 +56,10 @@ times with multiple contexts)
 """
 import re
 from inspect import getargspec
-from django.conf import settings
-from django.template.context import Context, RequestContext, ContextPopException
-from django.utils.functional import curry
-from django.utils.text import smart_split
+from opal.conf import settings
+from opal.template.context import Context, RequestContext, ContextPopException
+from opal.utils.functional import curry
+from opal.utils.text import smart_split
 
 __all__ = ('Template', 'Context', 'RequestContext', 'compile_string')
 
@@ -862,7 +862,7 @@ class Library(object):
                     dict = func(*args)
 
                     if not getattr(self, 'nodelist', False):
-                        from django.template.loader import get_template
+                        from opal.template.loader import get_template
                         t = get_template(file_name)
                         self.nodelist = t.nodelist
                     return self.nodelist.render(context_class(dict))
@@ -890,5 +890,5 @@ def get_library(module_name):
 def add_to_builtins(module_name):
     builtins.append(get_library(module_name))
 
-add_to_builtins('django.template.defaulttags')
-add_to_builtins('django.template.defaultfilters')
+add_to_builtins('opal.template.defaulttags')
+add_to_builtins('opal.template.defaultfilters')

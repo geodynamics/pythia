@@ -1,6 +1,6 @@
 "Daily cleanup file"
 
-from django.db import backend, connection, transaction
+from opal.db import backend, connection, transaction
 
 DOCUMENTATION_DIRECTORY = '/home/html/documentation/'
 

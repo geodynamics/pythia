@@ -1,10 +1,10 @@
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.http import Http404
-from django.contrib.comments.models import Comment, ModeratorDeletion, UserFlag
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.conf import settings
+from opal.shortcuts import render_to_response, get_object_or_404
+from opal.template import RequestContext
+from opal.http import Http404
+from opal.contrib.comments.models import Comment, ModeratorDeletion, UserFlag
+from opal.contrib.auth.decorators import login_required
+from opal.http import HttpResponseRedirect
+from opal.conf import settings
 
 def flag(request, comment_id):
     """

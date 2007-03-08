@@ -1,14 +1,14 @@
 from django import template, templatetags
-from django.template import RequestContext
-from django.conf import settings
-from django.contrib.admin.views.decorators import staff_member_required
-from django.db import models
-from django.shortcuts import render_to_response
-from django.core.exceptions import ImproperlyConfigured, ViewDoesNotExist
-from django.http import Http404, get_host
-from django.core import urlresolvers
-from django.contrib.admin import utils
-from django.contrib.sites.models import Site
+from opal.template import RequestContext
+from opal.conf import settings
+from opal.contrib.admin.views.decorators import staff_member_required
+from opal.db import models
+from opal.shortcuts import render_to_response
+from opal.core.exceptions import ImproperlyConfigured, ViewDoesNotExist
+from opal.http import Http404, get_host
+from opal.core import urlresolvers
+from opal.contrib.admin import utils
+from opal.contrib.sites.models import Site
 import inspect, os, re
 
 # Exclude methods starting with these strings from documentation
@@ -270,7 +270,7 @@ def load_all_installed_template_libraries():
         libraries = [os.path.splitext(p)[0] for p in os.listdir(e) if p.endswith('.py') and p[0].isalpha()]
         for library_name in libraries:
             try:
-                lib = template.get_library("django.templatetags.%s" % library_name.split('.')[-1])
+                lib = template.get_library("opal.templatetags.%s" % library_name.split('.')[-1])
             except template.InvalidTemplateLibrary:
                 pass
 

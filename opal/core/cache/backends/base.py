@@ -1,6 +1,6 @@
 "Base Cache class."
 
-from django.core.exceptions import ImproperlyConfigured
+from opal.core.exceptions import ImproperlyConfigured
 
 class InvalidCacheBackendError(ImproperlyConfigured):
     pass

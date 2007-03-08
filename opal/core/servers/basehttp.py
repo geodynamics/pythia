@@ -532,7 +532,7 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
     server_version = "WSGIServer/" + __version__
 
     def __init__(self, *args, **kwargs):
-        from django.conf import settings
+        from opal.conf import settings
         self.admin_media_prefix = settings.ADMIN_MEDIA_PREFIX
         BaseHTTPRequestHandler.__init__(self, *args, **kwargs)
 
@@ -599,10 +599,10 @@ class AdminMediaHandler(object):
     security and is not super efficient.
     """
     def __init__(self, application):
-        from django.conf import settings
+        from opal.conf import settings
         import django
         self.application = application
-        self.media_dir = django.__path__[0] + '/contrib/admin/media'
+        self.media_dir = opal.__path__[0] + '/contrib/admin/media'
         self.media_url = settings.ADMIN_MEDIA_PREFIX
 
     def __call__(self, environ, start_response):

@@ -1,7 +1,7 @@
-from django.db.models.query import QuerySet
-from django.dispatch import dispatcher
-from django.db.models import signals
-from django.db.models.fields import FieldDoesNotExist
+from opal.db.models.query import QuerySet
+from opal.dispatch import dispatcher
+from opal.db.models import signals
+from opal.db.models.fields import FieldDoesNotExist
 
 # Size of each "chunk" for get_iterator calls.
 # Larger values are slightly faster at the expense of more storage space.

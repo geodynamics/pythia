@@ -7,7 +7,7 @@ These are referenced from the setting TEMPLATE_CONTEXT_PROCESSORS and used by
 RequestContext.
 """
 
-from django.conf import settings
+from opal.conf import settings
 
 def auth(request):
     """
@@ -25,7 +25,7 @@ def debug(request):
     context_extras = {}
     if settings.DEBUG and request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS:
         context_extras['debug'] = True
-        from django.db import connection
+        from opal.db import connection
         context_extras['sql_queries'] = connection.queries
     return context_extras
 
@@ -37,7 +37,7 @@ def i18n(request):
     else:
         context_extras['LANGUAGE_CODE'] = settings.LANGUAGE_CODE
 
-    from django.utils import translation
+    from opal.utils import translation
     context_extras['LANGUAGE_BIDI'] = translation.get_language_bidi()
 
     return context_extras

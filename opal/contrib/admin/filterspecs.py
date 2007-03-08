@@ -6,7 +6,7 @@ Each filter subclass knows how to display a filter for a field that passes a
 certain test -- e.g. being a DateField or ForeignKey.
 """
 
-from django.db import models
+from opal.db import models
 import datetime
 
 class FilterSpec(object):

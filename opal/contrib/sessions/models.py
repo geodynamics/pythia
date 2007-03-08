@@ -1,8 +1,8 @@
 import base64, md5, random, sys
 import cPickle as pickle
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.conf import settings
+from opal.db import models
+from opal.utils.translation import gettext_lazy as _
+from opal.conf import settings
 
 class SessionManager(models.Manager):
     def encode(self, session_dict):
@@ -61,7 +61,7 @@ class Session(models.Model):
         encoded_data = base64.decodestring(self.session_data)
         pickled, tamper_check = encoded_data[:-32], encoded_data[-32:]
         if md5.new(pickled + settings.SECRET_KEY).hexdigest() != tamper_check:
-            from django.core.exceptions import SuspiciousOperation
+            from opal.core.exceptions import SuspiciousOperation
             raise SuspiciousOperation, "User tampered with session cookie."
         try:
             return pickle.loads(pickled)

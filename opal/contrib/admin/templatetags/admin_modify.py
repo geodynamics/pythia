@@ -1,11 +1,11 @@
 from django import template
-from django.contrib.admin.views.main import AdminBoundField
-from django.template import loader
-from django.utils.text import capfirst
-from django.db import models
-from django.db.models.fields import Field
-from django.db.models.related import BoundRelatedObject
-from django.conf import settings
+from opal.contrib.admin.views.main import AdminBoundField
+from opal.template import loader
+from opal.utils.text import capfirst
+from opal.db import models
+from opal.db.models.fields import Field
+from opal.db.models.related import BoundRelatedObject
+from opal.conf import settings
 import re
 
 register = template.Library()

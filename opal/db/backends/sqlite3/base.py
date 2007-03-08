@@ -1,12 +1,12 @@
 """
-SQLite3 backend for django.  Requires pysqlite2 (http://pysqlite.org/).
+SQLite3 backend for opal.  Requires pysqlite2 (http://pysqlite.org/).
 """
 
-from django.db.backends import util
+from opal.db.backends import util
 try:
     from pysqlite2 import dbapi2 as Database
 except ImportError, e:
-    from django.core.exceptions import ImproperlyConfigured
+    from opal.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured, "Error loading pysqlite2 module: %s" % e
 
 DatabaseError = Database.DatabaseError
@@ -31,7 +31,7 @@ try:
     from threading import local
 except ImportError:
     # Import copy of _thread_local.py from Python 2.4
-    from django.utils._threading_local import local
+    from opal.utils._threading_local import local
 
 class DatabaseWrapper(local):
     def __init__(self):
@@ -39,7 +39,7 @@ class DatabaseWrapper(local):
         self.queries = []
 
     def cursor(self):
-        from django.conf import settings
+        from opal.conf import settings
         if self.connection is None:
             self.connection = Database.connect(settings.DATABASE_NAME,
                 detect_types=Database.PARSE_DECLTYPES | Database.PARSE_COLNAMES)

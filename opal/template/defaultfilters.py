@@ -1,8 +1,8 @@
 "Default variable filters"
 
-from django.template import resolve_variable, Library
-from django.conf import settings
-from django.utils.translation import gettext
+from opal.template import resolve_variable, Library
+from opal.conf import settings
+from opal.utils.translation import gettext
 import re
 import random as random_module
 
@@ -24,7 +24,7 @@ def capfirst(value):
 
 def fix_ampersands(value):
     "Replaces ampersands with ``&amp;`` entities"
-    from django.utils.html import fix_ampersands
+    from opal.utils.html import fix_ampersands
     return fix_ampersands(value)
 
 def floatformat(text):
@@ -44,7 +44,7 @@ def floatformat(text):
 
 def linenumbers(value):
     "Displays text with line numbers"
-    from django.utils.html import escape
+    from opal.utils.html import escape
     lines = value.split('\n')
     # Find the maximum width of the line count, for use with zero padding string format command
     width = str(len(str(len(lines))))
@@ -92,7 +92,7 @@ def truncatewords(value, arg):
 
     Argument: Number of words to truncate after
     """
-    from django.utils.text import truncate_words
+    from opal.utils.text import truncate_words
     try:
         length = int(arg)
     except ValueError: # invalid literal for int()
@@ -112,7 +112,7 @@ def urlencode(value):
 
 def urlize(value):
     "Converts URLs in plain text into clickable links"
-    from django.utils.html import urlize
+    from opal.utils.html import urlize
     return urlize(value, nofollow=True)
 
 def urlizetrunc(value, limit):
@@ -122,7 +122,7 @@ def urlizetrunc(value, limit):
 
     Argument: Length to truncate URLs to.
     """
-    from django.utils.html import urlize
+    from opal.utils.html import urlize
     return urlize(value, trim_url_limit=int(limit), nofollow=True)
 
 def wordcount(value):
@@ -135,7 +135,7 @@ def wordwrap(value, arg):
 
     Argument: number of characters to wrap the text at.
     """
-    from django.utils.text import wrap
+    from opal.utils.text import wrap
     return wrap(str(value), int(arg))
 
 def ljust(value, arg):
@@ -168,12 +168,12 @@ def cut(value, arg):
 
 def escape(value):
     "Escapes a string's HTML"
-    from django.utils.html import escape
+    from opal.utils.html import escape
     return escape(value)
 
 def linebreaks(value):
     "Converts newlines into <p> and <br />s"
-    from django.utils.html import linebreaks
+    from opal.utils.html import linebreaks
     return linebreaks(value)
 
 def linebreaksbr(value):
@@ -192,7 +192,7 @@ def removetags(value, tags):
 
 def striptags(value):
     "Strips all [X]HTML tags"
-    from django.utils.html import strip_tags
+    from opal.utils.html import strip_tags
     if not isinstance(value, basestring):
         value = str(value)
     return strip_tags(value)
@@ -329,7 +329,7 @@ def get_digit(value, arg):
 
 def date(value, arg=None):
     "Formats a date according to the given format"
-    from django.utils.dateformat import format
+    from opal.utils.dateformat import format
     if not value:
         return ''
     if arg is None:
@@ -338,7 +338,7 @@ def date(value, arg=None):
 
 def time(value, arg=None):
     "Formats a time according to the given format"
-    from django.utils.dateformat import time_format
+    from opal.utils.dateformat import time_format
     if not value:
         return ''
     if arg is None:
@@ -347,7 +347,7 @@ def time(value, arg=None):
 
 def timesince(value, arg=None):
     'Formats a date as the time since that date (i.e. "4 days, 6 hours")'
-    from django.utils.timesince import timesince
+    from opal.utils.timesince import timesince
     if not value:
         return ''
     if arg:
@@ -356,7 +356,7 @@ def timesince(value, arg=None):
 
 def timeuntil(value, arg=None):
     'Formats a date as the time until that date (i.e. "4 days, 6 hours")'
-    from django.utils.timesince import timesince
+    from opal.utils.timesince import timesince
     from datetime import datetime
     if not value:
         return ''
@@ -459,7 +459,7 @@ def pluralize(value, arg='s'):
 
 def phone2numeric(value):
     "Takes a phone number and converts it in to its numerical equivalent"
-    from django.utils.text import phone2numeric
+    from opal.utils.text import phone2numeric
     return phone2numeric(value)
 
 def pprint(value):

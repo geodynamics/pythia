@@ -1,5 +1,5 @@
-from django.core import signals
-from django.dispatch import dispatcher
+from opal.core import signals
+from opal.dispatch import dispatcher
 from django import http
 import sys
 
@@ -13,8 +13,8 @@ class BaseHandler(object):
 
         Must be called after the environment is fixed (see __call__).
         """
-        from django.conf import settings
-        from django.core import exceptions
+        from opal.conf import settings
+        from opal.core import exceptions
         self._request_middleware = []
         self._view_middleware = []
         self._response_middleware = []
@@ -50,9 +50,9 @@ class BaseHandler(object):
 
     def get_response(self, path, request):
         "Returns an HttpResponse object for the given HttpRequest"
-        from django.core import exceptions, urlresolvers
-        from django.core.mail import mail_admins
-        from django.conf import settings
+        from opal.core import exceptions, urlresolvers
+        from opal.core.mail import mail_admins
+        from opal.conf import settings
 
         # Apply request middleware
         for middleware_method in self._request_middleware:
@@ -127,7 +127,7 @@ class BaseHandler(object):
         Returns an HttpResponse that displays a TECHNICAL error message for a
         fundamental error.
         """
-        from django.views import debug
+        from opal.views import debug
         if is404:
             return debug.technical_404_response(request, exception)
         else:

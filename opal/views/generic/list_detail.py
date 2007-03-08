@@ -1,8 +1,8 @@
-from django.template import loader, RequestContext
-from django.http import Http404, HttpResponse
-from django.core.xheaders import populate_xheaders
-from django.core.paginator import ObjectPaginator, InvalidPage
-from django.core.exceptions import ObjectDoesNotExist
+from opal.template import loader, RequestContext
+from opal.http import Http404, HttpResponse
+from opal.core.xheaders import populate_xheaders
+from opal.core.paginator import ObjectPaginator, InvalidPage
+from opal.core.exceptions import ObjectDoesNotExist
 
 def object_list(request, queryset, paginate_by=None, page=None,
         allow_empty=False, template_name=None, template_loader=loader,

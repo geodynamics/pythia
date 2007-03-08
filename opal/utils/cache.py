@@ -18,8 +18,8 @@ A example: i18n middleware would need to distinguish caches by the
 """
 
 import datetime, md5, re
-from django.conf import settings
-from django.core.cache import cache
+from opal.conf import settings
+from opal.core.cache import cache
 
 cc_delim_re = re.compile(r'\s*,\s*')
 

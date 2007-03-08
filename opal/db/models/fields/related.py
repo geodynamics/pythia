@@ -1,12 +1,12 @@
-from django.db import backend, transaction
-from django.db.models import signals, get_model
-from django.db.models.fields import AutoField, Field, IntegerField, get_ul_class
-from django.db.models.related import RelatedObject
-from django.utils.translation import gettext_lazy, string_concat
-from django.utils.functional import curry
-from django.core import validators
+from opal.db import backend, transaction
+from opal.db.models import signals, get_model
+from opal.db.models.fields import AutoField, Field, IntegerField, get_ul_class
+from opal.db.models.related import RelatedObject
+from opal.utils.translation import gettext_lazy, string_concat
+from opal.utils.functional import curry
+from opal.core import validators
 from django import forms
-from django.dispatch import dispatcher
+from opal.dispatch import dispatcher
 
 # For Python 2.3
 if not hasattr(__builtins__, 'set'):
@@ -316,7 +316,7 @@ def create_many_related_manager(superclass):
             # source_col_name: the PK colname in join_table for the source object
             # target_col_name: the PK colname in join_table for the target object
             # *objs - objects to add
-            from django.db import connection
+            from opal.db import connection
 
             # Add the newly created or already existing objects to the join table.
             # First find out which items are already added, to avoid adding them twice
@@ -342,7 +342,7 @@ def create_many_related_manager(superclass):
             # source_col_name: the PK colname in join_table for the source object
             # target_col_name: the PK colname in join_table for the target object
             # *objs - objects to remove
-            from django.db import connection
+            from opal.db import connection
 
             for obj in objs:
                 if not isinstance(obj, self.model):
@@ -357,7 +357,7 @@ def create_many_related_manager(superclass):
 
         def _clear_items(self, source_col_name):
             # source_col_name: the PK colname in join_table for the source object
-            from django.db import connection
+            from opal.db import connection
             cursor = connection.cursor()
             cursor.execute("DELETE FROM %s WHERE %s = %%s" % \
                 (self.join_table, source_col_name),

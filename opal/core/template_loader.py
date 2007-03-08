@@ -1,7 +1,7 @@
 # This module is DEPRECATED!
 #
-# You should no longer be using django.template_loader.
+# You should no longer be using opal.template_loader.
 #
-# Use django.template.loader instead.
+# Use opal.template.loader instead.
 
-from django.template.loader import *
+from opal.template.loader import *

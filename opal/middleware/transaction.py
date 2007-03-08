@@ -1,4 +1,4 @@
-from django.db import transaction
+from opal.db import transaction
 
 class TransactionMiddleware(object):
     """

@@ -15,7 +15,7 @@ silently fail and return the un-marked-up text.
 """
 
 from django import template
-from django.conf import settings
+from opal.conf import settings
 
 register = template.Library()
 

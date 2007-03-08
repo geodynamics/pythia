@@ -1,6 +1,6 @@
 import datetime, math, time
-from django.utils.tzinfo import LocalTimezone
-from django.utils.translation import ngettext
+from opal.utils.tzinfo import LocalTimezone
+from opal.utils.translation import ngettext
 
 def timesince(d, now=None):
     """

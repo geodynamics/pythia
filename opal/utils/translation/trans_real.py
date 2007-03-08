@@ -3,7 +3,7 @@
 import os, re, sys
 import gettext as gettext_module
 from cStringIO import StringIO
-from django.utils.functional import lazy
+from opal.utils.functional import lazy
 
 try:
     import threading
@@ -52,7 +52,7 @@ class DjangoTranslation(gettext_module.GNUTranslations):
     Python 2.4. With Python 2.3, use DjangoTranslation23.
     """
     def __init__(self, *args, **kw):
-        from django.conf import settings
+        from opal.conf import settings
         gettext_module.GNUTranslations.__init__(self, *args, **kw)
         # Starting with Python 2.4, there's a function to define
         # the output charset. Before 2.4, the output charset is
@@ -108,7 +108,7 @@ def translation(language):
     if t is not None:
         return t
 
-    from django.conf import settings
+    from opal.conf import settings
 
     # set up the right translation class
     klass = DjangoTranslation
@@ -212,7 +212,7 @@ def get_language():
         except AttributeError:
             pass
     # If we don't have a real translation object, assume it's the default language.
-    from django.conf import settings
+    from opal.conf import settings
     return settings.LANGUAGE_CODE
 
 def get_language_bidi():
@@ -221,7 +221,7 @@ def get_language_bidi():
     False = left-to-right layout
     True = right-to-left layout
     """
-    from django.conf import settings
+    from opal.conf import settings
     return get_language() in settings.LANGUAGES_BIDI
 
 def catalog():
@@ -235,7 +235,7 @@ def catalog():
     if t is not None:
         return t
     if _default is None:
-        from django.conf import settings
+        from opal.conf import settings
         _default = translation(settings.LANGUAGE_CODE)
     return _default
 
@@ -251,7 +251,7 @@ def gettext(message):
     if t is not None:
         return t.gettext(message)
     if _default is None:
-        from django.conf import settings
+        from opal.conf import settings
         _default = translation(settings.LANGUAGE_CODE)
     return _default.gettext(message)
 
@@ -273,7 +273,7 @@ def ngettext(singular, plural, number):
     if t is not None:
         return t.ngettext(singular, plural, number)
     if _default is None:
-        from django.conf import settings
+        from opal.conf import settings
         _default = translation(settings.LANGUAGE_CODE)
     return _default.ngettext(singular, plural, number)
 
@@ -286,7 +286,7 @@ def check_for_language(lang_code):
     This is used to decide whether a user-provided language is available. This is
     only used for language codes from either the cookies or session.
     """
-    from django.conf import settings
+    from opal.conf import settings
     globalpath = os.path.join(os.path.dirname(sys.modules[settings.__module__].__file__), 'locale')
     if gettext_module.find('django', globalpath, [to_locale(lang_code)]) is not None:
         return True
@@ -300,7 +300,7 @@ def get_language_from_request(request):
     requests a sublanguage where we have a main language, we send out the main language.
     """
     global _accepted
-    from django.conf import settings
+    from opal.conf import settings
     globalpath = os.path.join(os.path.dirname(sys.modules[settings.__module__].__file__), 'locale')
     supported = dict(settings.LANGUAGES)
 
@@ -358,7 +358,7 @@ def get_date_formats():
     technical message ID to store date and time formats. If it doesn't contain
     one, the formats provided in the settings will be used.
     """
-    from django.conf import settings
+    from opal.conf import settings
     date_format = _('DATE_FORMAT')
     datetime_format = _('DATETIME_FORMAT')
     time_format = _('TIME_FORMAT')
@@ -376,7 +376,7 @@ def get_partial_date_formats():
     technical message ID to store partial date formats. If it doesn't contain
     one, the formats provided in the settings will be used.
     """
-    from django.conf import settings
+    from opal.conf import settings
     year_month_format = _('YEAR_MONTH_FORMAT')
     month_day_format = _('MONTH_DAY_FORMAT')
     if year_month_format == 'YEAR_MONTH_FORMAT':
@@ -411,7 +411,7 @@ def templatize(src):
     does so by translating the Django translation tags into standard gettext
     function invocations.
     """
-    from django.template import Lexer, TOKEN_TEXT, TOKEN_VAR, TOKEN_BLOCK
+    from opal.template import Lexer, TOKEN_TEXT, TOKEN_VAR, TOKEN_BLOCK
     out = StringIO()
     intrans = False
     inplural = False

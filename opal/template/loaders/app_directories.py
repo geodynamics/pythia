@@ -1,8 +1,8 @@
 # Wrapper for loading templates from "template" directories in installed app packages.
 
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.template import TemplateDoesNotExist
+from opal.conf import settings
+from opal.core.exceptions import ImproperlyConfigured
+from opal.template import TemplateDoesNotExist
 import os
 
 # At compile time, cache the directories to search.

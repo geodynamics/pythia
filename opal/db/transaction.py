@@ -16,8 +16,8 @@ try:
     import thread
 except ImportError:
     import dummy_thread as thread
-from django.db import connection
-from django.conf import settings
+from opal.db import connection
+from opal.conf import settings
 
 class TransactionManagementError(Exception):
     """

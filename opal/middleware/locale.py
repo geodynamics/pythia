@@ -1,7 +1,7 @@
 "this is the locale selecting middleware that will look at accept headers"
 
-from django.utils.cache import patch_vary_headers
-from django.utils import translation
+from opal.utils.cache import patch_vary_headers
+from opal.utils import translation
 
 class LocaleMiddleware(object):
     """

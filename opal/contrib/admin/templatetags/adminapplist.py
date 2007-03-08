@@ -1,5 +1,5 @@
 from django import template
-from django.db.models import get_models
+from opal.db.models import get_models
 
 register = template.Library()
 
@@ -8,8 +8,8 @@ class AdminApplistNode(template.Node):
         self.varname = varname
 
     def render(self, context):
-        from django.db import models
-        from django.utils.text import capfirst
+        from opal.db import models
+        from opal.utils.text import capfirst
         app_list = []
         user = context['user']
 

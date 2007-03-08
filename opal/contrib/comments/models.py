@@ -1,9 +1,9 @@
-from django.db import models
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
-from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
-from django.conf import settings
+from opal.db import models
+from opal.contrib.contenttypes.models import ContentType
+from opal.contrib.sites.models import Site
+from opal.contrib.auth.models import User
+from opal.utils.translation import gettext_lazy as _
+from opal.conf import settings
 import datetime
 
 MIN_PHOTO_DIMENSION = 5
@@ -122,7 +122,7 @@ class Comment(models.Model):
         Returns the object that this comment is a comment on. Returns None if
         the object no longer exists.
         """
-        from django.core.exceptions import ObjectDoesNotExist
+        from opal.core.exceptions import ObjectDoesNotExist
         try:
             return self.content_type.get_object_for_this_type(pk=self.object_id)
         except ObjectDoesNotExist:
@@ -198,7 +198,7 @@ class FreeComment(models.Model):
         Returns the object that this comment is a comment on. Returns None if
         the object no longer exists.
         """
-        from django.core.exceptions import ObjectDoesNotExist
+        from opal.core.exceptions import ObjectDoesNotExist
         try:
             return self.content_type.get_object_for_this_type(pk=self.object_id)
         except ObjectDoesNotExist:
@@ -253,7 +253,7 @@ class UserFlagManager(models.Manager):
         try:
             f = self.objects.get(user__pk=user.id, comment__pk=comment.id)
         except self.model.DoesNotExist:
-            from django.core.mail import mail_managers
+            from opal.core.mail import mail_managers
             f = self.model(None, user.id, comment.id, None)
             message = _('This comment was flagged by %(user)s:\n\n%(text)s') % {'user': user.username, 'text': comment.get_as_text()}
             mail_managers('Comment flagged', message, fail_silently=True)

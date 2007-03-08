@@ -1,12 +1,12 @@
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
+from opal.contrib.auth.forms import AuthenticationForm
+from opal.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
 from django import forms
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.contrib.sites.models import Site
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import LOGIN_URL, REDIRECT_FIELD_NAME
+from opal.shortcuts import render_to_response
+from opal.template import RequestContext
+from opal.contrib.sites.models import Site
+from opal.http import HttpResponseRedirect
+from opal.contrib.auth.decorators import login_required
+from opal.contrib.auth import LOGIN_URL, REDIRECT_FIELD_NAME
 
 def login(request, template_name='registration/login.html'):
     "Displays the login form and handles the login action."
@@ -18,7 +18,7 @@ def login(request, template_name='registration/login.html'):
             # Light security check -- make sure redirect_to isn't garbage.
             if not redirect_to or '://' in redirect_to or ' ' in redirect_to:
                 redirect_to = '/accounts/profile/'
-            from django.contrib.auth import login
+            from opal.contrib.auth import login
             login(request, manipulator.get_user())
             request.session.delete_test_cookie()
             return HttpResponseRedirect(redirect_to)
@@ -33,7 +33,7 @@ def login(request, template_name='registration/login.html'):
 
 def logout(request, next_page=None, template_name='registration/logged_out.html'):
     "Logs out the user and displays 'You are logged out' message."
-    from django.contrib.auth import logout
+    from opal.contrib.auth import logout
     logout(request)
     if next_page is None:
         return render_to_response(template_name, {'title': _('Logged out')}, context_instance=RequestContext(request))

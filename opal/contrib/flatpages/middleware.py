@@ -1,6 +1,6 @@
-from django.contrib.flatpages.views import flatpage
-from django.http import Http404
-from django.conf import settings
+from opal.contrib.flatpages.views import flatpage
+from opal.http import Http404
+from opal.conf import settings
 
 class FlatpageFallbackMiddleware(object):
     def process_response(self, request, response):

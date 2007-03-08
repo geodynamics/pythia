@@ -1,6 +1,6 @@
 "Single-process in-memory cache backend."
 
-from django.core.cache.backends.base import BaseCache
+from opal.core.cache.backends.base import BaseCache
 import time
 
 class CacheClass(BaseCache):

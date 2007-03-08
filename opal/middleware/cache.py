@@ -1,6 +1,6 @@
-from django.conf import settings
-from django.core.cache import cache
-from django.utils.cache import get_cache_key, learn_cache_key, patch_response_headers
+from opal.conf import settings
+from opal.core.cache import cache
+from opal.utils.cache import get_cache_key, learn_cache_key, patch_response_headers
 
 class CacheMiddleware(object):
     """

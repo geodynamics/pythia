@@ -3,9 +3,9 @@ Serialize data to/from JSON
 """
 
 import datetime
-from django.utils import simplejson
-from django.core.serializers.python import Serializer as PythonSerializer
-from django.core.serializers.python import Deserializer as PythonDeserializer
+from opal.utils import simplejson
+from opal.core.serializers.python import Serializer as PythonSerializer
+from opal.core.serializers.python import Deserializer as PythonDeserializer
 try:
     from cStringIO import StringIO
 except ImportError:

@@ -1,7 +1,7 @@
 "Thread-safe in-memory cache backend."
 
-from django.core.cache.backends.simple import CacheClass as SimpleCacheClass
-from django.utils.synch import RWLock
+from opal.core.cache.backends.simple import CacheClass as SimpleCacheClass
+from opal.utils.synch import RWLock
 import copy, time
 
 class CacheClass(SimpleCacheClass):

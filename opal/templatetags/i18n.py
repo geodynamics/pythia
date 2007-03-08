@@ -1,7 +1,7 @@
-from django.template import Node, resolve_variable
-from django.template import TemplateSyntaxError, TokenParser, Library
-from django.template import TOKEN_TEXT, TOKEN_VAR
-from django.utils import translation
+from opal.template import Node, resolve_variable
+from opal.template import TemplateSyntaxError, TokenParser, Library
+from opal.template import TOKEN_TEXT, TOKEN_VAR
+from opal.utils import translation
 
 register = Library()
 
@@ -10,7 +10,7 @@ class GetAvailableLanguagesNode(Node):
         self.variable = variable
 
     def render(self, context):
-        from django.conf import settings
+        from opal.conf import settings
         context[self.variable] = [(k, translation.gettext(v)) for k, v in settings.LANGUAGES]
         return ''
 

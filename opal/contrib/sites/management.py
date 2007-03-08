@@ -2,10 +2,10 @@
 Creates the default Site object.
 """
 
-from django.dispatch import dispatcher
-from django.db.models import signals
-from django.contrib.sites.models import Site
-from django.contrib.sites import models as site_app
+from opal.dispatch import dispatcher
+from opal.db.models import signals
+from opal.contrib.sites.models import Site
+from opal.contrib.sites import models as site_app
 
 def create_default_site(app, created_models):
     if Site in created_models:

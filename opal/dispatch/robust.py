@@ -1,6 +1,6 @@
 """Module implementing error-catching version of send (sendRobust)"""
-from django.dispatch.dispatcher import Any, Anonymous, liveReceivers, getAllReceivers
-from django.dispatch.robustapply import robustApply
+from opal.dispatch.dispatcher import Any, Anonymous, liveReceivers, getAllReceivers
+from opal.dispatch.robustapply import robustApply
 
 def sendRobust(
     signal=Any, 

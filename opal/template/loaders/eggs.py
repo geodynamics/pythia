@@ -5,8 +5,8 @@ try:
 except ImportError:
     resource_string = None
 
-from django.template import TemplateDoesNotExist
-from django.conf import settings
+from opal.template import TemplateDoesNotExist
+from opal.conf import settings
 
 def load_template_source(template_name, template_dirs=None):
     """

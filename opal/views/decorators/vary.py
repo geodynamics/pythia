@@ -1,4 +1,4 @@
-from django.utils.cache import patch_vary_headers
+from opal.utils.cache import patch_vary_headers
 
 def vary_on_headers(*headers):
     """

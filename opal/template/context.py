@@ -1,5 +1,5 @@
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from opal.conf import settings
+from opal.core.exceptions import ImproperlyConfigured
 
 _standard_context_processors = None
 

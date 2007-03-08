@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.sites.models import Site
-from django.template import Context, loader
-from django.core import validators
+from opal.contrib.auth.models import User
+from opal.contrib.auth import authenticate
+from opal.contrib.sites.models import Site
+from opal.template import Context, loader
+from opal.core import validators
 from django import forms
 
 class AuthenticationForm(forms.Manipulator):
@@ -63,7 +63,7 @@ class PasswordResetForm(forms.Manipulator):
 
     def save(self, domain_override=None, email_template_name='registration/password_reset_email.html'):
         "Calculates a new password randomly and sends it to the user"
-        from django.core.mail import send_mail
+        from opal.core.mail import send_mail
         new_pass = User.objects.make_random_password()
         self.user_cache.set_password(new_pass)
         self.user_cache.save()

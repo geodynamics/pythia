@@ -1,8 +1,8 @@
-from django.db import backend, connection, transaction
-from django.db.models.fields import DateField, FieldDoesNotExist
-from django.db.models import signals
-from django.dispatch import dispatcher
-from django.utils.datastructures import SortedDict
+from opal.db import backend, connection, transaction
+from opal.db.models.fields import DateField, FieldDoesNotExist
+from opal.db.models import signals
+from opal.dispatch import dispatcher
+from opal.utils.datastructures import SortedDict
 import operator
 import re
 
@@ -540,7 +540,7 @@ class ValuesQuerySet(QuerySet):
 
 class DateQuerySet(QuerySet):
     def iterator(self):
-        from django.db.backends.util import typecast_timestamp
+        from opal.db.backends.util import typecast_timestamp
         self._order_by = () # Clear this because it'll mess things up otherwise.
         if self._field.null:
             self._where.append('%s.%s IS NOT NULL' % \

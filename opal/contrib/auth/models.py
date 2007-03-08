@@ -1,8 +1,8 @@
-from django.core import validators
-from django.core.exceptions import ImproperlyConfigured
-from django.db import backend, connection, models
-from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import gettext_lazy as _
+from opal.core import validators
+from opal.core.exceptions import ImproperlyConfigured
+from opal.db import backend, connection, models
+from opal.contrib.contenttypes.models import ContentType
+from opal.utils.translation import gettext_lazy as _
 import datetime
 
 def check_password(raw_password, enc_password):
@@ -229,7 +229,7 @@ class User(models.Model):
 
     def email_user(self, subject, message, from_email=None):
         "Sends an e-mail to this User."
-        from django.core.mail import send_mail
+        from opal.core.mail import send_mail
         send_mail(subject, message, from_email, [self.email])
 
     def get_profile(self):
@@ -238,7 +238,7 @@ class User(models.Model):
         SiteProfileNotAvailable if this site does not allow profiles.
         """
         if not hasattr(self, '_profile_cache'):
-            from django.conf import settings
+            from opal.conf import settings
             if not settings.AUTH_PROFILE_MODULE:
                 raise SiteProfileNotAvailable
             try:

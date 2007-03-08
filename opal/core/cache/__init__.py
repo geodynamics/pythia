@@ -4,7 +4,7 @@ Caching framework.
 This package defines set of cache backends that all conform to a simple API.
 In a nutshell, a cache is a set of values -- which can be any object that
 may be pickled -- identified by string keys.  For the complete API, see
-the abstract BaseCache class in django.core.cache.backends.base.
+the abstract BaseCache class in opal.core.cache.backends.base.
 
 Client code should not access a cache backend directly; instead it should
 either use the "cache" variable made available here, or it should use the
@@ -16,8 +16,8 @@ See docs/cache.txt for information on the public API.
 """
 
 from cgi import parse_qsl
-from django.conf import settings
-from django.core.cache.backends.base import InvalidCacheBackendError
+from opal.conf import settings
+from opal.core.cache.backends.base import InvalidCacheBackendError
 
 BACKENDS = {
     # name for use in settings file --> name of module in "backends" directory
@@ -48,7 +48,7 @@ def get_cache(backend_uri):
     if host.endswith('/'):
         host = host[:-1]
 
-    cache_class = getattr(__import__('django.core.cache.backends.%s' % BACKENDS[scheme], '', '', ['']), 'CacheClass')
+    cache_class = getattr(__import__('opal.core.cache.backends.%s' % BACKENDS[scheme], '', '', ['']), 'CacheClass')
     return cache_class(host, params)
 
 cache = get_cache(settings.CACHE_BACKEND)

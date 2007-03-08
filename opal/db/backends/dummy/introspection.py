@@ -1,4 +1,4 @@
-from django.db.backends.dummy.base import complain
+from opal.db.backends.dummy.base import complain
 
 get_table_list = complain
 get_table_description = complain

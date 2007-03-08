@@ -1,7 +1,7 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.template import Context, RequestContext, loader
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.template import Context, RequestContext, loader
+from opal.contrib.contenttypes.models import ContentType
+from opal.contrib.sites.models import Site
 from django import http
 
 def shortcut(request, content_type_id, object_id):

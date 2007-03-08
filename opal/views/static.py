@@ -1,6 +1,6 @@
-from django.template import loader
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotModified
-from django.template import Template, Context, TemplateDoesNotExist
+from opal.template import loader
+from opal.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotModified
+from opal.template import Template, Context, TemplateDoesNotExist
 import mimetypes
 import os
 import posixpath
@@ -15,7 +15,7 @@ def serve(request, path, document_root=None, show_indexes=False):
 
     To use, put a URL pattern such as::
 
-        (r'^(?P<path>.*)$', 'django.views.static.serve', {'document_root' : '/path/to/my/files/'})
+        (r'^(?P<path>.*)$', 'opal.views.static.serve', {'document_root' : '/path/to/my/files/'})
 
     in your URLconf. You must provide the ``document_root`` param. You may
     also set ``show_indexes`` to ``True`` if you'd like to serve a basic index

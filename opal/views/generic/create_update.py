@@ -1,11 +1,11 @@
-from django.core.xheaders import populate_xheaders
-from django.template import loader
+from opal.core.xheaders import populate_xheaders
+from opal.template import loader
 from django import forms
-from django.db.models import FileField
-from django.contrib.auth.views import redirect_to_login
-from django.template import RequestContext
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
+from opal.db.models import FileField
+from opal.contrib.auth.views import redirect_to_login
+from opal.template import RequestContext
+from opal.http import Http404, HttpResponse, HttpResponseRedirect
+from opal.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
 
 def create_object(request, model, template_name=None,
         template_loader=loader, extra_context=None, post_save_redirect=None,

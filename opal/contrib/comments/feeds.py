@@ -1,7 +1,7 @@
-from django.conf import settings
-from django.contrib.comments.models import Comment, FreeComment
-from django.contrib.syndication.feeds import Feed
-from django.contrib.sites.models import Site
+from opal.conf import settings
+from opal.contrib.comments.models import Comment, FreeComment
+from opal.contrib.syndication.feeds import Feed
+from opal.contrib.sites.models import Site
 
 class LatestFreeCommentsFeed(Feed):
     "Feed of latest comments on the current site."

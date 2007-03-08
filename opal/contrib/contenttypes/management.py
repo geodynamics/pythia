@@ -2,11 +2,11 @@
 Creates content types for all installed models.
 """
 
-from django.dispatch import dispatcher
-from django.db.models import get_models, signals
+from opal.dispatch import dispatcher
+from opal.db.models import get_models, signals
 
 def create_contenttypes(app, created_models):
-    from django.contrib.contenttypes.models import ContentType
+    from opal.contrib.contenttypes.models import ContentType
     app_models = get_models(app)
     if not app_models:
         return

@@ -3,7 +3,7 @@ Interfaces for serializing Django objects.
 
 Usage::
 
-    >>> from django.core import serializers
+    >>> from opal.core import serializers
     >>> json = serializers.serialize("json", some_query_set)
     >>> objects = list(serializers.deserialize("json", json))
         
@@ -16,13 +16,13 @@ To add your own serializers, use the SERIALIZATION_MODULES setting::
 
 """
 
-from django.conf import settings
+from opal.conf import settings
 
 # Built-in serializers
 BUILTIN_SERIALIZERS = {
-    "xml"    : "django.core.serializers.xml_serializer",
-    "python" : "django.core.serializers.python",
-    "json"   : "django.core.serializers.json",
+    "xml"    : "opal.core.serializers.xml_serializer",
+    "python" : "opal.core.serializers.python",
+    "json"   : "opal.core.serializers.json",
 }
 
 _serializers = {}

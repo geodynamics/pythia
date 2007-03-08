@@ -1,8 +1,8 @@
-from django.core import validators
-from django.core.exceptions import PermissionDenied
-from django.utils.html import escape
-from django.conf import settings
-from django.utils.translation import gettext, gettext_lazy, ngettext
+from opal.core import validators
+from opal.core.exceptions import PermissionDenied
+from opal.utils.html import escape
+from opal.conf import settings
+from opal.utils.translation import gettext, gettext_lazy, ngettext
 
 FORM_FIELD_ID_PREFIX = 'id_'
 
@@ -903,7 +903,7 @@ class FilePathField(SelectField):
     "A SelectField whose choices are the files in a given directory."
     def __init__(self, field_name, path, match=None, recursive=False, is_required=False, validator_list=None):
         import os
-        from django.db.models import BLANK_CHOICE_DASH
+        from opal.db.models import BLANK_CHOICE_DASH
         if match is not None:
             import re
             match_re = re.compile(match)

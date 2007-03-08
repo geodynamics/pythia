@@ -77,8 +77,8 @@ __all__ = [
     'JSONDecoder', 'JSONEncoder',
 ]
 
-from django.utils.simplejson.decoder import JSONDecoder
-from django.utils.simplejson.encoder import JSONEncoder
+from opal.utils.simplejson.decoder import JSONDecoder
+from opal.utils.simplejson.encoder import JSONEncoder
 
 def dump(obj, fp, skipkeys=False, ensure_ascii=True, check_circular=True,
         allow_nan=True, cls=None, **kw):

@@ -1,9 +1,9 @@
 from django import http, template
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render_to_response
-from django.utils.translation import gettext_lazy
+from opal.conf import settings
+from opal.contrib.auth.models import User
+from opal.contrib.auth import authenticate, login
+from opal.shortcuts import render_to_response
+from opal.utils.translation import gettext_lazy
 import base64, datetime, md5
 import cPickle as pickle
 
@@ -36,7 +36,7 @@ def _decode_post_data(encoded_data):
     encoded_data = base64.decodestring(encoded_data)
     pickled, tamper_check = encoded_data[:-32], encoded_data[-32:]
     if md5.new(pickled + settings.SECRET_KEY).hexdigest() != tamper_check:
-        from django.core.exceptions import SuspiciousOperation
+        from opal.core.exceptions import SuspiciousOperation
         raise SuspiciousOperation, "User may have tampered with session cookie."
     return pickle.loads(pickled)
 
@@ -54,7 +54,7 @@ def staff_member_required(view_func):
                 request.POST = _decode_post_data(request.POST['post_data'])
             return view_func(request, *args, **kwargs)
 
-        assert hasattr(request, 'session'), "The Django admin requires session middleware to be installed. Edit your MIDDLEWARE_CLASSES setting to insert 'django.contrib.sessions.middleware.SessionMiddleware'."
+        assert hasattr(request, 'session'), "The Django admin requires session middleware to be installed. Edit your MIDDLEWARE_CLASSES setting to insert 'opal.contrib.sessions.middleware.SessionMiddleware'."
 
         # If this isn't already the login page, display it.
         if not request.POST.has_key(LOGIN_FORM_KEY):

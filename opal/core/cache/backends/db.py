@@ -1,7 +1,7 @@
 "Database cache backend."
 
-from django.core.cache.backends.base import BaseCache
-from django.db import connection, transaction, DatabaseError
+from opal.core.cache.backends.base import BaseCache
+from opal.db import connection, transaction, DatabaseError
 import base64, time
 from datetime import datetime
 try:

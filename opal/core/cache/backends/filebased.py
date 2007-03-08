@@ -1,6 +1,6 @@
 "File-based cache backend"
 
-from django.core.cache.backends.simple import CacheClass as SimpleCacheClass
+from opal.core.cache.backends.simple import CacheClass as SimpleCacheClass
 import os, time, urllib
 try:
     import cPickle as pickle

@@ -1,9 +1,9 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from opal.db import models
+from opal.utils.translation import gettext_lazy as _
 
 class SiteManager(models.Manager):
     def get_current(self):
-        from django.conf import settings
+        from opal.conf import settings
         return self.get(pk=settings.SITE_ID)
 
 class Site(models.Model):

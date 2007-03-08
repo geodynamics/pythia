@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 # Need to ensure that the i18n framework is enabled
-from django.conf import settings
+from opal.conf import settings
 settings.configure(USE_I18N = True)
 
-from django.utils.translation import templatize
+from opal.utils.translation import templatize
 import re
 import os
 import sys

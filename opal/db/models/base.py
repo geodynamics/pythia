@@ -1,18 +1,18 @@
-import django.db.models.manipulators
-import django.db.models.manager
-from django.core import validators
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.fields import AutoField, ImageField, FieldDoesNotExist
-from django.db.models.fields.related import OneToOneRel, ManyToOneRel
-from django.db.models.query import delete_objects
-from django.db.models.options import Options, AdminOptions
-from django.db import connection, backend, transaction
-from django.db.models import signals
-from django.db.models.loading import register_models, get_model
-from django.dispatch import dispatcher
-from django.utils.datastructures import SortedDict
-from django.utils.functional import curry
-from django.conf import settings
+import opal.db.models.manipulators
+import opal.db.models.manager
+from opal.core import validators
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.db.models.fields import AutoField, ImageField, FieldDoesNotExist
+from opal.db.models.fields.related import OneToOneRel, ManyToOneRel
+from opal.db.models.query import delete_objects
+from opal.db.models.options import Options, AdminOptions
+from opal.db import connection, backend, transaction
+from opal.db.models import signals
+from opal.db.models.loading import register_models, get_model
+from opal.dispatch import dispatcher
+from opal.utils.datastructures import SortedDict
+from opal.utils.functional import curry
+from opal.conf import settings
 import types
 import sys
 import os
@@ -40,7 +40,7 @@ class ModelBase(type):
 
         if getattr(new_class._meta, 'app_label', None) is None:
             # Figure out the app_label by looking one level up.
-            # For 'django.contrib.sites.models', this would be 'sites'.
+            # For 'opal.contrib.sites.models', this would be 'sites'.
             new_class._meta.app_label = model_module.__name__.split('.')[-2]
 
         # Bail out early if we have already created this class.
@@ -349,7 +349,7 @@ class Model(object):
 
         # Save the width and/or height, if applicable.
         if isinstance(field, ImageField) and (field.width_field or field.height_field):
-            from django.utils.images import get_image_dimensions
+            from opal.utils.images import get_image_dimensions
             width, height = get_image_dimensions(full_filename)
             if field.width_field:
                 setattr(self, field.width_field, width)
@@ -370,7 +370,7 @@ class Model(object):
     def _get_image_dimensions(self, field):
         cachename = "__%s_dimensions_cache" % field.name
         if not hasattr(self, cachename):
-            from django.utils.images import get_image_dimensions
+            from opal.utils.images import get_image_dimensions
             filename = self._get_FIELD_filename(field)
             setattr(self, cachename, get_image_dimensions(filename))
         return getattr(self, cachename)

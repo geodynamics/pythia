@@ -93,7 +93,7 @@ def clean_html(text):
         * Removes stuff like "<p>&nbsp;&nbsp;</p>", but only if it's at the
           bottom of the text.
     """
-    from django.utils.text import normalize_newlines
+    from opal.utils.text import normalize_newlines
     text = normalize_newlines(text)
     text = re.sub(r'<(/?)\s*b\s*>', '<\\1strong>', text)
     text = re.sub(r'<(/?)\s*i\s*>', '<\\1em>', text)

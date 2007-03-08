@@ -1,12 +1,12 @@
-from django.db.models import signals
-from django.dispatch import dispatcher
-from django.conf import settings
-from django.core import validators
+from opal.db.models import signals
+from opal.dispatch import dispatcher
+from opal.conf import settings
+from opal.core import validators
 from django import forms
-from django.core.exceptions import ObjectDoesNotExist
-from django.utils.functional import curry
-from django.utils.text import capfirst
-from django.utils.translation import gettext, gettext_lazy
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.utils.functional import curry
+from opal.utils.text import capfirst
+from opal.utils.translation import gettext, gettext_lazy
 import datetime, os, time
 
 class NOT_PROVIDED:
@@ -605,7 +605,7 @@ class FileField(Field):
         return os.path.normpath(datetime.datetime.now().strftime(self.upload_to))
 
     def get_filename(self, filename):
-        from django.utils.text import get_valid_filename
+        from opal.utils.text import get_valid_filename
         f = os.path.join(self.get_directory_name(), get_valid_filename(os.path.basename(filename)))
         return os.path.normpath(f)
 

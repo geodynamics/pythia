@@ -1,4 +1,4 @@
-from django.template import Library
+from opal.template import Library
 
 register = Library()
 
@@ -7,7 +7,7 @@ def admin_media_prefix():
     Returns the string contained in the setting ADMIN_MEDIA_PREFIX.
     """
     try:
-        from django.conf import settings
+        from opal.conf import settings
     except ImportError:
         return ''
     return settings.ADMIN_MEDIA_PREFIX

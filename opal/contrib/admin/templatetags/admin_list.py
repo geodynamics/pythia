@@ -1,13 +1,13 @@
-from django.conf import settings
-from django.contrib.admin.views.main import ALL_VAR, EMPTY_CHANGELIST_VALUE
-from django.contrib.admin.views.main import ORDER_VAR, ORDER_TYPE_VAR, PAGE_VAR, SEARCH_VAR
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
-from django.utils import dateformat
-from django.utils.html import escape
-from django.utils.text import capfirst
-from django.utils.translation import get_date_formats, get_partial_date_formats
-from django.template import Library
+from opal.conf import settings
+from opal.contrib.admin.views.main import ALL_VAR, EMPTY_CHANGELIST_VALUE
+from opal.contrib.admin.views.main import ORDER_VAR, ORDER_TYPE_VAR, PAGE_VAR, SEARCH_VAR
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.db import models
+from opal.utils import dateformat
+from opal.utils.html import escape
+from opal.utils.text import capfirst
+from opal.utils.translation import get_date_formats, get_partial_date_formats
+from opal.template import Library
 import datetime
 
 register = Library()

@@ -5,8 +5,8 @@ If run from the command line, this module lets you create a superuser
 interactively.
 """
 
-from django.core import validators
-from django.contrib.auth.models import User
+from opal.core import validators
+from opal.contrib.auth.models import User
 import getpass
 import os
 import sys

@@ -7,8 +7,8 @@ a string) and returns a tuple in this format:
     (view_function, function_args, function_kwargs)
 """
 
-from django.http import Http404
-from django.core.exceptions import ImproperlyConfigured, ViewDoesNotExist
+from opal.http import Http404
+from opal.core.exceptions import ImproperlyConfigured, ViewDoesNotExist
 import re
 
 class Resolver404(Http404):
@@ -18,8 +18,8 @@ class NoReverseMatch(Exception):
     pass
 
 def get_mod_func(callback):
-    # Converts 'django.views.news.stories.story_detail' to
-    # ['django.views.news.stories', 'story_detail']
+    # Converts 'opal.views.news.stories.story_detail' to
+    # ['opal.views.news.stories', 'story_detail']
     dot = callback.rindex('.')
     return callback[:dot], callback[dot+1:]
 
@@ -204,7 +204,7 @@ class RegexURLResolver(object):
 
 def resolve(path, urlconf=None):
     if urlconf is None:
-        from django.conf import settings
+        from opal.conf import settings
         urlconf = settings.ROOT_URLCONF
     resolver = RegexURLResolver(r'^/', urlconf)
     return resolver.resolve(path)
@@ -213,7 +213,7 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None):
     args = args or []
     kwargs = kwargs or {}
     if urlconf is None:
-        from django.conf import settings
+        from opal.conf import settings
         urlconf = settings.ROOT_URLCONF
     resolver = RegexURLResolver(r'^/', urlconf)
     return '/' + resolver.reverse(viewname, *args, **kwargs)

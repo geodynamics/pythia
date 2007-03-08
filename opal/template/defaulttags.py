@@ -1,9 +1,9 @@
 "Default tags used by the template system, available to all templates."
 
-from django.template import Node, NodeList, Template, Context, resolve_variable
-from django.template import TemplateSyntaxError, VariableDoesNotExist, BLOCK_TAG_START, BLOCK_TAG_END, VARIABLE_TAG_START, VARIABLE_TAG_END, SINGLE_BRACE_START, SINGLE_BRACE_END
-from django.template import get_library, Library, InvalidTemplateLibrary
-from django.conf import settings
+from opal.template import Node, NodeList, Template, Context, resolve_variable
+from opal.template import TemplateSyntaxError, VariableDoesNotExist, BLOCK_TAG_START, BLOCK_TAG_END, VARIABLE_TAG_START, VARIABLE_TAG_END, SINGLE_BRACE_START, SINGLE_BRACE_END
+from opal.template import get_library, Library, InvalidTemplateLibrary
+from opal.conf import settings
 import sys
 
 register = Library()
@@ -270,7 +270,7 @@ class NowNode(Node):
 
     def render(self, context):
         from datetime import datetime
-        from django.utils.dateformat import DateFormat
+        from opal.utils.dateformat import DateFormat
         df = DateFormat(datetime.now())
         return df.format(self.format_string)
 
@@ -279,7 +279,7 @@ class SpacelessNode(Node):
         self.nodelist = nodelist
 
     def render(self, context):
-        from django.utils.html import strip_spaces_between_tags
+        from opal.utils.html import strip_spaces_between_tags
         return strip_spaces_between_tags(self.nodelist.render(context).strip())
 
 class TemplateTagNode(Node):
@@ -686,7 +686,7 @@ def load(parser, token):
     for taglib in bits[1:]:
         # add the library to the parser
         try:
-            lib = get_library("django.templatetags.%s" % taglib.split('.')[-1])
+            lib = get_library("opal.templatetags.%s" % taglib.split('.')[-1])
             parser.add_library(lib)
         except InvalidTemplateLibrary, e:
             raise TemplateSyntaxError, "'%s' is not a valid tag library: %s" % (taglib, e)

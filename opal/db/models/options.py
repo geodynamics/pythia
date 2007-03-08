@@ -1,10 +1,10 @@
-from django.conf import settings
-from django.db.models.related import RelatedObject
-from django.db.models.fields.related import ManyToManyRel
-from django.db.models.fields import AutoField, FieldDoesNotExist
-from django.db.models.loading import get_models
-from django.db.models.query import orderlist2sql
-from django.db.models import Manager
+from opal.conf import settings
+from opal.db.models.related import RelatedObject
+from opal.db.models.fields.related import ManyToManyRel
+from opal.db.models.fields import AutoField, FieldDoesNotExist
+from opal.db.models.loading import get_models
+from opal.db.models.query import orderlist2sql
+from opal.db.models import Manager
 from bisect import bisect
 import re
 

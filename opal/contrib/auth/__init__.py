@@ -1,4 +1,4 @@
-from django.core.exceptions import ImproperlyConfigured
+from opal.core.exceptions import ImproperlyConfigured
 
 SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
@@ -19,7 +19,7 @@ def load_backend(path):
     return cls()
 
 def get_backends():
-    from django.conf import settings
+    from opal.conf import settings
     backends = []
     for backend_path in settings.AUTHENTICATION_BACKENDS:
         backends.append(load_backend(backend_path))
@@ -66,7 +66,7 @@ def logout(request):
         pass
 
 def get_user(request):
-    from django.contrib.auth.models import AnonymousUser
+    from opal.contrib.auth.models import AnonymousUser
     try:
         user_id = request.session[SESSION_KEY]
         backend_path = request.session[BACKEND_SESSION_KEY]

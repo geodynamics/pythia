@@ -2,9 +2,9 @@
 Decorators for views based on HTTP headers.
 """
 
-from django.utils.decorators import decorator_from_middleware
-from django.middleware.http import ConditionalGetMiddleware
-from django.http import HttpResponseNotAllowed
+from opal.utils.decorators import decorator_from_middleware
+from opal.middleware.http import ConditionalGetMiddleware
+from opal.http import HttpResponseNotAllowed
 
 conditional_page = decorator_from_middleware(ConditionalGetMiddleware)
 

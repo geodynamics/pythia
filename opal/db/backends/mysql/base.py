@@ -4,11 +4,11 @@ MySQL database backend for Django.
 Requires MySQLdb: http://sourceforge.net/projects/mysql-python
 """
 
-from django.db.backends import util
+from opal.db.backends import util
 try:
     import MySQLdb as Database
 except ImportError, e:
-    from django.core.exceptions import ImproperlyConfigured
+    from opal.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured, "Error loading MySQLdb module: %s" % e
 from MySQLdb.converters import conversions
 from MySQLdb.constants import FIELD_TYPE
@@ -55,7 +55,7 @@ try:
     from threading import local
 except ImportError:
     # Import copy of _thread_local.py from Python 2.4
-    from django.utils._threading_local import local
+    from opal.utils._threading_local import local
 
 class DatabaseWrapper(local):
     def __init__(self):
@@ -73,7 +73,7 @@ class DatabaseWrapper(local):
         return False
 
     def cursor(self):
-        from django.conf import settings
+        from opal.conf import settings
         if not self._valid_connection():
             kwargs = {
                 'user': settings.DATABASE_USER,

@@ -2,10 +2,10 @@
 XML serializer.
 """
 
-from django.conf import settings
-from django.core.serializers import base
-from django.db import models
-from django.utils.xmlutils import SimplerXMLGenerator
+from opal.conf import settings
+from opal.core.serializers import base
+from opal.db import models
+from opal.utils.xmlutils import SimplerXMLGenerator
 from xml.dom import pulldom
 
 class Serializer(base.Serializer):

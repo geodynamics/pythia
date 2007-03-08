@@ -1,5 +1,5 @@
-from django.conf.urls.defaults import *
+from opal.conf.urls.defaults import *
 
-urlpatterns = patterns('django.contrib.flatpages.views',
+urlpatterns = patterns('opal.contrib.flatpages.views',
     (r'^(?P<url>.*)$', 'flatpage'),
 )

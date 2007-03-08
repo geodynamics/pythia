@@ -4,9 +4,9 @@ and from basic Python data types (lists, dicts, strings, etc.). Useful as a basi
 other serializers.
 """
 
-from django.conf import settings
-from django.core.serializers import base
-from django.db import models
+from opal.conf import settings
+from opal.core.serializers import base
+from opal.db import models
 
 class Serializer(base.Serializer):
     """

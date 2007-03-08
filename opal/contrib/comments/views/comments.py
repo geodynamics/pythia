@@ -1,17 +1,17 @@
-from django.core import validators
+from opal.core import validators
 from django import forms
-from django.core.mail import mail_admins, mail_managers
-from django.http import Http404
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.contrib.comments.models import Comment, FreeComment, RATINGS_REQUIRED, RATINGS_OPTIONAL, IS_PUBLIC
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect
-from django.utils.text import normalize_newlines
-from django.conf import settings
-from django.utils.translation import ngettext
+from opal.core.mail import mail_admins, mail_managers
+from opal.http import Http404
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.shortcuts import render_to_response
+from opal.template import RequestContext
+from opal.contrib.comments.models import Comment, FreeComment, RATINGS_REQUIRED, RATINGS_OPTIONAL, IS_PUBLIC
+from opal.contrib.contenttypes.models import ContentType
+from opal.contrib.auth.forms import AuthenticationForm
+from opal.http import HttpResponseRedirect
+from opal.utils.text import normalize_newlines
+from opal.conf import settings
+from opal.utils.translation import ngettext
 import base64, datetime
 
 COMMENTS_PER_PAGE = 20
@@ -218,7 +218,7 @@ def post_comment(request):
     # If user gave correct username/password and wasn't already logged in, log them in
     # so they don't have to enter a username/password again.
     if manipulator.get_user() and new_data.has_key('password') and manipulator.get_user().check_password(new_data['password']):
-        from django.contrib.auth import login
+        from opal.contrib.auth import login
         login(request, manipulator.get_user())
     if errors or request.POST.has_key('preview'):
         class CommentFormWrapper(forms.FormWrapper):
@@ -311,7 +311,7 @@ def post_free_comment(request):
         # If the IP is banned, mail the admins, do NOT save the comment, and
         # serve up the "Thanks for posting" page as if the comment WAS posted.
         if request.META['REMOTE_ADDR'] in settings.BANNED_IPS:
-            from django.core.mail import mail_admins
+            from opal.core.mail import mail_admins
             mail_admins("Practical joker", str(request.POST) + "\n\n" + str(request.META))
         else:
             manipulator.do_html2python(new_data)

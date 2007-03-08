@@ -7,7 +7,7 @@ Each of these API functions, except connection.close(), raises
 ImproperlyConfigured.
 """
 
-from django.core.exceptions import ImproperlyConfigured
+from opal.core.exceptions import ImproperlyConfigured
 
 def complain(*args, **kwargs):
     raise ImproperlyConfigured, "You haven't set the DATABASE_ENGINE setting yet."

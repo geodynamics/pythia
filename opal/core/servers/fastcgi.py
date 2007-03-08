@@ -112,7 +112,7 @@ def runfastcgi(argset):
     wsgi_opts['debug'] = False # Turn off flup tracebacks
     
     # Prep up and go
-    from django.core.handlers.wsgi import WSGIHandler
+    from opal.core.handlers.wsgi import WSGIHandler
 
     if options["host"] and options["port"] and not options["socket"]:
         wsgi_opts['bindAddress'] = (options["host"], int(options["port"]))
@@ -135,7 +135,7 @@ def runfastcgi(argset):
             return fastcgi_help("ERROR: Invalid option for daemonize parameter.")
 
     if daemonize:
-        from django.utils.daemonize import become_daemon
+        from opal.utils.daemonize import become_daemon
         become_daemon(our_home_dir=options["workdir"])
 
     if options["pidfile"]:

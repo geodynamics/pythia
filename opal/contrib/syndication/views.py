@@ -1,5 +1,5 @@
-from django.contrib.syndication import feeds
-from django.http import HttpResponse, Http404
+from opal.contrib.syndication import feeds
+from opal.http import HttpResponse, Http404
 
 def feed(request, url, feed_dict=None):
     if not feed_dict:

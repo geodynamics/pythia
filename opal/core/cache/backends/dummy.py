@@ -1,6 +1,6 @@
 "Dummy cache backend"
 
-from django.core.cache.backends.base import BaseCache
+from opal.core.cache.backends.base import BaseCache
 
 class CacheClass(BaseCache):
     def __init__(self, *args, **kwargs):

@@ -1,6 +1,6 @@
-from django.conf import settings
+from opal.conf import settings
 from django import http
-from django.core.mail import mail_managers
+from opal.core.mail import mail_managers
 import md5
 
 class CommonMiddleware(object):

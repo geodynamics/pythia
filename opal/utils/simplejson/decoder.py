@@ -3,7 +3,7 @@ Implementation of JSONDecoder
 """
 import re
 
-from django.utils.simplejson.scanner import Scanner, pattern
+from opal.utils.simplejson.scanner import Scanner, pattern
 
 FLAGS = re.VERBOSE | re.MULTILINE | re.DOTALL
 

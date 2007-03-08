@@ -21,7 +21,7 @@ def authenhandler(req, **kwargs):
     if settings_module:
         os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
 
-    from django.contrib.auth.models import User
+    from opal.contrib.auth.models import User
 
     # check that the username is valid
     kwargs = {'username': req.user, 'is_active': True}

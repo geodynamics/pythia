@@ -8,9 +8,9 @@ validator will *always* be run, regardless of whether its associated
 form field is required.
 """
 
-from django.conf import settings
-from django.utils.translation import gettext, gettext_lazy, ngettext
-from django.utils.functional import Promise, lazy
+from opal.conf import settings
+from opal.utils.translation import gettext, gettext_lazy, ngettext
+from opal.utils.functional import Promise, lazy
 import re
 
 _datere = r'(19|2\d)\d{2}-((?:0?[1-9])|(?:1[0-2]))-((?:0?[1-9])|(?:[12][0-9])|(?:3[0-1]))'
@@ -231,7 +231,7 @@ def hasNoProfanities(field_data, all_data):
     field_data = field_data.lower() # normalize
     words_seen = [w for w in bad_words if field_data.find(w) > -1]
     if words_seen:
-        from django.utils.text import get_text_list
+        from opal.utils.text import get_text_list
         plural = len(words_seen) > 1
         raise ValidationError, ngettext("Watch your mouth! The word %s is not allowed here.",
             "Watch your mouth! The words %s are not allowed here.", plural) % \
@@ -331,7 +331,7 @@ class IsAPowerOf(object):
     >>> v(8, None)
     >>> v(16, None)
     >>> v(17, None)
-    django.core.validators.ValidationError: ['This value must be a power of 2.']
+    opal.core.validators.ValidationError: ['This value must be a power of 2.']
     """
     def __init__(self, power_of):
         self.power_of = power_of

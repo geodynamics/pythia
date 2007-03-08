@@ -1,3 +1,3 @@
-from django.db.backends.dummy.base import complain
+from opal.db.backends.dummy.base import complain
 
 runshell = complain

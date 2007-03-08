@@ -1,5 +1,5 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from opal.db import models
+from opal.utils.translation import gettext_lazy as _
 
 class ContentTypeManager(models.Manager):
     def get_for_model(self, model):
@@ -9,7 +9,7 @@ class ContentTypeManager(models.Manager):
         """
         opts = model._meta
         # The str() is needed around opts.verbose_name because it's a
-        # django.utils.functional.__proxy__ object.
+        # opal.utils.functional.__proxy__ object.
         ct, created = self.model._default_manager.get_or_create(app_label=opts.app_label,
             model=opts.object_name.lower(), defaults={'name': str(opts.verbose_name)})
         return ct
@@ -31,7 +31,7 @@ class ContentType(models.Model):
 
     def model_class(self):
         "Returns the Python model class for this type of content."
-        from django.db import models
+        from opal.db import models
         return models.get_model(self.app_label, self.model)
 
     def get_object_for_this_type(self, **kwargs):

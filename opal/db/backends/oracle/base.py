@@ -4,11 +4,11 @@ Oracle database backend for Django.
 Requires cx_Oracle: http://www.python.net/crew/atuining/cx_Oracle/
 """
 
-from django.db.backends import util
+from opal.db.backends import util
 try:
     import cx_Oracle as Database
 except ImportError, e:
-    from django.core.exceptions import ImproperlyConfigured
+    from opal.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured, "Error loading cx_Oracle module: %s" % e
 
 DatabaseError = Database.Error
@@ -18,7 +18,7 @@ try:
     from threading import local
 except ImportError:
     # Import copy of _thread_local.py from Python 2.4
-    from django.utils._threading_local import local
+    from opal.utils._threading_local import local
 
 class DatabaseWrapper(local):
     def __init__(self):
@@ -29,7 +29,7 @@ class DatabaseWrapper(local):
         return self.connection is not None
 
     def cursor(self):
-        from django.conf import settings
+        from opal.conf import settings
         if not self._valid_connection():
             if len(settings.DATABASE_HOST.strip()) == 0:
                 settings.DATABASE_HOST = 'localhost'

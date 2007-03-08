@@ -1,7 +1,7 @@
-from django.core.handlers.base import BaseHandler
-from django.core import signals
-from django.dispatch import dispatcher
-from django.utils import datastructures
+from opal.core.handlers.base import BaseHandler
+from opal.core import signals
+from opal.dispatch import dispatcher
+from opal.utils import datastructures
 from django import http
 from pprint import pformat
 
@@ -131,7 +131,7 @@ class WSGIRequest(http.HttpRequest):
 
 class WSGIHandler(BaseHandler):
     def __call__(self, environ, start_response):
-        from django.conf import settings
+        from opal.conf import settings
 
         if settings.ENABLE_PSYCO:
             import psyco

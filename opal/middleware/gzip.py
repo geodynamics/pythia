@@ -1,6 +1,6 @@
 import re
-from django.utils.text import compress_string
-from django.utils.cache import patch_vary_headers
+from opal.utils.text import compress_string
+from opal.utils.cache import patch_vary_headers
 
 re_accepts_gzip = re.compile(r'\bgzip\b')
 

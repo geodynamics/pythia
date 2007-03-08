@@ -1,10 +1,10 @@
-from django.contrib.admin.views.decorators import staff_member_required
-from django.core import validators
+from opal.contrib.admin.views.decorators import staff_member_required
+from opal.core import validators
 from django import template, forms
-from django.template import loader
-from django.shortcuts import render_to_response
-from django.contrib.sites.models import Site
-from django.conf import settings
+from opal.template import loader
+from opal.shortcuts import render_to_response
+from opal.contrib.sites.models import Site
+from opal.conf import settings
 
 def template_validator(request):
     """

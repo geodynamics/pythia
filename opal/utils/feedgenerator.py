@@ -18,7 +18,7 @@ For definitions of the different versions of RSS, see:
 http://diveintomark.org/archives/2004/02/04/incompatible-rss
 """
 
-from django.utils.xmlutils import SimplerXMLGenerator
+from opal.utils.xmlutils import SimplerXMLGenerator
 import datetime, re, time
 import email.Utils
 

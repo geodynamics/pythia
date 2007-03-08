@@ -1,7 +1,7 @@
-from django.template import loader, RequestContext
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.xheaders import populate_xheaders
-from django.http import Http404, HttpResponse
+from opal.template import loader, RequestContext
+from opal.core.exceptions import ObjectDoesNotExist
+from opal.core.xheaders import populate_xheaders
+from opal.http import Http404, HttpResponse
 import datetime, time
 
 def archive_index(request, queryset, date_field, num_latest=15,

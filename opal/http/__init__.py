@@ -2,7 +2,7 @@ import os
 from Cookie import SimpleCookie
 from pprint import pformat
 from urllib import urlencode, quote
-from django.utils.datastructures import MultiValueDict
+from opal.utils.datastructures import MultiValueDict
 
 RESERVED_CHARS="!*'();:@&=+$,/?%#[]"
 
@@ -156,7 +156,7 @@ def parse_cookie(cookie):
 class HttpResponse(object):
     "A basic HTTP response, with content and dictionary-accessed headers"
     def __init__(self, content='', mimetype=None):
-        from django.conf import settings
+        from opal.conf import settings
         self._charset = settings.DEFAULT_CHARSET
         if not mimetype:
             mimetype = "%s; charset=%s" % (settings.DEFAULT_CONTENT_TYPE, settings.DEFAULT_CHARSET)

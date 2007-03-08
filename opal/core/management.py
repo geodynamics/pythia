@@ -2,10 +2,10 @@
 # development-server initialization.
 
 import django
-from django.core.exceptions import ImproperlyConfigured
+from opal.core.exceptions import ImproperlyConfigured
 import os, re, shutil, sys, textwrap
 from optparse import OptionParser
-from django.utils import termcolors
+from opal.utils import termcolors
 
 # For Python 2.3
 if not hasattr(__builtins__, 'set'):
@@ -21,9 +21,9 @@ MODULE_TEMPLATE = '''    {%% if perms.%(app)s.%(addperm)s or perms.%(app)s.%(cha
 
 APP_ARGS = '[appname ...]'
 
-# Use django.__path__[0] because we don't know which directory django into
+# Use opal.__path__[0] because we don't know which directory django into
 # which has been installed.
-PROJECT_TEMPLATE_DIR = os.path.join(django.__path__[0], 'conf', '%s_template')
+PROJECT_TEMPLATE_DIR = os.path.join(opal.__path__[0], 'conf', '%s_template')
 
 INVALID_PROJECT_NAMES = ('django', 'test')
 
@@ -54,7 +54,7 @@ def _is_valid_dir_name(s):
 
 def _get_installed_models(table_list):
     "Gets a set of all models that are installed, given a list of existing tables"
-    from django.db import models
+    from opal.db import models
     all_models = []
     for app in models.get_apps():
         for model in models.get_models(app):
@@ -63,7 +63,7 @@ def _get_installed_models(table_list):
 
 def _get_table_list():
     "Gets a list of all db tables that are physically installed."
-    from django.db import connection, get_introspection_module
+    from opal.db import connection, get_introspection_module
     cursor = connection.cursor()
     return get_introspection_module().get_table_list(cursor)
 
@@ -83,7 +83,7 @@ def get_version():
 
 def get_sql_create(app):
     "Returns a list of the CREATE TABLE SQL statements for the given app."
-    from django.db import get_creation_module, models
+    from opal.db import get_creation_module, models
     data_types = get_creation_module().DATA_TYPES
 
     if not data_types:
@@ -133,7 +133,7 @@ def _get_sql_model_create(model, known_models=set()):
 
     Returns list_of_sql, pending_references_dict
     """
-    from django.db import backend, get_creation_module, models
+    from opal.db import backend, get_creation_module, models
     data_types = get_creation_module().DATA_TYPES
 
     opts = model._meta
@@ -188,7 +188,7 @@ def _get_sql_for_pending_references(model, pending_references):
     """
     Get any ALTER TABLE statements to add constraints after the fact.
     """
-    from django.db import backend, get_creation_module
+    from opal.db import backend, get_creation_module
     data_types = get_creation_module().DATA_TYPES
 
     final_output = []
@@ -215,8 +215,8 @@ def _get_sql_for_pending_references(model, pending_references):
     return final_output
 
 def _get_many_to_many_sql_for_model(model):
-    from django.db import backend, get_creation_module
-    from django.db.models import GenericRel
+    from opal.db import backend, get_creation_module
+    from opal.db.models import GenericRel
 
     data_types = get_creation_module().DATA_TYPES
 
@@ -252,7 +252,7 @@ def _get_many_to_many_sql_for_model(model):
 
 def get_sql_delete(app):
     "Returns a list of the DROP TABLE SQL statements for the given app."
-    from django.db import backend, connection, models, get_introspection_module
+    from opal.db import backend, connection, models, get_introspection_module
     introspection = get_introspection_module()
 
     # This should work even if a connecton isn't available
@@ -329,8 +329,8 @@ get_sql_reset.help_doc = "Prints the DROP TABLE SQL, then the CREATE TABLE SQL, 
 get_sql_reset.args = APP_ARGS
 
 def get_sql_initial_data_for_model(model):
-    from django.db import models
-    from django.conf import settings
+    from opal.db import models
+    from opal.conf import settings
 
     opts = model._meta
     app_dir = os.path.normpath(os.path.join(os.path.dirname(models.get_app(model._meta.app_label).__file__), 'sql'))
@@ -355,7 +355,7 @@ def get_sql_initial_data_for_model(model):
 
 def get_sql_initial_data(app):
     "Returns a list of the initial INSERT SQL statements for the given app."
-    from django.db.models import get_models
+    from opal.db.models import get_models
     output = []
 
     app_models = get_models(app)
@@ -370,7 +370,7 @@ get_sql_initial_data.args = APP_ARGS
 
 def get_sql_sequence_reset(app):
     "Returns a list of the SQL statements to reset PostgreSQL sequences for the given app."
-    from django.db import backend, models
+    from opal.db import backend, models
     output = []
     for model in models.get_models(app):
         for f in model._meta.fields:
@@ -397,7 +397,7 @@ get_sql_sequence_reset.args = APP_ARGS
 
 def get_sql_indexes(app):
     "Returns a list of the CREATE INDEX SQL statements for the given app."
-    from django.db import backend, models
+    from opal.db import backend, models
     output = []
 
     for model in models.get_models(app):
@@ -423,10 +423,10 @@ get_sql_all.args = APP_ARGS
 
 def syncdb():
     "Creates the database tables for all apps in INSTALLED_APPS whose tables haven't already been created."
-    from django.db import connection, transaction, models, get_creation_module
-    from django.db.models import signals
-    from django.conf import settings
-    from django.dispatch import dispatcher
+    from opal.db import connection, transaction, models, get_creation_module
+    from opal.db.models import signals
+    from opal.conf import settings
+    from opal.dispatch import dispatcher
 
     disable_termcolors()
 
@@ -511,8 +511,8 @@ syncdb.args = ''
 
 def get_admin_index(app):
     "Returns admin-index template snippet (in list form) for the given app."
-    from django.utils.text import capfirst
-    from django.db.models import get_models
+    from opal.utils.text import capfirst
+    from opal.db.models import get_models
     output = []
     app_models = get_models(app)
     app_label = app_models[0]._meta.app_label
@@ -544,7 +544,7 @@ def diffsettings():
     followed by "###".
     """
     # Inspired by Postfix's "postconf -n".
-    from django.conf import settings, global_settings
+    from opal.conf import settings, global_settings
 
     user_settings = _module_to_dict(settings)
     default_settings = _module_to_dict(global_settings)
@@ -562,7 +562,7 @@ diffsettings.args = ""
 
 def install(app):
     "Executes the equivalent of 'get_sql_all' in the current database."
-    from django.db import connection, transaction
+    from opal.db import connection, transaction
 
     app_name = app.__name__.split('.')[-2]
 
@@ -592,7 +592,7 @@ install.args = APP_ARGS
 
 def reset(app):
     "Executes the equivalent of 'get_sql_reset' in the current database."
-    from django.db import connection, transaction
+    from opal.db import connection, transaction
     app_name = app.__name__.split('.')[-2]
 
     disable_termcolors()
@@ -691,7 +691,7 @@ startapp.args = "[appname]"
 
 def inspectdb():
     "Generator that introspects the tables in the given database name and returns a Django model, one line at a time."
-    from django.db import connection, get_introspection_module
+    from opal.db import connection, get_introspection_module
     import keyword
 
     introspection_module = get_introspection_module()
@@ -710,7 +710,7 @@ def inspectdb():
     yield "# Also note: You'll have to insert the output of 'django-admin.py sqlinitialdata [appname]'"
     yield "# into your database."
     yield ''
-    yield 'from django.db import models'
+    yield 'from opal.db import models'
     yield ''
     for table_name in introspection_module.get_table_list(cursor):
         yield 'class %s(models.Model):' % table2model(table_name)
@@ -812,9 +812,9 @@ def get_validation_errors(outfile, app=None):
     validates all models of all installed apps. Writes errors, if any, to outfile.
     Returns number of errors.
     """
-    from django.db import models
-    from django.db.models.loading import get_app_errors
-    from django.db.models.fields.related import RelatedObject
+    from opal.db import models
+    from opal.db.models.loading import get_app_errors
+    from opal.db.models.fields.related import RelatedObject
 
     e = ModelErrorCollection(outfile)
 
@@ -1025,8 +1025,8 @@ def _check_for_validation_errors(app=None):
 
 def runserver(addr, port, use_reloader=True):
     "Starts a lightweight Web server for development."
-    from django.core.servers.basehttp import run, AdminMediaHandler, WSGIServerException
-    from django.core.handlers.wsgi import WSGIHandler
+    from opal.core.servers.basehttp import run, AdminMediaHandler, WSGIServerException
+    from opal.core.handlers.wsgi import WSGIHandler
     if not addr:
         addr = '127.0.0.1'
     if not port.isdigit():
@@ -1034,7 +1034,7 @@ def runserver(addr, port, use_reloader=True):
         sys.exit(1)
     quit_command = sys.platform == 'win32' and 'CTRL-BREAK' or 'CONTROL-C'
     def inner_run():
-        from django.conf import settings
+        from opal.conf import settings
         print "Validating models..."
         validate()
         print "\nDjango version %s, using settings %r" % (get_version(), settings.SETTINGS_MODULE)
@@ -1058,7 +1058,7 @@ def runserver(addr, port, use_reloader=True):
         except KeyboardInterrupt:
             sys.exit(0)
     if use_reloader:
-        from django.utils import autoreload
+        from opal.utils import autoreload
         autoreload.main(inner_run)
     else:
         inner_run()
@@ -1066,7 +1066,7 @@ runserver.args = '[--noreload] [optional port number, or ipaddr:port]'
 
 def createcachetable(tablename):
     "Creates the table needed to use the SQL cache backend"
-    from django.db import backend, connection, transaction, get_creation_module, models
+    from opal.db import backend, connection, transaction, get_creation_module, models
     data_types = get_creation_module().DATA_TYPES
     fields = (
         # "key" is a reserved word in MySQL, so use "cache_key" instead.
@@ -1127,13 +1127,13 @@ run_shell.args = '[--plain]'
 
 def dbshell():
     "Runs the command-line client for the current DATABASE_ENGINE."
-    from django.db import runshell
+    from opal.db import runshell
     runshell()
 dbshell.args = ""
 
 def runfcgi(args):
     """Run this project as a FastCGI application. requires flup."""
-    from django.core.servers.fastcgi import runfastcgi
+    from opal.core.servers.fastcgi import runfastcgi
     runfastcgi(args)
 runfcgi.args = '[various KEY=val options, use `runfcgi help` for help]'
 
@@ -1234,7 +1234,7 @@ def execute_from_command_line(action_mapping=DEFAULT_ACTION_MAPPING, argv=None):
     # like permissions, and those shouldn't contain any translations.
     # But only do this if we should have a working settings file.
     if action not in ('startproject', 'startapp'):
-        from django.utils import translation
+        from opal.utils import translation
         translation.activate('en-us')
 
     if action == 'shell':
@@ -1272,7 +1272,7 @@ def execute_from_command_line(action_mapping=DEFAULT_ACTION_MAPPING, argv=None):
     elif action == 'runfcgi':
         action_mapping[action](args[1:])
     else:
-        from django.db import models
+        from opal.db import models
         try:
             mod_list = [models.get_app(app_label) for app_label in args[1:]]
         except ImportError, e:

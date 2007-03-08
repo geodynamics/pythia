@@ -4,11 +4,11 @@ ADO MSSQL database backend for Django.
 Requires adodbapi 2.0.1: http://adodbapi.sourceforge.net/
 """
 
-from django.db.backends import util
+from opal.db.backends import util
 try:
     import adodbapi as Database
 except ImportError, e:
-    from django.core.exceptions import ImproperlyConfigured
+    from opal.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured, "Error loading adodbapi module: %s" % e
 import datetime
 try:
@@ -52,7 +52,7 @@ try:
     from threading import local
 except ImportError:
     # Import copy of _thread_local.py from Python 2.4
-    from django.utils._threading_local import local
+    from opal.utils._threading_local import local
 
 class DatabaseWrapper(local):
     def __init__(self):
@@ -60,10 +60,10 @@ class DatabaseWrapper(local):
         self.queries = []
 
     def cursor(self):
-        from django.conf import settings
+        from opal.conf import settings
         if self.connection is None:
             if settings.DATABASE_NAME == '' or settings.DATABASE_USER == '':
-                from django.core.exceptions import ImproperlyConfigured
+                from opal.core.exceptions import ImproperlyConfigured
                 raise ImproperlyConfigured, "You need to specify both DATABASE_NAME and DATABASE_USER in your Django settings file."
             if not settings.DATABASE_HOST:
                 settings.DATABASE_HOST = "127.0.0.1"

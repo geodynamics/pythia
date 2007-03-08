@@ -11,8 +11,8 @@ Usage:
 >>>
 """
 
-from django.utils.dates import MONTHS, MONTHS_AP, WEEKDAYS
-from django.utils.tzinfo import LocalTimezone
+from opal.utils.dates import MONTHS, MONTHS_AP, WEEKDAYS
+from opal.utils.tzinfo import LocalTimezone
 from calendar import isleap, monthrange
 import re, time
 

@@ -1,6 +1,6 @@
 "Memcached cache backend"
 
-from django.core.cache.backends.base import BaseCache, InvalidCacheBackendError
+from opal.core.cache.backends.base import BaseCache, InvalidCacheBackendError
 
 try:
     import memcache

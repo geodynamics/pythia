@@ -1,6 +1,6 @@
 # Use this module for e-mailing.
 
-from django.conf import settings
+from opal.conf import settings
 from email.MIMEText import MIMEText
 from email.Header import Header
 import smtplib, rfc822

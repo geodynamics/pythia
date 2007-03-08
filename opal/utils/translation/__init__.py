@@ -1,4 +1,4 @@
-from django.conf import settings
+from opal.conf import settings
 
 if settings.USE_I18N:
     from trans_real import *

@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
+from opal.contrib.auth.models import User
 
 class ModelBackend:
     """
-    Authenticate against django.contrib.auth.models.User
+    Authenticate against opal.contrib.auth.models.User
     """
     # TODO: Model, login attribute name and password attribute name should be
     # configurable.

@@ -1,8 +1,8 @@
-from django.contrib.flatpages.models import FlatPage
-from django.template import loader, RequestContext
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from django.conf import settings
+from opal.contrib.flatpages.models import FlatPage
+from opal.template import loader, RequestContext
+from opal.shortcuts import get_object_or_404
+from opal.http import HttpResponse
+from opal.conf import settings
 
 DEFAULT_TEMPLATE = 'flatpages/default.html'
 
@@ -23,7 +23,7 @@ def flatpage(request, url):
     # If registration is required for accessing this page, and the user isn't
     # logged in, redirect to the login page.
     if f.registration_required and not request.user.is_authenticated():
-        from django.contrib.auth.views import redirect_to_login
+        from opal.contrib.auth.views import redirect_to_login
         return redirect_to_login(request.path)
     if f.template_name:
         t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
