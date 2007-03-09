@@ -156,7 +156,7 @@ def empty_urlconf(request):
     "Create an empty URLconf 404 error response."
     t = Template(EMPTY_URLCONF_TEMPLATE)
     c = Context({
-        'project_name': settings.SETTINGS_MODULE.split('.')[0]
+        'project_name': settings.name
     })
     return HttpResponseNotFound(t.render(c), mimetype='text/html')
 
@@ -509,7 +509,6 @@ Traceback (most recent call last):<br/>
   </table>
 
   <h3 id="settings-info">Settings</h3>
-  <h4>Using settings module <code>{{ settings.SETTINGS_MODULE }}</code></h4>
   <table class="req">
     <thead>
       <tr>

@@ -117,7 +117,7 @@ def translation(language):
 
     globalpath = os.path.join(os.path.dirname(sys.modules[settings.__module__].__file__), 'locale')
 
-    if settings.SETTINGS_MODULE is not None:
+    if False: #settings.SETTINGS_MODULE is not None:
         parts = settings.SETTINGS_MODULE.split('.')
         project = __import__(parts[0], {}, {}, [])
         projectpath = os.path.join(os.path.dirname(project.__file__), 'locale')

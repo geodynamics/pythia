@@ -533,29 +533,6 @@ def _module_to_dict(module, omittable=lambda k: k.startswith('_')):
     "Converts a module namespace to a Python dictionary. Used by get_settings_diff."
     return dict([(k, repr(v)) for k, v in module.__dict__.items() if not omittable(k)])
 
-def diffsettings():
-    """
-    Displays differences between the current settings.py and Django's
-    default settings. Settings that don't appear in the defaults are
-    followed by "###".
-    """
-    # Inspired by Postfix's "postconf -n".
-    from opal.conf import settings, global_settings
-
-    user_settings = _module_to_dict(settings)
-    default_settings = _module_to_dict(global_settings)
-
-    output = []
-    keys = user_settings.keys()
-    keys.sort()
-    for key in keys:
-        if key not in default_settings:
-            output.append("%s = %s  ###" % (key, user_settings[key]))
-        elif user_settings[key] != default_settings[key]:
-            output.append("%s = %s" % (key, user_settings[key]))
-    print '\n'.join(output)
-diffsettings.args = ""
-
 def install(app):
     "Executes the equivalent of 'get_sql_all' in the current database."
     from opal.db import connection, transaction
@@ -1033,7 +1010,7 @@ def runserver(addr, port, use_reloader=True):
         from opal.conf import settings
         print "Validating models..."
         validate()
-        print "\nDjango version %s, using settings %r" % (get_version(), settings.SETTINGS_MODULE)
+        print "\nOpal version %s" % get_version()
         print "Development server is running at http://%s:%s/" % (addr, port)
         print "Quit the server with %s." % quit_command
         try:
@@ -1139,7 +1116,6 @@ DEFAULT_ACTION_MAPPING = {
     'adminindex': get_admin_index,
     'createcachetable' : createcachetable,
     'dbshell': dbshell,
-    'diffsettings': diffsettings,
     'inspectdb': inspectdb,
     'install': install,
     'reset': reset,
@@ -1163,7 +1139,6 @@ NO_SQL_TRANSACTION = (
     'adminindex',
     'createcachetable',
     'dbshell',
-    'diffsettings',
     'install',
     'reset',
     'sqlindexes',
@@ -1201,8 +1176,6 @@ def execute_from_command_line(action_mapping=DEFAULT_ACTION_MAPPING, argv=None):
 
     # Parse the command-line arguments. optparse handles the dirty work.
     parser = DjangoOptionParser(usage=get_usage(action_mapping), version=get_version())
-    parser.add_option('--settings',
-        help='Python path to settings module, e.g. "myproject.settings.main". If this isn\'t provided, the DJANGO_SETTINGS_MODULE environment variable will be used.')
     parser.add_option('--pythonpath',
         help='Lets you manually add a directory the Python path, e.g. "/home/djangoprojects/myproject".')
     parser.add_option('--plain', action='store_true', dest='plain',
@@ -1212,8 +1185,6 @@ def execute_from_command_line(action_mapping=DEFAULT_ACTION_MAPPING, argv=None):
     options, args = parser.parse_args(argv[1:])
 
     # Take care of options.
-    if options.settings:
-        os.environ['DJANGO_SETTINGS_MODULE'] = options.settings
     if options.pythonpath:
         sys.path.insert(0, options.pythonpath)
 
@@ -1235,7 +1206,7 @@ def execute_from_command_line(action_mapping=DEFAULT_ACTION_MAPPING, argv=None):
 
     if action == 'shell':
         action_mapping[action](options.plain is True)
-    elif action in ('syncdb', 'validate', 'diffsettings', 'dbshell'):
+    elif action in ('syncdb', 'validate', 'dbshell'):
         action_mapping[action]()
     elif action == 'inspectdb':
         try:
@@ -1294,9 +1265,6 @@ def execute_manager(settings_mod, argv=None):
     sys.path.append(os.path.join(project_directory, '..'))
     project_module = __import__(project_name, '', '', [''])
     sys.path.pop()
-
-    # Set DJANGO_SETTINGS_MODULE appropriately.
-    os.environ['DJANGO_SETTINGS_MODULE'] = '%s.settings' % project_name
 
     action_mapping = DEFAULT_ACTION_MAPPING.copy()
 

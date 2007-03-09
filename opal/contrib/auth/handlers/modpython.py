@@ -17,9 +17,6 @@ def authenhandler(req, **kwargs):
     permission_name = options.get('DjangoPermissionName', None)
     staff_only = _str_to_bool(options.get('DjangoRequireStaffStatus', "on"))
     superuser_only = _str_to_bool(options.get('DjangoRequireSuperuserStatus', "off"))
-    settings_module = options.get('DJANGO_SETTINGS_MODULE', None)
-    if settings_module:
-        os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
 
     from opal.contrib.auth.models import User
 
