@@ -11,10 +11,17 @@
 #
 
 
-from View import View
-from DetailView import DetailView
-from ListView import ListView
-from PaginatedListView import PaginatedListView
+from pyre.components import Component
+
+
+class WebComponent(Component):
+
+
+    children = {}
+
+
+    def view(self):
+        return self.DefaultViewClass(self)
 
 
 # end of file

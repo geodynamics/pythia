@@ -217,3 +217,23 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None):
         urlconf = settings.ROOT_URLCONF
     resolver = RegexURLResolver(r'^/', urlconf)
     return '/' + resolver.reverse(viewname, *args, **kwargs)
+
+class TreeURLResolver(object):
+    def __init__(self, root):
+        self.root = root
+    
+    def resolve(self, pathname):
+        #raise Resolver404, {'tried': ['foo', 'bar', path], 'path': path + 'hey'}
+        path = pathname.split('/')
+        args = ()
+        kwargs = {}
+        node = self.root
+        try:
+            for name in path[:-1]:
+                node = node.children[name]
+            name = path[-1]
+            if name != "":
+                node = node.children[name]
+        except KeyError:
+            raise Http404
+        return node.view().response, args, kwargs

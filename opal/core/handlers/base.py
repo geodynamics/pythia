@@ -50,7 +50,7 @@ class BaseHandler(object):
 
     def get_response(self, path, request):
         "Returns an HttpResponse object for the given HttpRequest"
-        from opal.core import exceptions, urlresolvers
+        from opal.core import exceptions
         from opal.core.mail import mail_admins
         from opal.conf import settings
 
@@ -60,9 +60,9 @@ class BaseHandler(object):
             if response:
                 return response
 
-        resolver = urlresolvers.RegexURLResolver(r'^/', settings.ROOT_URLCONF)
         try:
-            callback, callback_args, callback_kwargs = resolver.resolve(path)
+            site = settings
+            callback, callback_args, callback_kwargs = site.resolve(path)
 
             # Apply view middleware
             for middleware_method in self._view_middleware:

@@ -316,7 +316,7 @@ class WebSite(Component):
     #########
 
     SITE_ID = pyre.int("site-id", default=1)
-    ROOT_URLCONF = pyre.str("root-urlconf", default="not.yet.implemented")
+    xROOT_URLCONF = pyre.str("root-urlconf", default="not.yet.implemented")
 
 
     def _configure(self):
@@ -331,6 +331,26 @@ class WebSite(Component):
             self.SESSION_COOKIE_DOMAIN = self.session_cookie_domain
 
         return
+
+
+    ##########
+
+
+    urlpatterns = None
+
+
+    def resolve(self, path):
+        resolver = self.urlResolver()
+        return resolver.resolve(path)
+
+
+    def urlResolver(self):
+        from opal.core import urlresolvers
+        if self.urlpatterns is None:
+            resolver = urlresolvers.TreeURLResolver(self)
+        else:
+            resolver = urlresolvers.RegexURLResolver(r'^/', self)
+        return resolver
 
 
 # end of file
