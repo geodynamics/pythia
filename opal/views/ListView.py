@@ -12,8 +12,8 @@
 
 
 from View import View
-from opal.template import RequestContext
 from opal.http import Http404, HttpResponse
+from opal.template import RequestContext
 
 
 class ListView(View):
@@ -45,11 +45,12 @@ class ListView(View):
     """
 
 
-    templateNameTag = "list"
+    defaultTemplateNameTag = "list"
 
 
     def __init__(self, queryset, allow_empty=True, **kwds):
-        View.__init__(self, queryset=queryset, **kwds)
+        View.__init__(self, queryset.model, **kwds)
+        self.queryset = queryset
         self.allow_empty = allow_empty
         return
 
@@ -67,7 +68,7 @@ class ListView(View):
             'is_paginated': False
         }, self.context_processors)
         if not self.allow_empty and len(self.queryset) == 0:
-            raise Http404
+            raise Http404()
         return c
 
 

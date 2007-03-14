@@ -14,18 +14,23 @@
 class View(object):
 
 
-    def __init__(self, queryset,
+    def __init__(self, model, controller=None,
                  template_name=None, template_loader=None,
                  extra_context=None, context_processors=None,
                  template_object_name='object',
                  mimetype=None):
-        self.queryset = queryset
+        self.model = model
+        if controller is None:
+            from opal.controllers import NoController
+            self.controller = NoController
+        else:
+            self.controller = controller
+        self.controller.view = self
         if template_name:
             self.template_name = template_name
         else:
-            model = queryset.model
-            template_name = "%s/%s_%s.html" % (model._meta.app_label,
-                                               model._meta.object_name.lower(),
+            template_name = "%s/%s_%s.html" % (self.model._meta.app_label,
+                                               self.model._meta.object_name.lower(),
                                                self.templateNameTag)
         if template_loader is None:
             from opal.template import loader
@@ -42,8 +47,14 @@ class View(object):
         return
 
 
-    def response(self):
+    def response(self, request):
+        __pychecker__ = 'unusednames=request'
         raise NotImplementedError("class %r must override 'response'" % self.__class__.__name__)
+
+
+    def _getTemplateNameTag(self):
+        return self.controller.templateNameTag
+    templateNameTag = property(_getTemplateNameTag)
 
 
     def loadTemplate(self):
@@ -57,6 +68,10 @@ class View(object):
             else:
                 c[key] = value
         return c
+
+
+    def globalContext(self):
+        return self.controller.globalContext()
 
 
 # end of file
