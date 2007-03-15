@@ -168,6 +168,21 @@ class Executive(object):
         return
 
 
+    def version(self):
+        from merlin import get_provider, Requirement
+        try:
+            req = self.requires()
+        except ImportError:
+            print "Please consider writing version info for this application."
+            return
+        req = Requirement.parse(req)
+        provider = get_provider(req)
+        # NYI: make this pretty
+        for line in provider.get_metadata_lines("PKG-INFO"):
+            print line
+        return
+
+
     def __init__(self):
         self.arg0 = self.name
         self._requires = None

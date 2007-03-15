@@ -24,6 +24,9 @@ except ImportError:
 class Shell(Configurable):
 
 
+    import pyre.inventory
+    version = pyre.inventory.bool("version")
+    
     import pyre.hooks
     excepthook = pyre.hooks.facility("excepthook", family="excepthook",
                                      default=defaultExceptHook)
@@ -113,6 +116,8 @@ class Shell(Configurable):
         action = action and getattr(app, action)
         if action:
             action()
+        elif self.version:
+            app.version()
         elif app._helpRequested:
             app.help()
         else:
