@@ -19,10 +19,6 @@ class InputFile(Property):
 
 
     def __init__(self, name, default=None, meta=None, validator=None):
-        if default is None:
-            import sys
-            default = sys.stdin
-            
         Property.__init__(self, name, "file", default, meta, validator)
         return
 
