@@ -31,7 +31,7 @@ class ComponentHarness(object):
         # collect unknown traits for the components and its subcomponents
         context = self.configureHarnessedComponent(component, curator, registry)
 
-        if not context.verifyConfiguration('strict'):
+        if not context.verifyConfiguration(component, 'strict'):
             return
 
         # initialize the component

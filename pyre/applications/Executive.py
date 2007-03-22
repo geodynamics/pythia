@@ -80,7 +80,7 @@ class Executive(object):
     def verifyConfiguration(self, context, mode='strict'):
         """verify that the user input did not contain any typos"""
 
-        return context.verifyConfiguration(mode)
+        return context.verifyConfiguration(self, mode)
 
 
     # the default application action

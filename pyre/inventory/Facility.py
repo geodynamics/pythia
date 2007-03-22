@@ -13,12 +13,13 @@
 
 
 from Trait import Trait
+from pyre.inventory import Uninit
 
 
 class Facility(Trait):
 
 
-    def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None,
+    def __init__(self, name, family=None, default=Uninit, factory=None, args=(), meta=None,
                  vault=None):
         Trait.__init__(self, name, 'facility', default, meta)
 
@@ -36,12 +37,19 @@ class Facility(Trait):
 
 
     def _getDefaultValue(self, instance):
-        component = self.default
+        
+        # Initialize my value (preventing further lookups), in case we
+        # don't make it out of here alive.
+        import pyre.parsing.locators
+        from pyre.inventory import Error
+        locator = pyre.parsing.locators.error()
+        instance._initializeTraitValue(self.name, Error, locator)
 
         import pyre.parsing.locators
         locator = pyre.parsing.locators.default()
 
-        if component is not None:
+        if not self.default in [None, Uninit]:
+            component = self.default
             # if we got a string, resolve
             if isinstance(component, basestring):
                 component, loc = self._retrieveComponent(instance, component)
@@ -51,7 +59,7 @@ class Facility(Trait):
 
         if self.factory is not None:
             # instantiate the component
-            component =  self.factory(*self.args)
+            component = self.factory(*self.args)
             # adjust the configuration aliases to include my name
             aliases = component.aliases
             if self.name not in aliases:
@@ -60,11 +68,22 @@ class Facility(Trait):
             # return
             return component, locator
 
-        # oops: expect exceptions galore!
-        import journal
-        firewall = journal.firewall('pyre.inventory')
-        firewall.log(
-            "facility %r was given neither a default value nor a factory method" % self.name)
+        component, locator = self._getBuiltInDefaultValue(instance)
+        if component is not None:
+            return component, locator
+
+        if self.default is Uninit:
+            # oops: expect exceptions galore!
+            import journal
+            firewall = journal.firewall('pyre.inventory')
+            firewall.log(
+                "facility %r was given neither a default value nor a factory method" % self.name)
+
+        # None is a special value; it means that a facility is not set
+        return None, None
+
+
+    def _getBuiltInDefaultValue(self, instance):
         return None, None
 
 
@@ -152,12 +171,6 @@ class Facility(Trait):
 
 
     def _import(self, instance, name):
-
-        # Initialize my value (preventing further lookups), in case we
-        # don't make it out of here alive.
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.error()
-        instance._initializeTraitValue(self.name, None, locator)
 
         factoryName = self.family
         path = name.split(':')

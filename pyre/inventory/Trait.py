@@ -16,6 +16,7 @@ class Trait(object):
 
 
     def __init__(self, name, type, default=None, meta=None):
+        self.attr = None  # private attribute name (set by Notary)
         self.name = name
         self.default = default
 

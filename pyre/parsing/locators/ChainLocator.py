@@ -25,6 +25,10 @@ class ChainLocator(object):
         return "%s via %s" % (self.this, self.next)
 
 
+    def getAttributes(self, attr):
+        return
+
+
     __slots__ = ("this", "next")
     
 

@@ -70,13 +70,9 @@ class Configurable(Traceable):
 
         if context is None:
             context = self.newConfigContext()
+
+        context.configureComponent(self)
         
-        # apply user settings to my properties
-        self.configureProperties(context)
-
-        # apply user settings to my components
-        self.configureComponents(context)
-
         # give descendants a chance to adjust to configuration changes
         self._configure()
         
@@ -116,13 +112,11 @@ class Configurable(Traceable):
     def configureProperties(self, context):
         """set the values of all the properties and facilities in my inventory"""
         self.inventory.configureProperties(context)
-        self._claim(context)
 
 
     def configureComponents(self, context):
         """guide my subcomponents through the configuration process"""
         self.inventory.configureComponents(context)
-        self._claim(context)
 
 
     def getDepositories(self):
@@ -341,6 +335,10 @@ class Configurable(Traceable):
         else:
             self.name = name
         self.inventory = self.createInventory()
+        
+        # provide simple, convenient access to descriptors
+        from MetaInventory import MetaInventory
+        self.metainventory = MetaInventory(self.inventory)
 
         # other names by which I am known for configuration purposes
         self.aliases = [ name ]
@@ -365,6 +363,11 @@ class Configurable(Traceable):
         return
 
 
+    def _validate(self, context):
+        """perform complex validation involving multiple properties"""
+        return
+
+
     def _configure(self):
         """modify the configuration programmatically"""
         return
@@ -378,12 +381,6 @@ class Configurable(Traceable):
     def _fini(self):
         """all done"""
         return
-
-
-    # misc
-    def _claim(self, context):
-        """decorate the missing traits with my name"""
-        return context.claim(self.name)
 
 
     # inventory

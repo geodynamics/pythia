@@ -13,46 +13,85 @@
 
 class ConfigContext(object):
 
+    #
+    # application interface
+    #
+    
+    def error(self, error, **attributes):
+        for k, v in attributes.iteritems():
+            setattr(error, k, v)
+        if not hasattr(error, 'locator'):
+            if hasattr(error, 'items') and len(error.items) == 1:
+                error.locator = error.items[0].locator
+            else:
+                from pyre.parsing.locators import simple
+                error.locator = simple("validator")
+        if hasattr(error, 'items'):
+            for item in error.items:
+                # This could be wrong in _validate().  For now, the
+                # framework assumes that _validate() is simple and
+                # polite: i.e., a component only reports errors for
+                # its own traits.
+                item.path = self.path + [item.name]
+        if not hasattr(error, 'channel'):
+            error.channel = 'e'
+        self.errors.append(error)
+        return
 
-    def error(self, *args):
-        self.ue.append(args)
+
+    #
+    # private
+    #
+
+    def unknownComponent(self, name, registry):
+        self.unknownComponents.attachNode(registry)
 
 
-    def unknownComponent(self, name):
-        self.uuc.append(name)
+    def unrecognizedProperty(self, name, value, locator):
+        self.unrecognizedProperties.setProperty(name, value, locator)
 
 
-    def unknownProperty(self, *args):
-        self.uup.append(args)
+    def configureComponent(self, component):
 
-
-    def claim(self, name):
-
-        if not (self.uup or self.uuc or self.ue):
-            return True
+        # push
+        parent = (self.unrecognizedProperties, self.unknownComponents)
+        self.unrecognizedProperties = self.unrecognizedProperties.getNode(component.name)
+        self.unknownComponents = self.unknownComponents.getNode(component.name)
+        self.path.append(component.name)
         
-        self.up = [ (name + '.' + key, value, locator)
-                    for key, value, locator in self.uup ]
-        
-        self.uc = [ name + '.' + key
-                    for key in self.uuc]
-        
-        self.ue = [ (error, name + '.' + key, value, locator)
-                    for error, key, value, locator in self.ue ]
-        
-        self.unknownProperties += self.uup
-        self.unknownComponents += self.uuc
-        self.errors += self.ue
-        
-        self.uup = []
-        self.uuc = []
-        self.ue = []
-        
-        return False
+        # apply user settings to the component's properties
+        component.configureProperties(self)
+
+        # apply user settings to the component's subcomponents
+        component.configureComponents(self)
+
+        # give the component an opportunity to perform complex validation
+        component._validate(self)
+
+        # pop
+        self.path.pop()
+        self.unrecognizedProperties, self.unknownComponents = parent
+
+        return
 
 
-    def verifyConfiguration(self, modeName):
+    def verifyConfiguration(self, component, modeName):
         """verify that the user input did not contain any typos"""
+
+        # Convert all unrecognized properties and unknown components
+        # into errors.
+
+        node = self.unrecognizedProperties.getNode(component.name)
+        for path, value, locator in node.allProperties():
+            self.error(ConfigContext.UnrecognizedPropertyError(path, value, locator))
+
+        node = self.unknownComponents.getNode(component.name)
+        for path, value, locator in node.allProperties():
+            self.error(ConfigContext.UnknownComponentError(path, value, locator))
+
+        # Log all configuration errors and warnings.  Determine the
+        # severity of property/component typos as a function of the
+        # given mode.
 
         class Channel(object):
             def __init__(self, factory):
@@ -77,46 +116,73 @@ class ConfigContext(object):
         
         channel = mode[modeName]
 
-        if self.unknownProperties:
-            for key, value, locator in self.unknownProperties:
-                problem = ("unrecognized property '%s'" % key, key, value, locator)
-                self.log(channel['up'], problem)
-
-        if self.unknownComponents:
-            self.log(channel['uc'], ("unknown components: %s" % ", ".join(self.unknownComponents),
-                                     None, None, None))
-        
-        if self.errors:
-            for problem in self.errors:
-                self.log(channel['e'], problem)
+        for e in self.errors:
+            self.log(channel[e.channel], e)
 
         return error.tally == 0
 
 
-    def log(self, channel, problem):
+    def log(self, channel, error):
+
+        locator = None
+
+        # Perhaps there should be a decorator which normalizes the
+        # 'error' interface...
+
+        if hasattr(error, 'locator'):
+            locator = error.locator
+
+        if hasattr(error, 'items'):
+            for item in error.items:
+                path = '.'.join(item.path[1:])
+                channel.line("%s <- '%s'" % (path, item.value))
+        elif hasattr(error, 'path'):
+            path = '.'.join(error.path[1:])
+            channel.line("%s <- '%s'" % (path, error.value))
         
-        error, key, value, locator = problem
-
-        if value:
-            channel.line("%s <- '%s'" % (key, value))
         channel.log(error, locator)
-
         channel.tally = channel.tally + 1
         
         return
 
 
     def __init__(self):
-        self.unknownProperties = []
-        self.unknownComponents = []
-        self.errors = []
+        from pyre.inventory import registry
+        
+        self.unrecognizedProperties = registry("inventory")
+        self.unknownComponents = registry("inventory")
+        self.path = []
 
-        # unclaimed errors
-        self.uup = []
-        self.uuc = []
-        self.ue = []
+        self.errors = []
 
         return
 
+
+    class ConfigurationError(Exception):
+
+        def __init__(self, path, value, locator):
+            Exception.__init__(self)
+            self.path = path
+            self.value = value
+            self.locator = locator
+
+
+    class UnrecognizedPropertyError(ConfigurationError):
+
+        channel = 'up'
+        
+        def __str__(self):
+            prop = '.'.join(self.path[1:])
+            return "unrecognized property '%s'" % prop
+
+
+    class UnknownComponentError(ConfigurationError):
+        
+        channel = 'uc'
+        
+        def __str__(self):
+            component = '.'.join(self.path[1:-1])
+            return "unknown component '%s'" % component
+        
 
 # end of file 

@@ -86,7 +86,7 @@ class Shell(Configurable):
         self.applyConfiguration(context)
 
         # verify that my input did not contain any typos
-        if not context.verifyConfiguration('strict'):
+        if not context.verifyConfiguration(self, 'strict'):
             import sys
             sys.exit("%s: configuration error(s)" % self.name)
 
@@ -97,6 +97,9 @@ class Shell(Configurable):
         if self.excepthook:
             sys.excepthook = self.excepthook.excepthook
 
+        # start fresh
+        context = app.newConfigContext()
+        
         # initialize the application
         app.updateConfiguration(app.registry)
         app.applyConfiguration(context)

@@ -22,31 +22,27 @@ class DeviceFacility(Facility):
                           vault=['devices'])
 
 
-    def _getDefaultValue(self, instance):
+    def _getBuiltInDefaultValue(self, instance):
         
-        if (self.default is None) and (self.factory is None):
-            
-            import pyre.parsing.locators
-            locator = pyre.parsing.locators.default()
-            
-            import sys
-            if hasattr(sys.stdout, 'isatty') and sys.stdout.isatty():
-                from os import environ
-                term = environ.get('TERM', 'console')
-                component = instance.retrieveComponent(term, factory=self.family, vault=self.vault)
-                if component is None:
-                    from Console import Console
-                    component = Console()
-                else:
-                    component.aliases.append(self.name)
-                    locator = pyre.parsing.locators.chain(component.getLocator(), locator)
-            else:
-                from Stream import Stream
-                component = Stream(sys.stdout, "stdout")
+        import pyre.parsing.locators
+        locator = pyre.parsing.locators.default()
 
-            return component, locator
-        
-        return super(DeviceFacility, self)._getDefaultValue(instance)
+        import sys
+        if hasattr(sys.stdout, 'isatty') and sys.stdout.isatty():
+            from os import environ
+            term = environ.get('TERM', 'console')
+            component = instance.retrieveComponent(term, factory=self.family, vault=self.vault)
+            if component is None:
+                from Console import Console
+                component = Console()
+            else:
+                component.aliases.append(self.name)
+                locator = pyre.parsing.locators.chain(component.getLocator(), locator)
+        else:
+            from Stream import Stream
+            component = Stream(sys.stdout, "stdout")
+
+        return component, locator
 
 
 # version

@@ -74,7 +74,7 @@ class Application(Component, Executive):
                 try:
                     shelf = codec.open(base)
                 except Exception, error:
-                    context.error(error, 'inventory', None, locator)
+                    context.error(error, locator=locator)
                 else:
                     paramRegistry = shelf['inventory'].getFacility(self.name)
                     if paramRegistry:

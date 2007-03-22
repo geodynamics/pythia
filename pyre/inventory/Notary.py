@@ -24,6 +24,7 @@ class Notary(type):
 
         traitRegistry = {}
         facilityRegistry = {}
+        myTraitRegistry = {}
 
         # register inherited traits
         bases = list(bases)
@@ -46,12 +47,14 @@ class Notary(type):
             if not isinstance(item, Trait):
                 continue
 
+            item.attr = name
             # set the public name of trait if it is not set already
             if item.name is None:
                 item.name = name
 
             # register it
             traitRegistry[item.name] = item
+            myTraitRegistry[item.name] = item
 
             # facilities also go into their own bucket
             if isinstance(item, Facility):
@@ -60,6 +63,7 @@ class Notary(type):
         # install the registries into the class record
         cls._traitRegistry = traitRegistry
         cls._facilityRegistry = facilityRegistry
+        cls._myTraitRegistry = myTraitRegistry
 
         return
 

@@ -24,6 +24,14 @@ class FileLocator(object):
 
     def __str__(self):
         return "{file=%r, line=%r, column=%r}" % (self.source, self.line, self.column)
+
+
+    def getAttributes(self, attr):
+        import linecache
+        attr["filename"] = self.source
+        attr["line"] = self.line
+        attr["src"] = linecache.getline(self.source, self.line).rstrip()
+        return
     
 
     __slots__ = ("source", "line", "column")

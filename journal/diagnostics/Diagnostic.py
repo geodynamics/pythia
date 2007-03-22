@@ -13,8 +13,7 @@
 
 
 import journal
-import traceback
-import linecache
+from pyre.parsing.locators import here
 from Entry import Entry
 
 
@@ -39,31 +38,17 @@ class Diagnostic(object):
         meta = self._entry.meta
         
         if locator is None:
-            stackDepth = -2
-            stackTrace = traceback.extract_stack()
-            meta["stack-trace"] = stackTrace[:stackDepth+1]
-            file, line, function, src = stackTrace[stackDepth]
-        else:
-            try:
-                file = locator.source
-            except AttributeError:
-                file = ""
-            try:
-                line = locator.line
-            except AttributeError:
-                line = ""
-                src = ""
-            else:
-                src = linecache.getline(locator.source, locator.line)
-                src = src.rstrip()
-            function = ""
+            locator = here(1)
+
+        # These are required by 'journal.devices.Renderer'.
+        meta["filename"] = ""
+        meta["function"] = ""
+        meta["line"] = ""
+        
+        locator.getAttributes(meta)
 
         meta["facility"] = self.facility
         meta["severity"] = self.severity
-        meta["filename"] = file
-        meta["function"] = function
-        meta["line"] = line
-        meta["src"] = src
 
         journal.journal().record(self._entry)
 
@@ -111,7 +96,7 @@ class Diagnostic(object):
     state = property(_getState, _setState, None, "")
 
 
-    class Fatal(Exception):
+    class Fatal(SystemExit):
 
 
         def __init__(self, msg=""):

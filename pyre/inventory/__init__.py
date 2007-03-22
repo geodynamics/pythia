@@ -165,6 +165,14 @@ def isNot(v):
     return Not(v)
 
 
+# special values
+class ErrorType(object): pass
+Error = ErrorType()
+
+class UninitType(object): pass
+Uninit = UninitType()
+
+
 # version
 __id__ = "$Id: __init__.py,v 1.4 2005/04/14 22:25:12 pyre Exp $"
 

@@ -27,10 +27,13 @@ class ColorRenderer(Renderer):
             colorKey = k
             if colorKey == 'severity':
                 colorKey = colorKey + '-' + v
-            colorized[k] = (
-                getattr(TermColors, colorScheme[colorKey]) +
-                str(v) +
-                getattr(TermColors, colorScheme['normal']))
+            try:
+                colorized[k] = (
+                    getattr(TermColors, colorScheme[colorKey]) +
+                    str(v) +
+                    getattr(TermColors, colorScheme['normal']))
+            except AttributeError:
+                colorized[k] = v
         
         return colorized
 

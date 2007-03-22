@@ -13,12 +13,13 @@
 
 
 from pyre.inventory.Property import Property
+import sys
 
 
 class OutputFile(Property):
 
 
-    def __init__(self, name, default=None, meta=None, validator=None):
+    def __init__(self, name, default=sys.stdout, meta=None, validator=None):
         Property.__init__(self, name, "file", default, meta, validator)
         return
 

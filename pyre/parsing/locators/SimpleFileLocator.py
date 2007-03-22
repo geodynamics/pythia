@@ -22,7 +22,12 @@ class SimpleFileLocator(object):
 
     def __str__(self):
         return "{file=%r}" % (self.source)
+
     
+    def getAttributes(self, attr):
+        attr["filename"] = self.source
+        return
+
 
     __slots__ = ("source")
 

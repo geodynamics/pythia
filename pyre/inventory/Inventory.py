@@ -44,20 +44,22 @@ class Inventory(object):
 
     def configureProperties(self, context):
         """configure my properties using user settings in my registry"""
-        
+
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
-        for name, descriptor in self._priv_registry.properties.iteritems():
-            try:
-                prop = self._traitRegistry[name]
-            except KeyError:
-                context.unknownProperty(name, descriptor.value, descriptor.locator)
-                continue
-            
-            try:
-                prop._set(self, descriptor.value, descriptor.locator)
-            except Exception, error:
-                context.error(error, name, descriptor.value, descriptor.locator)
+        for name, descriptor in self._priv_registry.properties.items():
+            prop = self._traitRegistry.get(name, None)
+            if prop:
+                try:
+                    prop._set(self, descriptor.value, descriptor.locator)
+                except SystemExit:
+                    raise
+                except Exception, error:
+                    from Item import Item
+                    context.error(error, items=[Item(prop, descriptor)])
+            else:
+                context.unrecognizedProperty(name, descriptor.value, descriptor.locator)
+                self._priv_registry.deleteProperty(name)
 
         return
 
@@ -93,12 +95,10 @@ class Inventory(object):
         # note that this only affects components for which there are settings in the registry
         # this is done in a separate loop because it provides an easy way to catch typos
         # on the command line
-        for name, registry in self._priv_registry.facilities.iteritems():
-            try:
-                component = aliases[name]
-            except KeyError:
-                context.unknownComponent(name)
-                continue
+        for name in self._priv_registry.facilities.keys():
+            if not aliases.has_key(name):
+                node = self._priv_registry.extractNode(name)
+                context.unknownComponent(name, node)
 
         return
 
@@ -317,6 +317,17 @@ class Inventory(object):
         return self._forceInitialization(traitName)
 
 
+    def getTraitLocator(self, traitName):
+        try:
+            return self._getTraitLocator(traitName)
+
+        except KeyError:
+            pass
+        
+        self._forceInitialization(traitName)
+        return self._getTraitLocator(traitName)
+
+
     def getTrait(self, traitName):
         return self._traitRegistry[traitName]
 
@@ -345,22 +356,27 @@ class Inventory(object):
     def components(self, context=None):
         """return a list of my components"""
 
+        from pyre.inventory import Error
+
         candidates = []
 
         for name, facility in self._facilityRegistry.iteritems():
             try:
                 component = facility.__get__(self)
-                candidates.append(component)
+                if component and component is not Error:
+                    candidates.append(component)
+            except SystemExit:
+                raise
             except Exception, error:
                 if context:
                     import sys, traceback, pyre.parsing.locators
-                    file, line, function, text = traceback.extract_tb(sys.exc_info()[2])[-1]
-                    locator = pyre.parsing.locators.script(file, line, function)
-                    context.error(error, name, None, locator)
+                    stackTrace = traceback.extract_tb(sys.exc_info()[2])
+                    locator = pyre.parsing.locators.stackTrace(stackTrace)
+                    context.error(error, locator=locator)
                 else:
                     raise
         
-        return filter(None, candidates)
+        return candidates
 
 
     def __init__(self, name):
@@ -409,6 +425,10 @@ class Inventory(object):
         return
 
 
+    def _getTraitLocator(self, name):
+        return self._getTraitDescriptor(name).locator
+
+
     def _createTraitDescriptor(self):
         from Descriptor import Descriptor
         return Descriptor()
@@ -431,6 +451,7 @@ class Inventory(object):
     # trait registries
     _traitRegistry = {}
     _facilityRegistry = {}
+    _myTraitRegistry = {}
 
 
     # metaclass

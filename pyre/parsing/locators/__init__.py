@@ -52,6 +52,21 @@ def chain(this, next):
     return ChainLocator(this, next)
 
 
+def stackTrace(st):
+    from StackTraceLocator import StackTraceLocator
+    return StackTraceLocator(st)
+
+
+def here(depth=0):
+    """return the current traceback as a locator"""
+    import traceback
+    from StackTraceLocator import StackTraceLocator
+    st = traceback.extract_stack()
+    depth += 1 # account for this function
+    st = st[:-depth]
+    return StackTraceLocator(st)
+
+
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 

@@ -90,19 +90,20 @@ class Registry(object):
 
 
     def render(self):
-
-        listing = [
-            ("%s.%s" % (self.name, name), descriptor.value, "%s" % descriptor.locator)
-            for name, descriptor in self.properties.iteritems()
-            ]
-
-        listing += [
-            ("%s.%s" % (self.name, name), value, "%s" % locator)
-            for facility in self.facilities.itervalues()
-            for name, value, locator in facility.render() 
-            ]
-
+        listing = []
+        for path, value, locator in self.allProperties():
+            listing.append(('.'.join(path), value, "%s" % locator))
         return listing
+
+
+    def allProperties(self):
+        """recursively iterate my properties"""
+        for name, descriptor in self.properties.iteritems():
+            yield ((self.name, name), descriptor.value, descriptor.locator)
+        for facility in self.facilities.itervalues():
+            for path, value, locator in facility.allProperties():
+                yield ((self.name,) + path, value, locator)
+        return
 
 
     def __init__(self, name):
