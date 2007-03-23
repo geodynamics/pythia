@@ -100,20 +100,9 @@ class Shell(Configurable):
         # start fresh
         context = app.newConfigContext()
         
-        # initialize the application
+        # configure the application
         app.updateConfiguration(app.registry)
         app.applyConfiguration(context)
-
-        # verify that the application input did not contain any typos
-        if not app.verifyConfiguration(context, app.inventory.typos):
-            app.usage()
-            import sys
-            sys.exit("%s: configuration error(s)" % app.name)
-
-        app.init()
-
-        # print a startup page
-        app.generateBanner()
 
         # the main application behavior
         action = action and getattr(app, action)
@@ -123,10 +112,19 @@ class Shell(Configurable):
             app.version()
         elif app._helpRequested:
             app.help()
-        else:
+        elif app.verifyConfiguration(context, app.inventory.typos):
+            app.init()
+
+            # print a startup page
+            app.generateBanner()
+
             message = kwds.get('message', 'execute')
             method = getattr(app, message)
             method(*args, **kwds)
+        else:
+            app.usage()
+            import sys
+            sys.exit("%s: configuration error(s)" % app.name)
 
         # shutdown
         app.fini()
