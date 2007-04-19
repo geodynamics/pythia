@@ -52,4 +52,7 @@ setup(
     license = 'BSD',
     url = 'http://www.geodynamics.org/cig/software/packages/cs/pythia/',
     
+    dependency_links = [
+    'http://www.geodynamics.org/cig/software/packages/cs/pythia/deps/',
+    ]
     )
