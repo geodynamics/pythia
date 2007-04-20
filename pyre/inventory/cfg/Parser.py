@@ -13,6 +13,7 @@
 
 from ConfigParser import SafeConfigParser
 import pyre.parsing.locators as locators
+from pyre.util import expandMacros
 
 
 class Parser(SafeConfigParser):
@@ -45,9 +46,10 @@ class Parser(SafeConfigParser):
 
     class Section(dict):
 
-        def __init__(self, sectname, node, fp):
+        def __init__(self, sectname, node, macros, fp):
             dict.__init__(self)
             self.node = node
+            self.macros = macros
             self.fp = fp
         
         def __setitem__(self, trait, value):
@@ -56,14 +58,16 @@ class Parser(SafeConfigParser):
             key = path[-1]
             path = path[:-1]
             node = _getNode(self.node, path)
+            value = expandMacros(value, self.macros)
             node.setProperty(key, value, locator)
             dict.__setitem__(self, key, value)
 
     class SectionDict(dict):
 
-        def __init__(self, root):
+        def __init__(self, root, macros):
             dict.__init__(self)
             self.root = root
+            self.macros = macros
             self.fp = Parser.FileProxy()
         
         def __contains__(self, sectname):
@@ -71,16 +75,18 @@ class Parser(SafeConfigParser):
             # dictionaries; instead, create our own.
             if not dict.__contains__(self, sectname):
                 node = _getNode(self.root, sectname.split('.'))
-                cursect = Parser.Section(sectname, node, self.fp)
+                cursect = Parser.Section(sectname, node, self.macros, self.fp)
                 self[sectname] = cursect
             return True
         
         def __setitem__(self, key, value):
             dict.__setitem__(self, key, value)
 
-    def __init__(self, root, defaults=None):
+    def __init__(self, root, defaults=None, macros=None):
         SafeConfigParser.__init__(self, defaults)
-        self._sections = Parser.SectionDict(root)
+        if macros is None:
+            macros = dict()
+        self._sections = Parser.SectionDict(root, macros)
 
     def _read(self, fp, fpname):
         self._sections.fp.fp = fp

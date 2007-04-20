@@ -14,6 +14,7 @@
 from pyre.inventory.odb.Registry import Registry
 from pyre.odb.fs.CodecODB import CodecODB
 from Parser import Parser
+from os.path import split, splitext
 
 
 class CodecConfig(CodecODB):
@@ -28,7 +29,11 @@ class CodecConfig(CodecODB):
 
     def _decode(self, shelf):
         root = Registry("root")
-        parser = Parser(root)
+        td, fn = split(shelf.name)
+        if not td: td = "."
+        basename = splitext(fn)[0]
+        macros = { 'td': td, 'basename': basename }
+        parser = Parser(root, macros=macros)
         parser.read(shelf.name)
         shelf['inventory'] = root
         shelf._frozen = True
