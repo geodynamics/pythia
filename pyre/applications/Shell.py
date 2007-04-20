@@ -67,7 +67,11 @@ class Shell(Configurable):
 
         # look for settings
         self.initializeConfiguration()
-        self.inventory._priv_registry, app.inventory._priv_registry = self.filterConfiguration(self.inventory._priv_registry)
+        
+        # Temporarily set the app's registry to my own, so that
+        # updateConfiguration() will work in readParameterFiles() and
+        # collectUserInput().
+        app.inventory._priv_registry = self.inventory._priv_registry
 
         # read parameter files given on the command line
         app.readParameterFiles(registry, context)
@@ -76,6 +80,7 @@ class Shell(Configurable):
         app.collectUserInput(registry, context)
 
         # split the configuration in two
+        self.inventory._priv_registry, app.inventory._priv_registry = self.filterConfiguration(self.inventory._priv_registry)
         registry, app.registry = self.filterConfiguration(registry)
         self.registry = registry
 

@@ -78,7 +78,7 @@ class Application(Component, Executive):
                 else:
                     paramRegistry = shelf['inventory'].getFacility(self.name)
                     if paramRegistry:
-                        registry.update(paramRegistry)
+                        self.updateConfiguration(paramRegistry)
             else:
                 self.argv.append(arg)
         return
