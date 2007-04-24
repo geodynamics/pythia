@@ -35,6 +35,9 @@ class Shell(Configurable):
     journal = journal.facility()
     journal.meta['tip'] = 'the logging facility'
 
+    from Preprocessor import Preprocessor
+    pp = pyre.inventory.facility("macros", factory=Preprocessor, args=["macros"])
+
 
     def __init__(self, app):
         Configurable.__init__(self, app.name)
@@ -104,9 +107,16 @@ class Shell(Configurable):
 
         # start fresh
         context = app.newConfigContext()
+
+        # ~~ configure the application ~~~
         
-        # configure the application
+        # update user options from the command line
         app.updateConfiguration(app.registry)
+        
+        # expand macros
+        self.pp.expandMacros(app.inventory._priv_registry)
+
+        # transfer user input to the app's inventory
         app.applyConfiguration(context)
 
         # the main application behavior
