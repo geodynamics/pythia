@@ -25,13 +25,21 @@ class Preprocessor(Component):
         return []
 
 
-    def expandMacros(self, registry):
-        macros = self._prepareMacros()
-        self._expandMacros(macros, registry)
+    def expandMacros(self, value):
+        return expandMacros(value, self.rp)
+
+
+    def defineMacro(self, name, value):
+        self.macros[name] = value
         return
 
 
-    def _prepareMacros(self):
+    def updateMacros(self, dct):
+        self.macros.update(dct)
+        return
+
+
+    def _init(self):
         
         class RecursionProtector(object):
             def __init__(self, macros):
@@ -55,21 +63,16 @@ class Preprocessor(Component):
             key = '.'.join(path[1:])
             macros[key] = value
 
-        return RecursionProtector(macros)
+        self.macros = macros
+        self.rp = RecursionProtector(macros)
 
-
-    def _expandMacros(self, macros, registry):
-        for name, descriptor in registry.properties.items():
-            newValue = expandMacros(descriptor.value, macros)
-            descriptor.value = newValue
-        for node in registry.facilities.values():
-            self._expandMacros(macros, node)
         return
 
 
     def __init__(self, name):
         Component.__init__(self, "macros", name)
         self.macros = Registry(self.name)
+        self.rp = None
         return
 
 

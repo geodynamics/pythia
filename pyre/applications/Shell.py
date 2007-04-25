@@ -105,16 +105,16 @@ class Shell(Configurable):
         if self.excepthook:
             sys.excepthook = self.excepthook.excepthook
 
+        # ~~ configure the application ~~~
+        
         # start fresh
         context = app.newConfigContext()
 
-        # ~~ configure the application ~~~
-        
         # update user options from the command line
         app.updateConfiguration(app.registry)
         
-        # expand macros
-        self.pp.expandMacros(app.inventory._priv_registry)
+        # enable macro expansion
+        context.pp = self.pp
 
         # transfer user input to the app's inventory
         app.applyConfiguration(context)

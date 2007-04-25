@@ -75,6 +75,13 @@ class ConfigContext(object):
         return
 
 
+    def setProperty(self, prop, instance, value, locator):
+        if self.pp:
+            value = self.pp.expandMacros(value)
+        prop._set(instance, value, locator)
+        return
+
+
     def verifyConfiguration(self, component, modeName):
         """verify that the user input did not contain any typos"""
 
@@ -154,6 +161,8 @@ class ConfigContext(object):
         self.path = []
 
         self.errors = []
+
+        self.pp = None
 
         return
 

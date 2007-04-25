@@ -45,13 +45,21 @@ class Inventory(object):
     def configureProperties(self, context):
         """configure my properties using user settings in my registry"""
 
+        # Merge defaults, so that they will be subject to macro
+        # expansion.  This also forces the initialization of all
+        # properties, which is significant if there are bogus defaults
+        # (a prime example being a nonexistant pathname for an
+        # InputFile).
+        registry = self.collectPropertyDefaults()
+        registry.update(self._priv_registry)
+
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
-        for name, descriptor in self._priv_registry.properties.items():
+        for name, descriptor in registry.properties.items():
             prop = self._traitRegistry.get(name, None)
             if prop:
                 try:
-                    prop._set(self, descriptor.value, descriptor.locator)
+                    context.setProperty(prop, self, descriptor.value, descriptor.locator)
                 except SystemExit:
                     raise
                 except Exception, error:
@@ -149,6 +157,35 @@ class Inventory(object):
             for component in components:
                 component.setCurator(self._priv_curator)
                 component.collectDefaults(node)
+
+        return registry
+
+
+    def collectPropertyDefaults(self, registry=None):
+        """place my default values in the given registry"""
+
+        from Facility import Facility
+        from pyre.inventory.odb.Registry import Registry
+        import pyre.parsing.locators
+
+        if registry is None:
+            registry = Registry(self._priv_name)
+
+        locator = pyre.parsing.locators.default()
+
+        for prop in self._traitRegistry.itervalues():
+
+            # We intentionally don't call _getDefaultValue() -- at
+            # this stage, we don't want anything to happen (files to
+            # be opened, components to be instantiated, ...)
+            value = prop.default
+            
+            # The 'isinstance' is a limitation of the framework: e.g.,
+            # files and dimensionals to not stringify cleanly.
+            # Fortunately, we are only interested in string defaults
+            # at present (for macro expansion).
+            if isinstance(value, basestring):
+                registry.setProperty(prop.name, value, locator)
 
         return registry
 

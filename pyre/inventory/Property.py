@@ -53,7 +53,7 @@ class Property(Trait):
                 value = self.validator(value)
         
         import pyre.parsing.locators
-        locator = pyre.parsing.locators.simple('default')
+        locator = pyre.parsing.locators.default()
 
         return value, locator
 
