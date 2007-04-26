@@ -47,4 +47,11 @@ class Job(Component):
         self.nodes = 1
 
 
+    def getStateArgs(self):
+        state = []
+        # define macros
+        state.append("--macros.job.name=%s" % self.task)
+        return state
+
+
 # end of file

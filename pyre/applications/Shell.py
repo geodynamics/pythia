@@ -114,6 +114,7 @@ class Shell(Configurable):
         app.updateConfiguration(app.registry)
         
         # enable macro expansion
+        self.pp.updateMacros(kwds.get('macros', {}))
         context.pp = self.pp
 
         # transfer user input to the app's inventory

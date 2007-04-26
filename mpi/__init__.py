@@ -25,9 +25,16 @@ def mpistart(argv=None, **kwds):
 
     import sys
     from pyre.applications import start, AppRunner
+    from mpi import MPI_Comm_rank, MPI_COMM_WORLD
+
+    rank = MPI_Comm_rank(MPI_COMM_WORLD)
+    macros = {
+        'rank': str(rank),
+        }
 
     kwds = kwds.get('kwds', dict())
     kwds['message'] = 'onComputeNodes'
+    kwds['macros'] = macros
 
     try:
         start(argv,

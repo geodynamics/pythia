@@ -60,21 +60,11 @@ class Launcher(Base):
         if self.nodes < 1:
             self.nodes = 1
 
-        # Build the 'mpirun' command.  The macro-expansion feature is
-        # to allow the user to express the full range of possible
-        # 'mpirun' commands from a configuration file, while
-        # hard-coding as little as possible here.  On a workstation or
-        # Beowulf, the default is usually correct, but on TACC's new
-        # Lonestar system (for example), the proper command is simply
-        # 'ibrun' (the number of nodes is not given).
-        
-        from pyre.util import expandMacros
-        from os import environ
+        # Environment variable references such as ${PBS_NODEFILE} are
+        # allowed in 'command', thanks to the Preprocessor component.
+        # See mpi.Application.getStateArgs() to see how the ${nodes}
+        # macro is defined.
         args = self.command.split(' ')
-        substitutions = dict()
-        substitutions.update(environ) # to allow, for example, ${PBS_NODEFILE}
-        substitutions['nodes'] =  '%d' % self.nodes
-        args = [expandMacros(arg, substitutions) for arg in args]
         
         # use only the specific nodes specified explicitly
         if self.nodelist:

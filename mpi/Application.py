@@ -42,12 +42,13 @@ class Application(Script):
         requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
+        state = self.getStateArgs() + self.job.getStateArgs()
         
         # initialize the job
         job = self.job
         job.nodes = self.nodes
         job.executable = self.jobExecutable
-        job.arguments = ["--pyre-start", path, requires, "pyre.schedulers:jobstart", entry] + argv
+        job.arguments = ["--pyre-start", path, requires, "pyre.schedulers:jobstart", entry] + argv + state
 
         # for debugging purposes, add 'mpirun' command as a comment
         launcher = self.prepareLauncher()
@@ -66,12 +67,13 @@ class Application(Script):
         requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
+        state = self.getStateArgs() + self.job.getStateArgs()
         
         # initialize the launcher
         launcher = self.launcher
         launcher.nodes = self.nodes
         launcher.executable = self.mpiExecutable
-        launcher.arguments = ["--pyre-start", path, requires, "mpi:mpistart", entry] + argv
+        launcher.arguments = ["--pyre-start", path, requires, "mpi:mpistart", entry] + argv + state
 
         return launcher
 
@@ -85,8 +87,17 @@ class Application(Script):
         
         return
 
+
     def onComputeNodes(self, *args, **kwds):
         self.main(*args, **kwds)
+
+
+    def getStateArgs(self):
+        state = []
+        state.append("--nodes=%d" % self.nodes) # in case it was computed
+        # define macros
+        state.append("--macros.nodes=%d" % self.nodes)
+        return state
 
 
     def __init__(self, name=None):
