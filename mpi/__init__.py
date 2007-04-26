@@ -29,7 +29,7 @@ def mpistart(argv=None, **kwds):
 
     rank = MPI_Comm_rank(MPI_COMM_WORLD)
     macros = {
-        'rank': str(rank),
+        'rank': ("%04d" % rank),
         }
 
     kwds = kwds.get('kwds', dict())

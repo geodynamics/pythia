@@ -14,7 +14,7 @@
 from pyre.components import Component
 from pyre.util import expandMacros
 from pyre.inventory.odb.Registry import Registry
-import os
+import os, getpass, socket
 
 
 class Preprocessor(Component):
@@ -49,15 +49,27 @@ class Preprocessor(Component):
                 if self.recur.has_key(key):
                     return ""
                 self.recur[key] = True
-                value = expandMacros(self.macros[key], self)
-                del self.recur[key]
+                try:
+                    value = expandMacros(self.macros[key], self)
+                finally:
+                    del self.recur[key]
                 return value
 
         macros = {}
         
         # add environment variables
         macros.update(os.environ)
-        
+
+        # add useful macros
+        macros['home'] = os.path.expanduser("~")
+        if False:
+            macros['user'] = os.getlogin() # OSError: [Errno 25] Inappropriate ioctl for device
+        else:
+            macros['user'] = getpass.getuser()
+        macros['hostname'] = socket.gethostname()
+        macros['wd'] = os.getcwd()
+        macros['pid'] = str(os.getpid())
+
         # flatten my macro registry
         for path, value, locator in self.macros.allProperties():
             key = '.'.join(path[1:])

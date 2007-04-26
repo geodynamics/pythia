@@ -42,7 +42,7 @@ class Application(Script):
         requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
-        state = self.getStateArgs() + self.job.getStateArgs()
+        state = self.getStateArgs('launch')
         
         # initialize the job
         job = self.job
@@ -67,7 +67,7 @@ class Application(Script):
         requires = self.requires()
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
-        state = self.getStateArgs() + self.job.getStateArgs()
+        state = self.getStateArgs('compute')
         
         # initialize the launcher
         launcher = self.launcher
@@ -92,11 +92,12 @@ class Application(Script):
         self.main(*args, **kwds)
 
 
-    def getStateArgs(self):
+    def getStateArgs(self, stage):
         state = []
-        state.append("--nodes=%d" % self.nodes) # in case it was computed
-        # define macros
-        state.append("--macros.nodes=%d" % self.nodes)
+        if stage == 'launch':
+            state.append("--nodes=%d" % self.nodes) # in case it was computed
+            state.append("--macros.nodes=%d" % self.nodes)
+        state.extend(self.job.getStateArgs(stage))
         return state
 
 

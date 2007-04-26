@@ -47,10 +47,10 @@ class Job(Component):
         self.nodes = 1
 
 
-    def getStateArgs(self):
+    def getStateArgs(self, stage):
         state = []
-        # define macros
-        state.append("--macros.job.name=%s" % self.task)
+        if stage == 'launch':
+            state.append("--macros.job.name=%s" % self.task)
         return state
 
 
