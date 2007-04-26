@@ -52,13 +52,13 @@ class SuperScript(Script):
 
 
     def main(self, *args, **kwds):
+        args = kwds.get('args', [])
+        kwds = kwds.get('kwds', dict())
+        kwds['argv'] = [self.argv[-1]] + self.unprocessedArguments
         self.runSubscript(*args, **kwds)
 
 
     def runSubscript(self, *args, **kwds):
-        args = kwds.get('args', [])
-        kwds = kwds.get('kwds', dict())
-        kwds['argv'] = [self.argv[-1]] + self.unprocessedArguments
         self.subscript.run(*args, **kwds)
 
 

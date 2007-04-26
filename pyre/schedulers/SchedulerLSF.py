@@ -12,6 +12,7 @@
 
 
 from BatchScheduler import BatchScheduler
+import os, sys
 
 
 class SchedulerLSF(BatchScheduler):
@@ -27,7 +28,6 @@ class SchedulerLSF(BatchScheduler):
     
     
     def schedule(self, job):
-        import os, sys
         import pyre.util as util
 
         # Fix-up the job.
@@ -99,6 +99,11 @@ class SchedulerLSF(BatchScheduler):
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
         
         return
+
+
+    def jobId(cls):
+        return os.environ['LSB_JOBID']
+    jobId = classmethod(jobId)
 
 
 # end of file 

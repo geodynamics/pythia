@@ -45,12 +45,15 @@ class Job(Component):
     def __init__(self):
         super(Job, self).__init__()
         self.nodes = 1
+        self.id = None
 
 
     def getStateArgs(self, stage):
         state = []
         if stage == 'launch':
             state.append("--macros.job.name=%s" % self.task)
+        elif stage == 'compute':
+            state.append("--macros.job.id=%s" % self.id)
         return state
 
 

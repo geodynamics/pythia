@@ -12,6 +12,7 @@
 
 
 from BatchScheduler import BatchScheduler
+import os, sys
 
 
 class SchedulerPBS(BatchScheduler):
@@ -28,7 +29,6 @@ class SchedulerPBS(BatchScheduler):
     
     
     def schedule(self, job):
-        import os, sys
         import pyre.util as util
 
         # Fix-up the job.
@@ -103,6 +103,11 @@ class SchedulerPBS(BatchScheduler):
             resourceList.append("walltime=%d:%02d:%02d" % walltime)
 
         return resourceList
+
+
+    def jobId(cls):
+        return os.environ['PBS_JOBID']
+    jobId = classmethod(jobId)
 
 
 # end of file 

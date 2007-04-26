@@ -12,6 +12,7 @@
 
 
 from Scheduler import Scheduler
+import os, sys
 
 
 class SchedulerNone(Scheduler):
@@ -21,8 +22,6 @@ class SchedulerNone(Scheduler):
 
     
     def schedule(self, job):
-        import os, sys
-
         job.executable = os.path.abspath(job.executable)
         
         argv = [job.executable] + job.arguments
@@ -44,6 +43,11 @@ class SchedulerNone(Scheduler):
             self._info.log("%s: spawned process %d: %r" % (sys.argv[0], ret, argv))
         
         return
+
+
+    def jobId(cls):
+        return str(os.getpid())
+    jobId = classmethod(jobId)
 
 
 # end of file 

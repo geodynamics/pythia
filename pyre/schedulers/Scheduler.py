@@ -33,4 +33,9 @@ class Scheduler(Component):
         raise NotImplementedError("class '%s' must override 'schedule'" % self.__class__.__name__)
 
 
+    def jobId(cls):
+        raise NotImplementedError("class '%s' must override 'jobId'" % cls.__name__)
+    jobId = classmethod(jobId)
+
+
 # end of file 

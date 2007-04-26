@@ -13,6 +13,9 @@
 
 from BatchScriptTemplate import BatchScriptTemplate
 from Scheduler import Scheduler
+from SchedulerNone import SchedulerNone
+from SchedulerLSF import SchedulerLSF
+from SchedulerPBS import SchedulerPBS
 from Job import Job
 
 
@@ -39,13 +42,14 @@ def jobstart(argv=None, **kwds):
     """entry point for batch jobs"""
 
     import sys
-    from pyre.applications import start, AppRunner
+    from pyre.applications import start
+    from BatchScript import BatchScript
 
     kwds = kwds.get('kwds', dict())
-    kwds['message'] = 'onLauncherNode'
+    kwds['message'] = '_onLauncherNode'
     
     return start(argv,
-                 applicationClass = AppRunner,
+                 applicationClass = BatchScript,
                  kwds = kwds)
 
 

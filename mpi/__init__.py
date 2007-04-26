@@ -33,7 +33,7 @@ def mpistart(argv=None, **kwds):
         }
 
     kwds = kwds.get('kwds', dict())
-    kwds['message'] = 'onComputeNodes'
+    kwds['message'] = '_onComputeNodes'
     kwds['macros'] = macros
 
     try:

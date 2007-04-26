@@ -36,6 +36,10 @@ class Application(Script):
 
 
     def onLoginNode(self, *args, **kwds):
+        self.schedule(*args, **kwds)
+
+
+    def schedule(self, *args, **kwds):
         import sys
         
         path = self.pathString()
@@ -43,15 +47,18 @@ class Application(Script):
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
         state = self.getStateArgs('launch')
+        batchScriptArgs = self.getBatchScriptArgs()
         
         # initialize the job
         job = self.job
         job.nodes = self.nodes
         job.executable = self.jobExecutable
-        job.arguments = ["--pyre-start", path, requires, "pyre.schedulers:jobstart", entry] + argv + state
+        job.arguments = (["--pyre-start", path, requires,
+                          "pyre.schedulers:jobstart"] + batchScriptArgs +
+                          [entry] + argv + state)
 
         # for debugging purposes, add 'mpirun' command as a comment
-        launcher = self.prepareLauncher()
+        launcher = self.prepareLauncher(argv + state)
         job.comments.extend(["[%s] %s" % (launcher.name, comment) for comment in launcher.comments()])
 
         # schedule
@@ -60,13 +67,12 @@ class Application(Script):
         return
 
 
-    def prepareLauncher(self, *args, **kwds):
+    def prepareLauncher(self, argv):
         import sys
 
         path = self.pathString()
         requires = self.requires()
         entry = self.entryName()
-        argv = self.getArgv(*args, **kwds)
         state = self.getStateArgs('compute')
         
         # initialize the launcher
@@ -78,13 +84,39 @@ class Application(Script):
         return launcher
 
     
-    def onLauncherNode(self, *args, **kwds):
+    def _onLauncherNode(self, *args, **kwds):
+        # This method should not be overriden in any subclass.
+        self.job.id = self.scheduler.jobId()
+        self.onLauncherNode(*args, **kwds)
 
-        launcher = self.prepareLauncher()
+
+    def onLauncherNode(self, *args, **kwds):
+        self.launch(*args, **kwds)
+
+
+    def launch(self, *args, **kwds):
+
+        argv = self.getArgv(*args, **kwds)
+        launcher = self.prepareLauncher(argv)
 
         # launch
         launcher.launch()
         
+        return
+
+
+    def _onComputeNodes(self, *args, **kwds):
+        # This method should not be overriden in any subclass.
+
+        # Don't try this at home.
+        argv = kwds['argv']
+        for arg in argv:
+            if arg.startswith("--macros.job.id="):
+                self.job.id = arg.split('=')[1]
+                break
+
+        self.onComputeNodes(*args, **kwds)
+
         return
 
 
@@ -99,6 +131,12 @@ class Application(Script):
             state.append("--macros.nodes=%d" % self.nodes)
         state.extend(self.job.getStateArgs(stage))
         return state
+
+
+    def getBatchScriptArgs(self):
+        SchedulerClass = self.scheduler.__class__
+        schedulerClass = SchedulerClass.__module__ + ":" + SchedulerClass.__name__
+        return ["--scheduler-class=%s" % schedulerClass]
 
 
     def __init__(self, name=None):
