@@ -36,10 +36,10 @@ class Application(Script):
 
 
     def onLoginNode(self, *args, **kwds):
-        self.schedule(*args, **kwds)
+        self.scheduleJob(*args, **kwds)
 
 
-    def schedule(self, *args, **kwds):
+    def scheduleJob(self, *args, **kwds):
         import sys
         
         path = self.pathString()
@@ -91,10 +91,10 @@ class Application(Script):
 
 
     def onLauncherNode(self, *args, **kwds):
-        self.launch(*args, **kwds)
+        self.launchParallelRun(*args, **kwds)
 
 
-    def launch(self, *args, **kwds):
+    def launchParallelRun(self, *args, **kwds):
 
         argv = self.getArgv(*args, **kwds)
         launcher = self.prepareLauncher(argv)
