@@ -42,190 +42,91 @@
 #
 
 
-from pyre.applications.CommandlineParser import CommandlineParser
-from pyre.inventory.properties.String import String
-from mpi.Application import Application as MPIApplication
-
-
-class PetscCommandlineParser(CommandlineParser):
-    """A parser which mimics PETSc's command line processing."""
-
-    # The logic used here is derived from the 'while' loop at the end
-    # of PetscOptionsInsert().  However, this doesn't check for "bad"
-    # MPICH options, as these should have been removed by MPI_Init().
-
-
-    def _parse(self, argv, root):
-        
-        self.action = None
-        self.argv = argv
-        self.processed = []
-        self.unprocessed = []
-        
-        while self.argv:
-            
-            arg = self.argv.pop(0)
-            
-            iname = self._filterNonOptionArgument(arg)
-            if iname is None:
-                continue
-            
-            iname = self._filterAction(iname)
-            if iname is None:
-                continue
-
-            iname = self._mapAlias(iname)
-
-            if iname.lower() == "options_file":
-                # NYI
-                if self.argv:
-                    filename = self.argv.pop(0)
-                else:
-                    pass # error
-                continue
-
-            if (not self.argv) or self._isOptionArgument(self.argv[0]):
-                iname, value = self._parseArgument(iname)
-            else:
-                value = self.argv.pop(0)
-
-            self._processArgument(iname, value, root)
-
-        return
-
-
-    def _optionPrefix(self, arg):
-        for prefix in self.prefixes:
-            if arg.startswith(prefix):
-                return prefix
-        return None
-
-
-    def _isOptionArgument(self, arg):
-        import string
-        prefix = self._optionPrefix(arg)
-        if prefix is not None:
-            candidate = arg[len(prefix):]
-            if (prefix == "-" and
-                len(candidate) > 0 and
-                candidate[0] in string.digits):
-                return False
-            return True
-        return False
-
-
-    def _filterNonOptionArgument(self, arg):
-        
-        prefix = self._optionPrefix(arg)
-        
-        if prefix is not None:
-            self._debug.line("    prefix: '%s starts with '%s'" % (arg, prefix))
-            candidate = arg[len(prefix):]
-            return candidate
-        
-        # prefix matching failed; leave this argument alone
-        self._debug.line("    prefix: '%s' is not an option" % arg)
-        self.processed.append(arg)
-        return None
-
-
-
 from pyre.components import Component
+from mpi.Application import Application as MPIApplication
+import pyre.parsing.locators
+import pyre.util.bool
+import sys
 
 
 class Petsc(Component):
 
 
+    def setDefaults(self, dct):
+        locator = pyre.parsing.locators.default()
+        for key, value in dct.iteritems():
+            self.options.setProperty(key, value, locator)
+        return
+
+
     def updateConfiguration(self, registry):
-        self.options = [
-            (name, descriptor.value) for name, descriptor in registry.properties.iteritems()
-            ]
+        self.options.update(registry)
         return []
 
 
     def getArgs(self):
+        options = [
+            (name, descriptor.value)
+            for name, descriptor in self.options.properties.iteritems()
+            ]
         args = []
-        for iname, value in self.options:
-            args.append('-' + iname)
-            if value != 'true':
+        for iname, value in options:
+            try:
+                if pyre.util.bool.bool(value):
+                    args.append('-' + iname)
+                else:
+                    # The only way to turn off a PETSc option is to omit it.
+                    pass
+            except KeyError:
+                # non-boolean option
+                args.append('-' + iname)
                 args.append(value)
         return args
 
 
     def __init__(self, name):
         Component.__init__(self, name, name)
-        self.options = []
+        self.options = self.createRegistry()
         return
 
-
-
-from pyre.inventory.Facility import Facility
-
-
-class PetscFacility(Facility):
-
-
-    def __init__(self, name):
-        Facility.__init__(self, name=name, factory=Petsc, args=[name])
-        return
-
-
-    def _retrieveComponent(self, instance, componentName):
-        petsc = Petsc(componentName)
-
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.simple('built-in')
-
-        return petsc, locator
-
-
-
-class PetscProperty(String):
-
-    def __init__(self, name=None, default="", meta=None, validator=None, petscOptionName=None):
-        String.__init__(self, name, default, meta, validator)
-        self._petscOptionName = petscOptionName
-        return
-
-    def _getPetscOptionName(self): return self._petscOptionName or self.name
-    petscOptionName = property(_getPetscOptionName)
 
 
 class PetscApplication(MPIApplication):
 
 
     class Inventory(MPIApplication.Inventory):
+        
+        import pyre.inventory as pyre
 
         # a dummy facility for passing arbitrary options to PETSc
-        petsc = PetscFacility("petsc")
+        petsc = pyre.facility("petsc", factory=Petsc, args=["petsc"])
+
+
+    def setPetscDefaults(self, dct):
+        """Set the default options passed to PetscInitialize().
+        
+        This method should be called from _defaults()."""
+        
+        self.inventory.petsc.setDefaults(dct)
+        
+        return
 
 
     def _configure(self):
 
         super(PetscApplication, self)._configure()
         
-        import sys
-        
         self.petscArgs = [sys.executable]
-
-        for prop in self.properties():
-            if isinstance(prop, PetscProperty):
-                descriptor = self.inventory.getTraitDescriptor(prop.name)
-                value = descriptor.value
-                if value:
-                    self.petscArgs.append("-" + prop.petscOptionName)
-                    if value != "true":
-                        self.petscArgs.append(value)
-
         self.petscArgs.extend(self.inventory.petsc.getArgs())
+        self._debug.log("PetscInitialize args: %r" % self.petscArgs)
 
         return
 
 
-    def onComputeNodes(self, *args, **kwds):
+    def _onComputeNodes(self, *args, **kwds):
         petsc = self.petsc
         petsc.PetscInitialize(self.petscArgs)
-        super(PetscApplication, self).onComputeNodes(*args, **kwds)
+        super(PetscApplication, self)._onComputeNodes(*args, **kwds)
         petsc.PetscFinalize()
 
 

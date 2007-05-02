@@ -85,7 +85,7 @@ class Application(Script):
 
     
     def _onLauncherNode(self, *args, **kwds):
-        # This method should not be overriden in any subclass.
+        # This method should not be overriden in any application class.
         self.job.id = self.scheduler.jobId()
         self.onLauncherNode(*args, **kwds)
 
@@ -106,7 +106,7 @@ class Application(Script):
 
 
     def _onComputeNodes(self, *args, **kwds):
-        # This method should not be overriden in any subclass.
+        # This method should not be overriden in any application class.
 
         # Don't try this at home.
         argv = kwds['argv']
