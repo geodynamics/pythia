@@ -30,9 +30,9 @@ class Job(Component):
     mail              = pyre.bool("mail", default=False)
     dwalltime         = pyre.dimensional("walltime", default=0*minute)
     
-    stdin             = pyre.inputFile("stdin", default=util.devnull())
-    stdout            = pyre.outputFile("stdout", default="stdout.txt")
-    stderr            = pyre.outputFile("stderr", default="stderr.txt")
+    stdin             = pyre.str("stdin", default=util.devnull())
+    stdout            = pyre.str("stdout", default="stdout.txt")
+    stderr            = pyre.str("stderr", default="stderr.txt")
 
     environment       = pyre.list("environment")
 

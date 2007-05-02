@@ -27,8 +27,8 @@ class BatchScriptTemplate(Template):
 
     def getRemoteFilename(self, name):
         # stub
-        stream = self.job.getTraitValue(name)
-        return stream.name
+        filename = self.job.getTraitValue(name)
+        return filename
 
 
     def getStagedFiles(self):
