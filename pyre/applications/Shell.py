@@ -138,7 +138,8 @@ class Shell(Configurable):
             method = getattr(app, message)
             method(*args, **kwds)
         else:
-            app.usage()
+            if context.showUsage:
+                app.usage()
             import sys
             sys.exit("%s: configuration error(s)" % app.name)
 

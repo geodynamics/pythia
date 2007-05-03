@@ -45,10 +45,12 @@ class ConfigContext(object):
 
     def unknownComponent(self, name, registry):
         self.unknownComponents.attachNode(registry)
+        self.showUsage = True
 
 
     def unrecognizedProperty(self, name, value, locator):
         self.unrecognizedProperties.setProperty(name, value, locator)
+        self.showUsage = True
 
 
     def configureComponent(self, component):
@@ -163,6 +165,8 @@ class ConfigContext(object):
         self.errors = []
 
         self.pp = None
+
+        self.showUsage = False
 
         return
 
