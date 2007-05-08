@@ -121,8 +121,9 @@ class Diagnostic(object):
         meta = self._entry.meta
         meta["facility"] = self.facility
         meta["severity"] = self.severity
-        if not meta.has_key("function"):
-            meta["function"] = "<unknown>"
+        meta.setdefault("filename", "<unknown>")
+        meta.setdefault("function", "<unknown>")
+        meta.setdefault("line", "<unknown>")
 
         journal.journal().record(self._entry)
 
