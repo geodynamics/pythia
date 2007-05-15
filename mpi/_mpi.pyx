@@ -1,12 +1,7 @@
 # Process this file with Pyrex to produce mpi.c
 
 
-cimport cmpi
-
-
 cdef class MPI_Comm:
-
-    cdef cmpi.MPI_Comm comm
 
     def __init__(MPI_Comm self):
         self.comm = cmpi.MPI_COMM_WORLD
