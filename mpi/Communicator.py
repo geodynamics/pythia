@@ -20,8 +20,8 @@ class Communicator:
 
 
     def barrier(self):
-        import _mpi
-        return _mpi.communicatorBarrier(self._handle)
+        from mpi import MPI_Barrier
+        MPI_Barrier(self._handle)
 
 
     # communicator factories
@@ -32,37 +32,24 @@ class Communicator:
 
      # communicator group interface
     def group(self):
-        import _mpi
-        grpHandle = _mpi.groupCreate(self._handle)
-
+        from mpi import MPI_Comm_group
         from CommunicatorGroup import CommunicatorGroup
+        grpHandle = MPI_Comm_group(self._handle)
         return CommunicatorGroup(grpHandle)
 
 
     def include(self, included):
+        from mpi import MPI_Comm_create
         grp = self.group().include(included)
-        if not grp:
-            return None
-
-        import _mpi
-        handle = _mpi.communicatorCreate(self._handle, grp.handle())
-        if handle:
-            return Communicator(handle)
-
-        return None
+        handle = MPI_Comm_create(self._handle, grp.handle())
+        return Communicator(handle)
 
 
     def exclude(self, excluded):
+        from mpi import MPI_Comm_create
         grp = self.group().exclude(excluded)
-        if not grp:
-            return None
-
-        import _mpi
-        handle = _mpi.communicatorCreate(self._handle, grp.handle())
-        if  handle:
-            return Communicator(handle)
-
-        return None
+        handle = MPI_Comm_create(self._handle, grp.handle())
+        return Communicator(handle)
 
 
     # ports

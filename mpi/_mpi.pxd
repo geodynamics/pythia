@@ -9,4 +9,9 @@ cdef class MPI_Comm:
     cdef cmpi.MPI_Comm comm
 
 
+cdef class MPI_Group:
+
+    cdef cmpi.MPI_Group group
+
+
 # end of file

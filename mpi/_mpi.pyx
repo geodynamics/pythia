@@ -1,13 +1,47 @@
 # Process this file with Pyrex to produce mpi.c
 
 
+cdef extern from "stdlib.h":
+    void *malloc(int)
+    void free(void *)
+
+
 cdef class MPI_Comm:
 
     def __init__(MPI_Comm self):
-        self.comm = cmpi.MPI_COMM_WORLD
+        self.comm = cmpi.MPI_COMM_NULL
+
+    def __dealloc__(MPI_Comm self):
+        cdef int error
+        if self.comm != cmpi.MPI_COMM_WORLD and self.comm != cmpi.MPI_COMM_NULL:
+            error = cmpi.MPI_Comm_free(&self.comm)
+            if error != cmpi.MPI_SUCCESS:
+                # Will anyone hear our cries?
+                raise MPI_Error(error)
+        return
 
 
-MPI_COMM_WORLD = MPI_Comm()
+cdef class MPI_Group:
+
+    def __init__(MPI_Group self):
+        self.group = cmpi.MPI_GROUP_NULL
+
+    def __dealloc__(MPI_Group self):
+        cdef int error
+        if self.group != cmpi.MPI_GROUP_NULL:
+            error = cmpi.MPI_Group_free(&self.group)
+            if error != cmpi.MPI_SUCCESS:
+                raise MPI_Error(error)
+        return
+
+
+cdef _newWorld():
+    cdef MPI_Comm world
+    world = MPI_Comm()
+    world.comm = cmpi.MPI_COMM_WORLD
+    return world
+
+MPI_COMM_WORLD = _newWorld()
 
 
 class MPI_Error(EnvironmentError):
@@ -15,23 +49,46 @@ class MPI_Error(EnvironmentError):
         return MPI_Error_string(self.args[0])
 
 
-def MPI_Comm_rank(comm):
+def MPI_Barrier(MPI_Comm comm):
+    cdef int error
+    error = cmpi.MPI_Barrier(comm.comm)
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    return
+
+
+def MPI_Comm_create(MPI_Comm comm, MPI_Group group):
+    cdef int error
+    cdef MPI_Comm comm_out
+    comm_out = MPI_Comm()
+    error = cmpi.MPI_Comm_create(comm.comm, group.group, &comm_out.comm)
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    return comm_out
+
+
+def MPI_Comm_group(MPI_Comm comm):
+    cdef MPI_Group group
+    group = MPI_Group()
+    error = cmpi.MPI_Comm_group(comm.comm, &group.group)
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    return group
+
+
+def MPI_Comm_rank(MPI_Comm comm):
     cdef int error
     cdef int rank
-    cdef MPI_Comm c_comm
-    c_comm = comm
-    error = cmpi.MPI_Comm_rank(c_comm.comm, &rank)
+    error = cmpi.MPI_Comm_rank(comm.comm, &rank)
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
     return rank
 
 
-def MPI_Comm_size(comm):
+def MPI_Comm_size(MPI_Comm comm):
     cdef int error
     cdef int size
-    cdef MPI_Comm c_comm
-    c_comm = comm
-    error = cmpi.MPI_Comm_size(c_comm.comm, &size)
+    error = cmpi.MPI_Comm_size(comm.comm, &size)
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
     return size
@@ -49,6 +106,70 @@ def MPI_Error_string(int errorcode):
         raise RuntimeError("buffer overflow")
     string = cstring
     return string
+
+
+def MPI_Group_excl(MPI_Group group, members):
+    cdef int error
+    cdef int n
+    cdef int *ranks
+    cdef MPI_Group group_out
     
+    n = len(members)
+    ranks = <int *>malloc(n * sizeof(int))
+    for i from 0 <= i < n:
+        ranks[i] = members[i]
+
+    group_out = MPI_Group()
+
+    error = cmpi.MPI_Group_excl(group.group, n, ranks, &group_out.group)
+    
+    free(ranks)
+    
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    
+    return group_out
+
+
+def MPI_Group_incl(MPI_Group group, members):
+    cdef int error
+    cdef int n
+    cdef int *ranks
+    cdef MPI_Group group_out
+    
+    n = len(members)
+    ranks = <int *>malloc(n * sizeof(int))
+    for i from 0 <= i < n:
+        ranks[i] = members[i]
+
+    group_out = MPI_Group()
+
+    error = cmpi.MPI_Group_incl(group.group, n, ranks, &group_out.group)
+    
+    free(ranks)
+    
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    
+    return group_out
+
+
+def MPI_Group_rank(MPI_Group group):
+    cdef int error
+    cdef int rank
+    error = cmpi.MPI_Group_rank(group.group, &rank)
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    return rank
+
+
+def MPI_Group_size(MPI_Group group):
+    cdef int error
+    cdef int size
+    error = cmpi.MPI_Group_size(group.group, &size)
+    if error != cmpi.MPI_SUCCESS:
+        raise MPI_Error(error)
+    return size
+
 
 # end of file

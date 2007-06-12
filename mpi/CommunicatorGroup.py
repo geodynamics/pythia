@@ -20,28 +20,25 @@ class CommunicatorGroup:
 
 
     def include(self, included):
-        import _mpi
-        handle = _mpi.groupInclude(self._handle, included)
-        if handle:
-            return CommunicatorGroup(handle)
-        return None
+        from mpi import MPI_Group_incl
+        handle = MPI_Group_incl(self._handle, included)
+        return CommunicatorGroup(handle)
 
 
     def exclude(self, excluded):
-        import _mpi
-        handle = _mpi.groupExclude(self._handle, excluded)
-        if handle:
-            return CommunicatorGroup(handle)
-
-        return None
+        from mpi import MPI_Group_excl
+        handle = MPI_Group_excl(self._handle, excluded)
+        return CommunicatorGroup(handle)
 
 
     def __init__(self, handle):
-        import _mpi
 
         self._handle = handle
-        self.rank = _mpi.groupRank(handle)
-        self.size = _mpi.groupSize(handle)
+        
+        from mpi import MPI_Group_rank, MPI_Group_size
+        self.rank = MPI_Group_rank(self._handle)
+        self.size = MPI_Group_size(self._handle)
+        
         return
 
 

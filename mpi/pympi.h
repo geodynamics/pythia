@@ -26,6 +26,11 @@ extern "C" {
         MPI_Comm comm;
     } PyMPICommObject;
 
+    typedef struct {
+        PyObject_HEAD
+        MPI_Group group;
+    } PyMPIGroupObject;
+
 #ifdef __cplusplus
 }
 #endif
