@@ -24,11 +24,13 @@ extern "C" {
     typedef struct {
         PyObject_HEAD
         MPI_Comm comm;
+        int permanent;
     } PyMPICommObject;
 
     typedef struct {
         PyObject_HEAD
         MPI_Group group;
+        int permanent;
     } PyMPIGroupObject;
 
 #ifdef __cplusplus

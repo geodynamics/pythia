@@ -10,14 +10,16 @@ cdef class MPI_Comm:
 
     def __init__(MPI_Comm self):
         self.comm = cmpi.MPI_COMM_NULL
+        self.permanent = 0
 
     def __dealloc__(MPI_Comm self):
         cdef int error
-        if self.comm != cmpi.MPI_COMM_WORLD and self.comm != cmpi.MPI_COMM_NULL:
-            error = cmpi.MPI_Comm_free(&self.comm)
-            if error != cmpi.MPI_SUCCESS:
-                # Will anyone hear our cries?
-                raise MPI_Error(error)
+        if self.permanent:
+            return
+        error = cmpi.MPI_Comm_free(&self.comm)
+        if error != cmpi.MPI_SUCCESS:
+            # Will anyone hear our cries?
+            raise MPI_Error(error)
         return
 
 
@@ -25,23 +27,62 @@ cdef class MPI_Group:
 
     def __init__(MPI_Group self):
         self.group = cmpi.MPI_GROUP_NULL
+        self.permanent = 0
 
     def __dealloc__(MPI_Group self):
         cdef int error
-        if self.group != cmpi.MPI_GROUP_NULL:
-            error = cmpi.MPI_Group_free(&self.group)
-            if error != cmpi.MPI_SUCCESS:
-                raise MPI_Error(error)
+        if self.permanent:
+            return
+        error = cmpi.MPI_Group_free(&self.group)
+        if error != cmpi.MPI_SUCCESS:
+            raise MPI_Error(error)
         return
 
 
-cdef _newWorld():
-    cdef MPI_Comm world
-    world = MPI_Comm()
-    world.comm = cmpi.MPI_COMM_WORLD
-    return world
+cdef permanentCommObj(cmpi.MPI_Comm comm):
+    cdef MPI_Comm obj
+    obj = MPI_Comm()
+    obj.comm = comm
+    obj.permanent = 1
+    return obj
 
-MPI_COMM_WORLD = _newWorld()
+cdef permanentGroupObj(cmpi.MPI_Group group):
+    cdef MPI_Group obj
+    obj = MPI_Group()
+    obj.group = group
+    obj.permanent = 1
+    return obj
+
+
+MPI_COMM_WORLD  = permanentCommObj(cmpi.MPI_COMM_WORLD)
+MPI_COMM_NULL   = permanentCommObj(cmpi.MPI_COMM_NULL)
+MPI_COMM_SELF   = permanentCommObj(cmpi.MPI_COMM_SELF)
+
+MPI_GROUP_NULL  = permanentGroupObj(cmpi.MPI_GROUP_NULL)
+MPI_GROUP_EMPTY = permanentGroupObj(cmpi.MPI_GROUP_EMPTY)
+
+
+cdef getCommObj(cmpi.MPI_Comm comm):
+    cdef MPI_Comm obj
+    if comm == cmpi.MPI_COMM_WORLD:
+        return MPI_COMM_WORLD
+    elif comm == cmpi.MPI_COMM_NULL:
+        return MPI_COMM_NULL
+    elif comm == cmpi.MPI_COMM_SELF:
+        return MPI_COMM_SELF
+    obj = MPI_Comm()
+    obj.comm = comm
+    return obj
+
+cdef getGroupObj(cmpi.MPI_Group group):
+    cdef MPI_Group obj
+    if group == cmpi.MPI_GROUP_NULL:
+        return MPI_GROUP_NULL
+    elif group == cmpi.MPI_GROUP_EMPTY:
+        return MPI_GROUP_EMPTY
+    obj = MPI_Group()
+    obj.group = group
+    return obj
 
 
 class MPI_Error(EnvironmentError):
@@ -59,21 +100,19 @@ def MPI_Barrier(MPI_Comm comm):
 
 def MPI_Comm_create(MPI_Comm comm, MPI_Group group):
     cdef int error
-    cdef MPI_Comm comm_out
-    comm_out = MPI_Comm()
-    error = cmpi.MPI_Comm_create(comm.comm, group.group, &comm_out.comm)
+    cdef cmpi.MPI_Comm comm_out
+    error = cmpi.MPI_Comm_create(comm.comm, group.group, &comm_out)
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
-    return comm_out
+    return getCommObj(comm_out)
 
 
 def MPI_Comm_group(MPI_Comm comm):
-    cdef MPI_Group group
-    group = MPI_Group()
-    error = cmpi.MPI_Comm_group(comm.comm, &group.group)
+    cdef cmpi.MPI_Group group
+    error = cmpi.MPI_Comm_group(comm.comm, &group)
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
-    return group
+    return getGroupObj(group)
 
 
 def MPI_Comm_rank(MPI_Comm comm):
@@ -112,46 +151,42 @@ def MPI_Group_excl(MPI_Group group, members):
     cdef int error
     cdef int n
     cdef int *ranks
-    cdef MPI_Group group_out
+    cdef cmpi.MPI_Group group_out
     
     n = len(members)
     ranks = <int *>malloc(n * sizeof(int))
     for i from 0 <= i < n:
         ranks[i] = members[i]
 
-    group_out = MPI_Group()
-
-    error = cmpi.MPI_Group_excl(group.group, n, ranks, &group_out.group)
+    error = cmpi.MPI_Group_excl(group.group, n, ranks, &group_out)
     
     free(ranks)
     
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
     
-    return group_out
+    return getGroupObj(group_out)
 
 
 def MPI_Group_incl(MPI_Group group, members):
     cdef int error
     cdef int n
     cdef int *ranks
-    cdef MPI_Group group_out
+    cdef cmpi.MPI_Group group_out
     
     n = len(members)
     ranks = <int *>malloc(n * sizeof(int))
     for i from 0 <= i < n:
         ranks[i] = members[i]
 
-    group_out = MPI_Group()
-
-    error = cmpi.MPI_Group_incl(group.group, n, ranks, &group_out.group)
+    error = cmpi.MPI_Group_incl(group.group, n, ranks, &group_out)
     
     free(ranks)
     
     if error != cmpi.MPI_SUCCESS:
         raise MPI_Error(error)
     
-    return group_out
+    return getGroupObj(group_out)
 
 
 def MPI_Group_rank(MPI_Group group):

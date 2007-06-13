@@ -7,11 +7,13 @@ cimport cmpi
 cdef class MPI_Comm:
 
     cdef cmpi.MPI_Comm comm
+    cdef int permanent
 
 
 cdef class MPI_Group:
 
     cdef cmpi.MPI_Group group
+    cdef int permanent
 
 
 # end of file

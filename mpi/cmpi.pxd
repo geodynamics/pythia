@@ -9,12 +9,14 @@ cdef extern from "mpi.h":
         pass
     ctypedef MPI_Comm_Imp *MPI_Comm
     MPI_Comm MPI_COMM_NULL
+    MPI_Comm MPI_COMM_SELF
     MPI_Comm MPI_COMM_WORLD
 
     ctypedef struct MPI_Group_Imp:
         pass
     ctypedef MPI_Group_Imp *MPI_Group
     MPI_Group MPI_GROUP_NULL
+    MPI_Group MPI_GROUP_EMPTY
 
     int MPI_Init(int *, char ***)
     int MPI_Finalize()

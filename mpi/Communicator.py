@@ -39,16 +39,20 @@ class Communicator:
 
 
     def include(self, included):
-        from mpi import MPI_Comm_create
+        from mpi import MPI_Comm_create, MPI_COMM_NULL
         grp = self.group().include(included)
         handle = MPI_Comm_create(self._handle, grp.handle())
+        if handle is MPI_COMM_NULL:
+            return None
         return Communicator(handle)
 
 
     def exclude(self, excluded):
-        from mpi import MPI_Comm_create
+        from mpi import MPI_Comm_create, MPI_COMM_NULL
         grp = self.group().exclude(excluded)
         handle = MPI_Comm_create(self._handle, grp.handle())
+        if handle is MPI_COMM_NULL:
+            return None
         return Communicator(handle)
 
 
