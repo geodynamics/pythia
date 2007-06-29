@@ -10,7 +10,7 @@
 #else
 #define __PYX_EXTERN_C extern
 #endif
-__PYX_EXTERN_C double pow(double, double);
+#include <math.h>
 #include "stdlib.h"
 #include "mpi.h"
 
