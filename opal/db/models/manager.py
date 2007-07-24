@@ -1,4 +1,4 @@
-from opal.db.models.query import QuerySet
+from opal.db.models.query import QuerySet, EmptyQuerySet
 from opal.dispatch import dispatcher
 from opal.db.models import signals
 from opal.db.models.fields import FieldDoesNotExist
@@ -41,12 +41,18 @@ class Manager(object):
     #######################
     # PROXIES TO QUERYSET #
     #######################
+    
+    def get_empty_query_set(self):
+        return EmptyQuerySet(self.model)
 
     def get_query_set(self):
         """Returns a new QuerySet object.  Subclasses can override this method
         to easily customise the behaviour of the Manager.
         """
         return QuerySet(self.model)
+    
+    def none(self):
+        return self.get_empty_query_set()
 
     def all(self):
         return self.get_query_set()

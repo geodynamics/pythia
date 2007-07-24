@@ -5,6 +5,7 @@ from opal.core import validators
 from opal import forms
 from opal.core.exceptions import ObjectDoesNotExist
 from opal.utils.functional import curry
+from opal.utils.itercompat import tee
 from opal.utils.text import capfirst
 from opal.utils.translation import gettext, gettext_lazy
 import datetime, os, time
@@ -20,7 +21,7 @@ BLANK_CHOICE_DASH = [("", "---------")]
 BLANK_CHOICE_NONE = [("", "None")]
 
 # prepares a value for use in a LIKE query
-prep_for_like_query = lambda x: str(x).replace("%", "\%").replace("_", "\_")
+prep_for_like_query = lambda x: str(x).replace("\\", "\\\\").replace("%", "\%").replace("_", "\_")
 
 # returns the <ul> class for a given radio_admin value
 get_ul_class = lambda x: 'radiolist%s' % ((x == HORIZONTAL) and ' inline' or '')
@@ -65,7 +66,7 @@ class Field(object):
 
     def __init__(self, verbose_name=None, name=None, primary_key=False,
         maxlength=None, unique=False, blank=False, null=False, db_index=False,
-        core=False, rel=None, default=NOT_PROVIDED, editable=True,
+        core=False, rel=None, default=NOT_PROVIDED, editable=True, serialize=True,
         prepopulate_from=None, unique_for_date=None, unique_for_month=None,
         unique_for_year=None, validator_list=None, choices=None, radio_admin=None,
         help_text='', db_column=None):
@@ -76,11 +77,12 @@ class Field(object):
         self.blank, self.null = blank, null
         self.core, self.rel, self.default = core, rel, default
         self.editable = editable
+        self.serialize = serialize
         self.validator_list = validator_list or []
         self.prepopulate_from = prepopulate_from
         self.unique_for_date, self.unique_for_month = unique_for_date, unique_for_month
         self.unique_for_year = unique_for_year
-        self.choices = choices or []
+        self._choices = choices or []
         self.radio_admin = radio_admin
         self.help_text = help_text
         self.db_column = db_column
@@ -162,7 +164,7 @@ class Field(object):
 
     def get_db_prep_lookup(self, lookup_type, value):
         "Returns field's value prepared for database lookup."
-        if lookup_type in ('exact', 'gt', 'gte', 'lt', 'lte', 'year', 'month', 'day', 'search'):
+        if lookup_type in ('exact', 'gt', 'gte', 'lt', 'lte', 'month', 'day', 'search'):
             return [value]
         elif lookup_type in ('range', 'in'):
             return value
@@ -176,7 +178,13 @@ class Field(object):
             return ["%%%s" % prep_for_like_query(value)]
         elif lookup_type == 'isnull':
             return []
-        raise TypeError, "Field has invalid lookup: %s" % lookup_type
+        elif lookup_type == 'year':
+            try:
+                value = int(value)
+            except ValueError:
+                raise ValueError("The __year lookup type requires an integer argument")
+            return ['%s-01-01 00:00:00' % value, '%s-12-31 23:59:59.999999' % value]
+        raise TypeError("Field has invalid lookup: %s" % lookup_type)
 
     def has_default(self):
         "Returns a boolean of whether this field has a default value."
@@ -289,8 +297,11 @@ class Field(object):
         if self.choices:
             return first_choice + list(self.choices)
         rel_model = self.rel.to
-        return first_choice + [(x._get_pk_val(), str(x))
-                               for x in rel_model._default_manager.complex_filter(self.rel.limit_choices_to)]
+        if hasattr(self.rel, 'get_related_field'):
+            lst = [(getattr(x, self.rel.get_related_field().attname), str(x)) for x in rel_model._default_manager.complex_filter(self.rel.limit_choices_to)]
+        else:
+            lst = [(x._get_pk_val(), str(x)) for x in rel_model._default_manager.complex_filter(self.rel.limit_choices_to)]
+        return first_choice + lst
 
     def get_choices_default(self):
         if self.radio_admin:
@@ -320,6 +331,18 @@ class Field(object):
 
     def bind(self, fieldmapping, original, bound_field_class):
         return bound_field_class(self, fieldmapping, original)
+
+    def _get_choices(self):
+        if hasattr(self._choices, 'next'):
+            choices, self._choices = tee(self._choices)
+            return choices
+        else:
+            return self._choices
+    choices = property(_get_choices)
+
+    def value_from_object(self, obj):
+        "Returns the value of this field in the given model instance."
+        return getattr(obj, self.attname)
 
 class AutoField(Field):
     empty_strings_allowed = False
@@ -364,8 +387,8 @@ class BooleanField(Field):
 
     def to_python(self, value):
         if value in (True, False): return value
-        if value in ('t', 'True'): return True
-        if value in ('f', 'False'): return False
+        if value in ('t', 'True', '1'): return True
+        if value in ('f', 'False', '0'): return False
         raise validators.ValidationError, gettext("This value must be either True or False.")
 
     def get_manipulator_field_objs(self):
@@ -401,6 +424,8 @@ class DateField(Field):
         Field.__init__(self, verbose_name, name, **kwargs)
 
     def to_python(self, value):
+        if value is None:
+            return value
         if isinstance(value, datetime.datetime):
             return value.date()
         if isinstance(value, datetime.date):
@@ -452,12 +477,14 @@ class DateField(Field):
     def get_manipulator_field_objs(self):
         return [forms.DateField]
 
-    def flatten_data(self, follow, obj = None):
+    def flatten_data(self, follow, obj=None):
         val = self._get_val_from_obj(obj)
         return {self.attname: (val is not None and val.strftime("%Y-%m-%d") or '')}
 
 class DateTimeField(DateField):
     def to_python(self, value):
+        if value is None:
+            return value
         if isinstance(value, datetime.datetime):
             return value
         if isinstance(value, datetime.date):
@@ -564,7 +591,7 @@ class FileField(Field):
         # If the raw path is passed in, validate it's under the MEDIA_ROOT.
         def isWithinMediaRoot(field_data, all_data):
             f = os.path.abspath(os.path.join(settings.MEDIA_ROOT, field_data))
-            if not f.startswith(os.path.normpath(settings.MEDIA_ROOT)):
+            if not f.startswith(os.path.abspath(os.path.normpath(settings.MEDIA_ROOT))):
                 raise validators.ValidationError, _("Enter a valid filename.")
         field_list[1].validator_list.append(isWithinMediaRoot)
         return field_list
@@ -574,7 +601,7 @@ class FileField(Field):
         setattr(cls, 'get_%s_filename' % self.name, curry(cls._get_FIELD_filename, field=self))
         setattr(cls, 'get_%s_url' % self.name, curry(cls._get_FIELD_url, field=self))
         setattr(cls, 'get_%s_size' % self.name, curry(cls._get_FIELD_size, field=self))
-        setattr(cls, 'save_%s_file' % self.name, lambda instance, filename, raw_contents: instance._save_FIELD_file(self, filename, raw_contents))
+        setattr(cls, 'save_%s_file' % self.name, lambda instance, filename, raw_contents, save=True: instance._save_FIELD_file(self, filename, raw_contents, save))
         dispatcher.connect(self.delete_file, signal=signals.post_delete, sender=cls)
 
     def delete_file(self, instance):
@@ -592,14 +619,14 @@ class FileField(Field):
     def get_manipulator_field_names(self, name_prefix):
         return [name_prefix + self.name + '_file', name_prefix + self.name]
 
-    def save_file(self, new_data, new_object, original_object, change, rel):
+    def save_file(self, new_data, new_object, original_object, change, rel, save=True):
         upload_field_name = self.get_manipulator_field_names('')[0]
         if new_data.get(upload_field_name, False):
             func = getattr(new_object, 'save_%s_file' % self.name)
             if rel:
-                func(new_data[upload_field_name][0]["filename"], new_data[upload_field_name][0]["content"])
+                func(new_data[upload_field_name][0]["filename"], new_data[upload_field_name][0]["content"], save)
             else:
-                func(new_data[upload_field_name]["filename"], new_data[upload_field_name]["content"])
+                func(new_data[upload_field_name]["filename"], new_data[upload_field_name]["content"], save)
 
     def get_directory_name(self):
         return os.path.normpath(datetime.datetime.now().strftime(self.upload_to))
@@ -643,12 +670,12 @@ class ImageField(FileField):
         if not self.height_field:
             setattr(cls, 'get_%s_height' % self.name, curry(cls._get_FIELD_height, field=self))
 
-    def save_file(self, new_data, new_object, original_object, change, rel):
-        FileField.save_file(self, new_data, new_object, original_object, change, rel)
+    def save_file(self, new_data, new_object, original_object, change, rel, save=True):
+        FileField.save_file(self, new_data, new_object, original_object, change, rel, save)
         # If the image has height and/or width field(s) and they haven't
         # changed, set the width and/or height field(s) back to their original
         # values.
-        if change and (self.width_field or self.height_field):
+        if change and (self.width_field or self.height_field) and save:
             if self.width_field:
                 setattr(new_object, self.width_field, getattr(original_object, self.width_field))
             if self.height_field:
@@ -675,6 +702,13 @@ class NullBooleanField(Field):
     def __init__(self, *args, **kwargs):
         kwargs['null'] = True
         Field.__init__(self, *args, **kwargs)
+
+    def to_python(self, value):
+        if value in (None, True, False): return value
+        if value in ('None'): return None
+        if value in ('t', 'True', '1'): return True
+        if value in ('f', 'False', '0'): return False
+        raise validators.ValidationError, gettext("This value must be either None, True or False.")
 
     def get_manipulator_field_objs(self):
         return [forms.NullBooleanField]
@@ -742,7 +776,7 @@ class TimeField(Field):
         if value is not None:
             # MySQL will throw a warning if microseconds are given, because it
             # doesn't support microseconds.
-            if settings.DATABASE_ENGINE == 'mysql':
+            if settings.DATABASE_ENGINE == 'mysql' and hasattr(value, 'microsecond'):
                 value = value.replace(microsecond=0)
             value = str(value)
         return Field.get_db_prep_save(self, value)
@@ -754,14 +788,19 @@ class TimeField(Field):
         val = self._get_val_from_obj(obj)
         return {self.attname: (val is not None and val.strftime("%H:%M:%S") or '')}
 
-class URLField(Field):
+class URLField(CharField):
     def __init__(self, verbose_name=None, name=None, verify_exists=True, **kwargs):
+        kwargs['maxlength'] = kwargs.get('maxlength', 200)
         if verify_exists:
             kwargs.setdefault('validator_list', []).append(validators.isExistingURL)
-        Field.__init__(self, verbose_name, name, **kwargs)
+        self.verify_exists = verify_exists
+        CharField.__init__(self, verbose_name, name, **kwargs)
 
     def get_manipulator_field_objs(self):
         return [forms.URLField]
+
+    def get_internal_type(self):
+        return "CharField"
 
 class USStateField(Field):
     def get_manipulator_field_objs(self):

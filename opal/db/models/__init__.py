@@ -25,7 +25,7 @@ def permalink(func):
     def inner(*args, **kwargs):
         bits = func(*args, **kwargs)
         viewname = bits[0]
-        return reverse(bits[0], None, *bits[1:2])
+        return reverse(bits[0], None, *bits[1:3])
     return inner
 
 class LazyDate(object):
@@ -47,7 +47,12 @@ class LazyDate(object):
         return "<LazyDate: %s>" % self.delta
 
     def __get_value__(self):
-        return datetime.datetime.now() + self.delta
+        return (datetime.datetime.now() + self.delta).date()
 
     def __getattr__(self, attr):
+        if attr == 'delta':
+            # To fix ticket #3377. Note that normal accesses to LazyDate.delta
+            # (after construction) will still work, because they don't go
+            # through __getattr__). This is mainly needed for unpickling.
+            raise AttributeError
         return getattr(self.__get_value__(), attr)

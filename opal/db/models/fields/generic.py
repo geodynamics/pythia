@@ -94,6 +94,7 @@ class GenericRelation(RelatedField, Field):
         
         kwargs['blank'] = True
         kwargs['editable'] = False
+        kwargs['serialize'] = False
         Field.__init__(self, **kwargs)
 
     def get_manipulator_field_objs(self):
@@ -117,7 +118,7 @@ class GenericRelation(RelatedField, Field):
         return self.object_id_field_name
         
     def m2m_reverse_name(self):
-        return self.model._meta.pk.attname
+        return self.object_id_field_name
 
     def contribute_to_class(self, cls, name):
         super(GenericRelation, self).contribute_to_class(cls, name)

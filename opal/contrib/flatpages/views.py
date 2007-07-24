@@ -3,6 +3,7 @@ from opal.template import loader, RequestContext
 from opal.shortcuts import get_object_or_404
 from opal.http import HttpResponse
 from opal.conf import settings
+from opal.core.xheaders import populate_xheaders
 
 DEFAULT_TEMPLATE = 'flatpages/default.html'
 
@@ -32,4 +33,6 @@ def flatpage(request, url):
     c = RequestContext(request, {
         'flatpage': f,
     })
-    return HttpResponse(t.render(c))
+    response = HttpResponse(t.render(c))
+    populate_xheaders(request, response, FlatPage, f.id)
+    return response

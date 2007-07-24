@@ -55,6 +55,7 @@ class WebSite(Component):
     LANGUAGES = (
         ('ar', gettext_noop('Arabic')),
         ('bn', gettext_noop('Bengali')),
+        ('ca', gettext_noop('Catalan')),
         ('cs', gettext_noop('Czech')),
         ('cy', gettext_noop('Welsh')),
         ('da', gettext_noop('Danish')),
@@ -63,6 +64,7 @@ class WebSite(Component):
         ('en', gettext_noop('English')),
         ('es', gettext_noop('Spanish')),
         ('es_AR', gettext_noop('Argentinean Spanish')),
+        ('fi', gettext_noop('Finnish')),
         ('fr', gettext_noop('French')),
         ('gl', gettext_noop('Galician')),
         ('hu', gettext_noop('Hungarian')),
@@ -70,8 +72,13 @@ class WebSite(Component):
         ('is', gettext_noop('Icelandic')),
         ('it', gettext_noop('Italian')),
         ('ja', gettext_noop('Japanese')),
+        ('kn', gettext_noop('Kannada')),
+        ('lv', gettext_noop('Latvian')),
+        ('mk', gettext_noop('Macedonian')),
         ('nl', gettext_noop('Dutch')),
         ('no', gettext_noop('Norwegian')),
+        ('pl', gettext_noop('Polish')),
+        ('pt', gettext_noop('Portugese')),
         ('pt-br', gettext_noop('Brazilian')),
         ('ro', gettext_noop('Romanian')),
         ('ru', gettext_noop('Russian')),
@@ -80,6 +87,8 @@ class WebSite(Component):
         ('sr', gettext_noop('Serbian')),
         ('sv', gettext_noop('Swedish')),
         ('ta', gettext_noop('Tamil')),
+        ('te', gettext_noop('Telugu')),
+        ('tr', gettext_noop('Turkish')),
         ('uk', gettext_noop('Ukrainian')),
         ('zh-cn', gettext_noop('Simplified Chinese')),
         ('zh-tw', gettext_noop('Traditional Chinese')),
@@ -109,12 +118,13 @@ class WebSite(Component):
     # Database connection info.
     ### Perhaps this should be a facility.
     DATABASE_ENGINE    = pyre.str("database-engine",
-                                  validator=pyre.choice(['postgresql', 'mysql', 'sqlite3', 'ado_mssql']))
+                                  validator=pyre.choice(['postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3', 'ado_mssql']))
     DATABASE_NAME      = pyre.str("database-name")        # Or path to database file if using sqlite3.
     DATABASE_USER      = pyre.str("database-user")        # Not used with sqlite3.
     DATABASE_PASSWORD  = pyre.str("database-password")    # Not used with sqlite3.
     DATABASE_HOST      = pyre.str("database-host")        # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT      = pyre.str("database-port")        # Set to empty string for default. Not used with sqlite3.
+    DATABASE_OPTIONS   = {}                               # Set to empty dictionary for default.
 
     EMAIL_HOST = pyre.str("email-host", default="localhost")
     EMAIL_HOST.meta['tip'] = """Host for sending e-mail."""
@@ -224,11 +234,11 @@ class WebSite(Component):
     MONTH_DAY_FORMAT = pyre.str("month-day-format", default="F j")
     MONTH_DAY_FORMAT.meta['tip'] = """Default formatting for date objects when only the month and day are relevant. See all available format strings here: http://www.djangoproject.com/documentation/templates/#now"""
 
-    ENABLE_PSYCO = pyre.bool("enable-psyco", default=False)
-    ENABLE_PSYCO.meta['tip'] = """Whether to enable Psyco, which optimizes Python code. Requires Psyco. http://psyco.sourceforge.net/"""
-
     TRANSACTIONS_MANAGED = pyre.bool("transactions-managed", default=False)
     TRANSACTIONS_MANAGED.meta['tip'] = """Do you want to manage transactions manually? Hint: you really don't!"""
+    
+    URL_VALIDATOR_USER_AGENT = pyre.str("url-validator-user-agent", default="Django/0.96pre (http://www.djangoproject.com)")
+    URL_VALIDATOR_USER_AGENT.meta['tip'] = """The User-Agent string to use when checking for URL validity through the isExistingURL validator."""
 
 
     ##############
@@ -259,6 +269,9 @@ class WebSite(Component):
     
     session_cookie_domain = pyre.str("session-cookie-domain")
     session_cookie_domain.meta['tip'] = """A string like ".lawrence.com". Leave blank for standard domain cookie."""
+
+    SESSION_COOKIE_SECURE = pyre.bool("session-cookie-secure", default=False)
+    SESSION_COOKIE_SECURE.meta['tip'] = """Whether the session cookie should be secure (https:// only)."""
     
     SESSION_SAVE_EVERY_REQUEST = pyre.bool("session-save-every-request", default=False)
     SESSION_SAVE_EVERY_REQUEST.meta['tip'] = """Whether to save the session data on every request."""
@@ -282,6 +295,9 @@ class WebSite(Component):
     ####################
 
     COMMENTS_ALLOW_PROFANITIES = pyre.bool("comments-allow-profanities", default=False)
+
+    PROFANITIES_LIST = pyre.list("profanities-list", default=['asshat', 'asshead', 'asshole', 'cunt', 'fuck', 'gook', 'nigger', 'shit'])
+    PROFANITIES_LIST.meta['tip'] = """The profanities that will trigger a validation error in the 'hasNoProfanities' validator. All of these should be in lowercase."""
 
     # The group ID that designates which users are banned.
     # Set to None if you're not using it.
@@ -309,6 +325,25 @@ class WebSite(Component):
     AUTHENTICATION_BACKENDS = pyre.list("authentication-backends", default=[
         'opal.contrib.auth.backends.ModelBackend',
         ])
+
+
+    ###########
+    # TESTING #
+    ###########
+
+    TEST_RUNNER = pyre.str("test-runner", default='opal.test.simple.run_tests')
+    TEST_RUNNER.meta['tip'] = """The name of the method to use to invoke the test suite"""
+
+    TEST_DATABASE_NAME = pyre.str("test-database-name")
+    TEST_DATABASE_NAME.meta['tip'] = """The name of the database to use for testing purposes. If empty, a name of 'test_' + DATABASE_NAME will be assumed"""
+
+
+    ############
+    # FIXTURES #
+    ############
+
+    FIXTURE_DIRS = pyre.list("fixture-dirs")
+    FIXTURE_DIRS.meta['tip'] = """The list of directories to search for fixtures"""
 
 
     #########

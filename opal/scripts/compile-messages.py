@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
+import optparse
 import os
 import sys
 
-def compile_messages():
+def compile_messages(locale=None):
     basedir = None
 
     if os.path.isdir(os.path.join('conf', 'locale')):
@@ -11,10 +12,13 @@ def compile_messages():
     elif os.path.isdir('locale'):
         basedir = os.path.abspath('locale')
     else:
-        print "this script should be run from the django svn tree or your project or app tree"
+        print "This script should be run from the Django SVN tree or your project or app tree."
         sys.exit(1)
 
-    for (dirpath, dirnames, filenames) in os.walk(basedir):
+    if locale is not None:
+        basedir = os.path.join(basedir, locale, 'LC_MESSAGES')
+
+    for dirpath, dirnames, filenames in os.walk(basedir):
         for f in filenames:
             if f.endswith('.po'):
                 sys.stderr.write('processing file %s in %s\n' % (f, dirpath))
@@ -29,8 +33,17 @@ def compile_messages():
                 if sys.platform == 'win32': # Different shell-variable syntax
                     cmd = 'msgfmt -o "%djangocompilemo%" "%djangocompilepo%"'
                 else:
-                    cmd = 'msgfmt -o "$djangocompilemo" "$djangocompilepo"' 
+                    cmd = 'msgfmt -o "$djangocompilemo" "$djangocompilepo"'
                 os.system(cmd)
 
+def main():
+    parser = optparse.OptionParser()
+    parser.add_option('-l', '--locale', dest='locale',
+            help="The locale to process. Default is to process all.")
+    options, args = parser.parse_args()
+    if len(args):
+        parser.error("This program takes no arguments")
+    compile_messages(options.locale)
+
 if __name__ == "__main__":
-    compile_messages()
+    main()

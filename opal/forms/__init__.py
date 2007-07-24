@@ -2,7 +2,7 @@ from opal.core import validators
 from opal.core.exceptions import PermissionDenied
 from opal.utils.html import escape
 from opal.conf import settings
-from opal.utils.translation import gettext, gettext_lazy, ngettext
+from opal.utils.translation import gettext, ngettext
 
 FORM_FIELD_ID_PREFIX = 'id_'
 
@@ -54,6 +54,7 @@ class Manipulator(object):
     def get_validation_errors(self, new_data):
         "Returns dictionary mapping field_names to error-message lists"
         errors = {}
+        self.prepare(new_data)
         for field in self.fields:
             errors.update(field.get_validation_errors(new_data))
             val_name = 'validate_%s' % field.field_name
@@ -107,8 +108,13 @@ class FormWrapper(object):
     This allows dictionary-style lookups of formfields. It also handles feeding
     prepopulated data and validation error messages to the formfield objects.
     """
-    def __init__(self, manipulator, data, error_dict, edit_inline=True):
-        self.manipulator, self.data = manipulator, data
+    def __init__(self, manipulator, data=None, error_dict=None, edit_inline=True):
+        self.manipulator = manipulator
+        if data is None:
+            data = {}
+        if error_dict is None:
+            error_dict = {}
+        self.data = data
         self.error_dict = error_dict
         self._inline_collections = None
         self.edit_inline = edit_inline
@@ -124,7 +130,9 @@ class FormWrapper(object):
         if self.edit_inline:
             self.fill_inline_collections()
             for inline_collection in self._inline_collections:
-                if inline_collection.name == key:
+                # The 'orig_name' comparison is for backwards compatibility
+                # with hand-crafted forms.
+                if inline_collection.name == key or (':' not in key and inline_collection.orig_name == key):
                     return inline_collection
         raise KeyError, "Could not find Formfield or InlineObjectCollection named %r" % key
 
@@ -220,6 +228,9 @@ class InlineObjectCollection(object):
         self.errors = errors
         self._collections = None
         self.name = rel_obj.name
+        # This is the name used prior to fixing #1839. Needs for backwards
+        # compatibility.
+        self.orig_name = rel_obj.opts.module_name
 
     def __len__(self):
         self.fill()
@@ -343,7 +354,7 @@ class FormField(object):
     def get_validation_errors(self, new_data):
         errors = {}
         if self.is_required and not new_data.get(self.field_name, False):
-            errors.setdefault(self.field_name, []).append(gettext_lazy('This field is required.'))
+            errors.setdefault(self.field_name, []).append(gettext('This field is required.'))
             return errors
         try:
             for validator in self.validator_list:
@@ -434,11 +445,11 @@ class HiddenField(FormField):
             (self.get_id(), self.field_name, escape(data))
 
 class CheckboxField(FormField):
-    def __init__(self, field_name, checked_by_default=False, validator_list=None):
+    def __init__(self, field_name, checked_by_default=False, validator_list=None, is_required=False):
         if validator_list is None: validator_list = []
         self.field_name = field_name
         self.checked_by_default = checked_by_default
-        self.is_required = False # because the validator looks for these
+        self.is_required = is_required
         self.validator_list = validator_list[:]
 
     def render(self, data):
@@ -563,7 +574,7 @@ class NullBooleanField(SelectField):
     "This SelectField provides 'Yes', 'No' and 'Unknown', mapping results to True, False or None"
     def __init__(self, field_name, is_required=False, validator_list=None):
         if validator_list is None: validator_list = []
-        SelectField.__init__(self, field_name, choices=[('1', 'Unknown'), ('2', 'Yes'), ('3', 'No')],
+        SelectField.__init__(self, field_name, choices=[('1', _('Unknown')), ('2', _('Yes')), ('3', _('No'))],
             is_required=is_required, validator_list=validator_list)
 
     def render(self, data):
@@ -638,9 +649,9 @@ class CheckboxSelectMultipleField(SelectMultipleField):
             if str(value) in str_data_list:
                 checked_html = ' checked="checked"'
             field_name = '%s%s' % (self.field_name, value)
-            output.append('<li><input type="checkbox" id="%s" class="v%s" name="%s"%s /> <label for="%s">%s</label></li>' % \
-                (self.get_id() + value , self.__class__.__name__, field_name, checked_html,
-                self.get_id() + value, choice))
+            output.append('<li><input type="checkbox" id="%s" class="v%s" name="%s"%s value="on" /> <label for="%s">%s</label></li>' % \
+                (self.get_id() + escape(value), self.__class__.__name__, field_name, checked_html,
+                self.get_id() + escape(value), choice))
         output.append('</ul>')
         return '\n'.join(output)
 
@@ -743,7 +754,7 @@ class FloatField(TextField):
         if validator_list is None: validator_list = []
         self.max_digits, self.decimal_places = max_digits, decimal_places
         validator_list = [self.isValidFloat] + validator_list
-        TextField.__init__(self, field_name, max_digits+1, max_digits+1, is_required, validator_list)
+        TextField.__init__(self, field_name, max_digits+2, max_digits+2, is_required, validator_list)
 
     def isValidFloat(self, field_data, all_data):
         v = validators.IsValidFloat(self.max_digits, self.decimal_places)
@@ -954,8 +965,7 @@ class USStateField(TextField):
     def html2python(data):
         if data:
             return data.upper() # Should always be stored in upper case
-        else:
-            return None
+        return data
     html2python = staticmethod(html2python)
 
 class CommaSeparatedIntegerField(TextField):
@@ -972,9 +982,19 @@ class CommaSeparatedIntegerField(TextField):
         except validators.ValidationError, e:
             raise validators.CriticalValidationError, e.messages
 
+    def render(self, data):
+        if data is None:
+            data = ''
+        elif isinstance(data, (list, tuple)):
+            data = ','.join(data)
+        return super(CommaSeparatedIntegerField, self).render(data)
+
 class RawIdAdminField(CommaSeparatedIntegerField):
     def html2python(data):
-        return data.split(',')
+        if data:
+            return data.split(',')
+        else:
+            return []
     html2python = staticmethod(html2python)
 
 class XMLLargeTextField(LargeTextField):

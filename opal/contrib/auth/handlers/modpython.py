@@ -19,6 +19,8 @@ def authenhandler(req, **kwargs):
     superuser_only = _str_to_bool(options.get('DjangoRequireSuperuserStatus', "off"))
 
     from opal.contrib.auth.models import User
+    from opal import db
+    db.reset_queries()
 
     # check that the username is valid
     kwargs = {'username': req.user, 'is_active': True}
@@ -27,18 +29,21 @@ def authenhandler(req, **kwargs):
     if superuser_only:
         kwargs['is_superuser'] = True
     try:
-        user = User.objects.get(**kwargs)
-    except User.DoesNotExist:
-        return apache.HTTP_UNAUTHORIZED
-
-    # check the password and any permission given
-    if user.check_password(req.get_basic_auth_pw()):
-        if permission_name:
-            if user.has_perm(permission_name):
-                return apache.OK
+        try:
+            user = User.objects.get(**kwargs)
+        except User.DoesNotExist:
+            return apache.HTTP_UNAUTHORIZED
+    
+        # check the password and any permission given
+        if user.check_password(req.get_basic_auth_pw()):
+            if permission_name:
+                if user.has_perm(permission_name):
+                    return apache.OK
+                else:
+                    return apache.HTTP_UNAUTHORIZED
             else:
-                return apache.HTTP_UNAUTHORIZED
+                return apache.OK
         else:
-            return apache.OK
-    else:
-        return apache.HTTP_UNAUTHORIZED
+            return apache.HTTP_UNAUTHORIZED
+    finally:
+        db.connection.close()
