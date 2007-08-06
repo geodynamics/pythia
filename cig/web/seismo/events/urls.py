@@ -42,7 +42,7 @@
 #
 
 
-from django.conf.urls.defaults import *
+from opal.conf.urls.defaults import *
 from models import Event, Source
 
 
@@ -82,16 +82,16 @@ source_delete_args = {
 
 
 urlpatterns = patterns('',
-    (r'^$', 'django.views.generic.list_detail.object_list', event_list_detail_args),
+    (r'^$', 'opal.views.generic.list_detail.object_list', event_list_detail_args),
     (r'^search/$', 'cig.web.seismo.events.views.search'),
     (r'^add/$', 'cig.web.seismo.events.views.add'),
     (r'^upload/$', 'cig.web.seismo.events.views.upload'),
-    (r'^sources/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', source_detail_args),
-    (r'^sources/(?P<object_id>\d+)/edit/$', 'django.views.generic.create_update.update_object', source_create_update_args),
-    (r'^sources/(?P<object_id>\d+)/delete/$', 'django.views.generic.create_update.delete_object', source_delete_args),
-    (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', event_detail_args),
-    (r'^(?P<object_id>\d+)/edit/$', 'django.views.generic.create_update.update_object', event_create_update_args),
-    (r'^(?P<object_id>\d+)/delete/$', 'django.views.generic.create_update.delete_object', event_delete_args),
+    (r'^sources/(?P<object_id>\d+)/$', 'opal.views.generic.list_detail.object_detail', source_detail_args),
+    (r'^sources/(?P<object_id>\d+)/edit/$', 'opal.views.generic.create_update.update_object', source_create_update_args),
+    (r'^sources/(?P<object_id>\d+)/delete/$', 'opal.views.generic.create_update.delete_object', source_delete_args),
+    (r'^(?P<object_id>\d+)/$', 'opal.views.generic.list_detail.object_detail', event_detail_args),
+    (r'^(?P<object_id>\d+)/edit/$', 'opal.views.generic.create_update.update_object', event_create_update_args),
+    (r'^(?P<object_id>\d+)/delete/$', 'opal.views.generic.create_update.delete_object', event_delete_args),
 )
 
 

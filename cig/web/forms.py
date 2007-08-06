@@ -42,7 +42,7 @@
 #
 
 
-from django import forms
+from opal import forms
 
 
 class TeeManipulator(forms.Manipulator):

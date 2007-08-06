@@ -42,7 +42,7 @@
 #
 
 
-from django.conf.urls.defaults import *
+from opal.conf.urls.defaults import *
 from models import Station, StationList, StationNetwork
 
 
@@ -64,9 +64,9 @@ urlpatterns = patterns('',
     (r'^create/$', 'cig.web.seismo.stations.views.create'),
     (r'^default/$', 'cig.web.seismo.stations.views.default'),
     (r'^upload/$', 'cig.web.seismo.stations.views.upload'),
-    (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', {'queryset': StationList.objects.all()}),
-    (r'^(?P<object_id>\d+)/edit/$', 'django.views.generic.create_update.update_object', stationlist_create_update_args),
-    (r'^(?P<object_id>\d+)/delete/$', 'django.views.generic.create_update.delete_object', stationlist_delete_args),
+    (r'^(?P<object_id>\d+)/$', 'opal.views.generic.list_detail.object_detail', {'queryset': StationList.objects.all()}),
+    (r'^(?P<object_id>\d+)/edit/$', 'opal.views.generic.create_update.update_object', stationlist_create_update_args),
+    (r'^(?P<object_id>\d+)/delete/$', 'opal.views.generic.create_update.delete_object', stationlist_delete_args),
     (r'^(?P<object_id>\d+)/gearth\.kml$','cig.web.seismo.stations.views.stationlist_detail_gearth'),
 )
 

@@ -144,11 +144,13 @@ class RegexURLPattern(object):
         return reverse_helper(self.regex, *args, **kwargs)
 
 class RegexURLResolver(object):
-    def __init__(self, regex, urlconf_name, default_kwargs=None):
+    def __init__(self, regex, urlconf, default_kwargs=None):
         # regex is a string representing a regular expression.
-        # urlconf_name is a string representing the module containing urlconfs.
+        # urlconf is an object with a 'urlpatterns' attribute
+        # (a list returned by django.conf.urls.defaults.patterns)
+        # and zero or more 'handlerXXX' methods.
         self.regex = re.compile(regex)
-        self.urlconf_name = urlconf_name
+        self.urlconf = urlconf
         self.callback = None
         self.default_kwargs = default_kwargs or {}
 
@@ -157,7 +159,7 @@ class RegexURLResolver(object):
         match = self.regex.search(path)
         if match:
             new_path = path[match.end():]
-            for pattern in self.urlconf_module.urlpatterns:
+            for pattern in self.urlconf.urlpatterns:
                 try:
                     sub_match = pattern.resolve(new_path)
                 except Resolver404, e:
@@ -169,24 +171,8 @@ class RegexURLResolver(object):
                     tried.append(pattern.regex.pattern)
             raise Resolver404, {'tried': tried, 'path': new_path}
 
-    def _get_urlconf_module(self):
-        try:
-            return self._urlconf_module
-        except AttributeError:
-            try:
-                self._urlconf_module = __import__(self.urlconf_name, {}, {}, [''])
-            except ValueError, e:
-                # Invalid urlconf_name, such as "foo.bar." (note trailing period)
-                raise ImproperlyConfigured, "Error while importing URLconf %r: %s" % (self.urlconf_name, e)
-            return self._urlconf_module
-    urlconf_module = property(_get_urlconf_module)
-
-    def _get_url_patterns(self):
-        return self.urlconf_module.urlpatterns
-    url_patterns = property(_get_url_patterns)
-
     def _resolve_special(self, view_type):
-        callback = getattr(self.urlconf_module, 'handler%s' % view_type)
+        callback = getattr(self.urlconf, 'handler%s' % view_type)
         mod_name, func_name = get_mod_func(callback)
         try:
             return getattr(__import__(mod_name, {}, {}, ['']), func_name), {}
@@ -206,7 +192,7 @@ class RegexURLResolver(object):
                 lookup_view = getattr(__import__(mod_name, {}, {}, ['']), func_name)
             except (ImportError, AttributeError):
                 raise NoReverseMatch
-        for pattern in self.urlconf_module.urlpatterns:
+        for pattern in self.urlconf.urlpatterns:
             if isinstance(pattern, RegexURLResolver):
                 try:
                     return pattern.reverse_helper(lookup_view, *args, **kwargs)

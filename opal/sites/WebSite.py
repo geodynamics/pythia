@@ -149,7 +149,7 @@ class WebSite(Component):
     TEMPLATE_LOADERS = pyre.list("template-loaders", default=[
         'opal.template.loaders.filesystem.load_template_source',
         'opal.template.loaders.app_directories.load_template_source',
-        #'opal.template.loaders.eggs.load_template_source',
+        'opal.template.loaders.eggs.load_template_source',
         ])
     TEMPLATE_LOADERS.meta['tip'] = """List of callables that know how to import templates from various sources. See the comments in opal/core/template/loader.py for interface documentation."""
 
@@ -351,12 +351,15 @@ class WebSite(Component):
     #########
 
     SITE_ID = pyre.int("site-id", default=1)
-    xROOT_URLCONF = pyre.str("root-urlconf", default="not.yet.implemented")
+    rootUrlconf = pyre.str("root-urlconf", default=None)
 
 
     def _configure(self):
         super(WebSite, self)._configure()
 
+        if self.rootUrlconf is None:
+            raise ValueError("root-urlconf is not set")
+        
         # convert to seconds
         from pyre.units.time import second
         self.SESSION_COOKIE_AGE = self.session_cookie_age / second
@@ -368,10 +371,15 @@ class WebSite(Component):
         return
 
 
+    def _init(self):
+        super(WebSite, self)._init()
+
+        self.ROOT_URLCONF = None
+        
+        return
+
+
     ##########
-
-
-    urlpatterns = None
 
 
     def resolve(self, path):
@@ -380,12 +388,13 @@ class WebSite(Component):
 
 
     def urlResolver(self):
+        from merlin import loadObject
         from opal.core import urlresolvers
-        if self.urlpatterns is None:
-            resolver = urlresolvers.TreeURLResolver(self)
-        else:
-            resolver = urlresolvers.RegexURLResolver(r'^/', self)
-        return resolver
+
+        if self.ROOT_URLCONF is None:
+            factory = loadObject(self.rootUrlconf)
+            self.ROOT_URLCONF = factory()
+        return urlresolvers.RegexURLResolver(r'^/', self.ROOT_URLCONF)
 
 
 # end of file

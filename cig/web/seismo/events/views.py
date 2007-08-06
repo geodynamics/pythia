@@ -43,10 +43,10 @@
 
 
 from cig.seismo.events import CMTSolution
-from django import forms
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
+from opal import forms
+from opal.http import HttpResponseRedirect
+from opal.shortcuts import render_to_response
+from opal.template.context import RequestContext
 from HTMLParser import HTMLParser
 from models import DataSource, Region
 

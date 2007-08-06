@@ -55,7 +55,7 @@ try:
     from threading import local
 except ImportError:
     # ...thankfully, Django includes a substitute.
-    from django.utils._threading_local import local
+    from opal.utils._threading_local import local
 
 _thread_locals = local()
 

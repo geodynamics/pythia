@@ -42,11 +42,11 @@
 #
 
 
-from django import forms
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render_to_response
-from django.template.context import RequestContext
+from opal import forms
+from opal.contrib.auth.decorators import login_required
+from opal.http import HttpResponseRedirect
+from opal.shortcuts import get_object_or_404, render_to_response
+from opal.template.context import RequestContext
 from models import Station, StationList, StationNetwork
 
 
@@ -206,7 +206,7 @@ class UploadStationListManipulator(forms.Manipulator):
 
 # move to shared location
 def gearth_object_list(request, **kwds):
-    from django.views.generic.list_detail import object_list
+    from opal.views.generic.list_detail import object_list
     return object_list(request,
                        mimetype='application/vnd.google-earth',
                        **kwds)

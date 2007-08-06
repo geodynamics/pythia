@@ -42,8 +42,8 @@
 #
 
 
-from django.db import models
-from django.db.models.fields import FieldDoesNotExist
+from opal.db import models
+from opal.db.models.fields import FieldDoesNotExist
 from models import CurrentUser
 
 
