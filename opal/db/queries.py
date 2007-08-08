@@ -13,49 +13,32 @@
 
 class Query(object):
 
+    def __init__(self, fieldName, key):
+        self.fieldName = fieldName
+        self.key = key
+
     def apply(self, queryset):
-        raise NotImplementedError()
+        return queryset.filter(**{self.fieldName: self.key})
 
     def get(self, queryset):
         queryset = self.apply(queryset)
         return queryset.get()
 
-
-class ObjectIdQuery(Query):
-
-    def __init__(self, object_id):
-        Query.__init__(self)
-        self.object_id = object_id
-
-    def apply(self, queryset):
-        return queryset.filter(pk=self.object_id)
-
     def __str__(self):
-        return "object_id=%s" % self.object_id
+        return "%s='%s'" % (self.fieldName, self.key)
 
 
-class ObjectSlugQuery(Query):
 
-    def __init__(self, slug, slug_field):
-        Query.__init__(self)
-        self.slug = slug
-        self.slug_field = slug_field
+class Inquirer(object):
+    
+    def newQuery(self, key):
+        return self.Query(fieldName, key)
 
-    def apply(self, queryset):
-        return queryset.filter(**{self.slug_field: self.slug})
-
-    def __str__(self):
-        return "%s='%s'" % (self.slug_field, self.slug)
+    def __init__(self, fieldName):
+        self.fieldName = fieldName
 
 
-def objectQuery(object_id=None, slug=None, slug_field=None):
-    if object_id:
-        query = ObjectIdQuery(object_id)
-    elif slug and slug_field:
-        query = ObjectSlugQuery(slug, slug_field)
-    else:
-        raise AttributeError, "Object query must be created with either an object_id or a slug/slug_field."
-    return query
+primaryInquirer = Inquirer('pk')
 
 
 # end of file

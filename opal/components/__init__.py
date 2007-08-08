@@ -12,6 +12,9 @@
 #
 
 
+from WebComponent import WebComponent
+
+
 def actor(name):
     from GenericActor import GenericActor
     return GenericActor(name)

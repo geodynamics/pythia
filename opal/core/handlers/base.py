@@ -60,9 +60,10 @@ class BaseHandler(object):
             if response:
                 return response
 
+        site = settings
+        resolver = site.resolve
         try:
-            site = settings
-            callback, callback_args, callback_kwargs = site.resolve(request.path)
+            callback, callback_args, callback_kwargs = resolver.resolve(path)
 
             # Apply view middleware
             for middleware_method in self._view_middleware:

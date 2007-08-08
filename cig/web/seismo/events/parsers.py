@@ -42,57 +42,40 @@
 #
 
 
-from opal.conf.urls.defaults import *
-from models import Event, Source
+from HTMLParser import HTMLParser
 
 
-event_list_detail_args = {
-    'queryset': Event.user_objects.all(),
-    'allow_empty': True,
-}
+class HarvardCMTSearchResultsParser(HTMLParser):
 
-event_detail_args = {
-    'queryset': Event.user_objects.all(),
-}
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.state = 0
+        self.cmtList = None
+        
+    def handle_starttag(self, tag, attrs):
+        if self.state == 0:
+            if tag == 'body':
+                self.state = 1
+        elif self.state == 2:
+            if tag == 'pre':
+                self.state = 3
+        return
 
-event_create_update_args = {
-    'model': Event,
-    'post_save_redirect': '/specfem3dglobe/events/',
-    'follow': { 'user': False },
-    }
+    def handle_endtag(self, tag):
+        if tag == 'body':
+            self.state = 0
+        elif self.state == 3:
+            if tag == 'pre':
+                self.state = 1
+        return
 
-event_delete_args = {
-    'model': Event,
-    'post_delete_redirect': '/specfem3dglobe/events/',
-    }
-
-source_detail_args = {
-    'queryset': Source.objects.all(),
-}
-
-source_create_update_args = {
-    'model': Source,
-    'post_save_redirect': '/specfem3dglobe/events/',
-    }
-
-source_delete_args = {
-    'model': Source,
-    'post_delete_redirect': '/specfem3dglobe/events/',
-    }
-
-
-urlpatterns = patterns('',
-    (r'^$', 'opal.views.generic.list_detail.object_list', event_list_detail_args),
-    (r'^search/$', 'cig.web.seismo.events.views.search'),
-    (r'^add/$', 'cig.web.seismo.events.views.add'),
-    (r'^upload/$', 'cig.web.seismo.events.views.upload'),
-    (r'^sources/(?P<object_id>\d+)/$', 'opal.views.generic.list_detail.object_detail', source_detail_args),
-    (r'^sources/(?P<object_id>\d+)/edit/$', 'opal.views.generic.create_update.update_object', source_create_update_args),
-    (r'^sources/(?P<object_id>\d+)/delete/$', 'opal.views.generic.create_update.delete_object', source_delete_args),
-    (r'^(?P<object_id>\d+)/$', 'opal.views.generic.list_detail.object_detail', event_detail_args),
-    (r'^(?P<object_id>\d+)/edit/$', 'opal.views.generic.create_update.update_object', event_create_update_args),
-    (r'^(?P<object_id>\d+)/delete/$', 'opal.views.generic.create_update.delete_object', event_delete_args),
-)
+    def handle_data(self, data):
+        if self.state == 1:
+            if data.find('Output in CMTSOLUTION format') != -1:
+                self.state = 2
+        elif self.state == 3:
+            self.cmtList = CMTSolution.parse(data)
+        return
 
 
 # end of file
