@@ -43,94 +43,9 @@
 
 
 from opal import forms
-from opal.contrib.auth.decorators import login_required
-from opal.http import HttpResponseRedirect
-from opal.shortcuts import get_object_or_404, render_to_response
-from opal.template.context import RequestContext
 from models import Station, StationList, StationNetwork
 
 
-def index(request):
-    station_lists = StationList.objects.filter(user__exact=request.user)
-    return render_to_response('stations/index.html',
-                              {'station_lists': station_lists },
-                              RequestContext(request, {}))
-index = login_required(index)
-
-
-def create(request):
-    from os.path import dirname
-    from pkg_resources import resource_stream
-
-    actionChoices = (
-        (0, 'Create an empty list of stations.'),
-        (1, 'Create a default list of stations.'),
-        )
-    class Manipulator(forms.Manipulator):
-        def __init__(self):
-            super(Manipulator, self).__init__()
-            self.fields = [
-                forms.TextField('name', maxlength=100, is_required=True),
-                forms.RadioSelectField('action', choices=actionChoices, is_required=True)
-                ]
-    
-    manipulator = Manipulator()
-    
-    if request.method == 'POST':
-        new_data = request.POST.copy()
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            stationList = StationList.objects.create(user = request.user,
-                                                     name = new_data['name'])
-            if new_data['action'] == "1":
-                stream = resource_stream(__name__, "STATIONS")
-                parse_station_list(stationList, stream)
-            url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
-            return HttpResponseRedirect(url)
-    else:
-        errors = {}
-        new_data = {'action': 1}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('stations/stationlist_create.html',
-                              {'form': form},
-                              RequestContext(request, {}))
-create = login_required(create)
-
-
-def upload(request):
-    from os.path import dirname
-    
-    manipulator = UploadStationListManipulator()
-    
-    if request.method == 'POST':
-        new_data = request.POST.copy()
-        new_data.update(request.FILES)
-        errors = manipulator.get_validation_errors(new_data)
-        if not errors:
-            manipulator.do_html2python(new_data)
-            stationList = manipulator.save(new_data, request.user)
-            url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
-            return HttpResponseRedirect(url)
-    else:
-        errors = new_data = {}
-
-    form = forms.FormWrapper(manipulator, new_data, errors)
-    return render_to_response('stations/stationlist_upload.html',
-                              {'form': form},
-                              RequestContext(request, {}))
-upload = login_required(upload)
-
-
-def stationlist_detail_gearth(request, object_id):
-    stationList = get_object_or_404(StationList, id=object_id)
-    kwds = dict(queryset = stationList.station_set.all(),
-                extra_context = {'name': stationList.name})
-    return station_list_gearth(request, **kwds)
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # support code
 
 

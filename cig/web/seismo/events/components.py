@@ -47,6 +47,7 @@ from parsers import HarvardCMTSearchResultsParser
 
 from cig.seismo.events import CMTSolution
 from opal import forms
+from opal.components import WebComponent
 from opal.http import HttpResponseRedirect
 from opal.shortcuts import render_to_response
 from opal.template.context import RequestContext
@@ -59,6 +60,7 @@ class EventBrowser(WebComponent):
 
 
     def __init__(self, home):
+        WebComponent.__init__()
 
         self.home = home # '/specfem3dglobe/events/'
         
@@ -88,27 +90,30 @@ class EventBrowser(WebComponent):
             )
 
 
-    def eventDetail(self, request):
+    def eventDetail(self, request, object_id):
         return self.genericObjectDetail(
             request,
-            queryset = Event.user_objects.all()
+            object_id = object_id,
+            queryset = Event.user_objects.all(),
             )
 
 
-    def editEvent(self, request):
+    def editEvent(self, request, object_id):
         return self.genericUpdateObject(
             request,
+            object_id = object_id,
             model = Event,
             post_save_redirect = self.home,
-            follow: { 'user': False },
+            follow = { 'user': False },
             )
 
 
-    def deleteEvent(self, request):
+    def deleteEvent(self, request, object_id):
         return self.genericDeleteObject(
             request,
-            model: Event,
-            post_delete_redirect: self.home,
+            object_id = object_id,
+            model = Event,
+            post_delete_redirect = self.home,
             )
 
 
@@ -201,27 +206,29 @@ class EventBrowser(WebComponent):
 
     # views -- sources
 
-    def sourceDetail(self, request):
+    def sourceDetail(self, request, object_id):
         return self.genericObjectDetail(
             request,
             queryset = Source.objects.all()
             )
 
 
-    def editSource(self, request):
+    def editSource(self, request, object_id):
         return self.genericUpdateObject(
             request,
+            object_id = object_id,
             model = Source,
             post_save_redirect = self.home,
-            follow: { 'user': False },
+            follow = { 'user': False },
             )
 
 
-    def deleteSource(self, request):
+    def deleteSource(self, request, object_id):
         return self.genericDeleteObject(
             request,
-            model: Source,
-            post_delete_redirect: self.home,
+            object_id = object_id,
+            model = Source,
+            post_delete_redirect = self.home,
             )
 
 
