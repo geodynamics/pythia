@@ -22,16 +22,16 @@ class View(object):
         self.model = model
         if controller is None:
             from opal.controllers import NoController
-            self.controller = NoController
+            self.controller = NoController()
         else:
             self.controller = controller
         self.controller.view = self
         if template_name:
             self.template_name = template_name
         else:
-            template_name = "%s/%s_%s.html" % (self.model._meta.app_label,
-                                               self.model._meta.object_name.lower(),
-                                               self.templateNameTag)
+            self.template_name = "%s/%s_%s.html" % (self.model._meta.app_label,
+                                                    self.model._meta.object_name.lower(),
+                                                    self.templateNameTag)
         if template_loader is None:
             from opal.template import loader
             self.template_loader = loader

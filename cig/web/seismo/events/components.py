@@ -45,9 +45,9 @@
 from models import Event, Source, DataSource, Region
 from parsers import HarvardCMTSearchResultsParser
 
-from cig.seismo.events import CMTSolution
 from opal import forms
 from opal.components import WebComponent
+from opal.db.queries import primaryInquirer
 from opal.http import HttpResponseRedirect
 from opal.shortcuts import render_to_response
 from opal.template.context import RequestContext
@@ -56,11 +56,14 @@ from opal.template.context import RequestContext
 class EventBrowser(WebComponent):
 
 
+    name = "events"
+
+
     models = [Event, Source, DataSource, Region]
 
 
-    def __init__(self, home):
-        WebComponent.__init__()
+    def __init__(self, home="/"):
+        WebComponent.__init__(self)
 
         self.home = home # '/specfem3dglobe/events/'
         
@@ -85,7 +88,7 @@ class EventBrowser(WebComponent):
     def eventList(self, request):
         return self.genericObjectList(
             request,
-            queryset = Event.user_objects.all(),
+            Event.user_objects.all(),
             allow_empty = True,
             )
 
@@ -93,16 +96,16 @@ class EventBrowser(WebComponent):
     def eventDetail(self, request, object_id):
         return self.genericObjectDetail(
             request,
-            object_id = object_id,
             queryset = Event.user_objects.all(),
+            query = primaryInquirer.newQuery(object_id),
             )
-
+    
 
     def editEvent(self, request, object_id):
         return self.genericUpdateObject(
             request,
-            object_id = object_id,
             model = Event,
+            query = primaryInquirer.newQuery(object_id),
             post_save_redirect = self.home,
             follow = { 'user': False },
             )
@@ -111,8 +114,8 @@ class EventBrowser(WebComponent):
     def deleteEvent(self, request, object_id):
         return self.genericDeleteObject(
             request,
-            object_id = object_id,
             model = Event,
+            query = primaryInquirer.newQuery(object_id),
             post_delete_redirect = self.home,
             )
 
@@ -169,7 +172,8 @@ class EventBrowser(WebComponent):
             if not errors:
                 manipulator.do_html2python(new_data)
                 new_event = manipulator.save(new_data, request.user)
-                url = "%s/%i/" % (dirname(dirname(request.path)), new_event.id)
+                #url = "%s/%i/" % (dirname(dirname(request.path)), new_event.id)
+                url = self.home
                 return HttpResponseRedirect(url)
         else:
             errors = new_data = {}
@@ -193,7 +197,8 @@ class EventBrowser(WebComponent):
             if not errors:
                 manipulator.do_html2python(new_data)
                 new_event = manipulator.save(new_data, request.user)
-                url = "%s/%i/" % (dirname(dirname(request.path)), new_event.id)
+                #url = "%s/%i/" % (dirname(dirname(request.path)), new_event.id)
+                url = self.home
                 return HttpResponseRedirect(url)
         else:
             errors = new_data = {}
@@ -209,15 +214,16 @@ class EventBrowser(WebComponent):
     def sourceDetail(self, request, object_id):
         return self.genericObjectDetail(
             request,
-            queryset = Source.objects.all()
+            queryset = Source.objects.all(),
+            query = primaryInquirer.newQuery(object_id),
             )
 
 
     def editSource(self, request, object_id):
         return self.genericUpdateObject(
             request,
-            object_id = object_id,
             model = Source,
+            query = primaryInquirer.newQuery(object_id),
             post_save_redirect = self.home,
             follow = { 'user': False },
             )
@@ -226,8 +232,8 @@ class EventBrowser(WebComponent):
     def deleteSource(self, request, object_id):
         return self.genericDeleteObject(
             request,
-            object_id = object_id,
             model = Source,
+            query = primaryInquirer.newQuery(object_id),
             post_delete_redirect = self.home,
             )
 

@@ -18,6 +18,7 @@ import opal.controllers as controllers
 from opal.template import Context, RequestContext, loader
 from opal import http
 
+
 class WebComponent(Component):
 
 
@@ -46,47 +47,56 @@ class WebComponent(Component):
 
     # generic views
 
-    def genericObjectList(request, **kwds):
-        view = views.ListView(**kwds)
+    def genericObjectList(self, request, queryset, **kwds):
+        view = views.ListView(queryset = queryset, **kwds)
         return view.response(request)
 
 
-    def genericObjectDetail(request, **kwds):
-        view = views.DetailView(**kwds)
+    def genericObjectDetail(self, request, queryset, query, **kwds):
+        # NYI: Unlike Django's object_detail() function, this discards
+        # 'queryset'.  This may not be appropriate, even though this
+        # is a view of a single object: e.g., if the queryset is a
+        # per-user query, then perhaps 'Http404' should be raised.
+        # OTOH, in Django's create_update functions (replicated in the
+        # CRUD stuff below), 'model' seems to be good enough; which
+        # begs the question as to why this method doesn't take a
+        # 'model' instead of a 'queryset'.
+        model = queryset.model
+        view = views.DetailView(model, query, **kwds)
         return view.response(request)
 
 
     # generic views -- CRUD
 
-    def genericCreateObject(request, post_save_redirect=None, follow=None, **kwds):
+    def genericCreateObject(self, request, model, query, post_save_redirect=None, follow=None, **kwds):
         controller = controllers.CreationController(
             post_redirect = post_save_redirect,
             follow = follow,
             )
-        view = views.DetailView(controller = controller, **kwds)
+        view = views.DetailView(model, query, controller = controller, **kwds)
         return view.response(request)
 
 
-    def genericUpdateObject(request, post_save_redirect=None, follow=None, **kwds):
+    def genericUpdateObject(self, request, model, query, post_save_redirect=None, follow=None, **kwds):
         controller = controllers.UpdateController(
             post_redirect = post_save_redirect,
             follow = follow,
             )
-        view = views.DetailView(controller = controller, **kwds)
+        view = views.DetailView(model, query, controller = controller, **kwds)
         return view.response(request)
 
 
-    def genericDeleteObject(request, post_delete_redirect, **kwds):
+    def genericDeleteObject(self, request, model, query, post_delete_redirect, **kwds):
         controller = controllers.DeletionController(
             post_redirect = post_delete_redirect,
             )
-        view = views.DetailView(controller = controller, **kwds)
+        view = views.DetailView(model, query, controller = controller, **kwds)
         return view.response(request)
 
 
     # errors
 
-    def handler404(request, template_name='404.html'):
+    def handler404(self, request, template_name='404.html'):
         """
         Default 404 handler, which looks for the requested URL in the redirects
         table, redirects if found, and displays 404 page if not redirected.
@@ -100,7 +110,7 @@ class WebComponent(Component):
         return http.HttpResponseNotFound(t.render(RequestContext(request, {'request_path': request.path})))
 
 
-    def handler500(request, template_name='500.html'):
+    def handler500(self, request, template_name='500.html'):
         """
         500 error handler.
 

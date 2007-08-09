@@ -31,7 +31,7 @@ class FormController(Controller):
         self.errors = {}
 
 
-    def createGlobalContext(self):
+    def globalContext(self):
         context = dict()
         form = self.newFormWrapper()
         context['form'] = form

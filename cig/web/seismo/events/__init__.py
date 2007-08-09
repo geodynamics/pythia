@@ -1,2 +1,2 @@
 
-from EventBrowser import EventBrowser
+#from components import EventBrowser

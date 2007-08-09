@@ -162,11 +162,7 @@ def translation(language):
             res = _merge(projectpath)
 
         for appname in settings.INSTALLED_APPS:
-            p = appname.rfind('.')
-            if p >= 0:
-                app = getattr(__import__(appname[:p], {}, {}, [appname[p+1:]]), appname[p+1:])
-            else:
-                app = __import__(appname, {}, {}, [])
+            app = __import__(appname, {}, {}, ['__name__'])
 
             apppath = os.path.join(os.path.dirname(app.__file__), 'locale')
 

@@ -149,7 +149,7 @@ class WebSite(Component):
     TEMPLATE_LOADERS = pyre.list("template-loaders", default=[
         'opal.template.loaders.filesystem.load_template_source',
         'opal.template.loaders.app_directories.load_template_source',
-        'opal.template.loaders.eggs.load_template_source',
+        #'opal.template.loaders.eggs.load_template_source',
         ])
     TEMPLATE_LOADERS.meta['tip'] = """List of callables that know how to import templates from various sources. See the comments in opal/core/template/loader.py for interface documentation."""
 
@@ -380,11 +380,6 @@ class WebSite(Component):
 
 
     ##########
-
-
-    def resolve(self, path):
-        resolver = self.urlResolver()
-        return resolver.resolve(path)
 
 
     def urlResolver(self):

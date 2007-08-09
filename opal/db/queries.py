@@ -30,9 +30,11 @@ class Query(object):
 
 
 class Inquirer(object):
+
+    Query = Query
     
     def newQuery(self, key):
-        return self.Query(fieldName, key)
+        return self.Query(self.fieldName, key)
 
     def __init__(self, fieldName):
         self.fieldName = fieldName

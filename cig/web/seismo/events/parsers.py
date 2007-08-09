@@ -43,6 +43,7 @@
 
 
 from HTMLParser import HTMLParser
+from cig.seismo.events import CMTSolution
 
 
 class HarvardCMTSearchResultsParser(HTMLParser):
