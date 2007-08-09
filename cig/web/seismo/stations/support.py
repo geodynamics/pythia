@@ -121,10 +121,11 @@ class UploadStationListManipulator(forms.Manipulator):
 
 # move to shared location
 def gearth_object_list(request, **kwds):
-    from opal.views.generic.list_detail import object_list
-    return object_list(request,
-                       mimetype='application/vnd.google-earth',
-                       **kwds)
+    import opal.views as views
+    view = views.ListView(
+        mimetype='application/vnd.google-earth',
+        **kwds)
+    return view.response(request)
 
 
 def station_list_gearth(request, **kwds):

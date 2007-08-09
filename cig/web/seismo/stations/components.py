@@ -45,7 +45,9 @@
 from models import Station, StationList, StationNetwork
 import support
 
+from opal import forms
 from opal.components import WebComponent
+from opal.db.queries import primaryInquirer
 from opal.http import HttpResponseRedirect
 from opal.shortcuts import get_object_or_404, render_to_response
 from opal.template.context import RequestContext
@@ -54,11 +56,14 @@ from opal.template.context import RequestContext
 class StationBrowser(WebComponent):
 
 
+    name = "stations"
+
+
     models = [Station, StationList, StationNetwork]
 
 
-    def __init__(self, home):
-        WebComponent.__init__()
+    def __init__(self, home="/"):
+        WebComponent.__init__(self)
 
         self.home = home # '/specfem3dglobe/stations/'
         
@@ -76,14 +81,14 @@ class StationBrowser(WebComponent):
         return
 
 
-    def index(request):
+    def index(self, request):
         station_lists = StationList.objects.filter(user__exact=request.user)
         return render_to_response('stations/index.html',
                                   {'station_lists': station_lists },
                                   RequestContext(request, {}))
 
 
-    def createStationList(request):
+    def createStationList(self, request):
         from os.path import dirname
         from pkg_resources import resource_stream
 
@@ -111,7 +116,8 @@ class StationBrowser(WebComponent):
                 if new_data['action'] == "1":
                     stream = resource_stream(__name__, "STATIONS")
                     support.parse_station_list(stationList, stream)
-                url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
+                #url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
+                url = self.home
                 return HttpResponseRedirect(url)
         else:
             errors = {}
@@ -123,7 +129,7 @@ class StationBrowser(WebComponent):
                                   RequestContext(request, {}))
 
 
-    def uploadStationList(request):
+    def uploadStationList(self, request):
         from os.path import dirname
 
         manipulator = support.UploadStationListManipulator()
@@ -135,7 +141,8 @@ class StationBrowser(WebComponent):
             if not errors:
                 manipulator.do_html2python(new_data)
                 stationList = manipulator.save(new_data, request.user)
-                url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
+                #url = "%s/%i/" % (dirname(dirname(request.path)), stationList.id)
+                url = self.home
                 return HttpResponseRedirect(url)
         else:
             errors = new_data = {}
@@ -149,16 +156,16 @@ class StationBrowser(WebComponent):
     def stationListDetail(self, request, object_id):
         return self.genericObjectDetail(
             request,
-            object_id = object_id,
             queryset = StationList.objects.all(),
+            query = primaryInquirer.newQuery(object_id),
             )
 
 
     def editStationList(self, request, object_id):
         return self.genericUpdateObject(
             request,
-            object_id = object_id,
             model = StationList,
+            query = primaryInquirer.newQuery(object_id),
             post_save_redirect = self.home,
             follow = { 'user': False },
             )
@@ -167,8 +174,8 @@ class StationBrowser(WebComponent):
     def deleteStationList(self, request, object_id):
         return self.genericDeleteObject(
             request,
-            object_id = object_id,
             model = StationList,
+            query = primaryInquirer.newQuery(object_id),
             post_delete_redirect = self.home,
             )
 
@@ -177,7 +184,6 @@ class StationBrowser(WebComponent):
         stationList = get_object_or_404(StationList, id=object_id)
         return support.station_list_gearth(
             request,
-            object_id = object_id,
             queryset = stationList.station_set.all(),
             extra_context = {'name': stationList.name}
             )
