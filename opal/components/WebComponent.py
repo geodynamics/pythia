@@ -68,12 +68,12 @@ class WebComponent(Component):
 
     # generic views -- CRUD
 
-    def genericCreateObject(self, request, model, query, post_save_redirect=None, follow=None, **kwds):
+    def genericCreateObject(self, request, model, post_save_redirect=None, follow=None, **kwds):
         controller = controllers.CreationController(
             post_redirect = post_save_redirect,
             follow = follow,
             )
-        view = views.DetailView(model, query, controller = controller, **kwds)
+        view = views.DetailView(model, None, controller = controller, **kwds)
         return view.response(request)
 
 

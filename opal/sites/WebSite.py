@@ -351,13 +351,14 @@ class WebSite(Component):
     #########
 
     SITE_ID = pyre.int("site-id", default=1)
-    rootUrlconf = pyre.str("root-urlconf", default=None)
+    #rootUrlconf = pyre.str("root-urlconf", default=None)
+    rootUrlconf = pyre.facility("root", default=None)
 
 
     def _configure(self):
         super(WebSite, self)._configure()
 
-        if self.rootUrlconf is None:
+        if False and self.rootUrlconf is None:
             raise ValueError("root-urlconf is not set")
         
         # convert to seconds
@@ -387,8 +388,7 @@ class WebSite(Component):
         from opal.core import urlresolvers
 
         if self.ROOT_URLCONF is None:
-            factory = loadObject(self.rootUrlconf)
-            self.ROOT_URLCONF = factory()
+            self.ROOT_URLCONF = self.rootUrlconf
         return urlresolvers.RegexURLResolver(r'^/', self.ROOT_URLCONF)
 
 
