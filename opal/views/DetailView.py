@@ -31,7 +31,7 @@ class DetailView(View):
     defaultTemplateNameTag = "detail"
 
 
-    def __init__(self, model, query, template_name_field=None, **kwds):
+    def __init__(self, model, query=None, template_name_field=None, **kwds):
         View.__init__(self, model, **kwds)
         self.query = query
         self.obj = None
@@ -40,7 +40,8 @@ class DetailView(View):
 
 
     def response(self, request):
-        self.obj = self.getObject()
+        if self.query:
+            self.obj = self.getObject()
         # Give the controller a chance to respond to this request.
         return self.controller.response(request)
 
@@ -62,7 +63,7 @@ class DetailView(View):
 
 
     def loadTemplate(self):
-        if self.template_name_field:
+        if self.obj and self.template_name_field:
             template_name_list = [getattr(self.obj, self.template_name_field), self.template_name]
             t = self.template_loader.select_template(template_name_list)
         else:
@@ -78,7 +79,8 @@ class DetailView(View):
 
     def globalContext(self):
         context = super(DetailView, self).globalContext()
-        context[self.template_object_name] = self.obj
+        if self.obj:
+            context[self.template_object_name] = self.obj
         return context
 
 

@@ -28,7 +28,9 @@ class WebComponent(Component):
 
     # urlpatterns support
 
-    include = lambda urlconf_module: [urlconf_module]
+    def include(self, urlconf_module):
+        return [urlconf_module]
+
 
     def patterns(self, *tuples):
         from opal.core.urlresolvers import RegexURLPattern, RegexURLResolver

@@ -351,8 +351,8 @@ class WebSite(Component):
     #########
 
     SITE_ID = pyre.int("site-id", default=1)
-    #rootUrlconf = pyre.str("root-urlconf", default=None)
-    rootUrlconf = pyre.facility("root", default=None)
+    rootUrlconf = pyre.str("root", default=None)
+    #rootUrlconf = pyre.facility("root", default=None)
 
 
     def _configure(self):
@@ -388,7 +388,19 @@ class WebSite(Component):
         from opal.core import urlresolvers
 
         if self.ROOT_URLCONF is None:
-            self.ROOT_URLCONF = self.rootUrlconf
+            # This can't be configured as a normal facility because of
+            # Django's poor design (cycles in the module dependency
+            # graph, global variables, etc.).
+            urlconf = self.retrieveComponent(self.rootUrlconf, factory='root')
+            if urlconf is None:
+                raise RuntimeError("no urlconf")
+            context = self.configureComponent(urlconf)
+            if not context.verifyConfiguration(urlconf, 'strict'):
+                raise RuntimeError("%s: configuration error(s)" % urlconf.name)
+            urlconf.init()
+            
+            self.ROOT_URLCONF = urlconf
+        
         return urlresolvers.RegexURLResolver(r'^/', self.ROOT_URLCONF)
 
 

@@ -22,7 +22,11 @@ class ModelBase(type):
     "Metaclass for all models"
     def __new__(cls, name, bases, attrs):
         # If this isn't a subclass of Model, don't do anything special.
-        if name == 'Model' or not filter(lambda b: issubclass(b, Model), bases):
+
+        # This Django v0.96 change causes problems if a model subclass
+        # happens to be called 'Model'.  Reverted to v0.95 code.
+        #if name == 'Model' or not filter(lambda b: issubclass(b, Model), bases):
+        if not bases or bases == (object,):
             return super(ModelBase, cls).__new__(cls, name, bases, attrs)
 
         # Create the class.
