@@ -25,7 +25,18 @@ class ScriptLocator(object):
     def __str__(self):
         return "{file=%r, line=%r, function=%r}" % (self.source, self.line, self.function)
 
-    
+
+    def __getstate__(self):
+        return dict(source = self.source, line = self.line, function = self.function)
+
+
+    def __setstate__(self, dict):
+        self.source   = dict['source']
+        self.line     = dict['line']
+        self.function = dict['function']
+        return
+
+
     def getAttributes(self, attr):
         import linecache
         attr["filename"] = self.source

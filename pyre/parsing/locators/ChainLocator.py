@@ -25,6 +25,16 @@ class ChainLocator(object):
         return "%s via %s" % (self.this, self.next)
 
 
+    def __getstate__(self):
+        return dict(this = self.this, next = self.next)
+
+
+    def __setstate__(self, dict):
+        self.this = dict['this']
+        self.next = dict['next']
+        return
+
+
     def getAttributes(self, attr):
         return
 

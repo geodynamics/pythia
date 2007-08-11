@@ -327,6 +327,12 @@ class Configurable(Traceable):
         return self.Inventory(self.name)
 
 
+    def createMetaInventory(self):
+        """create my meta-inventory instance"""
+        from MetaInventory import MetaInventory
+        return MetaInventory(self.inventory)
+
+
     def __init__(self, name=None):
         Traceable.__init__(self)
 
@@ -337,8 +343,7 @@ class Configurable(Traceable):
         self.inventory = self.createInventory()
         
         # provide simple, convenient access to descriptors
-        from MetaInventory import MetaInventory
-        self.metainventory = MetaInventory(self.inventory)
+        self.metainventory = self.createMetaInventory()
 
         # other names by which I am known for configuration purposes
         self.aliases = [ name ]
@@ -354,6 +359,28 @@ class Configurable(Traceable):
         # from what was inherited from their parent's inventory
         self._defaults()
         
+        return
+
+
+    def __getstate__(self):
+        # copy the dictionary, since we change it
+        odict = self.__dict__.copy()
+
+        # convert inventory to picklable form
+        from Inventory import Inventory
+        from copy import copy
+        inventory = copy(odict['inventory'])
+        inventory.__class__ = Inventory
+        odict['inventory'] = inventory
+        del odict['metainventory']
+        
+        return odict
+
+
+    def __setstate__(self, dict):
+        self.__dict__.update(dict)
+        self.inventory.__class__ = self.Inventory
+        self.metainventory = self.createMetaInventory()
         return
 
 

@@ -24,6 +24,15 @@ class SimpleFileLocator(object):
         return "{file=%r}" % (self.source)
 
     
+    def __getstate__(self):
+        return dict(source = self.source)
+
+
+    def __setstate__(self, dict):
+        self.source = dict['source']
+        return
+
+
     def getAttributes(self, attr):
         attr["filename"] = self.source
         return

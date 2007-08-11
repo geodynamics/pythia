@@ -60,7 +60,9 @@ class Weaver(Component):
 
     def render(self, document=None):
         self._renderer.options = self.inventory
-        return self._renderer.weave(document)
+        ret = self._renderer.weave(document)
+        self._renderer.options = None
+        return ret
 
 
     def begin(self):
@@ -76,6 +78,7 @@ class Weaver(Component):
 
     def end(self):
         self._renderer.end()
+        self._renderer.options = None
         return
 
 

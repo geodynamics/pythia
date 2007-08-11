@@ -26,6 +26,17 @@ class FileLocator(object):
         return "{file=%r, line=%r, column=%r}" % (self.source, self.line, self.column)
 
 
+    def __getstate__(self):
+        return dict(source = self.source, line = self.line, column = self.column)
+
+
+    def __setstate__(self, dict):
+        self.source = dict['source']
+        self.line   = dict['line']
+        self.column = dict['column']
+        return
+
+
     def getAttributes(self, attr):
         import linecache
         attr["filename"] = self.source
@@ -35,6 +46,7 @@ class FileLocator(object):
     
 
     __slots__ = ("source", "line", "column")
+
 
 # version
 __id__ = "$Id: FileLocator.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
