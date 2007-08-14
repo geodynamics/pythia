@@ -123,4 +123,135 @@ class WebComponent(Component):
         return http.HttpResponseServerError(t.render(Context({})))
 
 
+#------------------------------------------------------------------------
+# unearthed stuff
+
+
+class Property(object):
+    def __init__(self, **attrs):
+        self.attrs = attrs
+
+
+component = Property
+
+
+class ComponentClass(type):
+
+
+    def __init__(Class, name, bases, dct):
+        type.__init__(name, bases, dct)
+
+        subcomponentRegistry = {}
+
+        for name, prop in [kv for kv in dct.iteritems()
+                           if isinstance(kv[1], Property)]:
+            slug = prop.attrs.setdefault('slug', name)
+            subcomponentRegistry[slug] = prop
+
+        Class.subcomponentRegistry = subcomponentRegistry
+
+        return
+
+
+class UnearthedComponent(object):
+
+
+    __metaclass__ = ComponentClass
+
+
+    from cig.web.views import View
+
+
+    def __init__(self, **attrs):
+        #super(object, self).__init__()
+        self.slug = attrs.get('slug')
+        self.context = attrs.get('context', {})
+        self.parentURL = attrs.get('url')
+        self.subcomponents = None
+        self._initTreeNode(**attrs)
+
+
+    def createSubcomponent(self, slug, **attrs):
+        prop = self.subcomponentRegistry[slug]
+        attrs.update(prop.attrs)
+        attrs['slug'] = slug
+        attrs['url'] = self.url
+        Class = attrs['Class']
+        c = Class(**attrs)
+        return c
+
+
+    def subcomponent(self, slug, **attrs):
+        from django.http import Http404
+        self.expand(**attrs)
+        try:
+            c = self.subcomponents[slug]
+        except KeyError:
+            raise Http404
+        return c
+
+
+    def iterSubcomponents(self):
+        self.expand()
+        for c in self.subcomponents.itervalues():
+            yield c
+        return
+
+
+    def expand(self, **attrs):
+        if self.subcomponents is None:
+            self.subcomponents = {}
+            for slug in self.subcomponentRegistry.iterkeys():
+                self.subcomponents[slug] =  self.createSubcomponent(slug, **attrs)
+        return self.subcomponents
+
+
+    def resolve(self, path, **attrs):
+        from django.http import Http404
+        context = attrs.setdefault('context', {})
+        context.setdefault('root', self)
+        item = path[0]
+        path = path[1:]
+        if item:
+            subcomponent = self.subcomponent(item, **attrs)
+            self.selectedChild = subcomponent
+            return subcomponent.resolve(path, **attrs)
+        if path:
+            raise Http404
+        self.isExpanded = True
+        args = ()
+        kwargs = {}
+        return self.View(component=self), args, kwargs
+
+
+    # TreeNode protocol
+
+    def _initTreeNode(self, **attrs):
+        # this node
+        self.name = attrs.get('name', self.slug)
+        self.title = attrs.get('title', self.name.title())
+        self.url = attrs['url'] + '/' + self.slug
+
+        # children
+        self.isLeaf = False
+        self.isExpanded = False
+        self.selectedChild = None
+
+
+    def _getChildren(self):
+        return [child for child in self.iterChildren()]
+    children = property(_getChildren)
+
+
+    def iterChildren(self):
+        for component in self.iterSubcomponents():
+            yield component
+        return
+
+
+    def postMessage(self, message, request):
+        request.user.message_set.create(message = message)
+        return
+
+
 # end of file
