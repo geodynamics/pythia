@@ -11,7 +11,7 @@
 #
 
 
-from WebComponent import UnearthedComponent
+from WebComponent import WebComponent
 
 
 class Action(object):
@@ -20,7 +20,11 @@ class Action(object):
         self.name = name
 
 
-class Editor(UnearthedComponent):
+class Editor(WebComponent):
+
+
+    Action = Action
+
 
     def __init__(self, **attrs):
         super(Editor, self).__init__(**attrs)
@@ -44,11 +48,10 @@ class Editor(UnearthedComponent):
 
 
     def subcomponent(self, slug, **attrs):
-        from django.http import Http404
         try:
             model = self.manager.get(slug = slug)
         except self.Model.DoesNotExist:
-            raise Http404
+            raise self.Http404
         return self.createSubcomponent(slug, model=model, **attrs)
 
 

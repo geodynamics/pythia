@@ -80,11 +80,23 @@ def get_template(template_name):
     template = get_template_from_string(source, origin, template_name)
     return template
 
+class CheetahAdapter(object):
+    def __init__(self, template):
+        self.template = template
+    def render(self, context):
+        self.template.searchList().append(context)
+        return self.template.respond()
+
+useCheetah = True
+
 def get_template_from_string(source, origin=None, name=None):
     """
     Returns a compiled Template object for the given template code,
     handling template inheritance recursively.
     """
+    if useCheetah:
+        from Cheetah.Template import Template as CheetahTemplate
+        return CheetahAdapter(CheetahTemplate(source)) #, origin, name)
     return Template(source, origin, name)
 
 def render_to_string(template_name, dictionary=None, context_instance=None):

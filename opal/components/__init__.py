@@ -13,6 +13,7 @@
 
 
 from WebComponent import WebComponent
+from ListEditor import ListEditor
 
 
 def actor(name):

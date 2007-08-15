@@ -12,11 +12,38 @@
 
 
 from pyre.components import Component
+from pyre.inventory.ConfigurableClass import ConfigurableClass
 import opal.views as views
 import opal.controllers as controllers
 
 from opal.template import Context, RequestContext, loader
 from opal import http
+
+
+class Property(object):
+    def __init__(self, **attrs):
+        self.__dict__.update(attrs)
+
+
+component = Property
+
+
+class WebComponentClass(ConfigurableClass):
+
+
+    def __init__(Class, name, bases, dct):
+        ConfigurableClass.__init__(Class, name, bases, dct)
+
+        subcomponentRegistry = {}
+
+        for name, prop in [kv for kv in dct.iteritems()
+                           if isinstance(kv[1], Property)]:
+            slug = prop.attrs.setdefault('slug', name)
+            subcomponentRegistry[slug] = prop
+
+        Class.subcomponentRegistry = subcomponentRegistry
+
+        return
 
 
 class WebComponent(Component):
@@ -123,47 +150,19 @@ class WebComponent(Component):
         return http.HttpResponseServerError(t.render(Context({})))
 
 
-#------------------------------------------------------------------------
-# unearthed stuff
+    #------------------------------------------------------------------------
+    # unearthed stuff
 
 
-class Property(object):
-    def __init__(self, **attrs):
-        self.attrs = attrs
+    __metaclass__ = WebComponentClass
 
 
-component = Property
-
-
-class ComponentClass(type):
-
-
-    def __init__(Class, name, bases, dct):
-        type.__init__(name, bases, dct)
-
-        subcomponentRegistry = {}
-
-        for name, prop in [kv for kv in dct.iteritems()
-                           if isinstance(kv[1], Property)]:
-            slug = prop.attrs.setdefault('slug', name)
-            subcomponentRegistry[slug] = prop
-
-        Class.subcomponentRegistry = subcomponentRegistry
-
-        return
-
-
-class UnearthedComponent(object):
-
-
-    __metaclass__ = ComponentClass
-
-
-    from cig.web.views import View
+    #from cig.web.views import View
+    from opal.http import Http404
 
 
     def __init__(self, **attrs):
-        #super(object, self).__init__()
+        super(WebComponent, self).__init__()
         self.slug = attrs.get('slug')
         self.context = attrs.get('context', {})
         self.parentURL = attrs.get('url')
@@ -182,12 +181,11 @@ class UnearthedComponent(object):
 
 
     def subcomponent(self, slug, **attrs):
-        from django.http import Http404
         self.expand(**attrs)
         try:
             c = self.subcomponents[slug]
         except KeyError:
-            raise Http404
+            raise self.Http404
         return c
 
 
@@ -207,7 +205,6 @@ class UnearthedComponent(object):
 
 
     def resolve(self, path, **attrs):
-        from django.http import Http404
         context = attrs.setdefault('context', {})
         context.setdefault('root', self)
         item = path[0]
@@ -217,11 +214,12 @@ class UnearthedComponent(object):
             self.selectedChild = subcomponent
             return subcomponent.resolve(path, **attrs)
         if path:
-            raise Http404
+            raise self.Http404
         self.isExpanded = True
         args = ()
         kwargs = {}
-        return self.View(component=self), args, kwargs
+        #return self.View(component=self), args, kwargs
+        return self.getView, args, kwargs
 
 
     # TreeNode protocol
