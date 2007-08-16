@@ -46,7 +46,7 @@ class DeletionController(Controller):
                 request.user.message_set.create(message="The %s was deleted." % self.model._meta.verbose_name)
             return HttpResponseRedirect(self.post_redirect)
 
-        return self.view.render(request)
+        return super(DeletionController, self).response(request)
 
 
 # end of file

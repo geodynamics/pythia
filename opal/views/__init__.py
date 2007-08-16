@@ -11,10 +11,10 @@
 #
 
 
-from View import View
 from DetailView import DetailView
 from ListView import ListView
 from PaginatedListView import PaginatedListView
+from View import View
 
 
 # end of file

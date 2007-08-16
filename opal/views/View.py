@@ -11,10 +11,14 @@
 #
 
 
+from opal.http import HttpResponse
+from opal.template import RequestContext
+
+
 class View(object):
 
 
-    def __init__(self, model, controller=None,
+    def __init__(self, model=None, controller=None, subviews=None,
                  template_name=None, template_loader=None,
                  extra_context=None, context_processors=None,
                  template_object_name='object',
@@ -26,6 +30,7 @@ class View(object):
         else:
             self.controller = controller
         self.controller.view = self
+        self.subviews = subviews
         if template_name:
             self.template_name = template_name
         else:
@@ -48,8 +53,14 @@ class View(object):
 
 
     def response(self, request):
-        __pychecker__ = 'unusednames=request'
-        raise NotImplementedError("class %r must override 'response'" % self.__class__.__name__)
+        return HttpResponse(self.render(request), mimetype=self.mimetype)
+
+
+    def render(self, request):
+        c = self.requestContext(request)
+        c = self.addExtraContext(c)
+        t = self.loadTemplate()
+        return t.render(c)
 
 
     def _getTemplateNameTag(self):
@@ -70,8 +81,22 @@ class View(object):
         return c
 
 
-    def globalContext(self):
-        return self.controller.globalContext()
+    def requestContext(self, request):
+        return RequestContext(
+            request,
+            self.contextDictionary(request),
+            self.context_processors,
+            )
+
+
+    def contextDictionary(self, request):
+        dct = self.controller.contextDictionary(request)
+        if self.subviews is not None:
+            subviews = {}
+            for name, view in self.subviews.iteritems():
+                subviews[name] = view.render(request)
+            dct['subviews'] = subviews
+        return dct
 
 
 # end of file

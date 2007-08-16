@@ -11,7 +11,10 @@
 #
 
 
-class Controller(object):
+Responder = object
+
+
+class Controller(Responder):
 
 
     def __init__(self):
@@ -33,13 +36,14 @@ class Controller(object):
     templateNameTag = property(_getTemplateNameTag)
 
 
-    def globalContext(self):
+    def contextDictionary(self, request):
         return dict()
 
 
     def response(self, request):
-        __pychecker__ = 'unusednames=request'
-        raise NotImplementedError("class %r must override 'response'" % self.__class__.__name__)
+        response = self.view.response(request)
+        self.decorateResponse(response, request)
+        return response
 
 
     def decorateResponse(self, response, request):

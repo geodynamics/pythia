@@ -14,7 +14,6 @@
 from ListView import ListView
 from opal.core.paginator import ObjectPaginator, InvalidPage
 from opal.http import Http404
-from opal.template import RequestContext
 
 
 class PaginatedListView(ListView):
@@ -53,7 +52,7 @@ class PaginatedListView(ListView):
         return
 
 
-    def requestContext(self, request):
+    def contextDictionary(self, request):
         queryset = self.queryset._clone()
         paginator = ObjectPaginator(queryset, self.paginate_by)
         page = self.page
@@ -67,7 +66,8 @@ class PaginatedListView(ListView):
                 object_list = []
             else:
                 raise Http404()
-        c = RequestContext(request, {
+        dct = super(ListView, self).contextDictionary(request)
+        dct.update({
             '%s_list' % self.template_object_name: object_list,
             'is_paginated': paginator.pages > 1,
             'results_per_page': self.paginate_by,
@@ -78,8 +78,8 @@ class PaginatedListView(ListView):
             'previous': page - 1,
             'pages': paginator.pages,
             'hits' : paginator.hits,
-        }, self.context_processors)
-        return c
+        })
+        return dct
 
 
 # end of file

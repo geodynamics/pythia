@@ -15,10 +15,7 @@ from Controller import Controller
 
 
 class NoController(Controller):
-
-
-    def response(self, request):
-        return self.view.render(request)
+    pass
 
 
 # end of file

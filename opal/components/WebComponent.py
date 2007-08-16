@@ -78,7 +78,8 @@ class WebComponent(Component):
 
     def genericObjectList(self, request, queryset, **kwds):
         view = views.ListView(queryset = queryset, **kwds)
-        return view.response(request)
+        controller = view.controller
+        return controller.response(request)
 
 
     def genericObjectDetail(self, request, queryset, query, **kwds):
@@ -92,7 +93,8 @@ class WebComponent(Component):
         # 'model' instead of a 'queryset'.
         model = queryset.model
         view = views.DetailView(model, query, **kwds)
-        return view.response(request)
+        controller = view.controller
+        return controller.response(request)
 
 
     # generic views -- CRUD
@@ -103,7 +105,7 @@ class WebComponent(Component):
             follow = follow,
             )
         view = views.DetailView(model, None, controller = controller, **kwds)
-        return view.response(request)
+        return controller.response(request)
 
 
     def genericUpdateObject(self, request, model, query, post_save_redirect=None, follow=None, **kwds):
@@ -112,7 +114,7 @@ class WebComponent(Component):
             follow = follow,
             )
         view = views.DetailView(model, query, controller = controller, **kwds)
-        return view.response(request)
+        return controller.response(request)
 
 
     def genericDeleteObject(self, request, model, query, post_delete_redirect, **kwds):
@@ -120,7 +122,7 @@ class WebComponent(Component):
             post_redirect = post_delete_redirect,
             )
         view = views.DetailView(model, query, controller = controller, **kwds)
-        return view.response(request)
+        return controller.response(request)
 
 
     # errors
@@ -161,7 +163,7 @@ class WebComponent(Component):
     from opal.http import Http404
 
 
-    def __init__(self, **attrs):
+    def __xinit__(self, **attrs):
         super(WebComponent, self).__init__()
         self.slug = attrs.get('slug')
         self.context = attrs.get('context', {})

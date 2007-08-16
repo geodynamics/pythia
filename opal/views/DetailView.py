@@ -13,8 +13,7 @@
 
 from View import View
 from opal.core.exceptions import ObjectDoesNotExist
-from opal.http import Http404, HttpResponse
-from opal.template import RequestContext
+from opal.http import Http404
 
 
 class DetailView(View):
@@ -34,32 +33,19 @@ class DetailView(View):
     def __init__(self, model, query=None, template_name_field=None, **kwds):
         View.__init__(self, model, **kwds)
         self.query = query
-        self.obj = None
+        self._obj = None
         self.template_name_field = template_name_field
         return
 
 
-    def response(self, request):
-        if self.query:
-            self.obj = self.getObject()
-        # Give the controller a chance to respond to this request.
-        return self.controller.response(request)
-
-
-    def render(self, request):
-        t = self.loadTemplate()
-        c = self.createContext(request)
-        response = HttpResponse(t.render(c), mimetype=self.mimetype)
-        self.controller.decorateResponse(response, request)
-        return response
-
-
-    def getObject(self):
-        try:
-            obj = self.query.get(self.model._default_manager.all())
-        except ObjectDoesNotExist:
-            raise Http404("No %s found matching the query '%s'" % (self.model._meta.verbose_name, self.query))
-        return obj
+    def _getObj(self):
+        if self._obj is None and self.query:
+            try:
+                self._obj = self.query.get(self.model._default_manager.all())
+            except ObjectDoesNotExist:
+                raise Http404("No %s found matching the query '%s'" % (self.model._meta.verbose_name, self.query))
+        return self._obj
+    obj = property(_getObj)
 
 
     def loadTemplate(self):
@@ -71,17 +57,11 @@ class DetailView(View):
         return t
 
 
-    def createContext(self, request):
-        c = RequestContext(request, self.globalContext(), self.context_processors)
-        c = self.addExtraContext(c)
-        return c
-
-
-    def globalContext(self):
-        context = super(DetailView, self).globalContext()
+    def contextDictionary(self, request):
+        dct = super(DetailView, self).contextDictionary(request)
         if self.obj:
-            context[self.template_object_name] = self.obj
-        return context
+            dct[self.template_object_name] = self.obj
+        return dct
 
 
 # end of file

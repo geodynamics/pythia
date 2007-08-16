@@ -12,8 +12,7 @@
 
 
 from View import View
-from opal.http import Http404, HttpResponse
-from opal.template import RequestContext
+from opal.http import Http404
 
 
 class ListView(View):
@@ -55,21 +54,15 @@ class ListView(View):
         return
 
 
-    def response(self, request):
-        c = self.requestContext(request)
-        c = self.addExtraContext(c)
-        t = self.loadTemplate()
-        return HttpResponse(t.render(c), mimetype=self.mimetype)
-
-
-    def requestContext(self, request):
-        c = RequestContext(request, {
-            '%s_list' % self.template_object_name: self.queryset,
-            'is_paginated': False
-        }, self.context_processors)
+    def contextDictionary(self, request):
         if not self.allow_empty and len(self.queryset) == 0:
             raise Http404()
-        return c
+        dct = super(ListView, self).contextDictionary(request)
+        dct.update({
+            '%s_list' % self.template_object_name: self.queryset,
+            'is_paginated': False
+        })
+        return dct
 
 
 # end of file

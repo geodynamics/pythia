@@ -31,7 +31,7 @@ class FormController(Controller):
         self.errors = {}
 
 
-    def globalContext(self):
+    def contextDictionary(self, request):
         context = dict()
         form = self.newFormWrapper()
         context['form'] = form
@@ -77,7 +77,7 @@ class FormController(Controller):
         
         if request.method != "POST" or self.errors:
             # Let the view respond to this request.
-            return self.view.render(request)
+            return super(FormController, self).response(request)
 
         # POST with no errors -- this means we can save the data!
         obj = self.manipulator.save(self.data)
