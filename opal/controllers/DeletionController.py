@@ -41,7 +41,7 @@ class DeletionController(Controller):
     def response(self, request):
 
         if request.method == "POST":
-            self.view.obj.delete()
+            self.view.model.delete()
             if request.user.is_authenticated():
                 request.user.message_set.create(message="The %s was deleted." % self.model._meta.verbose_name)
             return HttpResponseRedirect(self.post_redirect)

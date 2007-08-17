@@ -26,7 +26,8 @@ class ManipulatorDescriptor(object):
         self.base = base
 
     def __get__(self, instance, model=None):
-        if instance != None:
+        if instance != None and False:
+            # Why not?  2007-08-16 lcs
             raise AttributeError, "Manipulator cannot be accessed via instance"
         else:
             if not self.man:

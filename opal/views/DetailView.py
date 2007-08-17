@@ -30,27 +30,15 @@ class DetailView(View):
     defaultTemplateNameTag = "detail"
 
 
-    def __init__(self, model, query=None, template_name_field=None, **kwds):
+    def __init__(self, model, template_name_field=None, **kwds):
         View.__init__(self, model, **kwds)
-        self.query = query
-        self._obj = None
         self.template_name_field = template_name_field
         return
 
 
-    def _getObj(self):
-        if self._obj is None and self.query:
-            try:
-                self._obj = self.query.get(self.model._default_manager.all())
-            except ObjectDoesNotExist:
-                raise Http404("No %s found matching the query '%s'" % (self.model._meta.verbose_name, self.query))
-        return self._obj
-    obj = property(_getObj)
-
-
     def loadTemplate(self):
-        if self.obj and self.template_name_field:
-            template_name_list = [getattr(self.obj, self.template_name_field), self.template_name]
+        if self.model and self.template_name_field:
+            template_name_list = [getattr(self.model, self.template_name_field), self.template_name]
             t = self.template_loader.select_template(template_name_list)
         else:
             t = super(DetailView, self).loadTemplate()
@@ -59,8 +47,8 @@ class DetailView(View):
 
     def contextDictionary(self, request):
         dct = super(DetailView, self).contextDictionary(request)
-        if self.obj:
-            dct[self.template_object_name] = self.obj
+        if self.model:
+            dct[self.template_object_name] = self.model
         return dct
 
 

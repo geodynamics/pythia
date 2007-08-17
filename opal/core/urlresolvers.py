@@ -7,11 +7,11 @@ a string) and returns a tuple in this format:
     (view_function, function_args, function_kwargs)
 """
 
-from opal.http import Http404
+from opal import http
 from opal.core.exceptions import ImproperlyConfigured, ViewDoesNotExist
 import re
 
-class Resolver404(Http404):
+class Resolver404(http.Http404):
     pass
 
 class NoReverseMatch(Exception):
@@ -226,22 +226,41 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None):
     resolver = RegexURLResolver(r'^/', urlconf)
     return '/' + resolver.reverse(viewname, *args, **kwargs)
 
+
 class TreeURLResolver(object):
+
     def __init__(self, root):
         self.root = root
-    
-    def resolve(self, pathname):
-        #raise Resolver404, {'tried': ['foo', 'bar', path], 'path': path + 'hey'}
-        path = pathname.split('/')
-        args = ()
-        kwargs = {}
+
+
+    def resolve(self, request):
+        path = request.path.split('/')
         node = self.root
-        try:
-            for name in path[:-1]:
-                node = node.children[name]
-            name = path[-1]
-            if name != "":
-                node = node.children[name]
-        except KeyError:
-            raise Http404
-        return node.view().response, args, kwargs
+
+        tried = []
+        for name in path[1:-1]:
+            node = node.subResponder(name)
+            tried.append(node)
+        name = path[-1]
+        
+        hasTrailingSlash = (name == "")
+        if hasTrailingSlash:
+            if node.isLeaf():
+                raise Resolver404, {'tried': tried, 'path': request.path}
+        else:
+            node = node.subResponder(name)
+            # Don't redirect POST requests -- otherwise, the POST data would be lost!
+            if not node.isLeaf() and request.method != 'POST':
+                return self.redirect(request, request.path + '/')
+
+        return node
+
+
+    def redirect(self, request, newUrl):
+        from opal.core.responders import Redirector
+        host = http.get_host(request)
+        if host:
+            newUrl = "%s://%s%s" % (request.is_secure() and 'https' or 'http', host, newUrl)
+        if request.GET:
+            newUrl += '?' + request.GET.urlencode()
+        return Redirector(newUrl)

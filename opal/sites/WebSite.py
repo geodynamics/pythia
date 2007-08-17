@@ -158,7 +158,7 @@ class WebSite(Component):
         'opal.core.context_processors.auth',
         'opal.core.context_processors.debug',
         'opal.core.context_processors.i18n',
-        #'opal.core.context_processors.request',
+        'opal.core.context_processors.request',
         ])
     TEMPLATE_CONTEXT_PROCESSORS.meta['tip'] = """List of processors used by RequestContext to populate the context. Each one should be a callable that takes the request object as its only parameter and returns a dictionary to add to the context."""
 
@@ -175,7 +175,7 @@ class WebSite(Component):
     EMAIL_SUBJECT_PREFIX.meta['tip'] = """Subject-line prefix for email messages send with opal.core.mail.mail_admins or ...mail_managers.  Make sure to include the trailing space."""
 
     ### I hate this one.  It should depend upon the object being accessed.
-    APPEND_SLASH = pyre.bool("append-slash", default=True)
+    APPEND_SLASH = pyre.bool("append-slash", default=False)
     APPEND_SLASH.meta['tip'] = """Whether to append trailing slashes to URLs."""
 
     PREPEND_WWW = pyre.bool("prepend-www", default=False)
@@ -401,7 +401,10 @@ class WebSite(Component):
             
             self.ROOT_URLCONF = urlconf
         
-        return urlresolvers.RegexURLResolver(r'^/', self.ROOT_URLCONF)
+        #return urlresolvers.RegexURLResolver(r'^/', self.ROOT_URLCONF)
+        app = self.ROOT_URLCONF
+        root = app.rootResponder()
+        return urlresolvers.TreeURLResolver(root)
 
 
 # end of file

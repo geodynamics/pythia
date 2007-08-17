@@ -20,10 +20,10 @@ class ListEditor(Editor):
     from ObjectEditor import ObjectEditor
 
 
-    def __init__(self, **attrs):
-        super(ListEditor, self).__init__(**attrs)
-        self.allowEmpty = attrs.get('allowEmpty', True)
-        self.SubEditor = attrs.get('SubEditor', self.ObjectEditor)
+    def __init__(self, allow_empty=True, SubEditor=None, **kwds):
+        super(ListEditor, self).__init__(**kwds)
+        self.allow_empty = allow_empty
+        self.SubEditor = SubEditor or self.ObjectEditor
 
 
     def getView(self, request):
@@ -47,7 +47,7 @@ class ListEditor(Editor):
         return self.genericObjectList(
             request,
             self.querySet(),
-            allow_empty = self.allowEmpty,
+            allow_empty = self.allow_empty,
             extra_context = self.context,
             )
 

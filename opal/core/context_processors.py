@@ -43,7 +43,7 @@ def i18n(request):
     return context_extras
 
 def request(request):
-    return {'request': request}
+    return {'xrequest': request} # 'xrequest', because 'request' is always 'None'.  WTF?
 
 # PermWrapper and PermLookupDict proxy the permissions system into objects that
 # the template system can understand.

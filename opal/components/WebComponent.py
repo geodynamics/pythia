@@ -53,6 +53,14 @@ class WebComponent(Component):
     urlpatterns = []
 
 
+    def rootResponder(self):
+        return self
+
+
+    def subResponder(self, name):
+        raise http.Http404
+
+
     # urlpatterns support
 
     def include(self, urlconf_module):
@@ -108,20 +116,20 @@ class WebComponent(Component):
         return controller.response(request)
 
 
-    def genericUpdateObject(self, request, model, query, post_save_redirect=None, follow=None, **kwds):
+    def genericUpdateObject(self, request, model, post_save_redirect=None, follow=None, **kwds):
         controller = controllers.UpdateController(
             post_redirect = post_save_redirect,
             follow = follow,
             )
-        view = views.DetailView(model, query, controller = controller, **kwds)
+        view = views.DetailView(model, controller = controller, **kwds)
         return controller.response(request)
 
 
-    def genericDeleteObject(self, request, model, query, post_delete_redirect, **kwds):
+    def genericDeleteObject(self, request, model, post_delete_redirect, **kwds):
         controller = controllers.DeletionController(
             post_redirect = post_delete_redirect,
             )
-        view = views.DetailView(model, query, controller = controller, **kwds)
+        view = views.DetailView(model, controller = controller, **kwds)
         return controller.response(request)
 
 
@@ -163,13 +171,13 @@ class WebComponent(Component):
     from opal.http import Http404
 
 
-    def __xinit__(self, **attrs):
+    def __xinit__(self, slug, url, context=None, **kwds):
         super(WebComponent, self).__init__()
-        self.slug = attrs.get('slug')
-        self.context = attrs.get('context', {})
-        self.parentURL = attrs.get('url')
+        self.slug = slug
+        self.context = context or {}
+        self.parentURL = url
         self.subcomponents = None
-        self._initTreeNode(**attrs)
+        self._initTreeNode(url, **kwds)
 
 
     def createSubcomponent(self, slug, **attrs):
@@ -226,11 +234,11 @@ class WebComponent(Component):
 
     # TreeNode protocol
 
-    def _initTreeNode(self, **attrs):
+    def _initTreeNode(self, url, name=None, title=None, **kwds):
         # this node
-        self.name = attrs.get('name', self.slug)
-        self.title = attrs.get('title', self.name.title())
-        self.url = attrs['url'] + '/' + self.slug
+        self.name = name or self.slug
+        self.title = title or self.name.title()
+        self.url = url + '/' + self.slug
 
         # children
         self.isLeaf = False

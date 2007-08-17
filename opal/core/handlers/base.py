@@ -63,16 +63,17 @@ class BaseHandler(object):
         site = settings
         resolver = site.urlResolver()
         try:
-            callback, callback_args, callback_kwargs = resolver.resolve(request.path)
+            responder = resolver.resolve(request)
 
-            # Apply view middleware
-            for middleware_method in self._view_middleware:
-                response = middleware_method(request, callback, callback_args, callback_kwargs)
-                if response:
-                    return response
+            if False: # There appears to be only one: XViewMiddleware
+                # Apply view middleware
+                for middleware_method in self._view_middleware:
+                    response = middleware_method(request, callback, callback_args, callback_kwargs)
+                    if response:
+                        return response
 
             try:
-                response = callback(request, *callback_args, **callback_kwargs)
+                response = responder.response(request)
             except Exception, e:
                 # If the view raised an exception, run it through exception
                 # middleware, and if the exception middleware returns a
@@ -83,13 +84,9 @@ class BaseHandler(object):
                         return response
                 raise
 
-            # Complain if the view returned None (a common error).
+            # Complain if the responder returned None (a common error).
             if response is None:
-                try:
-                    view_name = callback.func_name # If it's a function
-                except AttributeError:
-                    view_name = callback.__class__.__name__ + '.__call__' # If it's a class
-                raise ValueError, "The view %s.%s didn't return an HttpResponse object." % (callback.__module__, view_name)
+                raise ValueError, "The responder %s didn't return an HttpResponse object." % responder
 
             return response
         except http.Http404, e:
