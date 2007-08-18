@@ -48,7 +48,7 @@ class ListView(View):
 
 
     def __init__(self, queryset, allow_empty=True, **kwds):
-        View.__init__(self, queryset.model, **kwds)
+        View.__init__(self, queryset, **kwds)
         self.queryset = queryset
         self.allow_empty = allow_empty
         return

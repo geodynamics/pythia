@@ -57,8 +57,16 @@ class WebComponent(Component):
         return self
 
 
+    def response(self, request):
+        return self.responder.response(request)
+
+
+    def isLeaf(self):
+        return False
+
+
     def subResponder(self, name):
-        raise http.Http404
+        return self.responder.subResponder(name)
 
 
     # urlpatterns support
@@ -90,17 +98,8 @@ class WebComponent(Component):
         return controller.response(request)
 
 
-    def genericObjectDetail(self, request, queryset, query, **kwds):
-        # NYI: Unlike Django's object_detail() function, this discards
-        # 'queryset'.  This may not be appropriate, even though this
-        # is a view of a single object: e.g., if the queryset is a
-        # per-user query, then perhaps 'Http404' should be raised.
-        # OTOH, in Django's create_update functions (replicated in the
-        # CRUD stuff below), 'model' seems to be good enough; which
-        # begs the question as to why this method doesn't take a
-        # 'model' instead of a 'queryset'.
-        model = queryset.model
-        view = views.DetailView(model, query, **kwds)
+    def genericObjectDetail(self, request, model, **kwds):
+        view = views.DetailView(model, **kwds)
         controller = view.controller
         return controller.response(request)
 

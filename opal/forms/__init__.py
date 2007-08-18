@@ -1013,3 +1013,78 @@ class XMLLargeTextField(LargeTextField):
             v(field_data, all_data)
         except validators.ValidationError, e:
             raise validators.CriticalValidationError, e.messages
+
+
+#------------------------------------------------------------------------
+
+
+
+class FormClass(type):
+
+
+    def __init__(cls, name, bases, dct):
+
+        type.__init__(cls, name, bases, dct)
+
+        fields = []
+
+        # register inherited fields
+        bases = list(bases)
+        bases.reverse()
+        for base in bases:
+            try:
+                fields.extend(base._fields)
+            except AttributeError:
+                pass
+
+        # examine the class record for additional fields
+        _fields = dct.get('fields', [])
+        fields.extend(_fields)
+        
+        # install the field list into the class record
+        cls.fields = fields
+        cls._fields = _fields
+
+        # create and install the manipulator
+        manipulator = Manipulator()
+        manipulator.fields = fields
+        cls.manipulator = manipulator
+
+        return
+
+
+
+class Form(object):
+
+    __metaclass__ = FormClass
+
+    fields = []
+    _fields = []
+
+    manipulator = Manipulator()
+
+
+    def __init__(self, data, errors):
+        self.wrapper = FormWrapper(self.manipulator, data, errors)
+        self.data = data
+        self.errors = errors
+        return
+
+
+    #@classmethod
+    def blank(cls):
+        return cls({}, {})
+    blank = classmethod(blank)
+
+
+    #@classmethod
+    def fromRequest(cls, request):
+        data = request.POST.copy()
+        errors = cls.manipulator.get_validation_errors(data)
+        cls.manipulator.do_html2python(data)
+        return cls(data, errors)
+    fromRequest = classmethod(fromRequest)
+
+
+
+# end of file

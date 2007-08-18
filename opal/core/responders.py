@@ -69,11 +69,15 @@ directory = DirectoryResponder
 
 class QueryDirectoryResponder(Responder):
 
-    def __init__(self, Model, Inquirer, subResponderFactory):
+    def __init__(self, index, Model, Inquirer, subResponderFactory):
+        self.index = index
         self.Model = Model
         self.Inquirer = Inquirer
         self.subResponderFactory = subResponderFactory
         return
+
+    def response(self, request):
+        return self.index.response(request)
 
     def subResponder(self, name):
         from opal.core.exceptions import ObjectDoesNotExist
