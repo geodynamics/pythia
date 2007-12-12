@@ -68,7 +68,7 @@ class Launcher(Base):
         
         # use only the specific nodes specified explicitly
         if self.nodelist:
-            self._appendNodeListArgs(args)
+            self._expandNodeListArgs(args)
 
         args.append(os.path.abspath(self.executable))
         args += self.arguments

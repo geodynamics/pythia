@@ -26,14 +26,23 @@ class LauncherMPICH(Launcher):
     machinefile.meta['tip'] = """filename of machine file"""
 
 
-    def _appendNodeListArgs(self, args):
+    def _expandNodeListArgs(self, args):
+        from pyre.util import expandMacros
+        
         machinefile = self.machinefile
         nodegen = self.nodegen
         file = open(machinefile, "w")
         for node in self.nodelist:
             file.write((nodegen + '\n') % node)
         file.close()
-        args.extend(['-machinefile', machinefile])
+
+        substitutions = {
+            'launcher.machinefile': machinefile,
+            }
+        for i,arg in enumerate(args):
+            args[i] = expandMacros(arg, substitutions)
+
+        return
 
 
 # end of file 
