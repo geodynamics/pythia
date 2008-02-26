@@ -27,9 +27,10 @@ class FacilityArrayFacility(Facility):
         facilityNames = self._cast(componentName)
         
         dict = {}
-        for facilityName in facilityNames:
+        for index, facilityName in enumerate(facilityNames):
             facility = self.itemFactory(facilityName)
-            dict[facility] = facility
+            attr = "item%d" % index
+            dict[attr] = facility
 
         from Inventory import Inventory
         from pyre.components.Component import Component
