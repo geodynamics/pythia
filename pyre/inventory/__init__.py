@@ -18,6 +18,11 @@ def facility(name, **kwds):
     return Facility(name, **kwds)
 
 
+def facilityArray(name, **kwds):
+    from FacilityArrayFacility import FacilityArrayFacility
+    return FacilityArrayFacility(name, **kwds)
+
+
 def curator(name):
     from odb.Curator import Curator
     return Curator(name)
