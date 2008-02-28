@@ -50,9 +50,9 @@ class Configurable(Traceable):
         return self.inventory.retrieveConfiguration(registry)
 
 
-    def initializeConfiguration(self):
+    def initializeConfiguration(self, context):
         """initialize my private registry using my private settings"""
-        return self.inventory.initializeConfiguration()
+        return self.inventory.initializeConfiguration(context)
 
 
     def loadConfiguration(self, filename):

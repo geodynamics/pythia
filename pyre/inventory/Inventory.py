@@ -15,13 +15,13 @@
 class Inventory(object):
 
 
-    def initializeConfiguration(self):
+    def initializeConfiguration(self, context):
         # load my settings from the persistent store
         # NYI: load options based on my facility as well?
         #      it might be useful when we auto-generate settings for an entire group of clients
         #      whose names may not be known when their configurations are built
         self._priv_registry = self._priv_curator.getTraits(
-            self._priv_name,
+            self._priv_name, context,
             vault=self._priv_vault,
             extraDepositories=self._priv_depositories)
 
@@ -81,7 +81,7 @@ class Inventory(object):
         for component in myComponents:
             # associate a persistent store with every subcomponent
             component.setCurator(self._priv_curator)
-            component.initializeConfiguration()
+            component.initializeConfiguration(context)
 
             # construct a list of the public names of this component
             # setting are overriden from left to right
@@ -199,7 +199,7 @@ class Inventory(object):
 
         # set the component's curator
         component.setCurator(self._priv_curator)
-        component.initializeConfiguration()
+        component.initializeConfiguration(context)
 
         # find any relevant traits in my registry
         # look for facility traits

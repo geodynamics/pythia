@@ -52,16 +52,18 @@ class ComponentHarness(object):
     def configureHarnessedComponent(self, component, curator, registry):
         """configure the harnessed component"""
 
+        context = component.newConfigContext()
+        
         # link the component with the curator
         component.setCurator(curator)
-        component.initializeConfiguration()
+        component.initializeConfiguration(context)
 
         # update the component's inventory with the optional settings we
         # have gathered on its behalf
         component.updateConfiguration(registry)
 
         # load the configuration onto the inventory
-        context = component.applyConfiguration()
+        component.applyConfiguration(context)
 
         return context
 

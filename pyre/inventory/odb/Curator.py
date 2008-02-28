@@ -18,7 +18,7 @@ from pyre.odb.fs.Curator import Curator as Base
 class Curator(Base):
 
 
-    def getTraits(self, name, encodings=['pml','cfg'], vault=[], extraDepositories=[]):
+    def getTraits(self, name, context, encodings=['pml','cfg'], vault=[], extraDepositories=[]):
         """load cascade of inventory values for component <name>"""
 
         # initialize the registry object
@@ -36,8 +36,13 @@ class Curator(Base):
             codecs=codecs, address=location, symbol='inventory', extras=extraDepositories,
             errorHandler=self._recordTraitLookup):
 
-            # update the registry
-            target = traits.getFacility(name)
+            # search for traits under 'name'
+            for facilityName, node in traits.facilities.iteritems():
+                if facilityName == name:
+                    target = node
+                else:
+                    context.unknownComponent(facilityName, node)
+
             if target:
                 # update the registry
                 registry = target.update(registry)

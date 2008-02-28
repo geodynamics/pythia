@@ -69,7 +69,7 @@ class Shell(Configurable):
         context = app.newConfigContext()
 
         # look for settings
-        self.initializeConfiguration()
+        self.initializeConfiguration(context)
         
         # Temporarily set the app's registry to my own, so that
         # updateConfiguration() will work in readParameterFiles() and
@@ -93,6 +93,8 @@ class Shell(Configurable):
         # transfer user input to my inventory
         self.applyConfiguration(context)
 
+        uc = context.puntUnknownComponents()
+
         # verify that my input did not contain any typos
         if not context.verifyConfiguration(self, 'strict'):
             import sys
@@ -109,6 +111,7 @@ class Shell(Configurable):
         
         # start fresh
         context = app.newConfigContext()
+        context.receiveUnknownComponents(uc) # well, almost fresh
 
         # update user options from the command line
         app.updateConfiguration(app.registry)

@@ -84,6 +84,18 @@ class ConfigContext(object):
         return
 
 
+    def puntUnknownComponents(self):
+        from pyre.inventory import registry
+        uc = self.unknownComponents
+        self.unknownComponents = registry("inventory")
+        return uc
+
+
+    def receiveUnknownComponents(self, uc):
+        self.unknownComponents = uc
+        return
+
+
     def verifyConfiguration(self, component, modeName):
         """verify that the user input did not contain any typos"""
 
@@ -94,7 +106,7 @@ class ConfigContext(object):
         for path, value, locator in node.allProperties():
             self.error(ConfigContext.UnrecognizedPropertyError(path, value, locator))
 
-        node = self.unknownComponents.getNode(component.name)
+        node = self.unknownComponents
         for path, value, locator in node.allProperties():
             self.error(ConfigContext.UnknownComponentError(path, value, locator))
 

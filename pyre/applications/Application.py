@@ -76,9 +76,11 @@ class Application(Component, Executive):
                 except Exception, error:
                     context.error(error, locator=locator)
                 else:
-                    paramRegistry = shelf['inventory'].getFacility(self.name)
-                    if paramRegistry:
-                        self.updateConfiguration(paramRegistry)
+                    for facilityName, node in shelf['inventory'].facilities.iteritems():
+                        if facilityName == self.name:
+                            self.updateConfiguration(node)
+                        else:
+                            context.unknownComponent(facilityName, node)
             else:
                 self.argv.append(arg)
         return
