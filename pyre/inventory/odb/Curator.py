@@ -37,6 +37,7 @@ class Curator(Base):
             errorHandler=self._recordTraitLookup):
 
             # search for traits under 'name'
+            target = None
             for facilityName, node in traits.facilities.iteritems():
                 if facilityName == name:
                     target = node
