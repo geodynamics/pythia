@@ -39,7 +39,7 @@ class SchedulerPBS(BatchScheduler):
         job.resourceList = self.buildResourceList(job)
         
         # Generate the main PBS batch script.
-        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', 'pbs'])
+        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         script.scheduler = self
         script.job = job
         

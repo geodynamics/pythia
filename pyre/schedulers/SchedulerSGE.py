@@ -39,7 +39,7 @@ class SchedulerSGE(BatchScheduler):
         job.arguments = ' '.join(job.arguments)
         
         # Generate the main SGE batch script.
-        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', 'sge'])
+        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         script.scheduler = self
         script.job = job
         

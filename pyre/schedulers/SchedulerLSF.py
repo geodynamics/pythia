@@ -40,7 +40,7 @@ class SchedulerLSF(BatchScheduler):
         job.arguments = ' '.join(job.arguments)
         
         # Generate the main LSF batch script.
-        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', 'lsf'])
+        script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         script.scheduler = self
         script.job = job
         
