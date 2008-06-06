@@ -88,13 +88,10 @@ class SchedulerLSF(BatchScheduler):
         # exit code as the job so that job scripts can take
         # appropriate actions based on the exit codes. bsub exits with
         # value 126 if the job was terminated while pending."
-        if exitStatus == 126:
+        if exitStatus == 0:
             pass
         elif self.wait:
             sys.exit(exitStatus)
-        
-        if exitStatus == 0:
-            pass
         else:
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
         
