@@ -28,14 +28,10 @@ class CGI(Script):
 
     def collectUserInput(self, registry, context):
 
-        # first extract standard commandline arguments
-        help, argv = self.processCommandline(registry)
+        # look through unprocessed arguments for GET input
+        self.collectCGIInput(registry, self.unprocessedArguments)
 
-        # argv now contains the left over, unprocessed arguments
-        # look through them for GET input
-        argv = self.collectCGIInput(registry, argv)
-
-        return help, argv
+        return
 
 
     def collectCGIInput(self, registry, argv):
