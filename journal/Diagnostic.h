@@ -38,7 +38,7 @@ public:
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
     bool state() const {
-        PyObject *state = PyObject_GetAttrString(_self, "state"); if (!state) { _error(); }
+        PyObject *state = PyObject_GetAttrString(_self, (char *)"state"); if (!state) { _error(); }
         bool ret = false;
         switch (PyObject_IsTrue(state)) {
         case 1: ret = true; break;
@@ -56,23 +56,23 @@ public:
     // entry manipulation
     void record() {
         newline();
-        PyObject *ret = PyObject_CallMethod(_self, "record", 0);
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"record", 0);
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
     void newline() {
         string_t message = str();
-        PyObject *ret = PyObject_CallMethod(_self, "line", "s#", message.c_str(), message.size());
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"line", (char *)"s#", message.c_str(), message.size());
         if (ret) { Py_DECREF(ret); } else { _error(); }
         _buffer.str(string_t());
     }
     void attribute(string_t key, string_t value) {
-        PyObject *ret = PyObject_CallMethod(_self, "attribute", "s#s#",
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"attribute", (char *)"s#s#",
                                             key.c_str(), key.size(),
                                             value.c_str(), value.size());
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
     void attribute(string_t key, long value) {
-        PyObject *ret = PyObject_CallMethod(_self, "attribute", "s#l", key.c_str(), key.size(), value);
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"attribute", (char *)"s#l", key.c_str(), key.size(), value);
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
 
@@ -90,7 +90,7 @@ private:
     static PyObject *_journal() {
         static PyObject *journal;
         if (!journal) {
-            journal = PyImport_ImportModule("journal");
+            journal = PyImport_ImportModule((char *)"journal");
             if (!journal) {
                 PyErr_Print();
                 Py_FatalError("could not import journal module");
@@ -100,7 +100,7 @@ private:
     }
     static PyObject *_getDiagnostic(string_t facility, string_t severity) {
         PyObject *factory = PyObject_GetAttrString(_journal(), (char *)severity.c_str()); if (!factory) { _error(); }
-        PyObject *diag = PyObject_CallFunction(factory, "s#", facility.c_str(), facility.size()); if (!diag) { _error(); }
+        PyObject *diag = PyObject_CallFunction(factory, (char *)"s#", facility.c_str(), facility.size()); if (!diag) { _error(); }
         Py_DECREF(factory);
         return diag;
     }
