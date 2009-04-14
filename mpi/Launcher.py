@@ -14,6 +14,9 @@
 from pyre.launchers.Launcher import Launcher as Base
 
 
+defaultCommand = "mpirun -np ${nodes} " # note extra space
+
+
 class Launcher(Base):
     
     
@@ -25,7 +28,15 @@ class Launcher(Base):
     nodegen = pyre.str("nodegen")
     nodegen.meta['tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
         
-    command = pyre.str("command", default="mpirun -np ${nodes}")
+    command = pyre.str("command", default=defaultCommand)
+
+
+    def _configure(self):
+        Base._configure(self)
+        if self.command == defaultCommand:
+            # See Issue116.  Because of macro expansion, this only fires on the login node.
+            self._warning.log("'command' property is not set; defaulting to \"%s\"" % defaultCommand)
+        return
 
 
     def launch(self):
@@ -39,8 +50,34 @@ class Launcher(Base):
             return
         
         self._info.log("spawning: %s" % command)
-        status = os.spawnvp(os.P_WAIT, argv[0], argv)
-        statusMsg = "%s: %s: exit %d" % (sys.argv[0], argv[0], status)
+
+        # The following is based upon os.spawnvp() internals.
+        status = None
+        pid = os.fork()
+        if not pid:
+            # Child
+            try:
+                os.execvp(argv[0], argv)
+            except Exception, e:
+                # See Issue116.
+                print >>sys.stderr, 'execvp("%s"): %s' % (argv[0], e)
+                os._exit(127)
+        else:
+            # Parent
+            while 1:
+                wpid, sts = os.waitpid(pid, 0)
+                if os.WIFSTOPPED(sts):
+                    continue
+                elif os.WIFSIGNALED(sts):
+                    status = -os.WTERMSIG(sts)
+                    break
+                elif os.WIFEXITED(sts):
+                    status = os.WEXITSTATUS(sts)
+                    break
+                else:
+                    assert False, "Not stopped, signaled or exited???"
+        
+        statusMsg = "%s: %s: exit %d" % (sys.executable, argv[0], status)
         if status != 0:
             sys.exit(statusMsg)
         self._info.log(statusMsg)

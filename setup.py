@@ -7,7 +7,7 @@ from merlin import setup, find_packages
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.7',
+    version = '0.8.1.8',
 
     zip_safe = False,
     packages = find_packages(),
