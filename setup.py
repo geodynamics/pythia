@@ -15,9 +15,6 @@ setup(
     include_package_data = True,
 
     entry_points = {
-        'console_scripts': [
-            'opal = opal.core.management:execute_from_command_line [opal]',
-        ],
     },
     
     install_requires = [
