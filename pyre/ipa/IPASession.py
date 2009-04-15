@@ -23,7 +23,7 @@ class IPASession(TCPSession):
 
         import pyre.inventory
 
-        marshaller = pyre.inventory.facility("marshaller", factory=pyre.ipa.pickler)
+        marshaller = pyre.inventory.facility("marshaller", vault=["marshallers"], factory=pyre.ipa.pickler)
 
 
     def login(self, username, password):

@@ -25,7 +25,7 @@ class PressurePulse(Solver):
         from HeavisidePulse import HeavisidePulse
 
         syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
-        generator = pyre.inventory.facility("generator", factory=HeavisidePulse)
+        generator = pyre.inventory.facility("generator", vault=["generators"], factory=HeavisidePulse)
         timestep = pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
 
 

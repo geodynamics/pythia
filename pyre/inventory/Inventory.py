@@ -243,11 +243,17 @@ class Inventory(object):
 
     def retrieveBuiltInComponent(self, name, factory, args=(), vault=[]):
         import merlin
-        group = "pyre.odb." + (".".join([self._priv_name] + vault))
+        if not vault:
+            return None
+        group = "pyre.odb." + ".".join(vault)
         for ep in merlin.iter_entry_points(group, name):
             factory = ep.load()
             component = factory(*args)
-            return component
+            if component:
+                import pyre.parsing.locators
+                component.setLocator(pyre.parsing.locators.builtIn())
+                component.setVault(vault)
+                return component
         return None
 
 

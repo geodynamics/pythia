@@ -19,6 +19,11 @@ def blade():
     return Blade()
 
 
+def inspector(blade):
+    from blade.components.Inspector import Inspector
+    return Inspector()
+
+
 # misc
 def copyright():
     return "blade: Copyright (c) 1998-2005 Michael A.G. Aivazis"

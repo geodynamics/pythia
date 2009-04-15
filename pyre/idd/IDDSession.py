@@ -23,7 +23,7 @@ class IDDSession(TCPSession):
 
         import pyre.inventory
 
-        marshaller = pyre.inventory.facility("marshaller", factory=pyre.idd.pickler)
+        marshaller = pyre.inventory.facility("marshaller", vault=["marshallers"], factory=pyre.idd.pickler)
 
 
     def token(self):

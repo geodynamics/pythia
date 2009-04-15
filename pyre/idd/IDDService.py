@@ -28,7 +28,7 @@ class IDDService(TCPService):
         
         configfile = pyre.inventory.str("config", default=None)
 
-        marshaller = pyre.inventory.facility("marshaller", factory=pyre.idd.pickler)
+        marshaller = pyre.inventory.facility("marshaller", vault=["marshallers"], factory=pyre.idd.pickler)
         locator = pyre.inventory.facility("recordLocator", factory=pyre.idd.recordLocator)
 
 

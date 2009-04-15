@@ -196,17 +196,6 @@ class Curator(Base):
         userDepository = self.setUserDepository(user)
         systemDepository = self.setSystemDepository(system)
 
-        # create the built-in depositories
-        from merlin import resource_listdir, resource_isdir, resource_exists, resource_filename, Requirement
-        pythia = Requirement.parse("pythia")
-        entries = resource_listdir(pythia, "")
-        for entry in entries:
-            if resource_isdir(pythia, entry):
-                vault = entry + '/__vault__.odb'
-                if resource_exists(pythia, vault):
-                    builtin = self.createDepository(resource_filename(pythia, entry))
-                    self.builtinDepositories.append(builtin)
-
         return
 
 

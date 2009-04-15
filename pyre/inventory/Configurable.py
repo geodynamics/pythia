@@ -153,7 +153,15 @@ class Configurable(Traceable):
 
 
     def retrieveTemplate(self, name, vault=[], extras=[]):
-        return self.retrieveObject(name, 'template', ['tmpl'], vault, extras)
+        tmpl = self.retrieveObject(name, 'template', ['tmpl'], vault, extras)
+        if tmpl:
+            return tmpl
+        
+        # XXX: Special hack to support zipped Pythia egg.
+        from merlin import resource_stream
+        from Cheetah.Template import Template
+        tmpl = Template(file = resource_stream("pyre", '/'.join(vault + [name]) + ".tmpl"))
+        return tmpl
 
 
     # vault accessors

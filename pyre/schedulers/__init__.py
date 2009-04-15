@@ -31,7 +31,7 @@ def scheduler(name, **kwds):
 def job(name, **kwds):
     from pyre.inventory.Facility import Facility
     kwds['factory'] = kwds.get('factory', Job)
-    kwds['vault'] = kwds.get('vault', ['schedulers'])
+    kwds['vault'] = kwds.get('vault', ['jobs'])
     kwds['family'] = kwds.get('family', 'job')
     return Facility(name, **kwds)
 

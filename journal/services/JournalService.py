@@ -22,7 +22,7 @@ class JournalService(TCPService):
 
         import pyre.inventory
 
-        marshaller = pyre.inventory.facility("marshaller", factory=journal.pickler)
+        marshaller = pyre.inventory.facility("marshaller", vault=["marshallers"], factory=journal.pickler)
 
 
     def record(self, entry):

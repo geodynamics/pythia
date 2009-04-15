@@ -27,7 +27,7 @@ class IPAService(TCPService):
         ticketOnce = pyre.inventory.bool("ticketOnce", default=True)
         ticketDuration = pyre.inventory.dimensional("ticketDuration", default=0.5*hour)
 
-        marshaller = pyre.inventory.facility("marshaller", factory=pyre.ipa.pickler)
+        marshaller = pyre.inventory.facility("marshaller", vault=["marshallers"], factory=pyre.ipa.pickler)
         userManager = pyre.inventory.facility("userManager", factory=pyre.ipa.userManager)
 
 

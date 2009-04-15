@@ -124,7 +124,7 @@ class Facility(Trait):
             import pyre.parsing.locators
             component = self._retrieveBuiltInComponent(instance, componentName)
             if component is not None:
-                locator = pyre.parsing.locators.builtIn()
+                locator = component.getLocator()
             else:
                 component = self._import(instance, componentName)
                 if component:
