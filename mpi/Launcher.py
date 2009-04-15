@@ -101,7 +101,7 @@ class Launcher(Base):
         # allowed in 'command', thanks to the Preprocessor component.
         # See mpi.Application.getStateArgs() to see how the ${nodes}
         # macro is defined.
-        args = self.command.split(' ')
+        args = self.command.split()
         
         # use only the specific nodes specified explicitly
         if self.nodelist:
