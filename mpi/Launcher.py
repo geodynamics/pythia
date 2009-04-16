@@ -14,9 +14,6 @@
 from pyre.launchers.Launcher import Launcher as Base
 
 
-defaultCommand = "mpirun -np ${nodes} " # note extra space
-
-
 class Launcher(Base):
     
     
@@ -28,15 +25,7 @@ class Launcher(Base):
     nodegen = pyre.str("nodegen")
     nodegen.meta['tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
         
-    command = pyre.str("command", default=defaultCommand)
-
-
-    def _configure(self):
-        Base._configure(self)
-        if self.command == defaultCommand:
-            # See Issue116.  Because of macro expansion, this only fires on the login node.
-            self._warning.log("'command' property is not set; defaulting to \"%s\"" % defaultCommand)
-        return
+    command = pyre.str("command", default="mpirun -np ${nodes}")
 
 
     def launch(self):
