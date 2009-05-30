@@ -20,7 +20,7 @@ class Notary(type):
 
 
     def __init__(cls, name, bases, dict):
-        type.__init__(name, bases, dict)
+        type.__init__(cls, name, bases, dict)
 
         traitRegistry = {}
         facilityRegistry = {}

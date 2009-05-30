@@ -16,7 +16,7 @@ class Interface(type):
 
 
     def __init__(cls, name, bases, dict):
-        type.__init__(name, bases, dict)
+        type.__init__(cls, name, bases, dict)
 
         import types
 

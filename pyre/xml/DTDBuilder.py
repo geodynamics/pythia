@@ -18,7 +18,7 @@ class DTDBuilder(type):
 
 
     def __init__(cls, name, bases, dict):
-        type.__init__(name, bases, dict)
+        type.__init__(cls, name, bases, dict)
         trash = {}
 
         # initialize the lookup table with inherited tags
