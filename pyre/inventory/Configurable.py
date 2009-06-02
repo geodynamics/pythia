@@ -153,7 +153,7 @@ class Configurable(Traceable):
 
 
     def retrieveTemplate(self, name, vault=[], extras=[]):
-        return self.retrieveObject(name, 'template', ['tmpl'], vault, extras)
+        return self.retrieveComponent(name, 'template', vault=vault, extras=extras)
 
 
     # vault accessors

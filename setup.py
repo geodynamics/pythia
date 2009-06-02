@@ -7,7 +7,7 @@ from merlin import setup, find_packages
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.8',
+    version = '0.8.1.9',
 
     zip_safe = False,
     packages = find_packages(),
@@ -17,10 +17,6 @@ setup(
     entry_points = {
     },
     
-    install_requires = [
-        'Cheetah',
-    ],
-
     extras_require = {
 
     # * acis: "a set of Python bindings for ACIS, the solid modeler from Spatial"

@@ -11,36 +11,27 @@
 #
 
 
-from Cheetah.Template import Template
+from pyre.components import Component
 
 
-class BatchScriptTemplate(Template):
+class BatchScriptTemplate(Component):
 
 
-    """base class for Cheetah batch script templates"""
-
-    
-    def getStdin(self):        return self.getRemoteFilename('stdin')
-    def getStdout(self):       return self.getRemoteFilename('stdout')
-    def getStderr(self):       return self.getRemoteFilename('stderr')
+    """base class for batch script templates"""
 
 
-    def getRemoteFilename(self, name):
-        # stub
-        filename = self.job.getTraitValue(name)
-        return filename
+    def __init__(self, name):
+        Component.__init__(self, name, facility='template')
+        self.scheduler = None
+        self.script = None
 
 
-    def getStagedFiles(self):
-        # stub
-        return []
+    def render(self):
+        raise NotImplementedError("class %r must override 'render'" % self.__class__.__name__)
 
-    
-    stdin        = property(getStdin)
-    stdout       = property(getStdout)
-    stderr       = property(getStderr)
 
-    stagedFiles  = property(getStagedFiles)
+    def __str__(self):
+        return self.render()
 
 
 # end of file 

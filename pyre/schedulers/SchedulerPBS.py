@@ -40,6 +40,10 @@ class SchedulerPBS(BatchScheduler):
         
         # Generate the main PBS batch script.
         script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
+        if script is None:
+            self._error.log("could not locate batch script template for '%s'" % self.name)
+            sys.exit(1)
+        
         script.scheduler = self
         script.job = job
         
