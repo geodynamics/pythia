@@ -104,11 +104,11 @@ class ConfigContext(object):
 
         node = self.unrecognizedProperties.getNode(component.name)
         for path, value, locator in node.allProperties():
-            self.error(ConfigContext.UnrecognizedPropertyError(path, value, locator))
+            self.error(UnrecognizedPropertyError(path, value, locator))
 
         node = self.unknownComponents
         for path, value, locator in node.allProperties():
-            self.error(ConfigContext.UnknownComponentError(path, value, locator))
+            self.error(UnknownComponentError(path, value, locator))
 
         # Log all configuration errors and warnings.  Determine the
         # severity of property/component typos as a function of the
@@ -183,31 +183,31 @@ class ConfigContext(object):
         return
 
 
-    class ConfigurationError(Exception):
+class ConfigurationError(Exception):
 
-        def __init__(self, path, value, locator):
-            Exception.__init__(self)
-            self.path = path
-            self.value = value
-            self.locator = locator
+    def __init__(self, path, value, locator):
+        Exception.__init__(self)
+        self.path = path
+        self.value = value
+        self.locator = locator
 
 
-    class UnrecognizedPropertyError(ConfigurationError):
+class UnrecognizedPropertyError(ConfigurationError):
 
-        channel = 'up'
+    channel = 'up'
         
-        def __str__(self):
-            prop = '.'.join(self.path[1:])
-            return "unrecognized property '%s'" % prop
+    def __str__(self):
+        prop = '.'.join(self.path[1:])
+        return "unrecognized property '%s'" % prop
 
 
-    class UnknownComponentError(ConfigurationError):
+class UnknownComponentError(ConfigurationError):
         
-        channel = 'uc'
+    channel = 'uc'
         
-        def __str__(self):
-            component = '.'.join(self.path[1:-1])
-            return "unknown component '%s'" % component
+    def __str__(self):
+        component = '.'.join(self.path[1:-1])
+        return "unknown component '%s'" % component
         
 
 # end of file 
