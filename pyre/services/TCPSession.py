@@ -28,11 +28,6 @@ class TCPSession(Session):
         import pyre.services
         request = pyre.services.request(command, args)
 
-        try:
-            self._connect()
-        except self._connection.ConnectionError, error:
-            raise self.RequestError(str(error))
-
         self._info.log("sending request: command=%r" % command)
         self.marshaller.send(request, self._connection)
         self._info.log("request sent")
@@ -43,6 +38,15 @@ class TCPSession(Session):
 
     def __init__(self, name):
         Session.__init__(self, name, protocol='tcp')
+        return
+
+
+    def _init(self):
+        try:
+            self._connect()
+        except self._connection.ConnectionError, error:
+            raise self.RequestError(str(error))
+
         return
 
 

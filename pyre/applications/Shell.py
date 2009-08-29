@@ -15,6 +15,7 @@ from pyre.inventory.Configurable import Configurable
 
 
 try:
+    # XXX: This default is annoying when one is debugging CGI apps.
     import IPython.ultraTB
     defaultExceptHook = "ultraTB"
 except ImportError:

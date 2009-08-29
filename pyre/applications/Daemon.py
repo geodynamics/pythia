@@ -30,7 +30,7 @@ class Daemon(Stager):
         if not spawn:
             print " ** daemon %r in debug mode" % self.name
             import os
-            self.daemon(os.getpid())
+            self.daemon(os.getpid(), spawn=False)
             return
             
         import pyre.util
@@ -63,7 +63,7 @@ class Daemon(Stager):
         return
         
 
-    def daemon(self, pid):
+    def daemon(self, pid, spawn=True):
         import os
 
         # change the working directory to my home directory
@@ -80,11 +80,12 @@ class Daemon(Stager):
         # build a journal configuration file
         # self.configureJournal()
 
-        # close all ties with the parent process
-        os.close(2)
-        os.close(1)
-        os.close(0)
-
+        if spawn:
+            # close all ties with the parent process
+            os.close(2)
+            os.close(1)
+            os.close(0)
+        
         # launch the application
         self.main(*self.args, **self.kwds)
 

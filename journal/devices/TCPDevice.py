@@ -19,22 +19,16 @@ class TCPDevice(Device):
 
 
     def record(self, entry):
-        import pyre.ipc
-        connection = pyre.ipc.connection('tcp')
 
-        # attempt to connect
-        # if refused, just drop the entry for now
-        try:
-            connection.connect((self.host, self.port))
-        except connection.ConnectionError:
+        if self._connection is None:
             return
-
+        
         import journal
         request = journal.request(command="record", args=[self.renderer.render(entry)])
 
         try:
-            self._marshaller.send(request, connection)
-            result = self._marshaller.receive(connection)
+            self._marshaller.send(request, self._connection)
+            result = self._marshaller.receive(self._connection)
         except self._marshaller.RequestError:
             return
 
@@ -53,6 +47,11 @@ class TCPDevice(Device):
         import journal
         self._marshaller = journal.pickler()
         self._marshaller.key = key
+
+        import pyre.ipc
+        self._connection = pyre.ipc.connection('tcp')
+
+        self._connection.connect((self.host, self.port))
 
         return
 
