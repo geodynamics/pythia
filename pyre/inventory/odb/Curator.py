@@ -18,7 +18,7 @@ from pyre.odb.fs.Curator import Curator as Base
 class Curator(Base):
 
 
-    def getTraits(self, name, context, encodings=['pml','cfg'], vault=[], extraDepositories=[]):
+    def getTraits(self, name, context, encodings=['pml','cfg','pcs'], vault=[], extraDepositories=[]):
         """load cascade of inventory values for component <name>"""
 
         # initialize the registry object
@@ -309,6 +309,7 @@ class Curator(Base):
         import pyre.inventory
         pml = pyre.inventory.codecPML()
         cfg = pyre.inventory.codecConfig()
+        pcs = pyre.inventory.codecConfigSheet()
 
         import pyre.odb
         odb = pyre.odb.odb()
@@ -316,7 +317,7 @@ class Curator(Base):
         import pyre.templates
         tmpl = pyre.templates.codecTmpl()
 
-        self.registerCodecs(pml, cfg, odb, tmpl)
+        self.registerCodecs(pml, cfg, pcs, odb, tmpl)
 
         return
 
