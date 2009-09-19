@@ -178,7 +178,11 @@ class Inventory(object):
             # We intentionally don't call _getDefaultValue() -- at
             # this stage, we don't want anything to happen (files to
             # be opened, components to be instantiated, ...)
-            value = prop.default
+            try:
+                # Pick up any values set by _defaults() methods.
+                value = self._getTraitValue(prop.name)
+            except KeyError:
+                value = prop.default
             
             # The 'isinstance' is a limitation of the framework: e.g.,
             # files and dimensionals to not stringify cleanly.
