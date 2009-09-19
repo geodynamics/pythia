@@ -55,7 +55,7 @@ class Pickler(Marshaller):
 
 
     def receive(self, socket):
-        stream = socket.makefile("rb")
+        stream = socket.makefile("rb", 0)
 
         try:
             request = pickle.load(stream)

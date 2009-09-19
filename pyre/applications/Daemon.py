@@ -65,10 +65,10 @@ class Daemon(Stager):
 
     def daemon(self, pid, spawn=True):
         import os
+        import journal
 
         # change the working directory to my home directory
         if not os.path.exists(self.home):
-            import journal
             journal.error(self.name).log("directory %r does not exist" % self.home)
             self.home = '/tmp'
 
@@ -87,7 +87,17 @@ class Daemon(Stager):
             os.close(0)
         
         # launch the application
-        self.main(*self.args, **self.kwds)
+        if spawn:
+            try:
+                self.main(*self.args, **self.kwds)
+            except KeyboardInterrupt:
+                journal.error(self.name).log("interrupt")
+            except Exception, e:
+                import traceback
+                journal.error(self.name).log("exception:\n%s" % traceback.format_exc())
+        else:
+            # debug mode
+            self.main(*self.args, **self.kwds)
 
         return
 
