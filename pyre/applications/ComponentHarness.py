@@ -12,64 +12,58 @@
 #
 
 
-class ComponentHarness(object):
+from SimpleComponentHarness import SimpleComponentHarness
 
 
-    def harnessComponent(self):
-        """harness an external component"""
-
-        # create the component
-        component = self.createComponent()
-
-        # initialize the persistent store used by the component to configure itself
-        curator = self.prepareComponentCurator()
-
-        # prepare optional configuration for the component
-        registry = self.prepareComponentConfiguration(component)
-
-        # configure the component
-        # collect unknown traits for the components and its subcomponents
-        context = self.configureHarnessedComponent(component, curator, registry)
-
-        if not context.verifyConfiguration(component, 'strict'):
-            return
-
-        # initialize the component
-        component.init()
-
-        # register it
-        self.component = component
-
-        return component
+class ComponentHarness(SimpleComponentHarness):
+    """a mixin class used to create a component harness which is itself a component"""
 
 
-    def createComponent(self):
-        """create the harnessed component"""
-        raise NotImplementedError(
-            "class %r must override 'createComponent'" % self.__class__.__name__)
-
-
-    def configureHarnessedComponent(self, component, curator, registry):
-        """configure the harnessed component"""
-
-        context = component.newConfigContext()
+    def updateConfiguration(self, registry):
+        """divide settings between myself and the harnessed component"""
         
-        # link the component with the curator
-        component.setCurator(curator)
-        component.initializeConfiguration(context)
+        myRegistry, yourRegistry = self.filterConfiguration(registry)
+        self.componentRegistry.update(yourRegistry)
+        return super(ComponentHarness, self).updateConfiguration(myRegistry)
 
-        # update the component's inventory with the optional settings we
-        # have gathered on its behalf
-        component.updateConfiguration(registry)
 
-        # load the configuration onto the inventory
-        component.applyConfiguration(context)
+    def _fini(self):
+        """finalize the component"""
+        
+        if self.component:
+            self.component.fini()
 
-        return context
+        return
+
+
+    def prepareComponentCurator(self):
+        """prepare the persistent store manager for the harnessed component"""
+
+        # the host component has a notion of its persistent store that
+        # it wants to share with the harnessed component
+        return self.getCurator()
+        
+
+    def prepareComponentConfiguration(self, component):
+        """prepare the settings for the harnessed component"""
+
+        # the host component has a registry with settings for the
+        # harnessed component
+        registry = self.componentRegistry
+        registry.name = component.name
+
+        return registry
+
+
+    def createComponentRegistry(self):
+        """create a registry instance to store a configuration for the harnessed component"""
+        
+        return self.createRegistry()
 
 
     def __init__(self):
-        self.component = None
+        super(ComponentHarness, self).__init__()
+        self.componentRegistry = self.createComponentRegistry()
         return
 
 

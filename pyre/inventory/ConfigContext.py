@@ -96,6 +96,23 @@ class ConfigContext(object):
         return
 
 
+    def unknownTraits(self):
+        unrecognizedProperties = []
+        unknownComponents = []
+        
+        node = self.unrecognizedProperties
+        for path, value, locator in node.allProperties():
+            path = '.'.join(path[1:])
+            unrecognizedProperties.append((path, value, locator))
+
+        node = self.unknownComponents
+        for path, value, locator in node.allProperties():
+            path = '.'.join(path[1:-1])
+            unknownComponents.append(path)
+
+        return (unrecognizedProperties, unknownComponents)
+
+
     def verifyConfiguration(self, component, modeName):
         """verify that the user input did not contain any typos"""
 

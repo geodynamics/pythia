@@ -86,8 +86,7 @@ class Daemon(Stager):
             os.close(1)
             os.close(0)
         
-        # launch the application
-        if spawn:
+            # launch the application
             try:
                 self.main(*self.args, **self.kwds)
             except KeyboardInterrupt:

@@ -11,8 +11,9 @@
 #
 
 
-from pyre.schedulers import jobstart
-jobstart()
+if __name__ == '__main__':
+    from pyre.schedulers import jobstart
+    jobstart()
 
 
 # end of file

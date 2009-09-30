@@ -13,10 +13,10 @@
 
 from Application import Application
 from Daemon import Daemon as Stager
-from ComponentHarnessAdapter import ComponentHarnessAdapter
+from ComponentHarness import ComponentHarness
 
 
-class ServiceDaemon(ComponentHarnessAdapter, Application, Stager):
+class ServiceDaemon(ComponentHarness, Application, Stager):
 
 
     class Inventory(Application.Inventory):
@@ -62,7 +62,7 @@ class ServiceDaemon(ComponentHarnessAdapter, Application, Stager):
     def __init__(self, name):
         Application.__init__(self, name, facility='daemon')
         Stager.__init__(self)
-        ComponentHarnessAdapter.__init__(self)
+        ComponentHarness.__init__(self)
         return
 
 

@@ -135,8 +135,9 @@ class Configurable(Traceable):
             context = self.newConfigContext()
         
         self.inventory.configureComponent(component, context, registry)
-        
-        return context
+
+        # for backwards compatibility, return the traditional "up, uc" pair
+        return context.unknownTraits()
 
 
     def collectDefaults(self, registry=None):
