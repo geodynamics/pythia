@@ -19,7 +19,6 @@ include journal/colors/none.odb
 include journal/colors/__vault__.odb
 include journal/devices/color-console.odb
 include journal/devices/console.odb
-include journal/devices/db.odb
 include journal/devices/file.odb
 include journal/devices/remote.odb
 include journal/devices/__vault__.odb

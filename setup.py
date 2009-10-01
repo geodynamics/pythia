@@ -1,9 +1,13 @@
 
-from ez_setup import use_setuptools
-use_setuptools()
-
 try:
+    from merlin import setup, find_packages
+
+except (ImportError, AssertionError):
+    from ez_setup import use_setuptools
+    use_setuptools()
+
     from setuptools import setup, find_packages
+
 except AssertionError:
     from merlin import setup, find_packages
 
