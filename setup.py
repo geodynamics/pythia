@@ -1,13 +1,17 @@
 
-from archimedes import use_merlin
-use_merlin()
+from ez_setup import use_setuptools
+use_setuptools()
 
-from merlin import setup, find_packages
+try:
+    from setuptools import setup, find_packages
+except AssertionError:
+    from merlin import setup, find_packages
+
 
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.9',
+    version = '0.8.1.10',
 
     zip_safe = False,
     packages = find_packages(),

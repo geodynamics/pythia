@@ -12,7 +12,7 @@
 
 
 from pyre.applications import AppRunner
-from merlin import loadObject
+from pyre.util import loadObject
 
 
 class BatchScript(AppRunner):

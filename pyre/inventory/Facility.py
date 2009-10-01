@@ -191,9 +191,9 @@ class Facility(Trait):
         module = path[0]
         factoryName = '.'.join(factoryPath)
         objName = module + ':' + factoryName
-        
+
         try:
-            from merlin import loadObject
+            from pyre.util import loadObject
             factory = loadObject(objName)
         except (ImportError, ValueError):
             raise Facility.ComponentNotFound(

@@ -197,7 +197,7 @@ class Curator(Base):
         systemDepository = self.setSystemDepository(system)
 
         # create the built-in depositories
-        from merlin import resource_listdir, resource_isdir, resource_exists, resource_filename, Requirement
+        from pkg_resources import resource_listdir, resource_isdir, resource_exists, resource_filename, Requirement
         pythia = Requirement.parse("pythia")
         entries = resource_listdir(pythia, "")
         for entry in entries:

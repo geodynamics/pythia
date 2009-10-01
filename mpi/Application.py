@@ -43,7 +43,7 @@ class Application(Script):
         import sys
         
         path = self.pathString()
-        requires = self.requires()
+        requires = "pythia" # ignored -- was "self.requires()"
         entry = self.entryName()
         argv = self.getArgv(*args, **kwds)
         state = self.getStateArgs('launch')
@@ -71,7 +71,7 @@ class Application(Script):
         import sys
 
         path = self.pathString()
-        requires = self.requires()
+        requires = "pythia" # ignored -- was "self.requires()"
         entry = self.entryName()
         state = self.getStateArgs('compute')
         

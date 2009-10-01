@@ -44,6 +44,19 @@ def expandMacros(raw, substitutions):
     return expandMacros(raw, substitutions)
 
 
+def loadObject(name):
+    """Load and return the object referenced by <name> ==
+    some.module[:some.attr].
+    """
+
+    module, attrs = name.split(':')
+    attrs = attrs.split('.')
+    obj = __import__(module, globals(), globals(), ['__name__'])
+    for attr in attrs:
+        obj = getattr(obj, attr)
+    return obj
+
+
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 

@@ -60,6 +60,9 @@ class Executive(object):
 
 
     def requires(self):
+        # This was once used by Application.path() to construct a
+        # "minimal" search path for the application.  Now it is only
+        # used by version().
         if self._requires is None:
             from __main__ import __requires__
             self._requires = __requires__
@@ -169,7 +172,7 @@ class Executive(object):
 
 
     def version(self):
-        from merlin import get_provider, Requirement
+        from pkg_resources import get_provider, Requirement
         try:
             req = self.requires()
         except ImportError:

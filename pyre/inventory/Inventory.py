@@ -246,9 +246,9 @@ class Inventory(object):
         
 
     def retrieveBuiltInComponent(self, name, factory, args=(), vault=[]):
-        import merlin
+        import pkg_resources
         group = "pyre.odb." + (".".join([self._priv_name] + vault))
-        for ep in merlin.iter_entry_points(group, name):
+        for ep in pkg_resources.iter_entry_points(group, name):
             factory = ep.load()
             component = factory(*args)
             return component

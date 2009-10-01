@@ -100,16 +100,10 @@ class Application(Component, Executive):
         return self.__class__.__module__ + ':' + self.__class__.__name__
 
 
-    def workingSet(self):
-        """Return the minimal working set for this application."""
-        from merlin import WorkingSet
-        return WorkingSet.minimal(self.requires())
-
-
     def path(self):
         """Return the minimal Python search path for this application."""
-        workingSet = self.workingSet()
-        return workingSet.entries
+        import sys
+        return sys.path
 
 
     def pathString(self):
