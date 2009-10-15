@@ -31,7 +31,6 @@ class Socket(socket.socket):
 
 
     def __init__(self, type):
-        self.type = type
         socket.socket.__init__(self, type=type)
         return
 
