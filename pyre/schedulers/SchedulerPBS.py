@@ -23,9 +23,10 @@ class SchedulerPBS(BatchScheduler):
 
     import pyre.inventory as pyre
     
-    command      = pyre.str("command", default="qsub")
-    qsubOptions  = pyre.list("qsub-options")
-    ppn          = pyre.int("ppn", default=1)
+    command       = pyre.str("command", default="qsub")
+    qsubOptions   = pyre.list("qsub-options")
+    resourceList  = pyre.list("resource-list")
+    ppn           = pyre.int("ppn", default=1)
     
     
     def schedule(self, job):
@@ -92,7 +93,7 @@ class SchedulerPBS(BatchScheduler):
 
     def buildResourceList(self, job):
 
-        resourceList = []
+        resourceList = self.resourceList
         if self.ppn:
             resourceList.append(
                 "nodes=%d:ppn=%d" % ((job.nodes / self.ppn) + (job.nodes % self.ppn and 1 or 0), self.ppn)
