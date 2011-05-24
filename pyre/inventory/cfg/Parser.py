@@ -58,6 +58,9 @@ class Parser(SafeConfigParser):
             key = path[-1]
             path = path[:-1]
             node = _getNode(self.node, path)
+            if type(value) is list:
+                assert(1 == len(value))
+                value = value[0]
             value = expandMacros(value, self.macros)
             node.setProperty(key, value, locator)
             dict.__setitem__(self, key, value)
