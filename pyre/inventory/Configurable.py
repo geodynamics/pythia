@@ -68,13 +68,23 @@ class Configurable(Traceable):
     def applyConfiguration(self, context=None):
         """transfer user settings to my inventory"""
 
-        if context is None:
-            context = self.newConfigContext()
+        try:
 
-        context.configureComponent(self)
+            if context is None:
+                context = self.newConfigContext()
+
+            context.configureComponent(self)
         
-        # give descendants a chance to adjust to configuration changes
-        self._configure()
+            # give descendants a chance to adjust to configuration changes
+            self._configure()
+
+
+        except ValueError, err:
+            aliases = ", ".join(self.aliases)
+            raise ValueError("Backtrace - Component %s:\n%s" % (aliases, err.message))
+        except RuntimeError, err:
+            aliases = ", ".join(self.aliases)
+            raise RuntimeError("Backtrace - Component %s:\n%s" % (aliases, err.message))
         
         return context
 
