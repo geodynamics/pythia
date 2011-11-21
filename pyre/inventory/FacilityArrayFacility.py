@@ -28,7 +28,8 @@ class FacilityArrayFacility(Facility):
         
         dict = {}
         for index, facilityName in enumerate(facilityNames):
-            facility = self.itemFactory(facilityName)
+            # Strip leading and trailing whitespace from facility name
+            facility = self.itemFactory(facilityName.strip())
             attr = "item%d" % index
             dict[attr] = facility
 
