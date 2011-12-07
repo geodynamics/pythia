@@ -32,7 +32,10 @@ class List(Property):
             if text and text[-1] in '])}':
                 text = text[:-1]
                 
-            value = text.split(",")
+            #value = text.split(",")
+            value = []
+            for v in text.split(","):
+                value.append(v.strip())
 
             # allow trailing comma
             if len(value) and not value[-1]:
