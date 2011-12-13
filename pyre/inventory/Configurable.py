@@ -81,10 +81,10 @@ class Configurable(Traceable):
 
         except ValueError, err:
             aliases = ", ".join(self.aliases)
-            raise ValueError("Backtrace - Component %s:\n%s" % (aliases, err.message))
+            raise ValueError("%s\nBacktrace - Component %s" % (err.message, aliases))
         except RuntimeError, err:
             aliases = ", ".join(self.aliases)
-            raise RuntimeError("Backtrace - Component %s:\n%s" % (aliases, err.message))
+            raise RuntimeError("%s\nBacktrace - Component %s" % (err.message, aliases))
         
         return context
 
