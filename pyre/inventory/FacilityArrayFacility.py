@@ -25,13 +25,15 @@ class FacilityArrayFacility(Facility):
 
     def _retrieveComponent(self, instance, componentName):
         facilityNames = self._cast(componentName)
-        
+
+        facilityOrder = []
         dict = {}
         for index, facilityName in enumerate(facilityNames):
             # Strip leading and trailing whitespace from facility name
             facility = self.itemFactory(facilityName.strip())
-            attr = "item%d" % index
+            attr = "item%05d" % index
             dict[attr] = facility
+            facilityOrder.append(facilityName.strip())
 
         from Inventory import Inventory
         from pyre.components.Component import Component
@@ -41,6 +43,7 @@ class FacilityArrayFacility(Facility):
         dict = {'Inventory': Inventory}
         FacilityArray = Component.__metaclass__("FacilityArray", (Component,), dict)
         fa = FacilityArray(self.name)
+        fa.Inventory._facilityOrder = facilityOrder
 
         import pyre.parsing.locators
         locator = pyre.parsing.locators.builtIn()

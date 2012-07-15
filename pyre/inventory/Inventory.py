@@ -401,7 +401,13 @@ class Inventory(object):
 
         candidates = []
 
-        for name, facility in self._facilityRegistry.iteritems():
+        if self._facilityOrder is None:
+            keys = self._facilityRegistry.iterkeys()
+        else:
+            keys = self._facilityOrder
+        #for name, facility in self._facilityRegistry.iteritems():
+        for name in keys:
+            facility = self._facilityRegistry[name]
             try:
                 component = facility.__get__(self)
                 if component and component is not Error:
@@ -492,6 +498,7 @@ class Inventory(object):
     # trait registries
     _traitRegistry = {}
     _facilityRegistry = {}
+    _facilityOrder = None
     _myTraitRegistry = {}
 
 
