@@ -24,7 +24,7 @@ def copyright():
     return "blade: Copyright (c) 1998-2005 Michael A.G. Aivazis"
 
 # version
-__version__ = "0.8"
+__version__ = "0.8.1"
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:56 aivazis Exp $"
 
 # End of file 
