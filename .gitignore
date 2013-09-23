@@ -1,0 +1,4 @@
+build
+dist
+pythia.egg-info
+*.pyc
