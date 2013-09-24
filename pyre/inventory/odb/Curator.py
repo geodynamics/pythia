@@ -309,6 +309,7 @@ class Curator(Base):
         import pyre.inventory
         pml = pyre.inventory.codecPML()
         cfg = pyre.inventory.codecConfig()
+        json = pyre.inventory.codecJSON()
         pcs = pyre.inventory.codecConfigSheet()
 
         import pyre.odb
@@ -317,7 +318,7 @@ class Curator(Base):
         import pyre.templates
         tmpl = pyre.templates.codecTmpl()
 
-        self.registerCodecs(pml, cfg, pcs, odb, tmpl)
+        self.registerCodecs(pml, cfg, json, pcs, odb, tmpl)
 
         return
 

@@ -45,6 +45,11 @@ def codecConfig():
     return CodecConfig()
 
 
+def codecJSON():
+    from json.CodecJSON import CodecJSON
+    return CodecJSON()
+
+
 def codecConfigSheet():
     from pcs.CodecConfigSheet import CodecConfigSheet
     return CodecConfigSheet()
