@@ -67,22 +67,26 @@ class Parser(object):
 
             elif isinstance(value, list): # facility array
                 facilityArray = node.getNode(key)
+                arrayItems = []
                 for item in value:
                     if not isinstance(item, dict):
                         raise ValueError("Expected dictionaries in facility array '%s'. Object: %s" % \
                                              (value, item))
                     if not item.has_key('_value') or not item.has_key('_item'):
                         raise ValueError("Expected facility array dictionary to contain '_value' and '_item' keys. Object: %s" % item)
+                    arrayItems.append(str(item['_item']))
                     module = item['_value'].pop('_module', None)
                     if module is None:
                         raise ValueError("Component '%s' missing '_module' key." % item['_value'])
                     facilityArray.setProperty(item['_item'], module, self.locatorNL)
                     facility = facilityArray.getNode(item['_item'])
                     self._setNode(facility, item['_value'])
+                arrayValue = "[" + ",".join(arrayItems) + "]"
+                node.setProperty(key, arrayValue, self.locatorNL)
 
             else: # property
-                node.setProperty(key, value, self.locatorNL)
-              
+                node.setProperty(key, str(value), self.locatorNL)
+
         return
 
 
