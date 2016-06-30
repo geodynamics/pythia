@@ -48,9 +48,6 @@ class Property(Trait):
         if value is not None:
             # convert
             value = self._cast(value)
-            # validate 
-            if self.validator:
-                value = self.validator(value)
         
         import pyre.parsing.locators
         locator = pyre.parsing.locators.default()
@@ -63,6 +60,8 @@ class Property(Trait):
 
 
     def _validate(self, value):
+        if self.validator:
+            value = self.validator(value)
         return value
 
 
