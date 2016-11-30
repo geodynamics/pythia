@@ -21,7 +21,16 @@
  * __HERE__ has to be a preprocessor macro
  */
 
-#if defined(HAVE__FUNC__)
+#undef __FUNCTION__
+#if defined(__FUNCTION_NAME__)
+#define __FUNCTION__ __FUNCTION_NAME__
+#else
+#if defined(__func__)
+#define __FUNCTION__ __func__
+#endif
+#endif
+
+#if defined(__FUNCTION__)
 #define __HERE__ __FILE__,__LINE__,__FUNCTION__
 #define __HERE_ARGS__ filename, lineno, funcname
 #define __HERE_DECL__ const char * filename, long lineno, const char * funcname
