@@ -34,7 +34,10 @@ class CodecConfig(CodecODB):
         basename = splitext(fn)[0]
         macros = { 'td': td, 'basename': basename }
         parser = Parser(root, macros=macros)
-        parser.read(shelf.name)
+        try:
+            parser.read(shelf.name)
+        except (AttributeError, KeyError) as err:
+            raise AttributeError("Error parsing '{fp.name}' line {fp.lineno}".format(fp=parser._sections.fp))
         shelf['inventory'] = root
         shelf._frozen = True
         return
