@@ -1,0 +1,38 @@
+# docker build --build-arg BASE_IMAGE=${VARIABLE_NAME} --build-arg TEST_COVERAGE=yes/no --build-arg PYTHON_COVERAGE=${COVERAGE_EXECUTABLE} -f DOCKERFILE . -t IMAGE_NAME .
+
+
+ARG BASE_IMAGE
+from ${BASE_IMAGE} as src
+ARG TEST_COVERAGE=no
+ARG PYTHON_COVERAGE=coverage2
+ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE}
+
+LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
+
+
+# Create 'pythia-user' user
+ENV PYTHIA_USER pythia-user
+RUN useradd --create-home --shell /bin/bash $PYTHIA_USER
+
+USER $PYTHIA_USER
+
+ENV TOP_DIR /home/${PYTHIA_USER}
+ENV PREFIX_DIR=${TOP_DIR}/pythia SRC_DIR=${TOP_DIR}/src
+
+ENV PATH $PATH:$PREFIX_DIR/bin
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$PREFIX_DIR/lib
+ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
+
+RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages && mkdir -p ${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
+
+
+COPY --chown=pythia-user:pythia-user . ${SRC_DIR}
+WORKDIR ${SRC_DIR}
+RUN python${PYTHON_VERSION} setup.py install --prefix=${PREFIX_DIR}
+
+# TESTING ----------
+from src as test
+
+RUN ./run_tests.py
+
+CMD /bin/bash

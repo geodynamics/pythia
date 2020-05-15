@@ -1,0 +1,45 @@
+# Travis-CI configuration
+
+services:
+    - docker
+
+language: python
+
+jobs:
+  include:
+    - name: debian-stable-py2
+      os: linux
+      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-stable-py2 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
+    - name: debian-testing-py2
+      os: linux
+      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-testing-py2 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverag
+    - name: ubuntu-18.04-py2
+      os: linux
+      env: BASE_IMAGE=geodynamics/pythia-testenv-ubuntu-18.04-py2 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
+
+#    - name: debian-stable-py3
+#      os: linux
+#      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-stable-py3 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
+#    - name: debian-testing-py3
+#      os: linux
+#      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-testing-py3 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
+
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+
+# Limit number of commits in cloning (but keep enough so that 'git describe' works)
+git:
+  depth: 100
+
+
+install:
+  - docker build -t pythia-testenv --build-arg BASE_IMAGE=$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target src -f docker/pythia-testenv .
+
+
+script: 
+  - ci_env=`bash <(curl -s https://codecov.io/env)`
+  - docker run $ci_env pythia-testenv ci-config/run_test_coverage.sh
