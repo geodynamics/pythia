@@ -46,6 +46,7 @@ class TestApp(object):
             self.cov.stop()
             self.cov.save()
             self.cov.report()
+            self.cov.xml_report(outfile="coverage.xml")
         
         if not success:
             import sys
