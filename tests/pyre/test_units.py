@@ -318,6 +318,13 @@ class TestUnit(unittest.TestCase):
 
         with self.assertRaises(unit.InvalidConversion):
             x = float(3.0*SI.meter)
+
+    def test_exceptions(self):
+        value = unit.unit(3, unit.unit._zero)
         
-        
+        x = str(unit.InvalidConversion(value))
+        x = str(unit.InvalidOperation("*", value, value))
+        x = str(unit.IncompatibleUnits("*", value, value))
+
+
 # End of file
