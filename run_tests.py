@@ -56,11 +56,13 @@ class TestApp(object):
         """Setup the test suite.
         """
         import tests.pyre
+        import tests.journal
         
         suite = unittest.TestSuite()
 
         test_cases = []
         test_cases += tests.pyre.test_cases()
+        test_cases += tests.journal.test_cases()
         for test_case in test_cases:
             suite.addTest(unittest.makeSuite(test_case))
 
