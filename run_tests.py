@@ -29,7 +29,7 @@ class TestApp(object):
     cov = None
     try:
         import coverage
-        cov = coverage.Coverage(source=["pyre.units", "pyre.journal"])
+        cov = coverage.Coverage(source=["pyre.units", "journal"])
     except ImportError:
         pass
 
@@ -42,16 +42,16 @@ class TestApp(object):
 
         success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
 
+        if not success:
+            import sys
+            sys.exit(1)
+
         if self.cov:
             self.cov.stop()
             self.cov.save()
             self.cov.report()
             self.cov.xml_report(outfile="coverage.xml")
         
-        if not success:
-            import sys
-            sys.exit(1)
-
     def _suite(self):
         """Setup the test suite.
         """

@@ -3,3 +3,6 @@ dist
 pythia.egg-info
 *.pyc
 .coverage
+coverage-pytests
+
+coverage.xml
