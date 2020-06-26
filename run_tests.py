@@ -21,6 +21,10 @@ Run `coverage html -d DIR` to generate an HTML report in directory `DIR`.
 """
 
 import unittest
+import sys
+
+
+sys.path.append("./tests/pyre/test_vault")
 
 
 class TestApp(object):
@@ -29,7 +33,21 @@ class TestApp(object):
     cov = None
     try:
         import coverage
-        cov = coverage.Coverage(source=["pyre.units", "journal"])
+        src_dirs = [
+            "pyre.units",
+            "pyre.inventory",
+            "pyre.applications",
+            "pyre.components",
+            "pyre.odb",
+            "pyre.parsing",
+            "pyre.schedulers",
+            "pyre.scripts",
+            "pyre.units",
+            "pyre.util",
+            "pyre.xml",
+            "mpi",
+        ]
+        cov = coverage.Coverage(source=src_dirs)
     except ImportError:
         pass
 
@@ -40,10 +58,11 @@ class TestApp(object):
         if self.cov:
             self.cov.start()
 
+        sys.path.append("tests/pyre")
+
         success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
 
         if not success:
-            import sys
             sys.exit(1)
 
         if self.cov:
@@ -51,20 +70,20 @@ class TestApp(object):
             self.cov.save()
             self.cov.report()
             self.cov.xml_report(outfile="coverage.xml")
-        
+
     def _suite(self):
         """Setup the test suite.
         """
         import tests.pyre
         import tests.journal
-        
+        import tests.mpi
+
         suite = unittest.TestSuite()
 
         test_cases = []
-        test_cases += tests.pyre.test_cases()
-        test_cases += tests.journal.test_cases()
-        for test_case in test_cases:
-            suite.addTest(unittest.makeSuite(test_case))
+        for mod in [tests.pyre, tests.journal, tests.mpi]:
+            for test_case in mod.test_cases():
+                suite.addTest(unittest.makeSuite(test_case))
 
         return suite
 
@@ -79,7 +98,7 @@ def configureSubcomponents(facility):
 
 # ----------------------------------------------------------------------
 if __name__ == '__main__':
-  TestApp().main()
+    TestApp().main()
 
 
 # End of file

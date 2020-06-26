@@ -13,11 +13,17 @@
 #
 
 import test_units
+import test_inventory
+import test_schedulers
 
 def test_cases():
     tests = [
         test_units.TestUnit,
         test_units.TestUnits,
+        test_inventory.TestInventory,
+        test_schedulers.TestJob,
+        test_schedulers.TestNone,
+        test_schedulers.TestLSF,
         ]
     return tests
 

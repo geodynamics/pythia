@@ -1,0 +1,44 @@
+/* Settings using .pcs format
+ * 
+ * More info.
+ */
+pyreapp {
+  value_boolean: False;
+  value_int: 83;
+  value_float: 6.5;
+  value_string: "Goodbye World";
+  value_mass: "5.0*g";
+  //list_string: ["d", "e", "f", "g"];
+  //array_int: [7, 8, 9];
+  input_file: "tests/pyre/input.txt";
+  output_file: "tests/pyre/output.txt";
+
+  simple_facility {
+    simple_int : 11;
+    simple_float : -0.1;
+    simple_string : "Hello";
+  }
+  
+  facility_array {
+    one {
+      simple_int: 1;
+      simple_float: 1.4;
+      simple_string: "one fore";
+    }
+    
+    two {
+      simple_int: 6;
+      simple_float: 2.4;
+      simple_string: "two fore";
+    }
+  }
+}
+
+// Overwrite setting above.
+pyreapp {
+  facility_array {
+    two {
+    simple_int: 2;
+    }
+  }
+}
