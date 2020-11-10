@@ -73,5 +73,20 @@ class TestChannels(unittest.TestCase):
         error = journal.error("test")
         self._check_journal("error.log", "error", error)
 
+    def test_channels(self):
+        CHANNELS = ("firewall", "debug", "info", "warning", "error")
+        j = journal.journal()
+        channels = j.channels()
+        self.assertEqual(len(CHANNELS), len(channels))
+        for channel in channels:
+            self.assertTrue(channel in CHANNELS)
 
+    def test_entry(self):
+        j = journal.journal()
+        entry = j.entry()
+        self.assertEqual({}, entry.meta)
+        self.assertEqual([], entry.text)
+        
+        
+        
 # End of file
