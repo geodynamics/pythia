@@ -22,7 +22,7 @@ from mpi.Launcher import Launcher
 class TestLauncher(unittest.TestCase):
 
     NAME = "mylauncher"
-    
+
     def test_constructor(self):
         launcher = Launcher(self.NAME)
         self.assertFalse(launcher.dry)
@@ -30,7 +30,7 @@ class TestLauncher(unittest.TestCase):
     def test_argv(self):
         NODES = 3
         ARGUMENTS = ["one", "two", "three"]
-        
+
         launcher = Launcher(self.NAME)
         launcher.nodes = NODES
         launcher.arguments = ARGUMENTS
@@ -42,11 +42,16 @@ class TestLauncher(unittest.TestCase):
         self.assertEqual(len(argvE), len(argv))
         for argE, arg in zip(argvE, argv):
             self.assertEqual(argE, arg)
-        
+
+
+def test_classes():
+    return [TestLauncher]
+
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestLauncher))
+    for cls in test_classes():
+        suite.addTest(unittest.makeSuite(cls))
     unittest.TextTestRunner(verbosity=2).run(suite)
 
 

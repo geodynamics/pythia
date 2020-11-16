@@ -12,13 +12,6 @@
 # ======================================================================
 #
 
-import unittest
-import os
-
-from pyre.applications.Script import Script
-from pyre.components.Component import Component
-import pyre.inventory
-
 from test_vault.TestComponents import (
     SimpleFacility,
     SimpleTooFacility,
@@ -27,6 +20,12 @@ from test_vault.TestComponents import (
     simpleFactory,
     VAULT,
 )
+import unittest
+import os
+
+from pyre.applications.Script import Script
+from pyre.components.Component import Component
+import pyre.inventory
 
 
 class TestInventory(unittest.TestCase):
@@ -262,10 +261,11 @@ class PyreApp(Script):
             print(self.data)
 
 
-if __name__ == "__main__":
-    import sys
-    sys.path.append("./test_vault")
+def test_classes():
+    return [TestInventory]
 
+
+if __name__ == "__main__":
     suite = unittest.TestSuite()
     for cls in test_classes():
         suite.addTest(unittest.makeSuite(cls))

@@ -24,7 +24,7 @@ class TestApplication(unittest.TestCase):
     def test_constructor(self):
         app = MPIApp()
         self.assertEqual("mpiapp", app.name)
-        
+
     def test_run(self):
         app = MPIApp()
         app.nodes = 3
@@ -39,10 +39,16 @@ class TestApplication(unittest.TestCase):
                     self.assertEqual(lineE, line, msg="Mismatch for process {}".format(node))
             os.remove(filename)
 
+
+def test_classes():
+    return [TestApplication]
+
+
 if __name__ == "__main__":
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestApplication))
+    for cls in test_classes():
+        suite.addTest(unittest.makeSuite(cls))
     unittest.TextTestRunner(verbosity=2).run(suite)
 
-        
+
 # End of file

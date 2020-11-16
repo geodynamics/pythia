@@ -18,11 +18,9 @@ import test_launcher
 
 
 def test_cases():
-    tests = [
-        test_application.TestApplication,
-        test_communicator.TestCommunicator,
-        test_launcher.TestLauncher,
-    ]
+    tests = []
+    for mod in [test_application, test_communicator, test_launcher]:
+        tests += mod.test_classes()
     return tests
 
 

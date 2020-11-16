@@ -17,14 +17,9 @@ import test_inventory
 import test_schedulers
 
 def test_cases():
-    tests = [
-        test_units.TestUnit,
-        test_units.TestUnits,
-        test_inventory.TestInventory,
-        test_schedulers.TestJob,
-        test_schedulers.TestNone,
-        test_schedulers.TestLSF,
-        ]
+    tests = []
+    for mod in [test_units, test_inventory, test_schedulers]:
+        tests += mod.test_classes()
     return tests
 
 
