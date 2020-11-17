@@ -45,7 +45,6 @@ class TestApp(object):
             "pyre.odb",
             "pyre.parsing",
             "pyre.schedulers",
-            "pyre.scripts",
             "pyre.units",
             "pyre.util",
             "pyre.xml",

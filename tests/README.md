@@ -8,10 +8,9 @@
   - components
   - inventory
   - launchers
-  - :TODO: odb
+  - odb
   - parsing
-  - :TODO: schedulers
-  - scripts
+  - schedulers
   - units
 * mpi
 
@@ -35,6 +34,7 @@
 * ipa (managing user sessions)
 * ipc (passing messages with sockets via UDP and TCP)
 * weaver (generate code templates)
+* scripts (start mpi jobs)
 
 ### Not relevant to current use
 
