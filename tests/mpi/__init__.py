@@ -12,13 +12,14 @@
 # ======================================================================
 #
 
-import test_units
-import test_inventory
-import test_schedulers
+import test_application
+import test_communicator
+import test_launcher
+
 
 def test_cases():
     tests = []
-    for mod in [test_units, test_inventory, test_schedulers]:
+    for mod in [test_application, test_communicator, test_launcher]:
         tests += mod.test_classes()
     return tests
 

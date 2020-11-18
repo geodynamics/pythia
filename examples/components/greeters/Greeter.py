@@ -12,15 +12,24 @@
 # ======================================================================
 #
 
-import test_units
-import test_inventory
-import test_schedulers
+from pyre.components.Component import Component
+import pyre.inventory
 
-def test_cases():
-    tests = []
-    for mod in [test_units, test_inventory, test_schedulers]:
-        tests += mod.test_classes()
-    return tests
+
+class Greeter(Component):
+
+    greeting = pyre.inventory.str("greeting", default="Hello world!")
+    greeting.meta["tip"] = "Greeter message."
+
+    def __init__(self, name="greeter"):
+        Component.__init__(self, name)
+
+    def greet(self):
+        print(self.greeting)
+
+
+def greeter():
+    return Greeter()
 
 
 # End of file

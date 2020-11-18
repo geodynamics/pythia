@@ -17,6 +17,7 @@ import os
 
 import journal
 
+
 class TestChannels(unittest.TestCase):
 
     def _check_journal(self, filename, name, diagnostic):
@@ -24,12 +25,12 @@ class TestChannels(unittest.TestCase):
             "Line 0.",
             "Line 1.",
             "Line 2.",
-            ]
+        ]
         linesLog = [
             "Line 0.",
             "Line 2.",
-            ]
-    
+        ]
+
         with open(filename, "w") as log:
             journal.logfile(log)
             i = 0
@@ -48,23 +49,23 @@ class TestChannels(unittest.TestCase):
                 self.assertEqual("-- {line}".format(line=line), logLines[iLog].strip())
                 iLog += 1
         os.remove(filename)
-    
+
     def test_firewall(self):
         from journal.diagnostics.Diagnostic import Diagnostic
-        
+
         firewall = journal.firewall("test")
         with self.assertRaises(Diagnostic.Fatal):
             self._check_journal("firewall.log", "firewall", firewall)
         os.remove("firewall.log")
-        
+
     def test_debug(self):
         debug = journal.debug("test")
         self._check_journal("debug.log", "debug", debug)
-        
+
     def test_info(self):
         info = journal.info("test")
         self._check_journal("info.log", "info", info)
-        
+
     def test_warning(self):
         warning = journal.warning("test")
         self._check_journal("warning.log", "warning", warning)
@@ -72,6 +73,31 @@ class TestChannels(unittest.TestCase):
     def test_error(self):
         error = journal.error("test")
         self._check_journal("error.log", "error", error)
+
+    def test_channels(self):
+        CHANNELS = ("firewall", "debug", "info", "warning", "error")
+        j = journal.journal()
+        channels = j.channels()
+        self.assertEqual(len(CHANNELS), len(channels))
+        for channel in channels:
+            self.assertTrue(channel in CHANNELS)
+
+    def test_entry(self):
+        j = journal.journal()
+        entry = j.entry()
+        self.assertEqual({}, entry.meta)
+        self.assertEqual([], entry.text)
+
+
+def test_classes():
+    return [TestChannels]
+
+
+if __name__ == "__main__":
+    suite = unittest.TestSuite()
+    for cls in test_classes():
+        suite.addTest(unittest.makeSuite(cls))
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
 
 # End of file

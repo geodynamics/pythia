@@ -12,15 +12,10 @@
 # ======================================================================
 #
 
-import test_units
-import test_inventory
-import test_schedulers
 
-def test_cases():
-    tests = []
-    for mod in [test_units, test_inventory, test_schedulers]:
-        tests += mod.test_classes()
-    return tests
+def greeter():
+    from Greeter import Greeter
+    return Greeter()
 
 
 # End of file

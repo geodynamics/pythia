@@ -1,0 +1,6 @@
+def simple():
+    from TestComponents import SimpleTooFacility
+    return SimpleTooFacility()
+
+
+# End of file

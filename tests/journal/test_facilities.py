@@ -76,4 +76,15 @@ class JournalApp(Script):
         debugOff.log("This journal should be off.")
 
 
+def test_classes():
+    return [TestFacilities]
+
+
+if __name__ == "__main__":
+    suite = unittest.TestSuite()
+    for cls in test_classes():
+        suite.addTest(unittest.makeSuite(cls))
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
 # End of file

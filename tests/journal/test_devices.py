@@ -17,12 +17,13 @@ import os
 
 import journal
 
+
 class TestDevices(unittest.TestCase):
 
     def setUp(self):
         self.journal = journal.debug("test")
         self.journal.activate()
-    
+
     def test_console(self):
         from journal.devices.Console import Console
         journal.journal().device = Console()
@@ -49,6 +50,17 @@ class TestDevices(unittest.TestCase):
             self.assertEqual("-- Hello", logLines[iLog].strip())
             iLog += 1
         os.remove(filename)
+
+
+def test_classes():
+    return [TestDevices]
+
+
+if __name__ == "__main__":
+    suite = unittest.TestSuite()
+    for cls in test_classes():
+        suite.addTest(unittest.makeSuite(cls))
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
 
 # End of file

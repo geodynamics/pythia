@@ -18,11 +18,9 @@ import test_devices
 
 
 def test_cases():
-    tests = [
-        test_facilities.TestFacilities,
-        test_channels.TestChannels,
-        test_devices.TestDevices,
-    ]
+    tests = []
+    for mod in [test_facilities, test_channels, test_devices]:
+        tests += mod.test_classes()
     return tests
 
 

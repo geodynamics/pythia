@@ -6,3 +6,4 @@ pythia.egg-info
 coverage-pytests
 
 coverage.xml
+tests/pyre/output.txt
