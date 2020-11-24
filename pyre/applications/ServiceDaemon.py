@@ -18,14 +18,12 @@ from ComponentHarness import ComponentHarness
 
 class ServiceDaemon(ComponentHarness, Application, Stager):
 
-
     class Inventory(Application.Inventory):
 
         import pyre.inventory
 
         client = pyre.inventory.str('client')
         home = pyre.inventory.str('home', default='/tmp')
-
 
     def main(self, *args, **kwds):
         # harness the service
@@ -38,9 +36,8 @@ class ServiceDaemon(ComponentHarness, Application, Stager):
 
         # enter the indefinite loop waiting for requests
         idd.serve()
-        
-        return
 
+        return
 
     def generateClientConfiguration(self, component):
         clientName = self.inventory.client
@@ -51,20 +48,18 @@ class ServiceDaemon(ComponentHarness, Application, Stager):
         componentRegistry = registry.getNode(clientName)
         component.generateClientConfiguration(componentRegistry)
 
-        stream = file(clientName + '.pml', 'w')
-        document = self.weaver.render(registry)
-        print >> stream, "\n".join(document)
-        stream.close()
-            
-        return
+        with open(clientName + ".pml", "w") as stream:
+            document = self.weaver.render(registry)
+            stream.write("\n".join(document))
+            stream.write("\n")
 
+        return
 
     def __init__(self, name):
         Application.__init__(self, name, facility='daemon')
         Stager.__init__(self)
         ComponentHarness.__init__(self)
         return
-
 
     def _configure(self):
         Application._configure(self)
@@ -77,4 +72,4 @@ class ServiceDaemon(ComponentHarness, Application, Stager):
 # version
 __id__ = "$Id: ServiceDaemon.py,v 1.1 2005/03/11 06:58:29 aivazis Exp $"
 
-# End of file 
+# End of file

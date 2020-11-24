@@ -7,40 +7,40 @@ def template():
 
         def __init__(self):
             BatchScriptTemplate.__init__(self, "lsf")
-        
+
         def render(self):
             from StringIO import StringIO
 
             out = StringIO()
             scheduler = self.scheduler
             job = self.job
-            
-            print >>out, "#!%s" % scheduler.shell
-            print >>out, "#BSUB -J", job.task
+
+            out.write("#!%s\n" % scheduler.shell)
+            out.write("#BSUB -J %s\n" % job.task)
             if job.queue:
-                print >>out, "#BSUB -q", job.queue
+                out.write("#BSUB -q %s\n" % job.queue)
             if max(job.walltime):
-                print >>out, "#BSUB -W", "%d:%02d" % job.walltime[0:2]
-            print >>out, "#BSUB -n", job.nodes
+                out.write("#BSUB -W %d:%02d\n" % job.walltime[0:2])
+            out.write("#BSUB -n %s\n" % job.nodes)
             if job.stdin:
-                print >>out, "#BSUB -i", job.stdin
+                out.write("#BSUB -i %s\n" % job.stdin)
             if job.stdout:
-                print >>out, "#BSUB -o", job.stdout
+                out.write("#BSUB -o %s\n" % job.stdout)
             if job.stderr:
-                print >>out, "#BSUB -e", job.stderr
+                out.write("#BSUB -e %s\n" % job.stderr)
             for option in scheduler.bsubOptions:
-                print >>out, "#BSUB", option
-            print >>out
-            print >>out, job.executable, ' '.join(job.arguments)
-            print >>out
+                out.write("#BSUB %s\n" % option)
+            out.write("\n")
+            out.write("%s %s\n" % (job.executable, ' '.join(job.arguments)))
+            out.write("\n")
             if job.comments:
-                print >>out, "# ~~~~ comments ~~~~"
+                out.write("# ~~~~ comments ~~~~\n")
                 for line in job.comments:
-                    print >>out, "#", line
-            print >>out
-            print >>out, "# ~~~~ submit command ~~~~"
-            print >>out, "# %s < [script]" % scheduler.command
-            
+                    out.write("# %s" % line)
+            out.write("\n")
+            out.write("# ~~~~ submit command ~~~~\n")
+            out.write("# %s < [script]\n" % scheduler.command)
+
             return out.getvalue()
-    
+
     return LSFBatchScriptTemplate()

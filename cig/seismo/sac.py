@@ -43,27 +43,27 @@
 
 
 class SACHeader(object):
-    
+
     def __init__(self, numberOfSamples, initialTime, timeIncrement,
                  evenlySpaced=True, fileType=1):
-        
+
         from array import array
         from itertools import repeat
-        
+
         self.floats = array('f', list(repeat(-12345.0, 70)))
         self.ints = array('i', list(repeat(-12345, 40)))
         self.strings = list(repeat("-12345  ", 23))
-        self.strings[1] = "-12345          " # event name
+        self.strings[1] = "-12345          "  # event name
 
         # The time increment may be slightly different than the one in
         # a '.sac' file produced by the legacy C code, due to
         # round-off error.  (Python's value will be more accurate,
         # since it's using 'double' internally, whereas the C code
         # uses 'float' for the 'dt' calculation.)
-        
+
         self.floats[0] = timeIncrement
         self.floats[5] = initialTime
-        self.ints[6] = 6 # header version number
+        self.ints[6] = 6  # header version number
         self.ints[9] = numberOfSamples
         self.ints[15] = fileType
         if evenlySpaced:
@@ -72,7 +72,6 @@ class SACHeader(object):
             self.ints[35] = 0
 
         return
-
 
     def tofile(self, f):
         self.floats.tofile(f)
@@ -95,10 +94,10 @@ def asc2sac(asciiFile, sacFile=None):
 
     if sacFile is None:
         sacFile = asciiFile + ".sac"
-    
+
     stream = open(asciiFile, "r")
     data = ''
-    
+
     t = []
     for i in xrange(0, 2):
         line = stream.readline()
@@ -131,7 +130,7 @@ def asc2sac(asciiFile, sacFile=None):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 2:
-        print >> sys.stderr, "usage: %s [filename]" % sys.argv[0]
+        sys.stderr.write("usage: %s [filename]\n" % sys.argv[0])
         sys.exit()
     asc2sac(sys.argv[1])
 

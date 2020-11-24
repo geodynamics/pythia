@@ -12,21 +12,19 @@
 
 
 from BatchScheduler import BatchScheduler
-import os, sys
+import os
+import sys
 
 
 class SchedulerLSF(BatchScheduler):
-    
-    
+
     name = "lsf"
-    
 
     import pyre.inventory as pyre
-    
-    command      = pyre.str("command", default="bsub")
-    bsubOptions  = pyre.list("bsub-options")
-    
-    
+
+    command = pyre.str("command", default="bsub")
+    bsubOptions = pyre.list("bsub-options")
+
     def schedule(self, job):
         import pyre.util as util
 
@@ -38,16 +36,16 @@ class SchedulerLSF(BatchScheduler):
             job.task = "jobname"
         job.walltime = util.hms(job.dwalltime.value)
         job.arguments = ' '.join(job.arguments)
-        
+
         # Generate the main LSF batch script.
         script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         if script is None:
             self._error.log("could not locate batch script template for '%s'" % self.name)
             sys.exit(1)
-        
+
         script.scheduler = self
         script.job = job
-        
+
         if self.dry:
             print script
             return
@@ -62,7 +60,7 @@ class SchedulerLSF(BatchScheduler):
             child = Popen4(cmd)
             self._info.log("spawned process %d" % child.pid)
 
-            print >> child.tochild, script
+            child.tochild.write("%s" % script)
             child.tochild.close()
 
             if self.wait:
@@ -82,11 +80,11 @@ class SchedulerLSF(BatchScheduler):
             else:
                 statusStr = "status %d" % status
             self._info.log("%s: %s" % (cmd[0], statusStr))
-        
+
         except IOError, e:
             self._error.log("%s: %s" % (self.command, e))
             return
-        
+
         # "[When given the -K option], bsub will exit with the same
         # exit code as the job so that job scripts can take
         # appropriate actions based on the exit codes. bsub exits with
@@ -97,13 +95,12 @@ class SchedulerLSF(BatchScheduler):
             sys.exit(exitStatus)
         else:
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
-        
-        return
 
+        return
 
     def jobId(cls):
         return os.environ['LSB_JOBID']
     jobId = classmethod(jobId)
 
 
-# end of file 
+# end of file

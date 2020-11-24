@@ -20,16 +20,13 @@ class RegToDictConverter(object):
     """Converts Pyre Registries to ordinary Python dictionaries.
 
     """
-    
-    
+
     def convert(self, document):
         return document.identify(self)
-    
-    
+
     def onInventory(self, inventory):
         return self.onRegistry(inventory)
-    
-    
+
     def onRegistry(self, registry):
         if not registry.properties and not registry.facilities:
             return {}
@@ -129,9 +126,9 @@ def setPropertyWithPath(root, path, value, locator):
 
 
 if __name__ == "__main__":
-    
+
     from pyre.applications import Script
-    
+
     class UtilTest(Script):
 
         componentName = "UtilTest"
@@ -148,9 +145,9 @@ if __name__ == "__main__":
             print
             utilPml = "util.pml"
             print "dumping configuration to", utilPml
-            pml = open(utilPml, "w")
-            print >> pml, "\n".join(self.weaver.render(configuration))
-            pml.close()
+            with open(utilPml, "w") as pml:
+                pml.write("\n".join(self.weaver.render(configuration)))
+                pml.write("\n")
             dct = dictFromReg(configuration)
             print
             print "converted configuration to dict:", dct
@@ -161,11 +158,10 @@ if __name__ == "__main__":
             print
             utilPml = "util2.pml"
             print "dumping converted registry to", utilPml
-            pml = open(utilPml, "w")
-            print >> pml, "\n".join(self.weaver.render(reg))
-            pml.close()
+            with open(utilPml, "w") as pml:
+                pml.write("\n".join(self.weaver.render(reg)))
+                pml.write("\n")
 
-    
     script = UtilTest()
     script.run()
 

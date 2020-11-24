@@ -12,23 +12,21 @@
 
 
 from BatchScheduler import BatchScheduler
-import os, sys
+import os
+import sys
 
 
 class SchedulerPBS(BatchScheduler):
-    
-    
+
     name = "pbs"
-    
 
     import pyre.inventory as pyre
-    
-    command       = pyre.str("command", default="qsub")
-    qsubOptions   = pyre.list("qsub-options")
-    resourceList  = pyre.list("resource-list")
-    ppn           = pyre.int("ppn", default=1)
-    
-    
+
+    command = pyre.str("command", default="qsub")
+    qsubOptions = pyre.list("qsub-options")
+    resourceList = pyre.list("resource-list")
+    ppn = pyre.int("ppn", default=1)
+
     def schedule(self, job):
         import pyre.util as util
 
@@ -38,16 +36,16 @@ class SchedulerPBS(BatchScheduler):
         job.walltime = util.hms(job.dwalltime.value)
         job.arguments = ' '.join(job.arguments)
         job.resourceList = self.buildResourceList(job)
-        
+
         # Generate the main PBS batch script.
         script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         if script is None:
             self._error.log("could not locate batch script template for '%s'" % self.name)
             sys.exit(1)
-        
+
         script.scheduler = self
         script.job = job
-        
+
         if self.dry:
             print script
             return
@@ -61,7 +59,7 @@ class SchedulerPBS(BatchScheduler):
             child = Popen4(cmd)
             self._info.log("spawned process %d" % child.pid)
 
-            print >> child.tochild, script
+            child.tochild.write("%s" % script)
             child.tochild.close()
 
             for line in child.fromchild:
@@ -78,18 +76,17 @@ class SchedulerPBS(BatchScheduler):
             else:
                 statusStr = "status %d" % status
             self._info.log("%s: %s" % (cmd[0], statusStr))
-        
+
         except IOError, e:
             self._error.log("%s: %s" % (self.command, e))
             return
-        
+
         if exitStatus == 0:
             pass
         else:
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
-        
-        return
 
+        return
 
     def buildResourceList(self, job):
 
@@ -97,11 +94,11 @@ class SchedulerPBS(BatchScheduler):
         if self.ppn:
             resourceList.append(
                 "nodes=%d:ppn=%d" % ((job.nodes / self.ppn) + (job.nodes % self.ppn and 1 or 0), self.ppn)
-                )
+            )
         else:
             resourceList.append(
                 "nodes=%d" % job.nodes
-                )
+            )
 
         walltime = job.walltime
         if max(walltime):
@@ -109,10 +106,9 @@ class SchedulerPBS(BatchScheduler):
 
         return resourceList
 
-
     def jobId(cls):
         return os.environ['PBS_JOBID']
     jobId = classmethod(jobId)
 
 
-# end of file 
+# end of file

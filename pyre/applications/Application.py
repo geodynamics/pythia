@@ -18,9 +18,7 @@ from Executive import Executive
 
 class Application(Component, Executive):
 
-
     name = "application"
-
 
     class Inventory(Component.Inventory):
 
@@ -35,18 +33,16 @@ class Application(Component, Executive):
         weaver = pyre.inventory.facility("weaver", factory=pyre.weaver.weaver)
         weaver.meta['tip'] = 'the pretty printer of my configuration as an XML document'
 
-
     def run(self, *args, **kwds):
         from Shell import Shell
         shell = Shell(self)
         shell.run(*args, **kwds)
         return
 
-
     def initializeCurator(self, curator, registry):
         if registry is not None:
             curator.config(registry)
-            
+
         # install the curator
         self.setCurator(curator)
 
@@ -58,7 +54,6 @@ class Application(Component, Executive):
 
         return curator
 
-
     def readParameterFiles(self, registry, context):
         """read parameter files given on the command line"""
         from os.path import isfile, splitext
@@ -68,7 +63,7 @@ class Application(Component, Executive):
         self.argv = []
         for arg in argv:
             base, ext = splitext(arg)
-            encoding = ext[1:] # NYI: not quite
+            encoding = ext[1:]  # NYI: not quite
             codec = self.getCurator().codecs.get(encoding)
             if codec:
                 try:
@@ -85,35 +80,29 @@ class Application(Component, Executive):
                 self.argv.append(arg)
         return
 
-    
     def collectUserInput(self, registry, context):
         """collect user input from additional sources"""
         return
-
 
     def generateBanner(self):
         """print a startup screen"""
         return
 
-
     def entryName(self):
         return self.__class__.__module__ + ':' + self.__class__.__name__
-
 
     def path(self):
         """Return the minimal Python search path for this application."""
         import sys
         return sys.path
 
-
     def pathString(self):
         return ':'.join(self.path())
-
 
     def __init__(self, name=None, facility=None):
         Component.__init__(self, name, facility)
         Executive.__init__(self)
-    
+
         # my name as seen by the shell
         import sys
         self.filename = sys.argv[0]
@@ -130,7 +119,6 @@ class Application(Component, Executive):
 
         return
 
-
     def _init(self):
         Component._init(self)
         self.weaver = self.inventory.weaver
@@ -140,22 +128,19 @@ class Application(Component, Executive):
 
         return
 
-
     def _getPrivateDepositoryLocations(self):
         return []
-
 
     def dumpDefaults(self):
         configuration = self.collectDefaults()
         # save the configuation as a PML file
         configPml = self.name + "-defaults.pml"
-        pml = open(configPml, 'w')
-        print >> pml, "\n".join(self.weaver.render(configuration))
-        pml.close()
-
+        with open(configPml, "w") as pml:
+            pml.write("\n".join(self.weaver.render(configuration)))
+            pml.write("\n")
 
 
 # version
 __id__ = "$Id: Application.py,v 1.6 2005/04/05 21:34:12 aivazis Exp $"
 
-# End of file 
+# End of file

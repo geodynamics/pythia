@@ -18,13 +18,11 @@ from DynamicComponentHarness import DynamicComponentHarness
 
 class ServiceHarness(DynamicComponentHarness, Script):
 
-
     class Inventory(Script.Inventory):
 
         import pyre.inventory
 
         client = pyre.inventory.str('client')
-
 
     def main(self, *args, **kwds):
         # harness the service
@@ -37,15 +35,13 @@ class ServiceHarness(DynamicComponentHarness, Script):
 
         # enter the indefinite loop waiting for requests
         service.serve()
-        
-        return
 
+        return
 
     def configureHarnessedComponent(self, service, curator, registry):
         value = super(ServiceHarness, self).configureHarnessedComponent(service, curator, registry)
         service.weaver = self.weaver
         return value
-
 
     def generateClientConfiguration(self, service):
         clientName = self.client
@@ -56,18 +52,16 @@ class ServiceHarness(DynamicComponentHarness, Script):
         serviceRegistry = registry.getNode(clientName)
         service.generateClientConfiguration(serviceRegistry)
 
-        stream = file(clientName + '.pml', 'w')
-        document = self.weaver.render(registry)
-        print >> stream, "\n".join(document)
-        stream.close()
-            
-        return
+        with open(clientName + ".pml", "w") as stream:
+            document = self.weaver.render(registry)
+            stream.write("\n".join(document))
+            stream.write("\n")
 
+        return
 
     def getFacilityName(self, registry):
         """return the facility implemented by my harnessed component"""
         return "service"
-
 
     def __init__(self, name=None):
         Script.__init__(self, name)
@@ -76,13 +70,11 @@ class ServiceHarness(DynamicComponentHarness, Script):
         self.client = ''
 
         return
-    
 
     def _defaults(self):
         Script._defaults(self)
         self.inventory.typos = 'relaxed'
         return
-
 
     def _configure(self):
         Script._configure(self)
@@ -93,4 +85,4 @@ class ServiceHarness(DynamicComponentHarness, Script):
 # version
 __id__ = "$Id: ServiceHarness.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-# End of file 
+# End of file
