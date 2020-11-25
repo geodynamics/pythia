@@ -28,7 +28,7 @@ class ConfigurableClass(type):
         
         type.__init__(cls, name, bases, dct)
         
-        if dct.has_key('Inventory'):
+        if 'Inventory' in dct:
             # allow for traditional components
             return
         

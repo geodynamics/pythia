@@ -46,7 +46,7 @@ class Preprocessor(Component):
                 self.macros = macros
                 self.recur = {}
             def __getitem__(self, key):
-                if self.recur.has_key(key):
+                if key in self.recur:
                     return ""
                 self.recur[key] = True
                 try:

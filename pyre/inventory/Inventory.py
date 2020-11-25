@@ -104,7 +104,7 @@ class Inventory(object):
         # this is done in a separate loop because it provides an easy way to catch typos
         # on the command line
         for name in list(self._priv_registry.facilities.keys()):
-            if not aliases.has_key(name):
+            if name not in aliases:
                 node = self._priv_registry.extractNode(name)
                 context.unknownComponent(name, node)
 
