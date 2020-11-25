@@ -81,7 +81,7 @@ class Blade(Component):
         self.toolkit = None
         self.language = None
 
-        from . import blade.pml
+        import blade.pml
         self.codecs = {
             'pml': blade.pml.codecPML()
         }
