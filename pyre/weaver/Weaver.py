@@ -80,9 +80,8 @@ class Weaver(Component):
         return self._renderer.document()
 
     def languages(self):
-        candidates = self.inventory.retrieveShelves(address=['mills'], extension='odb')
+        candidates = sorted(self.inventory.retrieveShelves(address=['mills'], extension='odb'))
 
-        candidates.sort()
         return candidates
 
     def __init__(self, name=None):

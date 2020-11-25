@@ -44,7 +44,7 @@ class SimulationController(Component):
         """explicit time loop"""
 
         # the main simulation time loop
-        while 1:
+        while True:
 
             # notify solvers we are starting a new timestep
             self.startTimestep()

@@ -203,8 +203,7 @@ class Configurable(Traceable):
     def showProperties(self):
         """print a report describing my properties"""
         facilityNames = self.inventory.facilityNames()
-        propertyNames = self.inventory.propertyNames()
-        propertyNames.sort()
+        propertyNames = sorted(self.inventory.propertyNames())
 
         print("properties of %r:" % self.name)
         for name in propertyNames:
@@ -238,8 +237,7 @@ class Configurable(Traceable):
         return
 
     def showComponents(self):
-        facilityNames = self.inventory.facilityNames()
-        facilityNames.sort()
+        facilityNames = sorted(self.inventory.facilityNames())
 
         print("facilities of %r:" % self.name)
         for name in facilityNames:
@@ -266,8 +264,7 @@ class Configurable(Traceable):
 
     def showUsage(self):
         """print a high level usage screen"""
-        propertyNames = self.inventory.propertyNames()
-        propertyNames.sort()
+        propertyNames = sorted(self.inventory.propertyNames())
         facilityNames = self.inventory.facilityNames()
         facilityNames.sort()
 

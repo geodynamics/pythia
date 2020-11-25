@@ -53,7 +53,7 @@ class Launcher(Base):
                 os._exit(127)
         else:
             # Parent
-            while 1:
+            while True:
                 wpid, sts = os.waitpid(pid, 0)
                 if os.WIFSTOPPED(sts):
                     continue
