@@ -137,27 +137,27 @@ if __name__ == "__main__":
         answer = pyre.int("answer", default=42)
 
         def main(self, *args, **kwds):
-            print "the answer is", self.answer
+            print("the answer is", self.answer)
             configuration = self.retrieveConfiguration()
-            print
-            print "the configuration is:"
-            print "\n".join([str(item) for item in configuration.render()])
-            print
+            print()
+            print("the configuration is:")
+            print("\n".join([str(item) for item in configuration.render()]))
+            print()
             utilPml = "util.pml"
-            print "dumping configuration to", utilPml
+            print("dumping configuration to", utilPml)
             with open(utilPml, "w") as pml:
                 pml.write("\n".join(self.weaver.render(configuration)))
                 pml.write("\n")
             dct = dictFromReg(configuration)
-            print
-            print "converted configuration to dict:", dct
-            print
-            print "converted dict back to registry:"
+            print()
+            print("converted configuration to dict:", dct)
+            print()
+            print("converted dict back to registry:")
             reg = regFromDict(dct, name=self.name, cls=OdbInventory)
-            print "\n".join([str(item) for item in reg.render()])
-            print
+            print("\n".join([str(item) for item in reg.render()]))
+            print()
             utilPml = "util2.pml"
-            print "dumping converted registry to", utilPml
+            print("dumping converted registry to", utilPml)
             with open(utilPml, "w") as pml:
                 pml.write("\n".join(self.weaver.render(reg)))
                 pml.write("\n")

@@ -17,8 +17,7 @@ from pyre.odb.fs.Curator import Curator as Base
 
 class Curator(Base):
 
-
-    def getTraits(self, name, context=None, encodings=['pml','cfg','pcs'], vault=[], extraDepositories=[]):
+    def getTraits(self, name, context=None, encodings=['pml', 'cfg', 'pcs'], vault=[], extraDepositories=[]):
         """load cascade of inventory values for component <name>"""
 
         # initialize the registry object
@@ -26,15 +25,15 @@ class Curator(Base):
 
         # get the relevant codecs
         codecs = [self.codecs[encoding] for encoding in encodings]
-        
+
         # create the depository address
         location = vault + [name]
 
         # loop over depositories loading relevant traits
         for traits, locator in self.loadSymbol(
-            tag=name,
-            codecs=codecs, address=location, symbol='inventory', extras=extraDepositories,
-            errorHandler=self._recordTraitLookup):
+                tag=name,
+                codecs=codecs, address=location, symbol='inventory', extras=extraDepositories,
+                errorHandler=self._recordTraitLookup):
 
             # search for traits under 'name'
             target = None
@@ -53,11 +52,9 @@ class Curator(Base):
                 # record the failure
                 self._recordTraitLookup(name, locator, "traits for '%s' not found" % name)
 
-        return registry    
+        return registry
 
-
-    def retrieveComponent(
-        self, name, facility, args=(), encodings=['odb'], vault=[], extraDepositories=[]):
+    def retrieveComponent(self, name, facility, args=(), encodings=['odb'], vault=[], extraDepositories=[]):
         """construct a component by locating and invoking a component factory"""
 
         # get the requested codecs
@@ -68,9 +65,9 @@ class Curator(Base):
 
         # loop over my depositories looking for apprpriate factories
         for factory, locator in self.loadSymbol(
-            tag=name,
-            codecs=codecs, address=location, symbol=facility, extras=extraDepositories,
-            errorHandler=self._recordComponentLookup):
+                tag=name,
+                codecs=codecs, address=location, symbol=facility, extras=extraDepositories,
+                errorHandler=self._recordComponentLookup):
 
             if not callable(factory):
                 self._recordComponentLookup(
@@ -90,13 +87,11 @@ class Curator(Base):
             self._recordComponentLookup(name, locator, "success")
 
             return component
-                
+
         # return failure
         return None
 
-
-    def retrieveAllComponents(
-        self, facility, args=(), encoding='odb', vault=[], extraDepositories=[]):
+    def retrieveAllComponents(self, facility, args=(), encoding='odb', vault=[], extraDepositories=[]):
         """construct all possible components by locating and invoking the component factories"""
 
         # get the requested codec
@@ -106,8 +101,8 @@ class Curator(Base):
 
         # loop over my depositories looking for apprpriate factories
         for factory, locator in self.loadSymbols(
-            codec=codec, address=vault, symbol=facility, extras=extraDepositories,
-            errorHandler=self._recordComponentLookup):
+                codec=codec, address=vault, symbol=facility, extras=extraDepositories,
+                errorHandler=self._recordComponentLookup):
 
             if not callable(factory):
                 self._recordComponentLookup(
@@ -116,7 +111,7 @@ class Curator(Base):
 
             try:
                 component = factory(*args)
-            except TypeError, message:
+            except TypeError as message:
                 self._recordComponentLookup(
                     facility, locator, "error invoking '%s': %s" % (facility, message))
                 continue
@@ -132,12 +127,10 @@ class Curator(Base):
             self._recordComponentLookup(facility, locator, "success")
 
             components.append(component)
-                
+
         return components
 
-
-    def retrieveObject(
-        self, name, symbol, encodings, vault=[], extraDepositories=[]):
+    def retrieveObject(self, name, symbol, encodings, vault=[], extraDepositories=[]):
         """construct an object from the persistent store"""
 
         # get the requested codecs
@@ -148,9 +141,9 @@ class Curator(Base):
 
         # loop over my depositories looking for apprpriate factories
         for obj, locator in self.loadSymbol(
-            tag=name,
-            codecs=codecs, address=location, symbol=symbol, extras=extraDepositories,
-            errorHandler=self._recordObjectLookup):
+                tag=name,
+                codecs=codecs, address=location, symbol=symbol, extras=extraDepositories,
+                errorHandler=self._recordObjectLookup):
 
             # record this request
             self._recordObjectLookup(name, locator, "success")
@@ -160,10 +153,9 @@ class Curator(Base):
         # return failure
         return None
 
-
     def config(self, registry):
         # gain access to the installation defaults
-        import prefix
+        from . import prefix
         user = prefix._USER_ROOT
         system = prefix._SYSTEM_ROOT
         local = prefix._LOCAL_ROOT
@@ -180,7 +172,7 @@ class Curator(Base):
             spec = db.getProperty('system', None)
             if spec is not None:
                 system = spec
-                
+
             spec = db.getProperty('local', None)
             if spec is not None:
                 if spec[0] == '[':
@@ -209,7 +201,6 @@ class Curator(Base):
 
         return
 
-
     def createPrivateDepositories(self, name):
         """create private system and user depositories from <name>"""
 
@@ -233,51 +224,46 @@ class Curator(Base):
 
         return depositories
 
-
     def setUserDepository(self, directory):
         self.userDepository = self.createDepository(directory)
         return self.userDepository
-
 
     def setSystemDepository(self, directory):
         self.systemDepository = self.createDepository(directory)
         return self.systemDepository
 
-
     def dump(self, extras=None):
-        print "curator info:"
-        print "    depositories:", [d.name for d in self.depositories]
+        print("curator info:")
+        print("    depositories:", [d.name for d in self.depositories])
 
         if extras:
-            print "    local depositories:", [d.name for d in extras]
+            print("    local depositories:", [d.name for d in extras])
 
         if self._traitRequests:
-            print "    trait requests:"
+            print("    trait requests:")
             for trait, record in self._traitRequests.iteritems():
-                print "        trait='%s'" % trait
+                print("        trait='%s'" % trait)
                 for entry in record:
-                    print "            %s: %s" % entry
+                    print("            %s: %s" % entry)
 
         if self._componentRequests:
-            print "    component requests:"
+            print("    component requests:")
             for trait, record in self._componentRequests.iteritems():
-                print "        component='%s'" % trait
+                print("        component='%s'" % trait)
                 for entry in record:
-                    print "            %s: %s" % entry
-            
-        if self._objectRequests:
-            print "    object requests:"
-            for symbol, record in self._objectRequests.iteritems():
-                print "        object='%s'" % symbol
-                for entry in record:
-                    print "            %s: %s" % entry
-            
-        return
+                    print("            %s: %s" % entry)
 
+        if self._objectRequests:
+            print("    object requests:")
+            for symbol, record in self._objectRequests.iteritems():
+                print("        object='%s'" % symbol)
+                for entry in record:
+                    print("            %s: %s" % entry)
+
+        return
 
     def searchOrder(self, extraDepositories=[]):
         return Base.searchOrder(self, extraDepositories) + self.builtinDepositories
-
 
     def __init__(self, name):
         Base.__init__(self, name)
@@ -296,13 +282,12 @@ class Curator(Base):
         self._traitRequests = {}
         self._componentRequests = {}
         self._objectRequests = {}
-        
+
         # constants
         # the curator commandline argument name
         self._DB_NAME = "inventory"
 
         return
-
 
     def _registerCodecs(self):
         # codecs for properties
@@ -321,23 +306,19 @@ class Curator(Base):
 
         return
 
-
     def _registryFactory(self, name):
-        from Registry import Registry
+        from .Registry import Registry
         return Registry(name)
-
 
     def _recordTraitLookup(self, symbol, filename, message):
         requests = self._traitRequests.setdefault(symbol, [])
         requests.append((filename, message))
         return
 
-
     def _recordComponentLookup(self, symbol, filename, message):
         requests = self._componentRequests.setdefault(symbol, [])
         requests.append((filename, message))
         return
-
 
     def _recordObjectLookup(self, symbol, filename, message):
         requests = self._objectRequests.setdefault(symbol, [])
@@ -348,4 +329,4 @@ class Curator(Base):
 # version
 __id__ = "$Id: Curator.py,v 1.2 2005/03/10 06:06:37 aivazis Exp $"
 
-# End of file 
+# End of file

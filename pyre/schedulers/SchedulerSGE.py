@@ -46,7 +46,7 @@ class SchedulerSGE(BatchScheduler):
         script.job = job
 
         if self.dry:
-            print script
+            print(script)
             return
 
         try:

@@ -14,16 +14,14 @@
 
 class Executive(object):
 
-
     # factories
 
     from CommandlineParser import CommandlineParser
-    
+
     def createCommandlineParser(self):
         """create a command line parser"""
 
         return self.CommandlineParser()
-
 
     def createRegistry(self, name=None):
         """create a registry instance to store my configuration"""
@@ -33,7 +31,6 @@ class Executive(object):
 
         import pyre.inventory
         return pyre.inventory.registry(name)
-
 
     def createCurator(self, name=None):
         """create a curator to handle the persistent store"""
@@ -46,8 +43,8 @@ class Executive(object):
 
         return curator
 
-
     # configuration
+
     def getArgv(self, *args, **kwds):
         argv = kwds.get('argv')
         if argv is None:
@@ -58,7 +55,6 @@ class Executive(object):
         argv = argv[1:]
         return argv
 
-
     def requires(self):
         # This was once used by Application.path() to construct a
         # "minimal" search path for the application.  Now it is only
@@ -67,7 +63,6 @@ class Executive(object):
             from __main__ import __requires__
             self._requires = __requires__
         return self._requires
-
 
     def processCommandline(self, registry, argv=None, parser=None):
         """convert the command line arguments to a trait registry"""
@@ -79,30 +74,28 @@ class Executive(object):
 
         return parser
 
-
     def verifyConfiguration(self, context, mode='strict'):
         """verify that the user input did not contain any typos"""
 
         return context.verifyConfiguration(self, mode)
 
-
     # the default application action
+
     def main(self, *args, **kwds):
         return
 
-
     # user assistance
+
     def help(self):
         self.showHelp()
         return
 
-
     def complete(self):
         """perform shell command completion"""
-        
+
         from glob import glob
         import os
-        
+
         arg, prevArg = self.unprocessedArguments[1:3]
         if arg == "":
             line = os.environ['COMP_LINE']
@@ -110,7 +103,7 @@ class Executive(object):
             if line[point - 1] == "=":
                 # NYI: value completion
                 return
-        
+
         parser = self.createCommandlineParser()
         prefix, fields, value, filenameStem = parser.parseArgument(arg, prevArg)
 
@@ -122,11 +115,11 @@ class Executive(object):
                     pattern = "%s*" % filenameStem
                     for filename in glob(pattern):
                         if filename.endswith(extension):
-                            print filename
+                            print(filename)
                 else:
                     pattern = "%s*%s" % (filenameStem, extension)
                     for filename in glob(pattern):
-                        print filename
+                        print(filename)
 
         # Match traits.
         if fields is not None:
@@ -153,38 +146,35 @@ class Executive(object):
                 prop = candidates[0]
                 facilityNames = component.inventory.facilityNames()
                 if prop in facilityNames:
-                    print "%s%s%s." % (prefix, path, prop)
-                    print "%s%s%s=" % (prefix, path, prop)
+                    print("%s%s%s." % (prefix, path, prop))
+                    print("%s%s%s=" % (prefix, path, prop))
                 else:
-                    print "%s%s%s" % (prefix, path, prop)
+                    print("%s%s%s" % (prefix, path, prop))
             else:
                 for prop in candidates:
-                    print "%s%s%s" % (prefix, path, prop)        
+                    print("%s%s%s" % (prefix, path, prop))
 
         return
-
 
     def usage(self):
         from os.path import basename
-        print 'usage: %s [--<property>=<value>] [--<facility>.<property>=<value>] [FILE.cfg] ...' % basename(self.arg0)
+        print('usage: %s [--<property>=<value>] [--<facility>.<property>=<value>] [FILE.cfg] ...' % basename(self.arg0))
         self.showUsage()
         return
-
 
     def version(self):
         from pkg_resources import get_provider, Requirement
         try:
             req = self.requires()
         except ImportError:
-            print "Please consider writing version info for this application."
+            print("Please consider writing version info for this application.")
             return
         req = Requirement.parse(req)
         provider = get_provider(req)
         # NYI: make this pretty
         for line in provider.get_metadata_lines("PKG-INFO"):
-            print line
+            print(line)
         return
-
 
     def __init__(self):
         self.arg0 = self.name
@@ -194,4 +184,4 @@ class Executive(object):
 # version
 __id__ = "$Id: Executive.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-# End of file 
+# End of file

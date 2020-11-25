@@ -17,14 +17,12 @@ from pyre.applications.Script import Script
 
 class CGI(Script):
 
-
     class Inventory(Script.Inventory):
 
         import pyre.inventory
 
         stream = pyre.inventory.outputFile("stream")
         stream.meta['tip'] = "where to place the generated text"
-
 
     def collectUserInput(self, registry, context):
 
@@ -33,11 +31,10 @@ class CGI(Script):
 
         return
 
-
     def collectCGIInput(self, registry, argv):
         # get access to the environment variables
         import os
-        
+
         # create a parser for query strings
         parser = self._createCGIParser()
 
@@ -82,9 +79,8 @@ class CGI(Script):
             if arg and arg[0] == '?':
                 arg = arg[1:]
             parser.parse(registry, arg, 'command line')
-            
-        return
 
+        return
 
     def asCGIScript(self, cgi):
 
@@ -100,10 +96,8 @@ class CGI(Script):
 
         return
 
-
     def printHeaders(self):
-        print 'Content-type: text/html'
-        print ''
+        print('Content-type: text/html\n')
 
         # just in case further output is done by a subprocess
         import sys
@@ -111,17 +105,15 @@ class CGI(Script):
 
         return
 
-
     def initializeTraceback(self):
         # pipe stderr to stdout
         import sys
         sys.stderr = sys.stdout
-        
+
         # decorate exceptions
         import cgitb
         cgitb.enable()
         return
-
 
     def initializeJournal(self):
         import journal
@@ -130,7 +122,6 @@ class CGI(Script):
         renderer.footer = renderer.footer + '</pre>'
         return
 
-
     def __init__(self, name, asCGI=None):
         Script.__init__(self, name)
         self.stream = None
@@ -138,9 +129,8 @@ class CGI(Script):
         if asCGI is None:
             asCGI = True
         self.asCGIScript(asCGI)
-        
-        return
 
+        return
 
     def _configure(self):
         Script._configure(self)
@@ -148,13 +138,12 @@ class CGI(Script):
         self.stream = self.inventory.stream
         return
 
-
     def _createCGIParser(self):
         import opal.applications
         return opal.applications.cgiParser()
-        
+
 
 # version
 __id__ = "$Id: CGI.py,v 1.1.1.1 2005/03/15 06:09:10 aivazis Exp $"
 
-# End of file 
+# End of file

@@ -35,7 +35,7 @@ class Launcher(Base):
         command = ' '.join(argv)
 
         if self.dry:
-            print command
+            print(command)
             return
 
         self._info.log("spawning: %s" % command)
