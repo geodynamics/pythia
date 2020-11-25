@@ -68,7 +68,7 @@ class CodecODB(Codec):
 
         stream = file(shelf.name)
 
-        exec stream in shelf
+        exec(stream, shelf)
 
         return
 
