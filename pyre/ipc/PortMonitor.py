@@ -35,7 +35,7 @@ class PortMonitor(object):
                 self._debug.log("successfully installed at port %d" % self.port)
                 return
 
-            except socket.error, error:
+            except socket.error as error:
                 number, message = error
                 self._debug.log(
                     "failed to activate server at port %d: error %d: %s" % (port, number, message))

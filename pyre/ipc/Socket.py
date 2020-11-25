@@ -21,7 +21,7 @@ class Socket(socket.socket):
     def connect(self, address):
         try:
             super(Socket, self).connect(address)
-        except socket.error, descriptor:
+        except socket.error as descriptor:
             host, port = address
             errno, reason = descriptor
             raise self.ConnectionError(host, port, errno, reason)

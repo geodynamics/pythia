@@ -62,7 +62,7 @@ class Inventory(object):
                     context.setProperty(prop, self, descriptor.value, descriptor.locator)
                 except SystemExit:
                     raise
-                except Exception, error:
+                except Exception as error:
                     from Item import Item
                     context.error(error, items=[Item(prop, descriptor)])
             else:
@@ -414,7 +414,7 @@ class Inventory(object):
                     candidates.append(component)
             except SystemExit:
                 raise
-            except Exception, error:
+            except Exception as error:
                 if context:
                     import sys, traceback, pyre.parsing.locators
                     stackTrace = traceback.extract_tb(sys.exc_info()[2])

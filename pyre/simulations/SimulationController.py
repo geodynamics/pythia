@@ -146,7 +146,7 @@ class SimulationController(Component):
         try:
             import os
             os.makedirs(directory)
-        except OSError, error:
+        except OSError as error:
             import errno
             errorCode, msg =  error
 

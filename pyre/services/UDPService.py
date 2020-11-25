@@ -23,10 +23,10 @@ class UDPService(Service):
 
         try:
             request = self.marshaller.receive(monitor)
-        except ValueError, msg:
+        except ValueError as msg:
             self._info.log("bad request: %s" % msg)
             return True
-        except self.marshaller.RequestError, msg:
+        except self.marshaller.RequestError as msg:
             self._info.log(msg)
             return True
 

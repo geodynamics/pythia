@@ -81,7 +81,7 @@ class SchedulerLSF(BatchScheduler):
                 statusStr = "status %d" % status
             self._info.log("%s: %s" % (cmd[0], statusStr))
 
-        except IOError, e:
+        except IOError as e:
             self._error.log("%s: %s" % (self.command, e))
             return
 

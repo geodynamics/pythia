@@ -86,7 +86,7 @@ class Daemon(Stager):
                 self.main(*self.args, **self.kwds)
             except KeyboardInterrupt:
                 journal.error(self.name).log("interrupt")
-            except Exception, e:
+            except Exception as e:
                 import traceback
                 journal.error(self.name).log("exception:\n%s" % traceback.format_exc())
         else:

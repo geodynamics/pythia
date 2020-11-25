@@ -67,7 +67,7 @@ class UserManager(Component):
         context = {}
         try:
             execfile(self.passwd, context)
-        except IOError, error:
+        except IOError as error:
             self._info.log("error opening user db '%s': %s" % (self.passwd, error))
             return
 

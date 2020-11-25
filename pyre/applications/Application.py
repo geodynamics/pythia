@@ -68,7 +68,7 @@ class Application(Component, Executive):
             if codec:
                 try:
                     shelf = codec.open(base)
-                except Exception, error:
+                except Exception as error:
                     context.error(error, locator=locator)
                 else:
                     for facilityName, node in shelf['inventory'].facilities.iteritems():

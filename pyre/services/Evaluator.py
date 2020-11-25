@@ -35,7 +35,7 @@ class Evaluator(Component):
 
         try:
             return func(*args)
-        except TypeError, msg:
+        except TypeError as msg:
             import journal
             journal.error('pyre.services').log(
                 "component %r: %s" % (component.name, msg))

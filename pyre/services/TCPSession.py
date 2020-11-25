@@ -44,7 +44,7 @@ class TCPSession(Session):
     def _init(self):
         try:
             self._connect()
-        except self._connection.ConnectionError, error:
+        except self._connection.ConnectionError as error:
             raise self.RequestError(str(error))
 
         return

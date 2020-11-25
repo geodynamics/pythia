@@ -113,7 +113,7 @@ class Selector(object):
             self._debug.line("calling select")
             try:
                 reads, writes, excepts = select.select(iwtd, owtd, ewtd, self._timeout)
-            except select.error, error:
+            except select.error as error:
                 # GUESS:
                 # when a signal is delivered to a signal handler registered
                 # by the application, the select call is interrupted and

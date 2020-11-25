@@ -112,7 +112,7 @@ def _use_setuptools(
     try:
         pkg_resources.require("setuptools>=" + version)
         return
-    except pkg_resources.VersionConflict, e:
+    except pkg_resources.VersionConflict as e:
         if was_imported:
             sys.stderr.write(
                 "The required version of setuptools (>=%s) is not available, and\n"

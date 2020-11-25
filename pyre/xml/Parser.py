@@ -80,7 +80,7 @@ class Parser(xml.sax.ContentHandler):
 
         try:
             node.notify(self._currentNode)
-        except ValueError, text:
+        except ValueError as text:
             l = self._document.locator
 
             import journal

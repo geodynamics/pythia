@@ -47,7 +47,7 @@ class Pickler(Marshaller):
         except EOFError:
             text = '%s: unable to send request: EOFError' % self.__class__.__name__
             raise self.RequestError(text)
-        except IOError, msg:
+        except IOError as msg:
             text = '%s: unable to send request: IOError: %s' % (self.__class.__name, msg)
             raise self.RequestError(text)
 
@@ -62,7 +62,7 @@ class Pickler(Marshaller):
         except EOFError:
             text = '%s: unable to receive request: EOFError' % self.__class__.__name__
             raise self.RequestError(text)
-        except IOError, msg:
+        except IOError as msg:
             text = '%s: unable to receive request: IOError: %s' % (self.__class.__name, msg)
             raise self.RequestError(text)
 

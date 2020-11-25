@@ -47,7 +47,7 @@ class Launcher(Base):
             # Child
             try:
                 os.execvp(argv[0], argv)
-            except Exception, e:
+            except Exception as e:
                 # See Issue116.
                 sys.stderr.write('execvp("%s"): %s\n' % (argv[0], e))
                 os._exit(127)
