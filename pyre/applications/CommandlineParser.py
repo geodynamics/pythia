@@ -134,7 +134,7 @@ class CommandlineParser(object):
 
 
     def _filterAction(self, candidate):
-        for action, args in self.actions.iteritems():
+        for action, args in self.actions.items():
             if candidate in args:
                 self.action = action
                 self.unprocessed.extend(self.argv)
@@ -144,7 +144,7 @@ class CommandlineParser(object):
 
 
     def _mapAlias(self, candidate):
-        for realName, args in self.aliases.iteritems():
+        for realName, args in self.aliases.items():
             if candidate in args:
                 return realName
         return candidate

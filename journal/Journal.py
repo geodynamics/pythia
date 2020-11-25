@@ -35,7 +35,7 @@ class Journal(object):
 
 
     def channels(self):
-        return self._channels.keys()
+        return list(self._channels.keys())
 
 
     def __init__(self, name, device=None):

@@ -27,7 +27,7 @@ class Table(Traceable):
 
 
     def getColumnNames(self):
-        return self._columnRegistry.keys()
+        return list(self._columnRegistry.keys())
 
 
     def getWriteableColumnNames(self):

@@ -37,7 +37,7 @@ class Curator(Base):
 
             # search for traits under 'name'
             target = None
-            for facilityName, node in traits.facilities.iteritems():
+            for facilityName, node in traits.facilities.items():
                 if facilityName == name:
                     target = node
                 elif context:
@@ -241,21 +241,21 @@ class Curator(Base):
 
         if self._traitRequests:
             print("    trait requests:")
-            for trait, record in self._traitRequests.iteritems():
+            for trait, record in self._traitRequests.items():
                 print("        trait='%s'" % trait)
                 for entry in record:
                     print("            %s: %s" % entry)
 
         if self._componentRequests:
             print("    component requests:")
-            for trait, record in self._componentRequests.iteritems():
+            for trait, record in self._componentRequests.items():
                 print("        component='%s'" % trait)
                 for entry in record:
                     print("            %s: %s" % entry)
 
         if self._objectRequests:
             print("    object requests:")
-            for symbol, record in self._objectRequests.iteritems():
+            for symbol, record in self._objectRequests.items():
                 print("        object='%s'" % symbol)
                 for entry in record:
                     print("            %s: %s" % entry)

@@ -143,7 +143,7 @@ class ColorSchemeTable(UserDict):
         Names are by default compared in a case-insensitive way, but this can
         be changed by setting the parameter case_sensitive to true."""
 
-        scheme_list = self.keys()
+        scheme_list = list(self.keys())
         if case_sensitive:
             valid_schemes = scheme_list
             scheme_test = scheme

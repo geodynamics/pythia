@@ -71,7 +71,7 @@ class Application(Component, Executive):
                 except Exception as error:
                     context.error(error, locator=locator)
                 else:
-                    for facilityName, node in shelf['inventory'].facilities.iteritems():
+                    for facilityName, node in shelf['inventory'].facilities.items():
                         if facilityName == self.name:
                             self.updateConfiguration(node)
                         else:

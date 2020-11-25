@@ -55,7 +55,7 @@ class Inventory(object):
 
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
-        for name, descriptor in registry.properties.items():
+        for name, descriptor in list(registry.properties.items()):
             prop = self._traitRegistry.get(name, None)
             if prop:
                 try:
@@ -103,7 +103,7 @@ class Inventory(object):
         # note that this only affects components for which there are settings in the registry
         # this is done in a separate loop because it provides an easy way to catch typos
         # on the command line
-        for name in self._priv_registry.facilities.keys():
+        for name in list(self._priv_registry.facilities.keys()):
             if not aliases.has_key(name):
                 node = self._priv_registry.extractNode(name)
                 context.unknownComponent(name, node)
@@ -119,7 +119,7 @@ class Inventory(object):
 
         node = registry.getNode(self._priv_name)
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
 
             name = prop.name
             descriptor = self.getTraitDescriptor(name)
@@ -144,7 +144,7 @@ class Inventory(object):
 
         node = registry.getNode(self._priv_name)
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
             name = prop.name
             value, locator = prop._getDefaultValue(self)
             if isinstance(prop, Facility):
@@ -152,7 +152,7 @@ class Inventory(object):
                 value = value.name
             node.setProperty(name, value, locator)
 
-        for facility in self._facilityRegistry.itervalues():
+        for facility in self._facilityRegistry.values():
             components = facility._retrieveAllComponents(self)
             for component in components:
                 component.setCurator(self._priv_curator)
@@ -173,7 +173,7 @@ class Inventory(object):
 
         locator = pyre.parsing.locators.default()
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
 
             # We intentionally don't call _getDefaultValue() -- at
             # this stage, we don't want anything to happen (files to
@@ -376,22 +376,22 @@ class Inventory(object):
     # accessors for the inventory items by category
     def properties(self):
         """return a list of my property objects"""
-        return self._traitRegistry.values()
+        return list(self._traitRegistry.values())
 
 
     def propertyNames(self):
         """return a list of the names of all my traits"""
-        return self._traitRegistry.keys()
+        return list(self._traitRegistry.keys())
 
 
     def facilities(self):
         """return a list of my facility objects"""
-        return self._facilityRegistry.values()
+        return list(self._facilityRegistry.values())
 
         
     def facilityNames(self):
         """return a list of the names of all my facilities"""
-        return self._facilityRegistry.keys()
+        return list(self._facilityRegistry.keys())
 
 
     def components(self, context=None):
@@ -402,7 +402,7 @@ class Inventory(object):
         candidates = []
 
         if self._facilityOrder is None:
-            keys = self._facilityRegistry.iterkeys()
+            keys = iter(self._facilityRegistry.keys())
         else:
             keys = self._facilityOrder
         #for name, facility in self._facilityRegistry.iteritems():

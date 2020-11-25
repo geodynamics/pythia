@@ -31,7 +31,7 @@ class RegToDictConverter(object):
         if not registry.properties and not registry.facilities:
             return {}
         dct = {}
-        for name, descriptor in registry.properties.iteritems():
+        for name, descriptor in registry.properties.items():
             if name in registry.facilities:
                 pass
             else:
@@ -52,7 +52,7 @@ def regFromDict(dct, name="root", cls=OdbRegistry):
     reg = cls(name)
     context = {}
     getLocatorContext(context)
-    for k, v in dct.iteritems():
+    for k, v in dct.items():
         if isinstance(v, dict):
             reg.attachNode(regFromDict(v, k))
         else:

@@ -27,7 +27,7 @@ class Renderer(XMLMill):
     def onInventory(self, inventory):
         self._rep += ['', '<!DOCTYPE inventory>', '', '<inventory>']
 
-        for facility in inventory.facilities.itervalues():
+        for facility in inventory.facilities.values():
             facility.identify(self)
 
         self._rep += ['</inventory>']

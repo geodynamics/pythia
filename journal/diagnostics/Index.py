@@ -21,7 +21,7 @@ class Index(object):
         return self._channel
 
     def facilities(self):
-        return self._index.keys()
+        return list(self._index.keys())
 
     def diagnostic(self, name):
         try:

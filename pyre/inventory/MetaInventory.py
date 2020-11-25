@@ -34,14 +34,14 @@ class MetaInventory(object):
             if not isinstance(self._inventory, cls):
                 raise TypeError("inventory object is not an instance of '%s'" % cls)
             registry = cls._myTraitRegistry
-        for trait in registry.itervalues():
+        for trait in registry.values():
             descriptor = self._inventory.getTraitDescriptor(trait.name)
             yield Item(trait, descriptor)
         return
 
 
     def __iter__(self):
-        return self.iteritems()
+        return iter(self.items())
 
 
 # end of file

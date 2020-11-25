@@ -109,7 +109,7 @@ class Executive(object):
 
         # Match filenames.
         if filenameStem is not None:
-            for codec in self.getCurator().codecs.itervalues():
+            for codec in self.getCurator().codecs.values():
                 extension = "." + codec.extension
                 if filenameStem:
                     pattern = "%s*" % filenameStem

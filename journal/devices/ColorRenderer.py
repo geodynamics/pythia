@@ -23,7 +23,7 @@ class ColorRenderer(Renderer):
         colorScheme = self.colorScheme
         
         colorized = {}
-        for k, v in dct.iteritems():
+        for k, v in dct.items():
             colorKey = k
             if colorKey == 'severity':
                 colorKey = colorKey + '-' + v

@@ -106,7 +106,7 @@ class UserManager(Component):
             "users = {"
             ]
 
-        usernames = self._users.keys()
+        usernames = list(self._users.keys())
         usernames.sort()
 
         for name in usernames:

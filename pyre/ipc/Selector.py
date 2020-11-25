@@ -89,9 +89,9 @@ class Selector(object):
         while self.state:
 
             self._debug.line("constructing list of watchers")
-            iwtd = self._input.keys()
-            owtd = self._output.keys()
-            ewtd = self._exception.keys()
+            iwtd = list(self._input.keys())
+            owtd = list(self._output.keys())
+            ewtd = list(self._exception.keys())
 
             self._debug.line("input: %s" % iwtd)
             self._debug.line("output: %s" % owtd)

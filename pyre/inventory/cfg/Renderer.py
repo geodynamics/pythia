@@ -27,7 +27,7 @@ class Renderer(ConfigMill):
     def onInventory(self, inventory):
         self._rep += ['', '# inventory', '']
 
-        for facility in inventory.facilities.itervalues():
+        for facility in inventory.facilities.values():
             facility.identify(self)
 
         return
