@@ -18,7 +18,6 @@ from pyre.inventory import Uninit
 
 class Facility(Trait):
 
-
     def __init__(self, name, family=None, default=Uninit, factory=None, args=(), meta=None,
                  vault=None):
         Trait.__init__(self, name, 'facility', default, meta)
@@ -35,9 +34,8 @@ class Facility(Trait):
 
         return
 
-
     def _getDefaultValue(self, instance):
-        
+
         # Initialize my value (preventing further lookups), in case we
         # don't make it out of here alive.
         import pyre.parsing.locators
@@ -54,7 +52,7 @@ class Facility(Trait):
             if isinstance(component, basestring):
                 component, loc = self._retrieveComponent(instance, component)
                 locator = pyre.parsing.locators.chain(loc, locator)
-                
+
             return component, locator
 
         if self.factory is not None:
@@ -64,7 +62,7 @@ class Facility(Trait):
             aliases = component.aliases
             if self.name not in aliases:
                 aliases.append(self.name)
-            
+
             # return
             return component, locator
 
@@ -82,10 +80,8 @@ class Facility(Trait):
         # None is a special value; it means that a facility is not set
         return None, None
 
-
     def _getBuiltInDefaultValue(self, instance):
         return None, None
-
 
     def _set(self, instance, component, locator):
         if isinstance(component, basestring):
@@ -107,10 +103,9 @@ class Facility(Trait):
         # if the previous binding was non-null, finalize it
         if old:
             old.fini()
-        
+
         # bind the new value
         return instance._setTraitValue(self.name, component, locator)
-
 
     def _retrieveComponent(self, instance, componentName):
         component = instance.retrieveComponent(
@@ -135,40 +130,33 @@ class Facility(Trait):
 
         # adjust the names by which this component is known
         component.aliases.append(self.name)
-            
-        return component, locator
 
+        return component, locator
 
     def _retrieveAllComponents(self, instance):
         return instance.retrieveAllComponents(factory=self.family)
-
 
     class Error(Exception):
         def __init__(self, **kwds):
             self.__dict__.update(kwds)
 
-
     class ComponentNotFound(Error):
         def __str__(self):
             return "could not bind facility '%(facility)s': component '%(component)s' not found" % self.__dict__
-
 
     class FactoryNotFound(Error):
         def __str__(self):
             return "could not bind facility '%(facility)s': no factory named '%(factory)s' in '%(module)s'" % self.__dict__
 
-
     class FactoryNotCallable(Error):
         def __str__(self):
             return "could not bind facility '%(facility)s': factory '%(module)s:%(factory)s' is not callable" % self.__dict__
-
 
     def _retrieveBuiltInComponent(self, instance, name):
         return instance.retrieveBuiltInComponent(
             name=name,
             factory=self.family,
             vault=self.vault)
-
 
     def _import(self, instance, name):
 
@@ -186,8 +174,7 @@ class Facility(Trait):
             else:
                 factoryPath.append(factoryName)
         else:
-            raise Facility.ComponentNotFound(
-                facility=self.name, component=name)
+            raise Facility.ComponentNotFound(facility=self.name, component=name)
         module = path[0]
         factoryName = '.'.join(factoryPath)
         objName = module + ':' + factoryName
@@ -196,23 +183,18 @@ class Facility(Trait):
             from pyre.util import loadObject
             factory = loadObject(objName)
         except (ImportError, ValueError):
-            raise Facility.ComponentNotFound(
-                facility=self.name, component=name)
+            raise Facility.ComponentNotFound(facility=self.name, component=name)
         except AttributeError:
-            raise Facility.FactoryNotFound(
-                facility=self.name, module=module, factory=factoryName)
+            raise Facility.FactoryNotFound(facility=self.name, module=module, factory=factoryName)
 
         if not callable(factory):
-            raise Facility.FactoryNotCallable(
-                facility=self.name, module=module, factory=factoryName)
+            raise Facility.FactoryNotCallable(facility=self.name, module=module, factory=factoryName)
 
         item = factory(*self.args)
 
         return item
 
-
     vault = []
-
 
     # interface registry
     _interfaceRegistry = {}
@@ -225,4 +207,4 @@ class Facility(Trait):
 # version
 __id__ = "$Id: Facility.py,v 1.4 2005/03/29 12:11:33 aivazis Exp $"
 
-# End of file 
+# End of file

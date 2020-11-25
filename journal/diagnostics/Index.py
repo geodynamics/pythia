@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005  All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 from Diagnostic import Diagnostic
@@ -17,16 +17,13 @@ from Diagnostic import Diagnostic
 
 class Index(object):
 
-
     def severity(self):
         return self._channel
-
 
     def facilities(self):
         return self._index.keys()
 
-
-    def diagnostic(self, name): 
+    def diagnostic(self, name):
         try:
             return self._index[name]
         except KeyError:
@@ -34,8 +31,7 @@ class Index(object):
             self._index[name] = diagnostic
             return diagnostic
 
-        raise "Unknown error"
-
+        raise RuntimeError("Unknown error")
 
     def init(self, channel, defaultState, fatal=False):
         self._index = {}
@@ -48,11 +44,9 @@ class Index(object):
 
         return
 
-
     def _stateFactory(self, name):
         from State import State
         return State(self._defaultState)
-
 
     def __new__(cls):
         index = cls.__dict__.get("__index__")
@@ -68,4 +62,4 @@ class Index(object):
 # version
 __id__ = "$Id: Index.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-#  End of file 
+#  End of file

@@ -17,11 +17,10 @@ import socket
 
 class PortMonitor(object):
 
-
     def install(self, port, maxPort=None):
         if maxPort is None:
             maxPort = self.MAX_PORT
-            
+
         if port < self.MIN_PORT or port > maxPort:
             msg = "requested port %r is outside the range [%r, %r]" % (
                 port, self.MIN_PORT, maxPort)
@@ -41,12 +40,10 @@ class PortMonitor(object):
                     "failed to activate server at port %d: error %d: %s" % (port, number, message))
 
             port += 1
-            
-        # no available ports in the range
-        msg = "no ports available in the range [%d, %d]" % (minPort, maxPort)
-        raise ValueError, msg
 
-        
+        # no available ports in the range
+        raise ValueError("no ports available in the range [%d, %d]" % (minPort, maxPort))
+
     def __init__(self):
         self.port = None
 
@@ -55,13 +52,12 @@ class PortMonitor(object):
 
         return
 
-
     # constants
     MIN_PORT = 1024
-    MAX_PORT = 64*1024 - 1
+    MAX_PORT = 64 * 1024 - 1
 
 
 # version
 __id__ = "$Id: PortMonitor.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-# End of file 
+# End of file

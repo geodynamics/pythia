@@ -1,22 +1,21 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005  All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 import urllib
 
 
 class CGIParser(object):
-
 
     def parse(self, registry, arg, source):
         import pyre.parsing.locators
@@ -28,7 +27,7 @@ class CGIParser(object):
                 key, value = tokens
             except ValueError:
                 if self.strict:
-                    raise ValueError, "bad query field {%r}" % field
+                    raise ValueError("bad query field {%r}" % field)
                 elif self.keepBlanks:
                     key = field
                     value = ''
@@ -40,7 +39,6 @@ class CGIParser(object):
         self.locator = None
 
         return
-
 
     def __init__(self, strict=False, keepBlanks=False):
         self.argsep = '&'
@@ -54,7 +52,6 @@ class CGIParser(object):
         self.locator = None
 
         return
-
 
     def _processArgument(self, key, value, registry):
 
@@ -72,7 +69,6 @@ class CGIParser(object):
 
         return
 
-
     def _storeValue(self, node, children, value):
         if len(children) == 1:
             for key in children[0]:
@@ -89,4 +85,4 @@ class CGIParser(object):
 # version
 __id__ = "$Id: CGIParser.py,v 1.2 2005/05/03 03:04:21 pyre Exp $"
 
-#  End of file 
+#  End of file

@@ -1,19 +1,18 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 class CommentingStrategy(object):
-
 
     def commentBlock(self, lines):
         block = []
@@ -29,35 +28,23 @@ class CommentingStrategy(object):
 
         return block
 
-
     def line(self, line=''):
-        raise NotImplementedError(
-            "class '%s' should override 'line'" % self.__class__.__name__)
-
+        raise NotImplementedError("class '%s' should override 'line'" % self.__class__.__name__)
 
     def __init__(self):
         return
 
-
     def _beginCommentBlock(self, text=''):
-        raise NotImplementedError(
-            "class '%s' should override '_beginCommentBlock'"
-            % self.__class__.__name__)
-                                  
+        raise NotImplementedError("class '%s' should override '_beginCommentBlock'" % self.__class__.__name__)
 
     def _commentLineInBlock(self, line=''):
-        raise NotImplementedError(
-            "class '%s' should override '_commentLineInBlock'"
-            % self.__class__.__name__)
-
+        raise NotImplementedError("class '%s' should override '_commentLineInBlock'" % self.__class__.__name__)
 
     def _endCommentBlock(self, text=''):
-        raise NotImplementedError(
-            "class '%s' should override '_beginCommentBlock'"
-            % self.__class__.__name__)
+        raise NotImplementedError("class '%s' should override '_beginCommentBlock'" % self.__class__.__name__)
 
 
 # version
 __id__ = "$Id: CommentingStrategy.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-#  End of file 
+#  End of file
