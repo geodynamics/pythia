@@ -149,7 +149,7 @@ one = dimensionless = unit(1, unit._zero)
 # helpers
                           
 def _strDerivation(labels, exponents):
-    dimensions = filter(None, map(_strUnit, labels, exponents))
+    dimensions = [_f for _f in map(_strUnit, labels, exponents) if _f]
     return "*".join(dimensions)
 
 
