@@ -44,7 +44,7 @@ class Array(Property):
 
         if isinstance(value, list):
             try:
-                return map(self.converter, value)
+                return list(map(self.converter, value))
             except ValueError:
                 pass
 
