@@ -14,6 +14,7 @@ $Id: ColorANSI.py,v 1.10 2004/11/04 07:58:16 fperez Exp $"""
 #__author__  = '%s <%s>' % Release.authors['Fernando']
 #__license__ = Release.license
 
+
 __all__ = ['TermColors', 'InputTermColors', 'ColorScheme', 'ColorSchemeTable']
 
 import os
@@ -49,7 +50,7 @@ def make_color_table(in_class):
         setattr(in_class, name, in_class._base % value)
 
 
-class TermColors:
+class TermColors(object):
     """Color escape sequences.
 
     This class defines the escape sequences for all the standard (ANSI?)
@@ -68,7 +69,7 @@ class TermColors:
 make_color_table(TermColors)
 
 
-class InputTermColors:
+class InputTermColors(object):
     """Color escape sequences for input prompts.
 
     This class is similar to TermColors, but the escapes are wrapped in \001
@@ -92,7 +93,7 @@ class InputTermColors:
 make_color_table(InputTermColors)
 
 
-class ColorScheme:
+class ColorScheme(object):
     """Generic color scheme class. Just a name and a Struct."""
 
     def __init__(self, __scheme_name_, colordict=None, **colormap):

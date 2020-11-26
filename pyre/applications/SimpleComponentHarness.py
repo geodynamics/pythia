@@ -11,6 +11,7 @@
 #
 
 
+
 class SimpleComponentHarness(object):
 
     def harnessComponent(self):

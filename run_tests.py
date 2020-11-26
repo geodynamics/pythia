@@ -22,7 +22,7 @@ Run `coverage html -d DIR` to generate an HTML report in directory `DIR`.
 Note: Pyre runs MPI in a subprocess which is not measured by coverage.
 """
 
-from builtins import object
+
 import unittest
 import sys
 

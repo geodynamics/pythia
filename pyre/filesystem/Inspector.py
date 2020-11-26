@@ -12,6 +12,7 @@
 #
 
 
+
 class Inspector(object):
 
     def onCharacterDevice(self, node):

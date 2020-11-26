@@ -12,6 +12,7 @@
 #
 
 
+
 class CommentingStrategy(object):
 
     def commentBlock(self, lines):

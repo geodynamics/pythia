@@ -12,6 +12,7 @@
 #
 
 
+
 class AbstractNode(object):
 
     # abstract methods

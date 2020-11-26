@@ -14,6 +14,8 @@
 """create the singleton thePeriodicTable and populate it with the known elements"""
 
 
+from builtins import range
+
 class PeriodicTable(object):
 
 

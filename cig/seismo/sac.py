@@ -42,6 +42,8 @@
 #
 
 
+from builtins import range
+
 class SACHeader(object):
 
     def __init__(self, numberOfSamples, initialTime, timeIncrement,

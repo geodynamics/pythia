@@ -12,6 +12,7 @@
 #
 
 
+
 class Trait(object):
 
     def __init__(self, name, type, default=None, meta=None):

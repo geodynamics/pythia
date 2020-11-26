@@ -11,6 +11,7 @@
 #
 
 
+
 from pyre.components import Component
 from pyre.util import expandMacros
 from pyre.inventory.odb.Registry import Registry
