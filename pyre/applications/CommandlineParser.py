@@ -116,7 +116,7 @@ class CommandlineParser(object):
 
         # check for assignment
         tokens = candidate.split(self.assignment)
-        self._debug.line("    tokens: %s" % `candidate`)
+        self._debug.line("    tokens: %s" % repr(candidate))
 
         # dangling =
         if len(tokens) > 1 and not tokens[1]:
