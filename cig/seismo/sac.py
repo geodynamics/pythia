@@ -50,9 +50,9 @@ class SACHeader(object):
         from array import array
         from itertools import repeat
 
-        self.floats = array('f', list(repeat(-12345.0, 70)))
-        self.ints = array('i', list(repeat(-12345, 40)))
-        self.strings = list(repeat("-12345  ", 23))
+        self.floats = [-12345.0] * 70
+        self.ints = [-12345] * 40
+        self.strings = ["-12345  "] * 23
         self.strings[1] = "-12345          "  # event name
 
         # The time increment may be slightly different than the one in
