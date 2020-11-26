@@ -32,10 +32,10 @@ class Lexer(object):
 
     def nextToken(self):
         try:
-            token = self.tokenIter.next()
+            token = next(self.tokenIter)
             while token.kind == "newline":
                 self.lineNo += 1
-                token = self.tokenIter.next()
+                token = next(self.tokenIter)
         except StopIteration:
             token = self.Token("eof", None)
         return token
