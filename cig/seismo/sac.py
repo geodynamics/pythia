@@ -42,8 +42,6 @@
 #
 
 
-from builtins import range
-
 class SACHeader(object):
 
     def __init__(self, numberOfSamples, initialTime, timeIncrement,
@@ -101,7 +99,7 @@ def asc2sac(asciiFile, sacFile=None):
     data = ''
 
     t = []
-    for i in xrange(0, 2):
+    for i in range(0, 2):
         line = stream.readline()
         time, amp = line.split()
         time = float(time)
