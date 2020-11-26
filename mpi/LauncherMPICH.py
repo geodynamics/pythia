@@ -39,7 +39,7 @@ class LauncherMPICH(Launcher):
         substitutions = {
             'launcher.machinefile': machinefile,
             }
-        for i,arg in enumerate(args):
+        for i, arg in enumerate(args):
             args[i] = expandMacros(arg, substitutions)
 
         return

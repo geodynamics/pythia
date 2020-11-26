@@ -36,7 +36,7 @@ class Faceter(Component):
         import acis
         import pyre.geometry
 
-        mesh = pyre.geometry.mesh(3,3)
+        mesh = pyre.geometry.mesh(3, 3)
         properties = self.inventory
         acis.facet(mesh.handle(), body.handle(), properties)
         bbox = acis.box(body.handle())

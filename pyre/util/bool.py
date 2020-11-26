@@ -23,17 +23,17 @@ def bool(response):
 
 _stringToBool = {
     "1": True,
-    "y" : True,
-    "yes" : True,
-    "on" : True,
-    "t" : True,
-    "true" : True,
+    "y": True,
+    "yes": True,
+    "on": True,
+    "t": True,
+    "true": True,
     "0": False,
-    "n" : False,
-    "no" : False,
-    "off" : False,
-    "f" : False,
-    "false" : False,
+    "n": False,
+    "no": False,
+    "off": False,
+    "f": False,
+    "false": False,
     }
     
 
