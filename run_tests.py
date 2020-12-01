@@ -1,4 +1,4 @@
-#!/usr/bin/env nemesis
+#!/usr/bin/env python
 # ======================================================================
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -22,6 +22,7 @@ Run `coverage html -d DIR` to generate an HTML report in directory `DIR`.
 Note: Pyre runs MPI in a subprocess which is not measured by coverage.
 """
 
+from builtins import object
 import unittest
 import sys
 
@@ -48,7 +49,6 @@ class TestApp(object):
             "pyre.units",
             "pyre.util",
             "pyre.xml",
-            "mpi",
         ]
         cov = coverage.Coverage(source=src_dirs)
     except ImportError:
@@ -79,12 +79,11 @@ class TestApp(object):
         """
         import tests.pyre
         import tests.journal
-        import tests.mpi
 
         suite = unittest.TestSuite()
 
         test_cases = []
-        for mod in [tests.pyre, tests.journal, tests.mpi]:
+        for mod in [tests.pyre, tests.journal]:
             for test_case in mod.test_cases():
                 suite.addTest(unittest.makeSuite(test_case))
 
