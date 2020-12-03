@@ -67,7 +67,7 @@ class UserManager(Component):
         context = {}
         try:
             execfile(self.passwd, context)
-        except IOError, error:
+        except IOError as error:
             self._info.log("error opening user db '%s': %s" % (self.passwd, error))
             return
 
@@ -106,8 +106,7 @@ class UserManager(Component):
             "users = {"
             ]
 
-        usernames = self._users.keys()
-        usernames.sort()
+        usernames = sorted(self._users.keys())
 
         for name in usernames:
             text += [

@@ -15,29 +15,29 @@ from pyre.launchers.Launcher import Launcher as Base
 
 
 class Launcher(Base):
-    
-    
+
     import pyre.inventory as pyre
 
     dry = pyre.bool("dry", default=False)
     dry.meta['tip'] = "prints the command line and exits"
-        
+
     nodegen = pyre.str("nodegen")
-    nodegen.meta['tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
-        
+    nodegen.meta[
+        'tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
+
     command = pyre.str("command", default="mpirun -np ${nodes}")
 
-
     def launch(self):
-        import os, sys
+        import os
+        import sys
 
         argv = self.argv()
         command = ' '.join(argv)
-        
+
         if self.dry:
-            print command
+            print(command)
             return
-        
+
         self._info.log("spawning: %s" % command)
 
         # The following is based upon os.spawnvp() internals.
@@ -47,13 +47,13 @@ class Launcher(Base):
             # Child
             try:
                 os.execvp(argv[0], argv)
-            except Exception, e:
+            except Exception as e:
                 # See Issue116.
-                print >>sys.stderr, 'execvp("%s"): %s' % (argv[0], e)
+                sys.stderr.write('execvp("%s"): %s\n' % (argv[0], e))
                 os._exit(127)
         else:
             # Parent
-            while 1:
+            while True:
                 wpid, sts = os.waitpid(pid, 0)
                 if os.WIFSTOPPED(sts):
                     continue
@@ -65,7 +65,7 @@ class Launcher(Base):
                     break
                 else:
                     assert False, "Not stopped, signaled or exited???"
-        
+
         statusMsg = "%s: %s: exit %d" % (sys.executable, argv[0], status)
         if status != 0:
             sys.exit(statusMsg)
@@ -73,13 +73,11 @@ class Launcher(Base):
 
         return
 
-
     def argv(self): return self._buildArgumentList()
-
 
     def _buildArgumentList(self):
         import os
-        
+
         if not self.nodes:
             self.nodes = len(self.nodelist)
 
@@ -91,7 +89,7 @@ class Launcher(Base):
         # See mpi.Application.getStateArgs() to see how the ${nodes}
         # macro is defined.
         args = self.command.split()
-        
+
         # use only the specific nodes specified explicitly
         if self.nodelist:
             self._expandNodeListArgs(args)
@@ -102,4 +100,4 @@ class Launcher(Base):
         return args
 
 
-# end of file 
+# end of file

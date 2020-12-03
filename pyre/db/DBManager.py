@@ -12,6 +12,8 @@
 #
 
 
+
+
 class DBManager(object):
 
 
@@ -76,7 +78,7 @@ class DBManager(object):
     def createTable(self, table):
         # build the list of table columns
         fields = []
-        for name, column in table._columnRegistry.iteritems():
+        for name, column in table._columnRegistry.items():
             text = "    %s %s" % (name, column.declaration())
             fields.append(text)
 
@@ -103,7 +105,7 @@ class DBManager(object):
 
 
     def fetchall(self, table, where=None, sort=None):
-        columns = table._columnRegistry.keys()
+        columns = list(table._columnRegistry.keys())
         
         # build the sql statement
         sql = "SELECT %s FROM %s" % (", ".join(columns), table.name)
@@ -137,7 +139,7 @@ class DBManager(object):
 
 
     def __init__(self, name):
-        import psycopg
+        from . import psycopg
         self.db = self.connect(database=name)
 
         import pyre.parsing.locators

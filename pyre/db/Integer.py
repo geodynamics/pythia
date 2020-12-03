@@ -12,7 +12,8 @@
 #
 
 
-from Column import Column
+
+from .Column import Column
 
 
 class Integer(Column):

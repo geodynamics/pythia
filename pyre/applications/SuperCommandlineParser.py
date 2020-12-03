@@ -11,7 +11,8 @@
 #
 
 
-from CommandlineParser import CommandlineParser
+
+from .CommandlineParser import CommandlineParser
 
 
 class SuperCommandlineParser(CommandlineParser):

@@ -7,39 +7,39 @@ def template():
 
         def __init__(self):
             BatchScriptTemplate.__init__(self, "pbs")
-        
+
         def render(self):
             from StringIO import StringIO
 
             out = StringIO()
             scheduler = self.scheduler
             job = self.job
-            
-            print >>out, "#!%s" % scheduler.shell
-            print >>out, "#PBS -S", scheduler.shell
-            print >>out, "#PBS -N", job.task
+
+            out.write("#!%s\n" % scheduler.shell)
+            out.write("#PBS -S %s\n" % scheduler.shell)
+            out.write("#PBS -N %s\n" % job.task)
             if job.queue:
-                print >>out, "#PBS -q", job.queue
+                out.write("#PBS -q %s\n" % job.queue)
             if job.stdout:
-                print >>out, "#PBS -o", job.stdout
+                out.write("#PBS -o %s\n" % job.stdout)
             if job.stderr:
-                print >>out, "#PBS -e", job.stderr
+                out.write("#PBS -e %s\n" % job.stderr)
             if job.resourceList:
-                print >>out, "#PBS -l", ','.join(job.resourceList)
+                out.write("#PBS -l %s\n" % ','.join(job.resourceList))
             for option in scheduler.qsubOptions:
-                print >>out, "#PBS", option
-            print >>out
-            print >>out, "cd $PBS_O_WORKDIR"
-            print >>out, job.executable, ' '.join(job.arguments)
-            print >>out
+                out.write("#PBS %s\n" % option)
+            out.write("\n")
+            out.write("cd $PBS_O_WORKDIR\n")
+            out.write("%s %s\n" % (job.executable, ' '.join(job.arguments)))
+            out.write("\n")
             if job.comments:
-                print >>out, "# ~~~~ comments ~~~~"
+                out.write("# ~~~~ comments ~~~~\n")
                 for line in job.comments:
-                    print >>out, "#", line
-            print >>out
-            print >>out, "# ~~~~ submit command ~~~~"
-            print >>out, "# %s < [script]" % scheduler.command
-            
+                    out.write("# %s\n" % line)
+            out.write("\n")
+            out.write("# ~~~~ submit command ~~~~\n")
+            out.write("# %s < [script]\n" % scheduler.command)
+
             return out.getvalue()
-    
+
     return PBSBatchScriptTemplate()

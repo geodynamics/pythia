@@ -11,6 +11,7 @@
 #
 
 
+
 class Lexer(object):
 
 
@@ -32,10 +33,10 @@ class Lexer(object):
 
     def nextToken(self):
         try:
-            token = self.tokenIter.next()
+            token = next(self.tokenIter)
             while token.kind == "newline":
                 self.lineNo += 1
-                token = self.tokenIter.next()
+                token = next(self.tokenIter)
         except StopIteration:
             token = self.Token("eof", None)
         return token
@@ -46,14 +47,14 @@ class Lexer(object):
 
         # strip single-line comments
         regexp = re.compile(r"//[^\n]*")
-        input = ''.join(filter(None, regexp.split(input)))
+        input = ''.join([_f for _f in regexp.split(input) if _f])
         
         # strip multi-line comments
         regexp = re.compile(r"(/\*)|(\*/)")
         newlines = re.compile(r"[\n\r]")
         result = ""
         inComment = False
-        for chunk in filter(None, regexp.split(input)):
+        for chunk in [_f for _f in regexp.split(input) if _f]:
             if chunk == "/*":
                 assert not inComment, "'/*' inside of comment"
                 inComment = True

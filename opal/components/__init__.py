@@ -12,18 +12,19 @@
 #
 
 
+
 def actor(name):
-    from GenericActor import GenericActor
+    from .GenericActor import GenericActor
     return GenericActor(name)
 
 
 def authenticatingActor(name):
-    from AuthenticatingActor import AuthenticatingActor
+    from .AuthenticatingActor import AuthenticatingActor
     return AuthenticatingActor(name)
 
 
 def sentry(*args):
-    from Sentry import Sentry
+    from .Sentry import Sentry
     return Sentry(*args)
 
 

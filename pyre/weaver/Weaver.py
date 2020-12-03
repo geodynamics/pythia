@@ -17,7 +17,6 @@ from pyre.components.Component import Component
 
 class Weaver(Component):
 
-
     # inventory
     class Inventory(Component.Inventory):
 
@@ -37,12 +36,11 @@ class Weaver(Component):
         copyrightLine = pyre.inventory.str(
             "copyrightLine", default="(C) %s  All Rights Reserved")
         licenseText = pyre.inventory.preformatted("licenseText", default=["{LicenseText}"])
-        
+
         timestampLine = pyre.inventory.str(
             "timestampLine", default=" Generated automatically by %s on %s")
 
         versionId = pyre.inventory.str("versionId", default=' $' + 'Id' + '$')
-    
 
     def weave(self, document=None, stream=None):
         # produce the text
@@ -53,10 +51,10 @@ class Weaver(Component):
             import sys
             stream = sys.stdout
 
-        print >> stream, "\n".join(text)
+        stream.write("\n".join(text))
+        stream.write("\n")
 
         return
-
 
     def render(self, document=None):
         self._renderer.options = self.inventory
@@ -64,57 +62,48 @@ class Weaver(Component):
         self._renderer.options = None
         return ret
 
-
     def begin(self):
         self._renderer.options = self.inventory
         self._renderer.begin()
         return
 
-
     def contents(self, body):
         self._renderer.contents(body)
         return
-
 
     def end(self):
         self._renderer.end()
         self._renderer.options = None
         return
 
-
     def document(self):
         return self._renderer.document()
 
-
     def languages(self):
-        candidates = self.inventory.retrieveShelves(address=['mills'], extension='odb')
-        
-        candidates.sort()
-        return candidates
+        candidates = sorted(self.inventory.retrieveShelves(address=['mills'], extension='odb'))
 
+        return candidates
 
     def __init__(self, name=None):
         if name is None:
             name = 'weaver'
-            
+
         Component.__init__(self, name, facility='weaver')
 
         self._renderer = None
         self._language = None
-        
+
         return
 
-
     # language property
+
     def _getLanguage(self):
         return self._language
-
 
     def _setLanguage(self, language):
         self._language = language
         self._renderer = self._retrieveLanguage(language)
         return
-
 
     def _retrieveLanguage(self, language):
         weaver = self.retrieveComponent(
@@ -122,7 +111,7 @@ class Weaver(Component):
 
         if weaver:
             return weaver
-                    
+
         import journal
         journal.error('pyre.weaver').log("could not locate weaver for '%s'" % language)
 
@@ -130,23 +119,21 @@ class Weaver(Component):
 
         return None
 
-
     language = property(_getLanguage, _setLanguage, None, "")
-        
 
     # renderer property
+
     def _getRenderer(self):
         return self._renderer
-
 
     def _setRenderer(self, renderer):
         self._renderer = renderer
         return
 
     renderer = property(_getRenderer, _setRenderer, None, "")
-        
+
 
 # version
 __id__ = "$Id: Weaver.py,v 1.3 2005/03/13 20:59:44 aivazis Exp $"
 
-# End of file 
+# End of file

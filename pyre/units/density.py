@@ -11,8 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from mass import *
-from volume import *
+
+from .mass import *
+from .volume import *
 
 # version
 __id__ = "$Id: density.py,v 1.1.1.1 2005/03/08 16:13:42 aivazis Exp $"

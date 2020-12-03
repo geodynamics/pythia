@@ -12,7 +12,8 @@
 #
 
 
-from ElementContainer import ElementContainer
+
+from .ElementContainer import ElementContainer
 from pyre.parsing.locators.Traceable import Traceable
 
 
@@ -24,10 +25,10 @@ class Portlet(ElementContainer, Traceable):
 
 
     def form(self, **kwds):
-        from PortletContent import PortletContent
+        from .PortletContent import PortletContent
         wrapper = PortletContent()
 
-        from Form import Form
+        from .Form import Form
         item = Form(**kwds)
         wrapper.content = item
 
@@ -36,10 +37,10 @@ class Portlet(ElementContainer, Traceable):
 
 
     def item(self, **kwds):
-        from PortletContent import PortletContent
+        from .PortletContent import PortletContent
         wrapper = PortletContent()
 
-        from PortletLink import PortletLink
+        from .PortletLink import PortletLink
         item = PortletLink(**kwds)
         wrapper.content = item
 

@@ -12,7 +12,8 @@
 #
 
 
-class CommunicatorGroup:
+
+class CommunicatorGroup(object):
 
 
     def handle(self):

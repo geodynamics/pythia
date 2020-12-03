@@ -11,24 +11,23 @@
 #
 
 
-from BatchScheduler import BatchScheduler
-import os, sys
+
+from .BatchScheduler import BatchScheduler
+import os
+import sys
 
 
 class SchedulerSGE(BatchScheduler):
-    
-    
+
     name = "sge"
-    
 
     import pyre.inventory as pyre
-    
-    command      = pyre.str("command", default="qsub")
-    peName       = pyre.str("pe-name", default="mpi")
-    peNumber     = pyre.str("pe-number", default="n")
-    qsubOptions  = pyre.list("qsub-options")
-    
-    
+
+    command = pyre.str("command", default="qsub")
+    peName = pyre.str("pe-name", default="mpi")
+    peNumber = pyre.str("pe-number", default="n")
+    qsubOptions = pyre.list("qsub-options")
+
     def schedule(self, job):
         import pyre.util as util
 
@@ -37,27 +36,27 @@ class SchedulerSGE(BatchScheduler):
             job.task = "jobname"
         job.walltime = util.hms(job.dwalltime.value)
         job.arguments = ' '.join(job.arguments)
-        
+
         # Generate the main SGE batch script.
         script = self.retrieveTemplate('batch.sh', ['schedulers', 'scripts', self.name])
         if script is None:
             self._error.log("could not locate batch script template for '%s'" % self.name)
             sys.exit(1)
-        
+
         script.scheduler = self
         script.job = job
-        
+
         if self.dry:
-            print script
+            print(script)
             return
 
         try:
-            import os, tempfile
+            import os
+            import tempfile
 
             filename = tempfile.mktemp()
-            s = open(filename, 'w')
-            print >>s, script
-            s.close()
+            with open(filename, "w") as s:
+                s.write("%s" % script)
 
             cmd = [self.command, filename]
             self._info.log("spawning: %s" % ' '.join(cmd))
@@ -74,22 +73,20 @@ class SchedulerSGE(BatchScheduler):
             else:
                 statusStr = "status %d" % status
             self._info.log("%s: %s" % (cmd[0], statusStr))
-        
-        except IOError, e:
+
+        except IOError as e:
             self._error.log("%s: %s" % (self.command, e))
             return
-        
+
         if exitStatus == 0:
             pass
         else:
             sys.exit("%s: %s: %s" % (sys.argv[0], cmd[0], statusStr))
-        
         return
-
 
     def jobId(cls):
         return os.environ['JOB_ID']
     jobId = classmethod(jobId)
 
 
-# end of file 
+# end of file

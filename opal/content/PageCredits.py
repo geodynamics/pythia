@@ -12,8 +12,9 @@
 #
 
 
-from PageSection import PageSection
-from ParagraphFactory import ParagraphFactory
+
+from .PageSection import PageSection
+from .ParagraphFactory import ParagraphFactory
 
 
 class PageCredits(PageSection, ParagraphFactory):

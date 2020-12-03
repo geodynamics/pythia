@@ -12,8 +12,10 @@
 #
 
 
+
+
 import pickle
-from Marshaller import Marshaller
+from .Marshaller import Marshaller
 
 
 def createKey():
@@ -24,35 +26,32 @@ def createKey():
     key = "".join(alphabet)[0:16]
 
     return key
-        
+
 
 class Pickler(Marshaller):
-
 
     class Inventory(Marshaller.Inventory):
 
         import pyre.inventory
 
         key = pyre.inventory.str("key", default=createKey())
-        
 
     def send(self, data, socket):
         stream = socket.makefile("wb", 0)
 
         self._debug.log("sending data: %s" % data)
         request = Request(self.key, data)
-    
+
         try:
             pickle.dump(request, stream)
         except EOFError:
             text = '%s: unable to send request: EOFError' % self.__class__.__name__
             raise self.RequestError(text)
-        except IOError, msg:
+        except IOError as msg:
             text = '%s: unable to send request: IOError: %s' % (self.__class.__name, msg)
             raise self.RequestError(text)
 
         return
-
 
     def receive(self, socket):
         stream = socket.makefile("rb", 0)
@@ -62,7 +61,7 @@ class Pickler(Marshaller):
         except EOFError:
             text = '%s: unable to receive request: EOFError' % self.__class__.__name__
             raise self.RequestError(text)
-        except IOError, msg:
+        except IOError as msg:
             text = '%s: unable to receive request: IOError: %s' % (self.__class.__name, msg)
             raise self.RequestError(text)
 
@@ -70,22 +69,19 @@ class Pickler(Marshaller):
 
         return self.authenticate(request).data
 
-
     def generateClientConfiguration(self, registry):
         import pyre.parsing.locators
         locator = pyre.parsing.locators.simple('service')
         registry.setProperty('key', self.key, locator)
         return
 
-
     def authenticate(self, request):
         if request.key == self.key:
             self._debug.log("accepted key {%s}" % request.key)
             return request
-        
-        raise ValueError, "%s: key mismatch: %r(mine) != %r(client's)" % (
-            self.__class__.__name__, self.key, request.key)
 
+        raise ValueError("%s: key mismatch: %r(mine) != %r(client's)" % (
+            self.__class__.__name__, self.key, request.key))
 
     def __init__(self, name=None):
         if name is None:
@@ -97,7 +93,6 @@ class Pickler(Marshaller):
 
         return
 
-
     def _configure(self):
         Marshaller._configure(self)
         self.key = self.inventory.key
@@ -105,7 +100,6 @@ class Pickler(Marshaller):
 
 
 class Request(object):
-
 
     def __init__(self, key, data):
         self.key = key
@@ -116,4 +110,4 @@ class Request(object):
 # version
 __id__ = "$Id: Pickler.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-# End of file 
+# End of file

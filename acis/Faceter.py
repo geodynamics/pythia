@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.components.Component import Component
 
 
@@ -29,14 +30,14 @@ class Faceter(Component):
 
     def facet(self, body):
 
-        from Pickler import Pickler
+        from .Pickler import Pickler
         pickler = Pickler()
         body = pickler.pickle(body)
         
         import acis
         import pyre.geometry
 
-        mesh = pyre.geometry.mesh(3,3)
+        mesh = pyre.geometry.mesh(3, 3)
         properties = self.inventory
         acis.facet(mesh.handle(), body.handle(), properties)
         bbox = acis.box(body.handle())
@@ -45,7 +46,7 @@ class Faceter(Component):
 
 
     def mesh(self, body):
-        from Pickler import Pickler
+        from .Pickler import Pickler
         pickler = Pickler()
         body = pickler.pickle(body)
         
@@ -54,7 +55,7 @@ class Faceter(Component):
         properties = self.inventory
         meshed = acis.mesh(body.handle(), properties)
 
-        from Body import Body
+        from .Body import Body
         return Body(meshed)
 
 

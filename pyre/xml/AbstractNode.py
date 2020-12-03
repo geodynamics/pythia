@@ -12,23 +12,22 @@
 #
 
 
-class AbstractNode(object):
 
+class AbstractNode(object):
 
     # abstract methods
     # parser.characters handler
     def content(self, text):
         return
 
-
     # parser.endElement handler
-    def notify(self, target):
-        raise NotImplementedError(
-            "class '%s' should override method 'notify'" % self.__class__.__name__)
 
+    def notify(self, target):
+        raise NotImplementedError("class '%s' should override method 'notify'" % self.__class__.__name__)
 
     # the default constructor is also abstract, hence useless
     # descendants must override and process the tag attributes
+
     def __init__(self, document):
         self.document = document
         return
@@ -37,4 +36,4 @@ class AbstractNode(object):
 # version
 __id__ = "$Id: AbstractNode.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-# End of file 
+# End of file

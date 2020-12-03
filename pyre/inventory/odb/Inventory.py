@@ -12,7 +12,8 @@
 #
 
 
-from Registry import Registry
+
+from .Registry import Registry
 
 
 class Inventory(Registry):

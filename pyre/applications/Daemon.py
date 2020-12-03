@@ -12,11 +12,11 @@
 #
 
 
-from Stager import Stager
+
+from .Stager import Stager
 
 
 class Daemon(Stager):
-
 
     def execute(self, *args, **kwds):
         self.args = args
@@ -26,20 +26,18 @@ class Daemon(Stager):
             spawn = self.kwds['spawn']
         except KeyError:
             spawn = True
-        
+
         if not spawn:
-            print " ** daemon %r in debug mode" % self.name
+            print(" ** daemon %r in debug mode" % self.name)
             import os
             self.daemon(os.getpid(), spawn=False)
             return
-            
+
         import pyre.util
         return pyre.util.spawn(self.done, self.respawn)
 
-
     def done(self, pid):
         return
-
 
     def respawn(self, pid):
         import os
@@ -49,9 +47,8 @@ class Daemon(Stager):
 
         import pyre.util
         pyre.util.spawn(self.exit, self.daemon)
-        
-        return
 
+        return
 
     def exit(self, pid):
         import sys
@@ -61,7 +58,6 @@ class Daemon(Stager):
         import journal
         journal.firewall("pyre.services").log("UNREACHABLE")
         return
-        
 
     def daemon(self, pid, spawn=True):
         import os
@@ -85,13 +81,13 @@ class Daemon(Stager):
             os.close(2)
             os.close(1)
             os.close(0)
-        
+
             # launch the application
             try:
                 self.main(*self.args, **self.kwds)
             except KeyboardInterrupt:
                 journal.error(self.name).log("interrupt")
-            except Exception, e:
+            except Exception as e:
                 import traceback
                 journal.error(self.name).log("exception:\n%s" % traceback.format_exc())
         else:
@@ -99,7 +95,6 @@ class Daemon(Stager):
             self.main(*self.args, **self.kwds)
 
         return
-
 
     def configureJournal(self):
         # open the logfile
@@ -110,8 +105,6 @@ class Daemon(Stager):
         journal.logfile(stream)
 
         return
-        
-
 
     def __init__(self):
         self.args = ()
@@ -125,4 +118,4 @@ class Daemon(Stager):
 # version
 __id__ = "$Id: Daemon.py,v 1.4 2005/03/11 07:02:54 aivazis Exp $"
 
-# End of file 
+# End of file

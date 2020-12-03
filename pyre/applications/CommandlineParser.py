@@ -12,6 +12,7 @@
 # 
 
 
+
 class CommandlineParser(object):
 
 
@@ -116,7 +117,7 @@ class CommandlineParser(object):
 
         # check for assignment
         tokens = candidate.split(self.assignment)
-        self._debug.line("    tokens: %s" % `candidate`)
+        self._debug.line("    tokens: %s" % repr(candidate))
 
         # dangling =
         if len(tokens) > 1 and not tokens[1]:
@@ -134,7 +135,7 @@ class CommandlineParser(object):
 
 
     def _filterAction(self, candidate):
-        for action, args in self.actions.iteritems():
+        for action, args in self.actions.items():
             if candidate in args:
                 self.action = action
                 self.unprocessed.extend(self.argv)
@@ -144,7 +145,7 @@ class CommandlineParser(object):
 
 
     def _mapAlias(self, candidate):
-        for realName, args in self.aliases.iteritems():
+        for realName, args in self.aliases.items():
             if candidate in args:
                 return realName
         return candidate

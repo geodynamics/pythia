@@ -12,7 +12,8 @@
 # 
 
 
-from Directory import Directory
+
+from .Directory import Directory
 
 
 class Root(Directory):

@@ -13,6 +13,7 @@
 
 #factory method
 
+
 def parser():
     return Parser()
 
@@ -52,21 +53,21 @@ class Parser(Singleton):
 
     def _loadModules(self):
 
-        import SI
-        import angle
-        import area
-        import density
-        import energy
-        import force
-        import length
-        import mass
-        import power
-        import pressure
-        import speed
-        import substance
-        import temperature
-        import time
-        import volume
+        from . import SI
+        from . import angle
+        from . import area
+        from . import density
+        from . import energy
+        from . import force
+        from . import length
+        from . import mass
+        from . import power
+        from . import pressure
+        from . import speed
+        from . import substance
+        from . import temperature
+        from . import time
+        from . import volume
 
         modules = [
             SI,

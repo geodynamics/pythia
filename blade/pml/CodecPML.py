@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.odb.fs.CodecODB import CodecODB
 
 
@@ -21,7 +22,7 @@ class CodecPML(CodecODB):
     def __init__(self):
         CodecODB.__init__(self, encoding='pml')
 
-        from Parser import Parser
+        from .Parser import Parser
         self._parser = Parser()
 
         self.parserFactory = None
@@ -30,7 +31,7 @@ class CodecPML(CodecODB):
 
 
     def _createRenderer(self):
-        from Renderer import Renderer
+        from .Renderer import Renderer
         return Renderer()
 
 

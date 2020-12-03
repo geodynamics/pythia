@@ -12,7 +12,8 @@
 #
 
 
-from Session import Session
+
+from .Session import Session
 
 
 class UDPSession(Session):

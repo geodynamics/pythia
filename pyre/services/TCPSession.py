@@ -12,13 +12,14 @@
 #
 
 
-from Session import Session
+
+from .Session import Session
 
 
 class TCPSession(Session):
 
 
-    from RequestError import RequestError
+    from .RequestError import RequestError
 
 
     def request(self, command, args=None):
@@ -44,7 +45,7 @@ class TCPSession(Session):
     def _init(self):
         try:
             self._connect()
-        except self._connection.ConnectionError, error:
+        except self._connection.ConnectionError as error:
             raise self.RequestError(str(error))
 
         return

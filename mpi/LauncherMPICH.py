@@ -11,7 +11,8 @@
 #
 
 
-from Launcher import Launcher
+
+from .Launcher import Launcher
 
 
 class LauncherMPICH(Launcher):
@@ -39,7 +40,7 @@ class LauncherMPICH(Launcher):
         substitutions = {
             'launcher.machinefile': machinefile,
             }
-        for i,arg in enumerate(args):
+        for i, arg in enumerate(args):
             args[i] = expandMacros(arg, substitutions)
 
         return

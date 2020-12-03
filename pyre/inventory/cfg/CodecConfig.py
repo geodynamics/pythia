@@ -11,9 +11,10 @@
 #
 
 
+
 from pyre.inventory.odb.Registry import Registry
 from pyre.odb.fs.CodecODB import CodecODB
-from Parser import Parser
+from .Parser import Parser
 from os.path import split, splitext
 
 
@@ -24,7 +25,7 @@ class CodecConfig(CodecODB):
         return
 
     def _createRenderer(self):
-        from Renderer import Renderer
+        from .Renderer import Renderer
         return Renderer()
 
     def _decode(self, shelf):

@@ -11,6 +11,7 @@
 #
 
 
+
 from pyre.inventory.odb.Inventory import Inventory as OdbInventory
 from pyre.inventory.odb.Registry import Registry as OdbRegistry
 
@@ -20,21 +21,18 @@ class RegToDictConverter(object):
     """Converts Pyre Registries to ordinary Python dictionaries.
 
     """
-    
-    
+
     def convert(self, document):
         return document.identify(self)
-    
-    
+
     def onInventory(self, inventory):
         return self.onRegistry(inventory)
-    
-    
+
     def onRegistry(self, registry):
         if not registry.properties and not registry.facilities:
             return {}
         dct = {}
-        for name, descriptor in registry.properties.iteritems():
+        for name, descriptor in registry.properties.items():
             if name in registry.facilities:
                 pass
             else:
@@ -55,7 +53,7 @@ def regFromDict(dct, name="root", cls=OdbRegistry):
     reg = cls(name)
     context = {}
     getLocatorContext(context)
-    for k, v in dct.iteritems():
+    for k, v in dct.items():
         if isinstance(v, dict):
             reg.attachNode(regFromDict(v, k))
         else:
@@ -129,9 +127,9 @@ def setPropertyWithPath(root, path, value, locator):
 
 
 if __name__ == "__main__":
-    
+
     from pyre.applications import Script
-    
+
     class UtilTest(Script):
 
         componentName = "UtilTest"
@@ -140,32 +138,31 @@ if __name__ == "__main__":
         answer = pyre.int("answer", default=42)
 
         def main(self, *args, **kwds):
-            print "the answer is", self.answer
+            print("the answer is", self.answer)
             configuration = self.retrieveConfiguration()
-            print
-            print "the configuration is:"
-            print "\n".join([str(item) for item in configuration.render()])
-            print
+            print()
+            print("the configuration is:")
+            print("\n".join([str(item) for item in configuration.render()]))
+            print()
             utilPml = "util.pml"
-            print "dumping configuration to", utilPml
-            pml = open(utilPml, "w")
-            print >> pml, "\n".join(self.weaver.render(configuration))
-            pml.close()
+            print("dumping configuration to", utilPml)
+            with open(utilPml, "w") as pml:
+                pml.write("\n".join(self.weaver.render(configuration)))
+                pml.write("\n")
             dct = dictFromReg(configuration)
-            print
-            print "converted configuration to dict:", dct
-            print
-            print "converted dict back to registry:"
+            print()
+            print("converted configuration to dict:", dct)
+            print()
+            print("converted dict back to registry:")
             reg = regFromDict(dct, name=self.name, cls=OdbInventory)
-            print "\n".join([str(item) for item in reg.render()])
-            print
+            print("\n".join([str(item) for item in reg.render()]))
+            print()
             utilPml = "util2.pml"
-            print "dumping converted registry to", utilPml
-            pml = open(utilPml, "w")
-            print >> pml, "\n".join(self.weaver.render(reg))
-            pml.close()
+            print("dumping converted registry to", utilPml)
+            with open(utilPml, "w") as pml:
+                pml.write("\n".join(self.weaver.render(reg)))
+                pml.write("\n")
 
-    
     script = UtilTest()
     script.run()
 

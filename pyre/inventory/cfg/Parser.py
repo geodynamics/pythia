@@ -11,6 +11,7 @@
 #
 
 
+
 from ConfigParser import SafeConfigParser
 import pyre.parsing.locators as locators
 from pyre.util import expandMacros
@@ -58,7 +59,7 @@ class Parser(SafeConfigParser):
             key = path[-1]
             path = path[:-1]
             node = _getNode(self.node, path)
-            if type(value) is list:
+            if isinstance(value, list):
                 assert(1 == len(value))
                 value = value[0]
             value = expandMacros(value, self.macros)

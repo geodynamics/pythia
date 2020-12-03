@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.parsing.locators.Traceable import Traceable
 
 
@@ -27,7 +28,7 @@ class Table(Traceable):
 
 
     def getColumnNames(self):
-        return self._columnRegistry.keys()
+        return list(self._columnRegistry.keys())
 
 
     def getWriteableColumnNames(self):
@@ -59,7 +60,7 @@ class Table(Traceable):
 
 
     # metaclass
-    from Schemer import Schemer
+    from .Schemer import Schemer
     __metaclass__ = Schemer
 
 

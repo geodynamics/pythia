@@ -12,13 +12,14 @@
 #
 
 
+
 def dbm():
-    from dbm.CodecDBM import CodecDBM
+    from .dbm.CodecDBM import CodecDBM
     return CodecDBM()
 
 
 def odb(name='odb', extension=None):
-    from fs.CodecODB import CodecODB
+    from .fs.CodecODB import CodecODB
     return CodecODB(name, extension)
 
 # version

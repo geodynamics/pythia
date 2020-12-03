@@ -11,12 +11,13 @@
 #
 
 
-from BatchScriptTemplate import BatchScriptTemplate
-from Scheduler import Scheduler
-from SchedulerNone import SchedulerNone
-from SchedulerLSF import SchedulerLSF
-from SchedulerPBS import SchedulerPBS
-from Job import Job
+
+from .BatchScriptTemplate import BatchScriptTemplate
+from .Scheduler import Scheduler
+from .SchedulerNone import SchedulerNone
+from .SchedulerLSF import SchedulerLSF
+from .SchedulerPBS import SchedulerPBS
+from .Job import Job
 
 
 # facilities and components
@@ -43,7 +44,7 @@ def jobstart(argv=None, **kwds):
 
     import sys
     from pyre.applications import start
-    from BatchScript import BatchScript
+    from .BatchScript import BatchScript
 
     kwds = kwds.get('kwds', dict())
     kwds['message'] = '_onLauncherNode'

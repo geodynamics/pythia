@@ -11,9 +11,10 @@
 #
 
 
+
 from pyre.inventory.odb.Registry import Registry
 from pyre.odb.fs.CodecODB import CodecODB
-from Parser import Parser
+from .Parser import Parser
 
 
 class CodecConfigSheet(CodecODB):

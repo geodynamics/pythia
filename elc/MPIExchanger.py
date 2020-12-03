@@ -12,7 +12,8 @@
 # 
 
 
-from Exchanger import Exchanger
+
+from .Exchanger import Exchanger
 
 
 class MPIExchanger(Exchanger):
@@ -49,7 +50,7 @@ class MPIExchanger(Exchanger):
 
     def receiveBoundary(self):
         import pyre.geometry
-        mesh = pyre.geometry.mesh(3,3)
+        mesh = pyre.geometry.mesh(3, 3)
         
         import elc
         elc.receiveBoundaryMPI(mesh.handle(), self.source, self.sink)

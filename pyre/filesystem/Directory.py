@@ -12,7 +12,8 @@
 # 
 
 
-from File import File
+
+from .File import File
 
 
 class Directory(File):
@@ -38,12 +39,12 @@ class Directory(File):
 
         import os
         import stat
-        from BlockDevice import BlockDevice
-        from CharacterDevice import CharacterDevice
-        from File import File
-        from Link import Link
-        from NamedPipe import NamedPipe
-        from Socket import Socket
+        from .BlockDevice import BlockDevice
+        from .CharacterDevice import CharacterDevice
+        from .File import File
+        from .Link import Link
+        from .NamedPipe import NamedPipe
+        from .Socket import Socket
 
         import journal
         debug = journal.debug("pyre.filesystem")

@@ -12,14 +12,15 @@
 #
 
 
+
 def controller(name=None):
-    from SimulationController import SimulationController
+    from .SimulationController import SimulationController
     return SimulationController(name)
 
 
 
 def simpleSolver(name=None):
-    from SimpleSolver import SimpleSolver
+    from .SimpleSolver import SimpleSolver
     return SimpleSolver(name)
 
 

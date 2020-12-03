@@ -11,13 +11,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
+
 import os
 
 if os.name == 'posix':
-    from FileLockingPosix import FileLockingPosix as FileLocking
+    from .FileLockingPosix import FileLockingPosix as FileLocking
 
 elif os.name == 'nt':
-    from FileLockingNT import FileLockingNT as FileLocking
+    from .FileLockingNT import FileLockingNT as FileLocking
 
 else:
     import journal

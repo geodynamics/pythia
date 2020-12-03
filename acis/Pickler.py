@@ -11,6 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 import acis
 from pyre.geometry.Visitor import Visitor as GeometryVisitor
 
@@ -19,7 +20,7 @@ class Pickler(GeometryVisitor):
 
     # user callable routine
     def pickle(self, body):
-        from Body import Body
+        from .Body import Body
 
         if isinstance(body, Body):
             return body
@@ -31,7 +32,7 @@ class Pickler(GeometryVisitor):
 
     # solid bodies
     def onBlock(self, block):
-        x,y,z = block.diagonal
+        x, y, z = block.diagonal
         return acis.block( (x.value, y.value, z.value) )
 
 
@@ -108,7 +109,7 @@ class Pickler(GeometryVisitor):
 
     def onTranslation(self, translation):
         body = translation.body.identify(self)
-        tx,ty,tz = translation.vector
+        tx, ty, tz = translation.vector
         return acis.translation(body, (tx.value, ty.value, tz.value))
 
 

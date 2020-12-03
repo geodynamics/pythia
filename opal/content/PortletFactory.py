@@ -12,11 +12,13 @@
 #
 
 
+
+
 class PortletFactory(object):
 
 
     def portlet(self, **kwds):
-        from Portlet import Portlet
+        from .Portlet import Portlet
         portlet = Portlet(**kwds)
 
         self.contents.append(portlet)

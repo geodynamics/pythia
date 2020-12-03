@@ -11,6 +11,7 @@
 #
 
 
+
 class ConfigContext(object):
 
     #
@@ -18,7 +19,7 @@ class ConfigContext(object):
     #
     
     def error(self, error, **attributes):
-        for k, v in attributes.iteritems():
+        for k, v in attributes.items():
             setattr(error, k, v)
         if not hasattr(error, 'locator'):
             if hasattr(error, 'items') and len(error.items) == 1:

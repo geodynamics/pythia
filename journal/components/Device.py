@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 from pyre.components.Component import Component
 
 
@@ -19,7 +20,7 @@ class Device(Component):
 
     class Inventory(Component.Inventory):
 
-        from RendererFacility import RendererFacility
+        from .RendererFacility import RendererFacility
 
         renderer = RendererFacility()
         renderer.meta['tip'] = 'the facility that controls how the messages are formatted'

@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 def sequence(spec, rangeSep='-', stepSep=':', itemSep=','):
@@ -21,7 +21,7 @@ def sequence(spec, rangeSep='-', stepSep=':', itemSep=','):
         spec = spec[1:]
     if spec[-1] == ']':
         spec = spec[:-1]
-    
+
     if not spec:
         return []
 
@@ -42,16 +42,16 @@ def sequence(spec, rangeSep='-', stepSep=':', itemSep=','):
                 step = 1
             else:
                 step = int(stepspec[1])
-                
+
             if upper > lower:
-                candidates += range(lower,upper+1,step)
+                candidates += list(range(lower, upper + 1, step))
             else:
-                candidates += range(lower,upper-1,-step)
-            
+                candidates += list(range(lower, upper - 1, -step))
+
     return candidates
 
 
 # version
 __id__ = "$Id: range.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-#  End of file 
+#  End of file

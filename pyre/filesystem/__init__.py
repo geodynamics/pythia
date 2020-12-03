@@ -13,37 +13,38 @@
 
 # factories
 
+
 def filesystem(name):
-    from FileSystem import FileSystem
+    from .FileSystem import FileSystem
     return FileSystem(name)
 
 
 def root(name):
-    from Root import Root
+    from .Root import Root
     return Root(name)
 
 
 def directory(name, parent):
-    from Directory import Directory
+    from .Directory import Directory
     return Directory(name, parent)
 
 
 def file(name, parent):
-    from File import File
+    from .File import File
     return File(name, parent)
 
 
 # methods
 
 def listing(fs):
-    from SimpleRenderer import SimpleRenderer
+    from .SimpleRenderer import SimpleRenderer
     renderer = SimpleRenderer()
     renderer.render(fs.root())
     return
 
 
 def explore(fs):
-    from Explorer import Explorer
+    from .Explorer import Explorer
     
     renderer = Explorer()
     renderer.render(fs.root())
@@ -54,7 +55,7 @@ def explore(fs):
 
 
 def tree(fs):
-    from TreeRenderer import TreeRenderer
+    from .TreeRenderer import TreeRenderer
 
     renderer = TreeRenderer()
     renderer.render(fs.root())
@@ -63,7 +64,7 @@ def tree(fs):
 
 
 def find(fs, name):
-    from Finder import Finder
+    from .Finder import Finder
 
     root = fs.root()
     finder = Finder()
@@ -71,7 +72,7 @@ def find(fs, name):
     return finder.find(root, name)
 
 
-from fastfind import fastfind
+from .fastfind import fastfind
 
 
 # version

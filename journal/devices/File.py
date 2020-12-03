@@ -1,32 +1,31 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005  All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
-from Device import Device
+
+from .Device import Device
 
 
 class File(Device):
-
 
     def __init__(self, logfile):
         Device.__init__(self)
         self.file = logfile
         return
 
-
     def _write(self, message):
         for line in message:
-            print >> self.file, line
+            self.file.write("%s\n" % line)
 
         self.file.flush()
 
@@ -36,4 +35,4 @@ class File(Device):
 # version
 __id__ = "$Id: File.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-#  End of file 
+#  End of file

@@ -11,7 +11,8 @@
 #
 
 
-from ColorScheme import ColorScheme
+
+from .ColorScheme import ColorScheme
 
 
 # facilities and components

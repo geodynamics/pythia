@@ -12,8 +12,9 @@
 #
 
 
-from ElementContainer import ElementContainer
-from ParagraphFactory import ParagraphFactory
+
+from .ElementContainer import ElementContainer
+from .ParagraphFactory import ParagraphFactory
 
 
 class Form(ElementContainer, ParagraphFactory):
@@ -24,31 +25,31 @@ class Form(ElementContainer, ParagraphFactory):
 
 
     def control(self, **kwds):
-        from FormControl import FormControl
+        from .FormControl import FormControl
         control = FormControl(**kwds)
         self.contents.append(control)
         return control
 
 
     def field(self, **kwds):
-        from FormField import FormField
+        from .FormField import FormField
         field = FormField(**kwds)
         self.contents.append(field)
         return field
 
 
     def hidden(self, **kwds):
-        from FormHiddenInput import FormHiddenInput
+        from .FormHiddenInput import FormHiddenInput
         field = FormHiddenInput(**kwds)
         self.contents.append(field)
         return field
 
 
     def password(self, **kwds):
-        from Input import Input
+        from .Input import Input
         control = Input(type="password", **kwds)
         
-        from FormField import FormField
+        from .FormField import FormField
         field = FormField(control)
         self.contents.append(field)
 
@@ -56,10 +57,10 @@ class Form(ElementContainer, ParagraphFactory):
 
 
     def text(self, **kwds):
-        from Input import Input
+        from .Input import Input
         control = Input(**kwds)
         
-        from FormField import FormField
+        from .FormField import FormField
         field = FormField(control)
         self.contents.append(field)
 

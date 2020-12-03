@@ -11,7 +11,8 @@
 #
 
 
-from SchedulerSGE import SchedulerSGE
+
+from .SchedulerSGE import SchedulerSGE
 import os, sys
 
 
@@ -25,7 +26,7 @@ class SchedulerTACCRanger(SchedulerSGE):
     
     command      = pyre.str("command", default="qsub")
     tpn          = pyre.int("tpn", default=16,
-                            validator=pyre.choice([1,2,4,8,12,15,16]))
+                            validator=pyre.choice([1, 2, 4, 8, 12, 15, 16]))
     tpn.meta['tip'] = 'Task per node'
     qsubOptions  = pyre.list("qsub-options")
 

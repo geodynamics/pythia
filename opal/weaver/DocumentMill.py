@@ -12,7 +12,8 @@
 #
 
 
-from ContentMill import ContentMill
+
+from .ContentMill import ContentMill
 
 
 class DocumentMill(ContentMill):

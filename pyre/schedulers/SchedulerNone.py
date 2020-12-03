@@ -11,23 +11,23 @@
 #
 
 
-from Scheduler import Scheduler
-import os, sys
+
+from .Scheduler import Scheduler
+import os
+import sys
 
 
 class SchedulerNone(Scheduler):
 
-    
     name = "scheduler-none"
 
-    
     def schedule(self, job):
         job.executable = os.path.abspath(job.executable)
-        
+
         argv = [job.executable] + job.arguments
-        
+
         if self.dry:
-            print ' '.join(argv)
+            print(' '.join(argv))
             return
 
         mode = 0
@@ -41,13 +41,12 @@ class SchedulerNone(Scheduler):
                 sys.exit("%s: %s: exit %d" % (sys.argv[0], argv[0], ret))
         else:
             self._info.log("%s: spawned process %d: %r" % (sys.argv[0], ret, argv))
-        
-        return
 
+        return
 
     def jobId(cls):
         return str(os.getpid())
     jobId = classmethod(jobId)
 
 
-# end of file 
+# end of file

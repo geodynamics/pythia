@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.odb.common.Curator import Curator as Base
 
 
@@ -68,7 +69,7 @@ class Curator(Base):
                 # open the shelf
                 try:
                     shelf = codec.open(spec, 'r')
-                except IOError, error:
+                except IOError as error:
                     # the codec failed to open the spec
                     if callable(errorHandler):
                         errorHandler(tag, locator, error)
@@ -110,7 +111,7 @@ class Curator(Base):
                 # open the shelf
                 try:
                     shelf = codec.open(spec, 'r')
-                except IOError, error:
+                except IOError as error:
                     # the codec failed to open the spec
                     if callable(errorHandler):
                         errorHandler(symbol, locator, error)
@@ -137,7 +138,7 @@ class Curator(Base):
 
         import os
         if os.path.isdir(directory):
-            from Depository import Depository
+            from .Depository import Depository
             depository = Depository(directory)
             return depository
 

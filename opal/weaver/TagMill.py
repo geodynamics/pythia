@@ -12,6 +12,7 @@
 #
 
 
+
 class TagMill(object):
 
 
@@ -75,7 +76,7 @@ class TagMill(object):
         except KeyError:
             pass
         
-        return [ '%s=%r' % (key, str(value)) for key, value in attributes.iteritems() ]
+        return [ '%s=%r' % (key, str(value)) for key, value in attributes.items() ]
 
 
 # version

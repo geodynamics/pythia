@@ -12,7 +12,8 @@
 #
 
 
-from GenericActor import GenericActor
+
+from .GenericActor import GenericActor
 
 
 class AuthenticatingActor(GenericActor):

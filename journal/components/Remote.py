@@ -12,17 +12,17 @@
 #
 
 
-from Device import Device
+
+from .Device import Device
 
 
 class Remote(Device):
 
-
     class Inventory(Device.Inventory):
 
         import pyre.inventory
-        from NetRenderer import NetRenderer
-        from RendererFacility import RendererFacility
+        from .NetRenderer import NetRenderer
+        from .RendererFacility import RendererFacility
 
         key = pyre.inventory.str("key")
         key.meta['tip'] = (
@@ -30,15 +30,14 @@ class Remote(Device):
         host = pyre.inventory.str("host", default="localhost")
 
         host.meta['tip'] = "the hostname where the remote journal service is running"
-        
+
         port = pyre.inventory.int("port", default=50000)
-        port.validator = pyre.inventory.range(1024+1, 64*1024-1)
+        port.validator = pyre.inventory.range(1024 + 1, 64 * 1024 - 1)
         port.meta['tip'] = (
             "the port that the remote journal service is monitoring for incoming requests")
 
         renderer = RendererFacility(factory=NetRenderer)
         renderer.meta['tip'] = "the facility that controls how the messages are formatted"
-
 
     def createDevice(self):
 
@@ -49,7 +48,6 @@ class Remote(Device):
         import journal
         return journal.remote(key=key, port=port, host=host)
 
-
     def __init__(self):
         Device.__init__(self, "remote")
         return
@@ -58,4 +56,4 @@ class Remote(Device):
 # version
 __id__ = "$Id: Remote.py,v 1.3 2005/03/14 05:45:58 aivazis Exp $"
 
-# End of file 
+# End of file

@@ -12,23 +12,24 @@
 #
 
 
+
 def daemon(name=None):
-    from Daemon import Daemon
+    from .Daemon import Daemon
     return Daemon(name)
 
 
 def service(name=None):
-    from IDDService import IDDService
+    from .IDDService import IDDService
     return IDDService(name=None)
 
 
 def recordLocator():
-    from RecordLocator import RecordLocator
+    from .RecordLocator import RecordLocator
     return RecordLocator()
 
 
 def session(name=None):
-    from IDDSession import IDDSession
+    from .IDDSession import IDDSession
     return IDDSession(name)
 
 
@@ -36,7 +37,7 @@ def pickler(name=None):
     if name is None:
         name = 'idd-pickler'
 
-    from Pickler import Pickler
+    from .Pickler import Pickler
     return Pickler(name)
 
 

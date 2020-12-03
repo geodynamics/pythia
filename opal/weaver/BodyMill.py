@@ -12,7 +12,8 @@
 #
 
 
-from ContentMill import ContentMill
+
+from .ContentMill import ContentMill
 
 
 class BodyMill(ContentMill):
@@ -105,7 +106,7 @@ class BodyMill(ContentMill):
         
         self.tagger = tagger
 
-        from StructuralMill import StructuralMill
+        from .StructuralMill import StructuralMill
         self.structuralMill = StructuralMill(tagger)
 
         return

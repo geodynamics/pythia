@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 import operator
 
 
@@ -43,7 +44,7 @@ class unit(object):
 
 
     def __mul__(self, other):
-        if type(other) == type(0) or type(other) == type(0.0):
+        if isinstance(other, type(0)) or isinstance(other, type(0.0)):
             return unit(other*self.value, self.derivation)
         
         value = self.value * other.value
@@ -56,7 +57,7 @@ class unit(object):
 
 
     def __div__(self, other):
-        if type(other) == type(0) or type(other) == type(0.0):
+        if isinstance(other, type(0)) or isinstance(other, type(0.0)):
             return unit(self.value/other, self.derivation)
         
         value = self.value / other.value
@@ -69,7 +70,7 @@ class unit(object):
 
 
     def __pow__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if not isinstance(other, type(0)) and not isinstance(other, type(0.0)):
             raise InvalidOperation("**", self, other)
 
         value = self.value ** other
@@ -94,14 +95,14 @@ class unit(object):
 
 
     def __rmul__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if not isinstance(other, type(0)) and not isinstance(other, type(0.0)):
             raise InvalidOperation("*", other, self)
 
         return unit(other*self.value, self.derivation)
 
 
     def __rdiv__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if not isinstance(other, type(0)) and not isinstance(other, type(0.0)):
             raise InvalidOperation("/", other, self)
 
         value = other/self.value
@@ -149,7 +150,7 @@ one = dimensionless = unit(1, unit._zero)
 # helpers
                           
 def _strDerivation(labels, exponents):
-    dimensions = filter(None, map(_strUnit, labels, exponents))
+    dimensions = [_f for _f in map(_strUnit, labels, exponents) if _f]
     return "*".join(dimensions)
 
 

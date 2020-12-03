@@ -14,16 +14,14 @@
 """create the singleton thePeriodicTable and populate it with the known elements"""
 
 
-class PeriodicTable(object):
 
+class PeriodicTable(object):
 
     def name(self, name):
         return self._nameIndex.get(name)
 
-
     def symbol(self, symbol):
         return self._symbolIndex.get(symbol)
-
 
     def atomicNumber(self, n):
         if n < 1 or n > len(self._atomicNumberIndex):
@@ -31,12 +29,11 @@ class PeriodicTable(object):
             journal.firewall("pyre.handbook").log(
                 "element with atomic number %d not found" % atomicNumber)
             return None
-        
-        return self._atomicNumberIndex[n-1]
 
+        return self._atomicNumberIndex[n - 1]
 
     def __init__(self):
-        from elements import elements
+        from .elements import elements
 
         self._atomicNumberIndex = elements
         self._nameIndex = createNameIndex(elements)
@@ -105,11 +102,12 @@ def createSymbolIndex(elements):
 
 _thePeriodicTable = None
 
+
 def periodicTable():
 
     import journal
     info = journal.debug("pyre.initialization")
-    
+
     global _thePeriodicTable
     if not _thePeriodicTable:
         info.log("generating the periodic table ...")

@@ -12,8 +12,9 @@
 #
 
 
-from Application import Application
-from Stager import Stager
+
+from .Application import Application
+from .Stager import Stager
 
 
 class Script(Application, Stager):

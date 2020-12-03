@@ -11,8 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 import urllib
-from AbstractNode import AbstractNode
+from .AbstractNode import AbstractNode
 
 
 class Facility(AbstractNode):

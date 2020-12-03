@@ -11,8 +11,8 @@
 #
 
 
-class SimpleComponentHarness(object):
 
+class SimpleComponentHarness(object):
 
     def harnessComponent(self):
         """harness an external component"""
@@ -41,18 +41,15 @@ class SimpleComponentHarness(object):
 
         return component
 
-
     def createComponent(self):
         """create the harnessed component"""
-        raise NotImplementedError(
-            "class %r must override 'createComponent'" % self.__class__.__name__)
-
+        raise NotImplementedError("class %r must override 'createComponent'" % self.__class__.__name__)
 
     def configureHarnessedComponent(self, component, curator, registry):
         """configure the harnessed component"""
 
         context = component.newConfigContext()
-        
+
         # link the component with the curator
         component.setCurator(curator)
         component.initializeConfiguration(context)
@@ -66,11 +63,10 @@ class SimpleComponentHarness(object):
 
         return context
 
-
     def __init__(self):
         super(SimpleComponentHarness, self).__init__()
         self.component = None
         return
 
 
-# end of file 
+# end of file

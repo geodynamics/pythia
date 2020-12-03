@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.weaver.mills.HTMLMill import HTMLMill
 
 
@@ -38,13 +39,13 @@ class PageMill(HTMLMill):
         HTMLMill.__init__(self)
         self.stylesheets = []
 
-        from TagMill import TagMill
+        from .TagMill import TagMill
         self.tagger = TagMill()
 
-        from HeadMill import HeadMill
+        from .HeadMill import HeadMill
         self.headMill = HeadMill(self.tagger)
 
-        from BodyMill import BodyMill
+        from .BodyMill import BodyMill
         self.bodyMill = BodyMill(self.tagger)
 
         return

@@ -12,7 +12,8 @@
 #
 
 
-from Vault import Vault
+
+from .Vault import Vault
 
 
 class Depository(Vault):

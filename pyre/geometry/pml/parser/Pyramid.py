@@ -11,8 +11,9 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 import pyre.geometry.solids
-from AbstractNode import AbstractNode
+from .AbstractNode import AbstractNode
 
 
 class Pyramid(AbstractNode):

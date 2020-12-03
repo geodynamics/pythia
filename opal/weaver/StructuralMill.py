@@ -12,7 +12,8 @@
 #
 
 
-from DocumentMill import DocumentMill
+
+from .DocumentMill import DocumentMill
 
 
 class StructuralMill(DocumentMill):

@@ -12,8 +12,8 @@
 #
 
 
-class Trait(object):
 
+class Trait(object):
 
     def __init__(self, name, type, default=None, meta=None):
         self.attr = None  # private attribute name (set by Notary)
@@ -26,10 +26,9 @@ class Trait(object):
         # the default meta is a dictionary of user supplied information
         if meta is None:
             meta = {}
-            
+
         self.meta = meta
         return
-
 
     def __get__(self, instance, cls=None):
 
@@ -56,7 +55,6 @@ class Trait(object):
         # not reachable
         return None
 
-
     def __set__(self, instance, value):
         import traceback
         stack = traceback.extract_stack()
@@ -66,15 +64,12 @@ class Trait(object):
         locator = pyre.parsing.locators.script(source, line, function)
 
         self._set(instance, value, locator)
-        
-        return
 
+        return
 
     def _getDefaultValue(self, instance):
         """retrieve the default value and return it along with a locator"""
-        raise NotImplementedError(
-            "class %r must override '_getDefaultValue" % self.__class__.__name__)
-
+        raise NotImplementedError("class %r must override '_getDefaultValue" % self.__class__.__name__)
 
     def _initialize(self, instance):
         # obtain the default value -- descendants must define this
@@ -83,7 +78,6 @@ class Trait(object):
 
         # return the default value
         return value
-
 
     def _set(self, instance, value, locator):
         try:
@@ -100,4 +94,4 @@ class Trait(object):
 # version
 __id__ = "$Id: Trait.py,v 1.6 2005/03/17 04:00:23 aivazis Exp $"
 
-# End of file 
+# End of file

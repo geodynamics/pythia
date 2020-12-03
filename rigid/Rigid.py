@@ -10,6 +10,7 @@
 #
 
 
+
 from pyre.simulations.Solver import Solver
 
 
@@ -96,7 +97,7 @@ class Rigid(Solver):
         sink = self._fluidServer
         source = self._solidServer
 
-        from rigid import timestep
+        from .rigid import timestep
         from pyre.units.time import second
         dt = timestep(sink, source, dt.value) * second
 
@@ -118,7 +119,7 @@ class Rigid(Solver):
 
 
     def verifyInterface(self):
-        import rigid
+        from . import rigid
         # NYI
         # return rigid.verify(self.coupler.boundary())
 

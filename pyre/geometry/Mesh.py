@@ -14,25 +14,20 @@
 
 class Mesh(object):
 
-
     def handle(self):
         return self._mesh
-
 
     def statistics(self):
         import pyre._pyre
         return pyre._pyre.statistics(self._mesh)
 
-
     def vertex(self, vertexid):
         import pyre._pyre
         return pyre._pyre.vertex(self._mesh, vertexid)
 
-
     def simplex(self, simplexid):
         import pyre._pyre
         return pyre._pyre.simplex(self._mesh, simplexid)
-
 
     def vertices(self):
         import pyre._pyre
@@ -43,7 +38,6 @@ class Mesh(object):
 
         return
 
-
     def simplices(self):
         import pyre._pyre
         dim, order, vertices, simplices = pyre._pyre.statistics(self._mesh)
@@ -53,11 +47,10 @@ class Mesh(object):
 
         return
 
-
     def __init__(self, dim, order):
         self.dim = dim
         self.order = order
-        
+
         try:
             import pyre._pyre
         except ImportError:
@@ -67,12 +60,13 @@ class Mesh(object):
             error.log("mesh objects are not supported")
             self._mesh = None
             return
-                                      
+
         self._mesh = pyre._pyre.createMesh(dim, order)
 
         return
 
+
 # version
 __id__ = "$Id: Mesh.py,v 1.1.1.1 2005/03/08 16:13:44 aivazis Exp $"
 
-# End of file 
+# End of file

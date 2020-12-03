@@ -12,6 +12,8 @@
 #
 
 
+
+
 class Registry(object):
 
 
@@ -55,10 +57,10 @@ class Registry(object):
         if not registry:
             return self
         
-        for name, descriptor in registry.properties.iteritems():
+        for name, descriptor in registry.properties.items():
             self.setProperty(name, descriptor.value, descriptor.locator)
 
-        for name, node in registry.facilities.iteritems():
+        for name, node in registry.facilities.items():
             self.getNode(name).update(node)
 
         return self
@@ -98,9 +100,9 @@ class Registry(object):
 
     def allProperties(self):
         """recursively iterate my properties"""
-        for name, descriptor in self.properties.iteritems():
+        for name, descriptor in self.properties.items():
             yield ((self.name, name), descriptor.value, descriptor.locator)
-        for facility in self.facilities.itervalues():
+        for facility in self.facilities.values():
             for path, value, locator in facility.allProperties():
                 yield ((self.name,) + path, value, locator)
         return
@@ -114,7 +116,7 @@ class Registry(object):
 
 
     def _createDescriptor(self, value, locator):
-        from Descriptor import Descriptor
+        from .Descriptor import Descriptor
         return Descriptor(value, locator)
 
 

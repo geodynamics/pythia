@@ -1,22 +1,22 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
-from SimpleRenderer import SimpleRenderer
+
+from .SimpleRenderer import SimpleRenderer
 
 
 class TreeRenderer(SimpleRenderer):
-
 
     def onDirectory(self, node):
         self._render(node, "d")
@@ -46,19 +46,17 @@ class TreeRenderer(SimpleRenderer):
 
         return
 
-
     def __init__(self):
         self._filler = ""
         self._graphic = ""
         return
 
-
     def _render(self, node, code):
-        print "%s (%s) (%s)" % (self._graphic, code, node.name)
+        print("%s (%s) (%s)" % (self._graphic, code, node.name))
         return
 
 
 # version
 __id__ = "$Id: TreeRenderer.py,v 1.1.1.1 2005/03/08 16:13:46 aivazis Exp $"
 
-#  End of file 
+#  End of file

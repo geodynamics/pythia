@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.odb.common.Codec import Codec
 
 
@@ -59,7 +60,7 @@ class CodecODB(Codec):
     def _shelf(self, filename, const):
         """create a shelf for the contents of the db file"""
 
-        from Shelf import Shelf
+        from .Shelf import Shelf
         return Shelf(filename, const, self)
 
 
@@ -68,7 +69,7 @@ class CodecODB(Codec):
 
         stream = file(shelf.name)
 
-        exec stream in shelf
+        exec(stream, shelf)
 
         return
 

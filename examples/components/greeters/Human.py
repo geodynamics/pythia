@@ -1,3 +1,4 @@
+
 # ======================================================================
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -12,7 +13,7 @@
 # ======================================================================
 #
 
-from Greeter import Greeter
+from .Greeter import Greeter
 import pyre.inventory
 
 

@@ -75,7 +75,7 @@ class RecordLocator(Component):
     def _encode(self, bcd):
         label = []
 
-        while 1:
+        while True:
             bcd, remainder = divmod(bcd, self._base)
             label.append(self._alphabet[remainder])
 

@@ -11,6 +11,8 @@
 #
 
 
+
+
 class ConfigurableClass(type):
 
     
@@ -28,12 +30,12 @@ class ConfigurableClass(type):
         
         type.__init__(cls, name, bases, dct)
         
-        if dct.has_key('Inventory'):
+        if 'Inventory' in dct:
             # allow for traditional components
             return
         
-        from Notary import Notary
-        from Trait import Trait
+        from .Notary import Notary
+        from .Trait import Trait
         
         # derive the bases for the inventory class
         inventoryBases = []
@@ -47,7 +49,7 @@ class ConfigurableClass(type):
         # populate the inventory class dictionary
         import pyre.inventory
         inventoryDict = {}
-        for traitName, trait in [kv for kv in dct.iteritems() if isinstance(kv[1], Trait)]:
+        for traitName, trait in [kv for kv in dct.items() if isinstance(kv[1], Trait)]:
             # move the trait to the inventory...
             inventoryDict[traitName] = trait
             # ...replacing it with a forwarder

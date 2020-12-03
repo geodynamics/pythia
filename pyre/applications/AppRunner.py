@@ -11,7 +11,8 @@
 #
 
 
-from SuperScript import SuperScript
+
+from .SuperScript import SuperScript
 
 
 class AppRunner(SuperScript):

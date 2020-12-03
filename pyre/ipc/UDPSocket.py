@@ -12,7 +12,8 @@
 #
 
 
-from Socket import Socket
+
+from .Socket import Socket
 
 
 class UDPSocket(Socket):

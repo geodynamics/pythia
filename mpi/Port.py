@@ -12,19 +12,21 @@
 #
 
 
+
+
 class Port(object):
 
 
     def send(self, string):
         raise NotImplementedError("sendString not implemented in _mpi")
-        import _mpi
+        from . import _mpi
         _mpi.sendString(self._communicator.handle(), self.peer, self.tag, string)
         return
 
 
     def receive(self):
         raise NotImplementedError("sendString not implemented in _mpi")
-        import _mpi
+        from . import _mpi
         string = _mpi.receiveString(self._communicator.handle(), self.peer, self.tag)
         return string
 

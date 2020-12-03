@@ -11,7 +11,8 @@
 #
 
 
-from Console import Console
+
+from .Console import Console
 
 
 class ANSIColorConsole(Console):

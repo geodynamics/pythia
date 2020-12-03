@@ -12,16 +12,17 @@
 #
 
 
-from ElementContainer import ElementContainer
-from LiteralFactory import LiteralFactory
-from ParagraphFactory import ParagraphFactory
+
+from .ElementContainer import ElementContainer
+from .LiteralFactory import LiteralFactory
+from .ParagraphFactory import ParagraphFactory
 
 
 class Document(ElementContainer, LiteralFactory, ParagraphFactory):
 
 
     def form(self, **kwds):
-        from Form import Form
+        from .Form import Form
         form = Form(**kwds)
         self.contents.append(form)
         return form

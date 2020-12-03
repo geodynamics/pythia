@@ -54,7 +54,7 @@ class Petsc(Component):
 
     def setDefaults(self, dct):
         locator = pyre.parsing.locators.default()
-        for key, value in dct.iteritems():
+        for key, value in dct.items():
             self.options.setProperty(key, value, locator)
         return
 
@@ -67,7 +67,7 @@ class Petsc(Component):
     def getArgs(self):
         options = [
             (name, descriptor.value)
-            for name, descriptor in self.options.properties.iteritems()
+            for name, descriptor in self.options.properties.items()
             ]
         args = []
         for iname, value in options:

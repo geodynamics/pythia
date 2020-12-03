@@ -12,56 +12,57 @@
 #
 
 
-from ElementContainer import ElementContainer
+
+from .ElementContainer import ElementContainer
 
 
 class Head(ElementContainer):
 
 
     def base(self, url):
-        from Base import Base
+        from .Base import Base
         base = Base(url)
         self.contents.append(base)
         return base
 
 
     def stylesheet(self, **kwds):
-        from IncludedStyle import IncludedStyle
+        from .IncludedStyle import IncludedStyle
         style = IncludedStyle(**kwds)
         self.contents.append(style)
         return style
 
 
     def link(self, **kwds):
-        from Link import Link
+        from .Link import Link
         link = Link(**kwds)
         self.contents.append(link)
         return link
 
 
     def meta(self, name, content):
-        from Meta import Meta
+        from .Meta import Meta
         meta = Meta(name=name, content=content)
         self.contents.append(meta)
         return meta
 
 
     def script(self, **kwds):
-        from Script import Script
+        from .Script import Script
         script = Script(**kwds)
         self.contents.append(script)
         return script
 
 
     def style(self, **kwds):
-        from Style import Style
+        from .Style import Style
         style = Style(**kwds)
         self.contents.append(style)
         return style
 
 
     def title(self, text):
-        from Title import Title
+        from .Title import Title
         title = Title(text)
         self.contents.append(title)
         return title

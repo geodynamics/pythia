@@ -12,7 +12,9 @@
 #
 
 
-class Communicator:
+
+
+class Communicator(object):
 
 
     def handle(self):
@@ -26,14 +28,14 @@ class Communicator:
 
     # communicator factories
     def cartesian(self, axes, periods, reorder=1):
-        from CartesianCommunicator import CartesianCommunicator
+        from .CartesianCommunicator import CartesianCommunicator
         return CartesianCommunicator(self._handle, axes, periods, reorder)
 
 
      # communicator group interface
     def group(self):
         from mpi import MPI_Comm_group
-        from CommunicatorGroup import CommunicatorGroup
+        from .CommunicatorGroup import CommunicatorGroup
         grpHandle = MPI_Comm_group(self._handle)
         return CommunicatorGroup(grpHandle)
 
@@ -58,7 +60,7 @@ class Communicator:
 
     # ports
     def port(self, peer, tag):
-        from Port import Port
+        from .Port import Port
         return Port(self, peer, tag)
 
     def __init__(self, handle):

@@ -12,31 +12,29 @@
 #
 
 
-from Device import Device
+
+from .Device import Device
 
 
 class File(Device):
 
-
     class Inventory(Device.Inventory):
 
         import pyre.inventory
-        
+
         name = pyre.inventory.str("name", default="journal.log")
         name.meta['tip'] = "the name of the file in which messages will be placed"
-
 
     def createDevice(self):
         logfile = file(self.inventory.name, "a", 0)
 
         import os
         import time
-        
-        print >> logfile, " ** MARK: opened by %s on %s" % (os.getpid(), time.ctime())
+
+        logfile.write(" ** MARK: opened by %s on %s\n" % (os.getpid(), time.ctime()))
 
         from journal.devices.File import File
         return File(logfile)
-
 
     def __init__(self):
         Device.__init__(self, "file")
@@ -46,4 +44,4 @@ class File(Device):
 # version
 __id__ = "$Id: File.py,v 1.2 2005/03/10 06:16:37 aivazis Exp $"
 
-# End of file 
+# End of file

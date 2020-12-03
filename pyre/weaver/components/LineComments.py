@@ -11,7 +11,8 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
-from CommentingStrategy import CommentingStrategy
+
+from .CommentingStrategy import CommentingStrategy
 
 
 class LineComments(CommentingStrategy):

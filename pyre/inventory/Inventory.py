@@ -12,6 +12,8 @@
 #
 
 
+
+
 class Inventory(object):
 
 
@@ -55,15 +57,15 @@ class Inventory(object):
 
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
-        for name, descriptor in registry.properties.items():
+        for name, descriptor in list(registry.properties.items()):
             prop = self._traitRegistry.get(name, None)
             if prop:
                 try:
                     context.setProperty(prop, self, descriptor.value, descriptor.locator)
                 except SystemExit:
                     raise
-                except Exception, error:
-                    from Item import Item
+                except Exception as error:
+                    from .Item import Item
                     context.error(error, items=[Item(prop, descriptor)])
             else:
                 context.unrecognizedProperty(name, descriptor.value, descriptor.locator)
@@ -103,8 +105,8 @@ class Inventory(object):
         # note that this only affects components for which there are settings in the registry
         # this is done in a separate loop because it provides an easy way to catch typos
         # on the command line
-        for name in self._priv_registry.facilities.keys():
-            if not aliases.has_key(name):
+        for name in list(self._priv_registry.facilities.keys()):
+            if name not in aliases:
                 node = self._priv_registry.extractNode(name)
                 context.unknownComponent(name, node)
 
@@ -114,12 +116,12 @@ class Inventory(object):
     def retrieveConfiguration(self, registry):
         """place the current inventory configuration in the given registry"""
 
-        from Facility import Facility
-        from Property import Property
+        from .Facility import Facility
+        from .Property import Property
 
         node = registry.getNode(self._priv_name)
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
 
             name = prop.name
             descriptor = self.getTraitDescriptor(name)
@@ -140,11 +142,11 @@ class Inventory(object):
     def collectDefaults(self, registry):
         """place my default values in the given registry"""
 
-        from Facility import Facility
+        from .Facility import Facility
 
         node = registry.getNode(self._priv_name)
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
             name = prop.name
             value, locator = prop._getDefaultValue(self)
             if isinstance(prop, Facility):
@@ -152,7 +154,7 @@ class Inventory(object):
                 value = value.name
             node.setProperty(name, value, locator)
 
-        for facility in self._facilityRegistry.itervalues():
+        for facility in self._facilityRegistry.values():
             components = facility._retrieveAllComponents(self)
             for component in components:
                 component.setCurator(self._priv_curator)
@@ -164,7 +166,7 @@ class Inventory(object):
     def collectPropertyDefaults(self, registry=None):
         """place my default values in the given registry"""
 
-        from Facility import Facility
+        from .Facility import Facility
         from pyre.inventory.odb.Registry import Registry
         import pyre.parsing.locators
 
@@ -173,7 +175,7 @@ class Inventory(object):
 
         locator = pyre.parsing.locators.default()
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
 
             # We intentionally don't call _getDefaultValue() -- at
             # this stage, we don't want anything to happen (files to
@@ -376,22 +378,22 @@ class Inventory(object):
     # accessors for the inventory items by category
     def properties(self):
         """return a list of my property objects"""
-        return self._traitRegistry.values()
+        return list(self._traitRegistry.values())
 
 
     def propertyNames(self):
         """return a list of the names of all my traits"""
-        return self._traitRegistry.keys()
+        return list(self._traitRegistry.keys())
 
 
     def facilities(self):
         """return a list of my facility objects"""
-        return self._facilityRegistry.values()
+        return list(self._facilityRegistry.values())
 
         
     def facilityNames(self):
         """return a list of the names of all my facilities"""
-        return self._facilityRegistry.keys()
+        return list(self._facilityRegistry.keys())
 
 
     def components(self, context=None):
@@ -402,7 +404,7 @@ class Inventory(object):
         candidates = []
 
         if self._facilityOrder is None:
-            keys = self._facilityRegistry.iterkeys()
+            keys = iter(self._facilityRegistry.keys())
         else:
             keys = self._facilityOrder
         #for name, facility in self._facilityRegistry.iteritems():
@@ -414,7 +416,7 @@ class Inventory(object):
                     candidates.append(component)
             except SystemExit:
                 raise
-            except Exception, error:
+            except Exception as error:
                 if context:
                     import sys, traceback, pyre.parsing.locators
                     stackTrace = traceback.extract_tb(sys.exc_info()[2])
@@ -477,7 +479,7 @@ class Inventory(object):
 
 
     def _createTraitDescriptor(self):
-        from Descriptor import Descriptor
+        from .Descriptor import Descriptor
         return Descriptor()
 
 
@@ -503,7 +505,7 @@ class Inventory(object):
 
 
     # metaclass
-    from Notary import Notary
+    from .Notary import Notary
     __metaclass__ = Notary
 
 

@@ -12,7 +12,8 @@
 #
 
 
-from ElementContainer import ElementContainer
+
+from .ElementContainer import ElementContainer
 from pyre.parsing.locators.Traceable import Traceable
 
 
@@ -24,14 +25,14 @@ class Page(ElementContainer, Traceable):
 
 
     def body(self, **kwds):
-        from Body import Body
+        from .Body import Body
         self._body = Body(**kwds)
         self.contents.append(self._body)
         return self._body
 
 
     def head(self, **kwds):
-        from Head import Head
+        from .Head import Head
         head = Head(**kwds)
         self.contents.append(head)
         return head

@@ -17,32 +17,29 @@ from pyre.components.Component import Component
 
 class Channel(Component):
 
-
     def updateConfiguration(self, registry):
         from pyre.util.bool import bool
         listing = self._listing(registry)
 
         for category, state in listing:
             journal.journal().channel(self.name).diagnostic(category).state = bool(state)
-            
-        return []
 
+        return []
 
     def __init__(self, name):
         Component.__init__(self, name, name)
         return
 
-
     def _listing(self, registry):
         listing = [
-            (name, descriptor.value) for name, descriptor in registry.properties.iteritems()
-            ]
+            (name, descriptor.value) for name, descriptor in registry.properties.items()
+        ]
 
         listing += [
             ("%s.%s" % (nodename, name), value)
-            for nodename, node in registry.facilities.iteritems()
+            for nodename, node in registry.facilities.items()
             for name, value in self._listing(node)
-            ]
+        ]
 
         return listing
 
@@ -50,4 +47,4 @@ class Channel(Component):
 # version
 __id__ = "$Id: Channel.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-# End of file 
+# End of file

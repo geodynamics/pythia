@@ -12,8 +12,9 @@
 # 
 
 # factory
+
 def weaver():
-    from Weaver import Weaver
+    from .Weaver import Weaver
     return Weaver()
 
 

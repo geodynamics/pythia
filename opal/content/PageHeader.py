@@ -12,28 +12,29 @@
 #
 
 
-from PageSection import PageSection
+
+from .PageSection import PageSection
 
 
 class PageHeader(PageSection):
 
 
     def logo(self, **kwds):
-        from Logo import Logo
+        from .Logo import Logo
         logo = Logo(**kwds)
         self.contents.append(logo)
         return logo
 
 
     def personalTools(self, **kwds):
-        from PersonalTools import PersonalTools
+        from .PersonalTools import PersonalTools
         tools = PersonalTools(**kwds)
         self.contents.append(tools)
         return tools
 
 
     def searchBox(self, **kwds):
-        from SearchBox import SearchBox
+        from .SearchBox import SearchBox
         searchBox = SearchBox(**kwds)
         self.contents.append(searchBox)
         return searchBox

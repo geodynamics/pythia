@@ -11,7 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Service import Service
+
+from .Service import Service
 
 
 class TCPService(Service):
@@ -39,9 +40,9 @@ class TCPService(Service):
 
         try:
             request = self.marshaller.receive(socket)
-        except ValueError, msg:
+        except ValueError as msg:
             return self.badRequest(socket, address, msg)
-        except self.marshaller.RequestError, msg:
+        except self.marshaller.RequestError as msg:
             self.requestError(socket, address, msg)
             return False
 
@@ -54,7 +55,7 @@ class TCPService(Service):
 
         try:
             self.marshaller.send(result, socket)
-        except self.marshaller.RequestError, msg:
+        except self.marshaller.RequestError as msg:
             self.requestError(socket, address, msg)
             return False
 

@@ -12,10 +12,11 @@
 #
 
 
+
 def codecPML():
     """create an instance of the local pml parser for layout files"""
 
-    from CodecPML import CodecPML
+    from .CodecPML import CodecPML
     return CodecPML()
 
 

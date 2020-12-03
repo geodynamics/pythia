@@ -15,8 +15,9 @@
 See physics.nist.gov/ccu/Units for details
 """
 
+
 def parser():
-    import unitparser
+    from . import unitparser
     return unitparser.parser()
 
 
