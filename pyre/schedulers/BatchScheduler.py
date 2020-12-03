@@ -11,7 +11,8 @@
 #
 
 
-from Scheduler import Scheduler
+
+from .Scheduler import Scheduler
 
 
 class BatchScheduler(Scheduler):

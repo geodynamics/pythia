@@ -12,8 +12,9 @@
 #
 
 
-from PageSection import PageSection
-from PortletFactory import PortletFactory
+
+from .PageSection import PageSection
+from .PortletFactory import PortletFactory
 
 
 class PageLeftColumn(PageSection, PortletFactory):

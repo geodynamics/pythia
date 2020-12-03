@@ -12,8 +12,9 @@
 # 
 
 
+
 import journal
-from Index import Index
+from .Index import Index
 
 
 class Debug(Index):
@@ -25,7 +26,7 @@ class Debug(Index):
 
 
     def _proxyState(self, name):
-        from ProxyState import ProxyState
+        from .ProxyState import ProxyState
         return ProxyState(journal._journal.debug(name))
 
 

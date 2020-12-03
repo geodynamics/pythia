@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.simulations.Solver import Solver
 
 
@@ -21,7 +22,7 @@ class PressurePulse(Solver):
 
         import pyre.inventory
         from pyre.units.SI import second
-        from HeavisidePulse import HeavisidePulse
+        from .HeavisidePulse import HeavisidePulse
 
         syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
         generator = pyre.inventory.facility("generator", factory=HeavisidePulse)

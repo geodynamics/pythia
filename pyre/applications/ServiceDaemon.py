@@ -11,9 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Application import Application
-from Daemon import Daemon as Stager
-from ComponentHarness import ComponentHarness
+
+from .Application import Application
+from .Daemon import Daemon as Stager
+from .ComponentHarness import ComponentHarness
 
 
 class ServiceDaemon(ComponentHarness, Application, Stager):

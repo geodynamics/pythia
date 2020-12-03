@@ -12,22 +12,23 @@
 #
 
 
-from Application import Application
-from AppRunner import AppRunner
-from ComponentHarness import ComponentHarness
-from Script import Script
-from Shell import Shell
-from SimpleComponentHarness import SimpleComponentHarness
-from SuperScript import SuperScript
+
+from .Application import Application
+from .AppRunner import AppRunner
+from .ComponentHarness import ComponentHarness
+from .Script import Script
+from .Shell import Shell
+from .SimpleComponentHarness import SimpleComponentHarness
+from .SuperScript import SuperScript
 
 
 def commandlineParser():
-    from CommandlineParser import CommandlineParser
+    from .CommandlineParser import CommandlineParser
     return CommandlineParser()
     
 
 def superCommandlineParser():
-    from SuperCommandlineParser import SuperCommandlineParser
+    from .SuperCommandlineParser import SuperCommandlineParser
     return SuperCommandlineParser()
     
 

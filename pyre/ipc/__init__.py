@@ -12,13 +12,14 @@
 #
 
 
+
 def connection(mode):
     if mode == 'tcp':
-        from TCPSocket import TCPSocket
+        from .TCPSocket import TCPSocket
         return TCPSocket()
 
     if mode == 'udp':
-        from UDPSocket import UDPSocket
+        from .UDPSocket import UDPSocket
         return UDPSocket()
 
     import journal
@@ -29,11 +30,11 @@ def connection(mode):
 
 def monitor(mode):
     if mode == 'tcp':
-        from TCPMonitor import TCPMonitor
+        from .TCPMonitor import TCPMonitor
         return TCPMonitor()
 
     if mode == 'udp':
-        from UDPMonitor import UDPMonitor
+        from .UDPMonitor import UDPMonitor
         return UDPMonitor()
 
     import journal
@@ -43,7 +44,7 @@ def monitor(mode):
 
 
 def selector():
-    from Selector import Selector
+    from .Selector import Selector
     return Selector()
 
 # version

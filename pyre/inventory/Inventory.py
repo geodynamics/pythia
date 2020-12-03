@@ -13,6 +13,7 @@
 
 
 
+
 class Inventory(object):
 
 
@@ -64,7 +65,7 @@ class Inventory(object):
                 except SystemExit:
                     raise
                 except Exception as error:
-                    from Item import Item
+                    from .Item import Item
                     context.error(error, items=[Item(prop, descriptor)])
             else:
                 context.unrecognizedProperty(name, descriptor.value, descriptor.locator)
@@ -115,8 +116,8 @@ class Inventory(object):
     def retrieveConfiguration(self, registry):
         """place the current inventory configuration in the given registry"""
 
-        from Facility import Facility
-        from Property import Property
+        from .Facility import Facility
+        from .Property import Property
 
         node = registry.getNode(self._priv_name)
 
@@ -141,7 +142,7 @@ class Inventory(object):
     def collectDefaults(self, registry):
         """place my default values in the given registry"""
 
-        from Facility import Facility
+        from .Facility import Facility
 
         node = registry.getNode(self._priv_name)
 
@@ -165,7 +166,7 @@ class Inventory(object):
     def collectPropertyDefaults(self, registry=None):
         """place my default values in the given registry"""
 
-        from Facility import Facility
+        from .Facility import Facility
         from pyre.inventory.odb.Registry import Registry
         import pyre.parsing.locators
 
@@ -478,7 +479,7 @@ class Inventory(object):
 
 
     def _createTraitDescriptor(self):
-        from Descriptor import Descriptor
+        from .Descriptor import Descriptor
         return Descriptor()
 
 
@@ -504,7 +505,7 @@ class Inventory(object):
 
 
     # metaclass
-    from Notary import Notary
+    from .Notary import Notary
     __metaclass__ = Notary
 
 

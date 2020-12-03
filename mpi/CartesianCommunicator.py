@@ -12,10 +12,11 @@
 #
 
 
+
 raise NotImplementedError() # 2007-06-11 lcs
 
 
-from Communicator import Communicator
+from .Communicator import Communicator
 
 
 class CartesianCommunicator(Communicator):
@@ -26,12 +27,12 @@ class CartesianCommunicator(Communicator):
 
 
     def shift(self, axis, direction):
-        import _mpi
+        from . import _mpi
         return _mpi.cartesianShift(self._handle, axis, direction)
 
 
     def __init__(self, handle, axes, periods, reorder):
-        import _mpi
+        from . import _mpi
         # create the handle
         cartesian = _mpi.communicatorCreateCartesian(handle, reorder, axes, periods)
 

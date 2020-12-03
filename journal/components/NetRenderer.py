@@ -11,28 +11,26 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 from pyre.components.Component import Component
 
 
 class NetRenderer(Component):
-
 
     def __init__(self, name="renderer"):
         Component.__init__(self, name, "net-renderer")
         self.renderer = None
         return
 
-
     def _init(self):
         from journal.devices.NetRenderer import NetRenderer
         renderer = NetRenderer()
         self.renderer = renderer
-        
-        return renderer
 
+        return renderer
 
 
 # version
 __id__ = "$Id: NetRenderer.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-# End of file 
+# End of file

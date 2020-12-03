@@ -11,7 +11,8 @@
 #
 
 
-from SchedulerSGE import SchedulerSGE
+
+from .SchedulerSGE import SchedulerSGE
 import os, sys
 
 

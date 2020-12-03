@@ -12,6 +12,7 @@
 # ======================================================================
 #
 
+__package__ = "greeters"
 
 def greeter():
     from Alien import Alien

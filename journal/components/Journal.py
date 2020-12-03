@@ -17,19 +17,17 @@ from pyre.components.Component import Component
 
 class Journal(Component):
 
-
     class Inventory(Component.Inventory):
 
-
-        from ChannelFacility import ChannelFacility
-        from DeviceFacility import DeviceFacility
+        from .ChannelFacility import ChannelFacility
+        from .DeviceFacility import DeviceFacility
 
         error = ChannelFacility("error")
         error.meta['tip'] = 'controls wchich error messages get printed'
-        
+
         warning = ChannelFacility("warning")
         warning.meta['tip'] = 'controls which warning get printed'
-        
+
         info = ChannelFacility("info")
         info.meta['tip'] = 'controls which informational messages get printed'
 
@@ -42,18 +40,15 @@ class Journal(Component):
         device = DeviceFacility()
         device.meta['tip'] = 'controls the output device used for printing the generated messages'
 
-
     def device(self):
         return self.inventory.device
-
 
     def __init__(self, name=None):
         if name is None:
             name = 'journal'
-            
+
         Component.__init__(self, name, facility="journal")
         return
-
 
     def _init(self):
         import journal
@@ -66,7 +61,8 @@ class Journal(Component):
 
         return
 
+
 # version
 __id__ = "$Id: Journal.py,v 1.3 2005/03/10 06:22:47 aivazis Exp $"
 
-# End of file 
+# End of file

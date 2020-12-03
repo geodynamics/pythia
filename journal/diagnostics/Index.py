@@ -13,7 +13,8 @@
 
 
 
-from Diagnostic import Diagnostic
+
+from .Diagnostic import Diagnostic
 
 
 class Index(object):
@@ -46,7 +47,7 @@ class Index(object):
         return
 
     def _stateFactory(self, name):
-        from State import State
+        from .State import State
         return State(self._defaultState)
 
     def __new__(cls):

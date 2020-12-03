@@ -12,7 +12,8 @@
 #
 
 
-from Binary import Binary
+
+from .Binary import Binary
 
 
 class Choice(Binary):

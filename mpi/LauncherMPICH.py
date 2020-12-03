@@ -11,7 +11,8 @@
 #
 
 
-from Launcher import Launcher
+
+from .Launcher import Launcher
 
 
 class LauncherMPICH(Launcher):

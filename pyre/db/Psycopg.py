@@ -12,18 +12,17 @@
 #
 
 
-import psycopg
-from DBManager import DBManager
+from . import psycopg
+from .DBManager import DBManager
 
 
 class Psycopg(DBManager):
 
-
     # exceptions
     ProgrammingError = psycopg.ProgrammingError
 
-
     # interface
+
     def connect(self, **kwds):
         return psycopg.connect(**kwds)
 
@@ -31,4 +30,4 @@ class Psycopg(DBManager):
 # version
 __id__ = "$Id: Psycopg.py,v 1.2 2005/04/05 23:31:15 aivazis Exp $"
 
-# End of file 
+# End of file

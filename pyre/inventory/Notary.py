@@ -12,8 +12,9 @@
 #
 
 
-from Trait import Trait
-from Facility import Facility
+
+from .Trait import Trait
+from .Facility import Facility
 
 
 class Notary(type):

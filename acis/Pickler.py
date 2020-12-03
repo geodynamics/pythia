@@ -11,6 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 import acis
 from pyre.geometry.Visitor import Visitor as GeometryVisitor
 
@@ -19,7 +20,7 @@ class Pickler(GeometryVisitor):
 
     # user callable routine
     def pickle(self, body):
-        from Body import Body
+        from .Body import Body
 
         if isinstance(body, Body):
             return body

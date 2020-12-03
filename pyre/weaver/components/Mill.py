@@ -12,8 +12,9 @@
 #
 
 
-from Indenter import Indenter
-from Stationery import Stationery
+
+from .Indenter import Indenter
+from .Stationery import Stationery
 from pyre.parsing.locators.Traceable import Traceable
 
 

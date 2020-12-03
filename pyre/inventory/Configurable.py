@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.parsing.locators.Traceable import Traceable
 
 
@@ -97,7 +98,7 @@ class Configurable(Traceable):
         return myRegistry, yourRegistry
 
     def newConfigContext(self):
-        from ConfigContext import ConfigContext
+        from .ConfigContext import ConfigContext
         return ConfigContext()
 
     def configureProperties(self, context):
@@ -303,7 +304,7 @@ class Configurable(Traceable):
 
     def createMetaInventory(self):
         """create my meta-inventory instance"""
-        from MetaInventory import MetaInventory
+        from .MetaInventory import MetaInventory
         return MetaInventory(self.inventory)
 
     def __init__(self, name=None):
@@ -339,7 +340,7 @@ class Configurable(Traceable):
         odict = self.__dict__.copy()
 
         # convert inventory to picklable form
-        from Inventory import Inventory
+        from .Inventory import Inventory
         from copy import copy
         inventory = copy(odict['inventory'])
         inventory.__class__ = Inventory
@@ -377,10 +378,10 @@ class Configurable(Traceable):
         return
 
     # inventory
-    from Inventory import Inventory
+    from .Inventory import Inventory
 
     # metaclass
-    from ConfigurableClass import ConfigurableClass
+    from .ConfigurableClass import ConfigurableClass
     __metaclass__ = ConfigurableClass
 
 

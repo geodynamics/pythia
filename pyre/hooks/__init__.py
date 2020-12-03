@@ -11,7 +11,8 @@
 #
 
 
-from ExceptHook import ExceptHook
+
+from .ExceptHook import ExceptHook
 
 
 # facilities and components

@@ -14,6 +14,7 @@
 """create the singleton thePeriodicTable and populate it with the known elements"""
 
 
+
 class PeriodicTable(object):
 
     def name(self, name):
@@ -32,7 +33,7 @@ class PeriodicTable(object):
         return self._atomicNumberIndex[n - 1]
 
     def __init__(self):
-        from elements import elements
+        from .elements import elements
 
         self._atomicNumberIndex = elements
         self._nameIndex = createNameIndex(elements)

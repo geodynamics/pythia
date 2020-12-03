@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.odb.common.Curator import Curator as Base
 
 
@@ -137,7 +138,7 @@ class Curator(Base):
 
         import os
         if os.path.isdir(directory):
-            from Depository import Depository
+            from .Depository import Depository
             depository = Depository(directory)
             return depository
 

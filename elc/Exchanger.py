@@ -12,6 +12,7 @@
 # 
 
 
+
 from pyre.components.Component import Component
 
 
@@ -114,7 +115,7 @@ class Exchanger(Component):
         self.rank = None
         self.communicator = None
 
-        from Boundary import Boundary
+        from .Boundary import Boundary
         self.boundary = Boundary()
 
         import journal

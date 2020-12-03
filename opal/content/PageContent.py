@@ -12,7 +12,8 @@
 #
 
 
-from PageSection import PageSection
+
+from .PageSection import PageSection
 
 
 class PageContent(PageSection):
@@ -23,19 +24,19 @@ class PageContent(PageSection):
 
 
     def leftColumn(self, **kwds):
-        from PageLeftColumn import PageLeftColumn
+        from .PageLeftColumn import PageLeftColumn
         self._leftColumn = PageLeftColumn(**kwds)
         return self._leftColumn
 
 
     def main(self, **kwds):
-        from PageMain import PageMain
+        from .PageMain import PageMain
         self._main = PageMain(**kwds)
         return self._main
 
 
     def rightColumn(self, **kwds):
-        from PageRightColumn import PageRightColumn
+        from .PageRightColumn import PageRightColumn
         self._rightColumn = PageRightColumn(**kwds)
         return self._rightColumn
 

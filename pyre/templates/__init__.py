@@ -11,8 +11,9 @@
 #
 
 
+
 def codecTmpl():
-    from CodecTmpl import CodecTmpl
+    from .CodecTmpl import CodecTmpl
     return CodecTmpl()
 
 

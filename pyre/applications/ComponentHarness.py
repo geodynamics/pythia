@@ -12,7 +12,8 @@
 #
 
 
-from SimpleComponentHarness import SimpleComponentHarness
+
+from .SimpleComponentHarness import SimpleComponentHarness
 
 
 class ComponentHarness(SimpleComponentHarness):

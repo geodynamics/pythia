@@ -12,6 +12,7 @@
 
 
 
+
 class Parser(object):
 
 
@@ -110,7 +111,7 @@ class Parser(object):
 
 
     def _createLexer(self, input):
-        from Lexer import Lexer
+        from .Lexer import Lexer
         return Lexer(input)
 
 

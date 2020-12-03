@@ -12,7 +12,8 @@
 #
 
 
-from GeometricalModeller import GeometricalModeller
+
+from .GeometricalModeller import GeometricalModeller
 
 
 class Loader(GeometricalModeller):

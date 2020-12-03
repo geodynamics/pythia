@@ -11,6 +11,7 @@
 #
 
 
+
 from pyre.inventory.Configurable import Configurable
 
 
@@ -36,7 +37,7 @@ class Shell(Configurable):
     journal = journal.facility()
     journal.meta['tip'] = 'the logging facility'
 
-    from Preprocessor import Preprocessor
+    from .Preprocessor import Preprocessor
     pp = pyre.inventory.facility("macros", factory=Preprocessor, args=["macros"])
 
 

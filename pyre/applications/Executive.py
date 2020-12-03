@@ -13,11 +13,12 @@
 
 
 
+
 class Executive(object):
 
     # factories
 
-    from CommandlineParser import CommandlineParser
+    from .CommandlineParser import CommandlineParser
 
     def createCommandlineParser(self):
         """create a command line parser"""

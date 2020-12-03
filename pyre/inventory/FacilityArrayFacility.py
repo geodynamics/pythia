@@ -11,6 +11,7 @@
 #
 
 
+
 from pyre.inventory.Facility import Facility
 
 
@@ -35,7 +36,7 @@ class FacilityArrayFacility(Facility):
             dict[attr] = facility
             facilityOrder.append(facilityName.strip())
 
-        from Inventory import Inventory
+        from .Inventory import Inventory
         from pyre.components.Component import Component
         
         Inventory = Inventory.__metaclass__("FacilityArray.Inventory", (Component.Inventory,), dict)

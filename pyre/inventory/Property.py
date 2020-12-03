@@ -12,7 +12,8 @@
 #
 
 
-from Trait import Trait
+
+from .Trait import Trait
 
 
 class Property(Trait):

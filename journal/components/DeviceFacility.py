@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 from pyre.inventory.Facility import Facility
 
 
@@ -33,13 +34,13 @@ class DeviceFacility(Facility):
             term = environ.get('TERM', 'console')
             component = instance.retrieveComponent(term, factory=self.family, vault=self.vault)
             if component is None:
-                from Console import Console
+                from .Console import Console
                 component = Console()
             else:
                 component.aliases.append(self.name)
                 locator = pyre.parsing.locators.chain(component.getLocator(), locator)
         else:
-            from Stream import Stream
+            from .Stream import Stream
             component = Stream(sys.stdout, "stdout")
 
         return component, locator

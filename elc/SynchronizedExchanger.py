@@ -11,7 +11,8 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
-from Exchanger import Exchanger
+
+from .Exchanger import Exchanger
 
 
 class SynchronizedExchanger(Exchanger):

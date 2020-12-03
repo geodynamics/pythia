@@ -11,8 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from SI import second
-from SI import pico, nano, micro, milli
+
+from .SI import second
+from .SI import pico, nano, micro, milli
 
 
 #

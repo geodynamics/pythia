@@ -12,10 +12,11 @@
 #
 
 
+
 def blade():
     """create the UI manager"""
 
-    from components.Blade import Blade
+    from .components.Blade import Blade
     return Blade()
 
 

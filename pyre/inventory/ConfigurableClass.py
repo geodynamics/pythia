@@ -12,6 +12,7 @@
 
 
 
+
 class ConfigurableClass(type):
 
     
@@ -33,8 +34,8 @@ class ConfigurableClass(type):
             # allow for traditional components
             return
         
-        from Notary import Notary
-        from Trait import Trait
+        from .Notary import Notary
+        from .Trait import Trait
         
         # derive the bases for the inventory class
         inventoryBases = []

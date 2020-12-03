@@ -12,13 +12,14 @@
 #
 
 
-from Session import Session
+
+from .Session import Session
 
 
 class TCPSession(Session):
 
 
-    from RequestError import RequestError
+    from .RequestError import RequestError
 
 
     def request(self, command, args=None):

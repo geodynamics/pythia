@@ -13,11 +13,12 @@
 
 
 
+
 class LiteralFactory(object):
 
 
     def literal(self):
-        from Literal import Literal
+        from .Literal import Literal
         literal = Literal()
 
         self.contents.append(literal)

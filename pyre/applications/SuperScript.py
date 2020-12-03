@@ -11,7 +11,8 @@
 #
 
 
-from Script import Script
+
+from .Script import Script
 
 
 class SuperScript(Script):

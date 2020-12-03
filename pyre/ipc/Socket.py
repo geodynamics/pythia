@@ -12,7 +12,8 @@
 #
 
 
-import socket
+
+from . import socket
 
 
 class Socket(socket.socket):
@@ -36,7 +37,7 @@ class Socket(socket.socket):
 
 
     # constants
-    from socket import SOCK_DGRAM, SOCK_STREAM
+    from .socket import SOCK_DGRAM, SOCK_STREAM
 
 
     # local exception class

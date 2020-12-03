@@ -12,7 +12,8 @@
 #
 
 
-from AuthenticatingActor import AuthenticatingActor
+
+from .AuthenticatingActor import AuthenticatingActor
 
 
 class NYI(AuthenticatingActor):

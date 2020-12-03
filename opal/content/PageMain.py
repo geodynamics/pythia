@@ -12,14 +12,15 @@
 #
 
 
-from PageSection import PageSection
+
+from .PageSection import PageSection
 
 
 class PageMain(PageSection):
 
 
     def document(self, **kwds):
-        from Document import Document
+        from .Document import Document
         document = Document(**kwds)
         self.contents.append(document)
         return document

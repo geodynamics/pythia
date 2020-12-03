@@ -12,7 +12,8 @@
 #
 
 
-from ElementContainer import ElementContainer
+
+from .ElementContainer import ElementContainer
 
 
 class PageSection(ElementContainer):

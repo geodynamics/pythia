@@ -11,7 +11,8 @@
 #
 
 
-from BatchScheduler import BatchScheduler
+
+from .BatchScheduler import BatchScheduler
 import os
 import sys
 

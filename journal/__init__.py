@@ -13,12 +13,13 @@
 
 # journal
 
+
 def journal():
     global _theJournal
     if _theJournal is not None:
         return _theJournal
     
-    from Journal import Journal
+    from .Journal import Journal
     _theJournal = Journal("journal")
     return _theJournal
 
@@ -26,61 +27,61 @@ def journal():
 # facilities and components
 
 def facility(default=None):
-    from components.JournalFacility import JournalFacility
+    from .components.JournalFacility import JournalFacility
     return JournalFacility(default)
 
 
 # channels
 
 def firewall(name):
-    from diagnostics.Firewall import Firewall
+    from .diagnostics.Firewall import Firewall
     return Firewall().diagnostic(name)
 
 
 def debug(name):
-    from diagnostics.Debug import Debug
+    from .diagnostics.Debug import Debug
     return Debug().diagnostic(name)
 
 
 def info(name):
-    from diagnostics.Info import Info
+    from .diagnostics.Info import Info
     return Info().diagnostic(name)
 
 
 def warning(name):
-    from diagnostics.Warning import Warning
+    from .diagnostics.Warning import Warning
     return Warning().diagnostic(name)
 
 
 def error(name):
-    from diagnostics.Error import Error
+    from .diagnostics.Error import Error
     return Error().diagnostic(name)
 
 
 # indices
 
 def firewallIndex():
-    from diagnostics.Firewall import Firewall
+    from .diagnostics.Firewall import Firewall
     return Firewall()
 
 
 def debugIndex():
-    from diagnostics.Debug import Debug
+    from .diagnostics.Debug import Debug
     return Debug()
 
 
 def infoIndex():
-    from diagnostics.Info import Info
+    from .diagnostics.Info import Info
     return Info()
 
 
 def warningIndex():
-    from diagnostics.Warning import Warning
+    from .diagnostics.Warning import Warning
     return Warning()
 
 
 def errorIndex():
-    from diagnostics.Error import Error
+    from .diagnostics.Error import Error
     return Error()
 
 
@@ -99,7 +100,7 @@ def register():
 # devices
 
 def logfile(stream):
-    from devices.File import File
+    from .devices.File import File
     device = File(stream)
 
     journal().device = device
@@ -109,10 +110,10 @@ def logfile(stream):
 def remote(key, port, host="localhost", protocol="tcp"):
 
     if protocol == "tcp":
-        from devices.TCPDevice import TCPDevice
+        from .devices.TCPDevice import TCPDevice
         device = TCPDevice(key, port, host)
     elif protocol == "udp":
-        from devices.UDPDevice import UDPDevice
+        from .devices.UDPDevice import UDPDevice
         device = UDPDevice(key, port, host)
     else:
         error('journal').log("unknown protocol '%s'" % protocol)
@@ -125,7 +126,7 @@ def remote(key, port, host="localhost", protocol="tcp"):
 # special setups
 
 def daemon(name=None):
-    from services.Daemon import Daemon
+    from .services.Daemon import Daemon
     return Daemon(name)
 
 
@@ -135,7 +136,7 @@ def request(command, args):
 
 
 def service(name=None):
-    from services.JournalService import JournalService
+    from .services.JournalService import JournalService
     return JournalService(name)
     
 
@@ -143,7 +144,7 @@ def pickler(name=None):
     if name is None:
         name = "journal-pickler"
         
-    from services.Pickler import Pickler
+    from .services.Pickler import Pickler
     return Pickler(name)
 
 

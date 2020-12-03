@@ -12,23 +12,24 @@
 #
 
 
+
 def session(name=None):
-    from IPASession import IPASession
+    from .IPASession import IPASession
     return IPASession(name)
 
 
 def service(name=None):
-    from IPAService import IPAService
+    from .IPAService import IPAService
     return IPAService(name)
 
 
 def userManager(name=None):
-    from UserManager import UserManager
+    from .UserManager import UserManager
     return UserManager(name)
 
 
 def daemon(name=None):
-    from Daemon import Daemon
+    from .Daemon import Daemon
     return Daemon(name)
 
 
@@ -36,7 +37,7 @@ def pickler(name=None):
     if name is None:
         name = 'ipa-pickler'
 
-    from Pickler import Pickler
+    from .Pickler import Pickler
     return Pickler(name)
 
 

@@ -12,7 +12,8 @@
 # 
 
 
-from SynchronizedExchanger import SynchronizedExchanger
+
+from .SynchronizedExchanger import SynchronizedExchanger
 
 
 class ICEExchanger(SynchronizedExchanger):

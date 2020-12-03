@@ -11,18 +11,19 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 def evaluator(name=None):
-    from Evaluator import Evaluator
+    from .Evaluator import Evaluator
     return Evaluator(name)
 
 
 def pickler(name=None):
-    from Pickler import Pickler
+    from .Pickler import Pickler
     return Pickler(name)
 
 
 def request(command, args=None):
-    from ServiceRequest import ServiceRequest
+    from .ServiceRequest import ServiceRequest
     return ServiceRequest(command, args)
 
 

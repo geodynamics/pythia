@@ -12,6 +12,7 @@
 #
 
 
+
 from pyre.components.Component import Component
 
 
@@ -30,7 +31,7 @@ class Marshaller(Component):
         Component.__init__(self, name, facility="marshaller")
         return
 
-    from RequestError import RequestError
+    from .RequestError import RequestError
 
 
 # version

@@ -12,7 +12,8 @@
 #
 
 
-from Trait import Trait
+
+from .Trait import Trait
 from pyre.inventory import Uninit
 
 
@@ -200,7 +201,7 @@ class Facility(Trait):
     _interfaceRegistry = {}
 
     # metaclass
-    from Interface import Interface
+    from .Interface import Interface
     __metaclass__ = Interface
 
 

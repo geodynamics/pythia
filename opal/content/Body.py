@@ -12,37 +12,38 @@
 #
 
 
-from ElementContainer import ElementContainer
-from LiteralFactory import LiteralFactory
-from ParagraphFactory import ParagraphFactory
+
+from .ElementContainer import ElementContainer
+from .LiteralFactory import LiteralFactory
+from .ParagraphFactory import ParagraphFactory
 
 
 class Body(ElementContainer, LiteralFactory, ParagraphFactory):
 
 
     def pageContent(self, **kwds):
-        from PageContent import PageContent
+        from .PageContent import PageContent
         self._content = PageContent(**kwds)
         self.contents.append(self._content)
         return self._content
 
 
     def pageCredits(self, **kwds):
-        from PageCredits import PageCredits
+        from .PageCredits import PageCredits
         credits = PageCredits(**kwds)
         self.contents.append(credits)
         return credits
 
 
     def pageHeader(self, **kwds):
-        from PageHeader import PageHeader
+        from .PageHeader import PageHeader
         header = PageHeader(**kwds)
         self.contents.append(header)
         return header
 
 
     def pageFooter(self, **kwds):
-        from PageFooter import PageFooter
+        from .PageFooter import PageFooter
         footer = PageFooter(**kwds)
         self.contents.append(footer)
         return footer

@@ -12,7 +12,8 @@
 #
 
 
-from AbstractNode import AbstractNode
+
+from .AbstractNode import AbstractNode
 
 
 class Node(AbstractNode):

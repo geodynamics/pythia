@@ -13,11 +13,12 @@
 
 
 
+
 class ParagraphFactory(object):
 
 
     def paragraph(self, **kwds):
-        from Paragraph import Paragraph
+        from .Paragraph import Paragraph
         paragraph = Paragraph(**kwds)
 
         self.contents.append(paragraph)

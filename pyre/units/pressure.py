@@ -11,7 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from SI import pascal, kilo, mega, giga
+
+from .SI import pascal, kilo, mega, giga
 
 #
 # Definitions of common pressure units

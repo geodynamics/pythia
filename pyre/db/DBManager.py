@@ -13,6 +13,7 @@
 
 
 
+
 class DBManager(object):
 
 
@@ -138,7 +139,7 @@ class DBManager(object):
 
 
     def __init__(self, name):
-        import psycopg
+        from . import psycopg
         self.db = self.connect(database=name)
 
         import pyre.parsing.locators

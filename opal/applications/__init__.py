@@ -12,8 +12,9 @@
 #
 
 
+
 def cgiParser():
-    from CGIParser import CGIParser
+    from .CGIParser import CGIParser
     return CGIParser()
 
 

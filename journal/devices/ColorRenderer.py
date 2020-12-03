@@ -11,7 +11,8 @@
 #
 
 
-from Renderer import Renderer
+
+from .Renderer import Renderer
 
 
 class ColorRenderer(Renderer):

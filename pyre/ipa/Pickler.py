@@ -12,8 +12,9 @@
 #
 
 
+
 from pyre.services.Pickler import Pickler
-from Authentication import Authentication
+from .Authentication import Authentication
 
 
 # version

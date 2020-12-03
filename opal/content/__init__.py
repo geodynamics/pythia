@@ -12,28 +12,29 @@
 #
 
 
+
 def element(**kwds):
-    from Element import Element
+    from .Element import Element
     return Element(**kwds)
 
 
 def head(**kwds):
-    from Head import Head
+    from .Head import Head
     return Head(**kwds)
 
 
 def page(**kwds):
-    from Page import Page
+    from .Page import Page
     return Page(**kwds)
 
 
 def portlet(**kwds):
-    from Portlet import Portlet
+    from .Portlet import Portlet
     return Portlet(**kwds)
 
 
 def selector(**kwds):
-    from Selector import Selector
+    from .Selector import Selector
     return Selector(**kwds)
 
 

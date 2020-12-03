@@ -12,7 +12,8 @@
 #
 
 
-from PageSection import PageSection
+
+from .PageSection import PageSection
 
 
 class PageFooter(PageSection):

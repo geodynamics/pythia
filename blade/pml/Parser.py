@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 from pyre.xml.Parser import Parser as BaseParser
 
 
@@ -18,7 +19,7 @@ class Parser(BaseParser):
 
 
     def parse(self, stream, parserFactory=None):
-        from parser.Document import Document
+        from .parser.Document import Document
         return BaseParser.parse(self, stream, Document(stream.name), parserFactory)
 
 

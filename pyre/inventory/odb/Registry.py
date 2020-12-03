@@ -13,6 +13,7 @@
 
 
 
+
 class Registry(object):
 
 
@@ -115,7 +116,7 @@ class Registry(object):
 
 
     def _createDescriptor(self, value, locator):
-        from Descriptor import Descriptor
+        from .Descriptor import Descriptor
         return Descriptor(value, locator)
 
 

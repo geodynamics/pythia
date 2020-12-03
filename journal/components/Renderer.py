@@ -11,11 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 from pyre.components.Component import Component
 
 
 class Renderer(Component):
-
 
     class Inventory(Component.Inventory):
 
@@ -32,12 +32,10 @@ class Renderer(Component):
         format = pyre.inventory.str("format", default=" -- %s")
         format.meta['tip'] = "the format string used to render the message"
 
-
     def __init__(self, name="renderer"):
         Component.__init__(self, name, "renderer")
         self.renderer = None
         return
-
 
     def _init(self):
         renderer = self.createRenderer()
@@ -47,9 +45,8 @@ class Renderer(Component):
         renderer.format = self.inventory.format
 
         self.renderer = renderer
-        
-        return renderer
 
+        return renderer
 
     def createRenderer(self):
         from journal.devices.Renderer import Renderer
@@ -59,4 +56,4 @@ class Renderer(Component):
 # version
 __id__ = "$Id: Renderer.py,v 1.2 2005/03/10 06:16:37 aivazis Exp $"
 
-# End of file 
+# End of file

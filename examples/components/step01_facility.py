@@ -13,8 +13,8 @@
 # ======================================================================
 #
 
-from pyre.applications.Script import Script
 import pyre.inventory
+from pyre.applications.Script import Script
 
 
 class GreeterApp(Script):

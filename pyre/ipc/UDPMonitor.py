@@ -11,8 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from UDPSocket import UDPSocket
-from PortMonitor import PortMonitor
+
+from .UDPSocket import UDPSocket
+from .PortMonitor import PortMonitor
 
 
 class UDPMonitor(PortMonitor, UDPSocket):

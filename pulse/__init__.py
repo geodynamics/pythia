@@ -11,8 +11,9 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
+
 def solver():
-    from PressurePulse import PressurePulse
+    from .PressurePulse import PressurePulse
     return PressurePulse()
 
 

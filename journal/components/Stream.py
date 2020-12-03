@@ -11,16 +11,15 @@
 #
 
 
-from Device import Device
+
+from .Device import Device
 
 
 class Stream(Device):
 
-
     def createDevice(self):
         from journal.devices.File import File
         return File(self.stream)
-
 
     def __init__(self, stream, name=None):
         if name is None:
@@ -30,4 +29,4 @@ class Stream(Device):
         return
 
 
-# end of file 
+# end of file

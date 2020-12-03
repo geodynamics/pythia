@@ -12,7 +12,8 @@
 #
 
 
-from SimpleRenderer import SimpleRenderer
+
+from .SimpleRenderer import SimpleRenderer
 
 
 class TreeRenderer(SimpleRenderer):

@@ -12,7 +12,8 @@
 #
 
 
-from Actor import Actor
+
+from .Actor import Actor
 
 
 class Registrar(Actor):

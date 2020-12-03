@@ -12,7 +12,8 @@
 #
 
 
-from ComponentHarness import ComponentHarness
+
+from .ComponentHarness import ComponentHarness
 
 
 class DynamicComponentHarness(ComponentHarness):

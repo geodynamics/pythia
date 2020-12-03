@@ -12,8 +12,9 @@
 #
 
 
+
 from pyre.components.Component import Component
-from Executive import Executive
+from .Executive import Executive
 
 
 class Application(Component, Executive):
@@ -34,7 +35,7 @@ class Application(Component, Executive):
         weaver.meta['tip'] = 'the pretty printer of my configuration as an XML document'
 
     def run(self, *args, **kwds):
-        from Shell import Shell
+        from .Shell import Shell
         shell = Shell(self)
         shell.run(*args, **kwds)
         return

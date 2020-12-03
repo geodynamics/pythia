@@ -12,18 +12,19 @@
 # 
 
 # exchanger factories
+
 def iceExchanger():
-    from ICEExchanger import ICEExchanger
+    from .ICEExchanger import ICEExchanger
     return ICEExchanger()
 
 
 def mpiExchanger():
-    from MPIExchanger import MPIExchanger
+    from .MPIExchanger import MPIExchanger
     return MPIExchanger()
 
 
 def serialExchanger():
-    from SerialExchanger import SerialExchanger
+    from .SerialExchanger import SerialExchanger
     return SerialExchanger()
 
 
