@@ -42,7 +42,6 @@ class TestApp(object):
             "pyre.components",
             "pyre.filesystem",
             "pyre.inventory",
-            "pyre.launchers",
             "pyre.odb",
             "pyre.parsing",
             "pyre.schedulers",

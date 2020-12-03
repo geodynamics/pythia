@@ -7,12 +7,13 @@
   - applications
   - components
   - inventory
-  - launchers
   - odb
   - parsing
   - schedulers
   - units
-* mpi
+
+**Note**: mpi and launchers modules are tested in nemesis (which provides MPI).
+ 
 
 ## Functionality not covered by tests
 
