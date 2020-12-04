@@ -11,8 +11,7 @@
 #
 
 
-
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import pyre.parsing.locators as locators
 from pyre.util import expandMacros
 
@@ -26,7 +25,7 @@ class Parser(SafeConfigParser):
     # from Python's ConfigParser module.  It injects proxy 'file' and
     # 'dict' objects into ConfigParser's code.  As the file is parsed,
     # the proxy objects gain control, spying upon the parsing process.
-    
+
     # We should probably write our own parser... *sigh*
 
     class FileProxy(object):
@@ -52,7 +51,7 @@ class Parser(SafeConfigParser):
             self.node = node
             self.macros = macros
             self.fp = fp
-        
+
         def __setitem__(self, trait, value):
             locator = locators.file(self.fp.name, self.fp.lineno)
             path = trait.split('.')
@@ -73,7 +72,7 @@ class Parser(SafeConfigParser):
             self.root = root
             self.macros = macros
             self.fp = Parser.FileProxy()
-        
+
         def __contains__(self, sectname):
             # Prevent 'ConfigParser' from creating section
             # dictionaries; instead, create our own.
@@ -82,7 +81,7 @@ class Parser(SafeConfigParser):
                 cursect = Parser.Section(sectname, node, self.macros, self.fp)
                 self[sectname] = cursect
             return True
-        
+
         def __setitem__(self, key, value):
             dict.__setitem__(self, key, value)
 
