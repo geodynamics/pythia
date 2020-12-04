@@ -295,11 +295,34 @@ class TestUnit(unittest.TestCase):
         self.assertEqual(-2 * SI.meter, ~1 * SI.meter)
 
     def test_cmp(self):
+        # Equal
         self.assertTrue(5.0 * SI.meter == 2.0 * SI.meter + 3.0 * SI.meter)
         self.assertTrue(3.0 * SI.meter / SI.second == 1.0 * SI.meter / SI.second + 2.0 * SI.meter / SI.second)
         self.assertTrue(22.0 * SI.mega * SI.pascal == 15.0e+6 * SI.pascal + 7.0 * SI.mega * SI.pascal)
         self.assertTrue(1.0 * SI.meter == 1.0 * SI.second)
         self.assertFalse(1.0 * SI.meter == 2.0 * SI.meter)
+
+        # Not equal
+        self.assertFalse(1.0 * SI.meter != 1.0 * SI.second)
+        self.assertTrue(1.0 * SI.meter != 2.0 * SI.meter)
+
+        # Less than
+        self.assertTrue(2.0 * SI.meter < 2.1 * SI.meter)
+        self.assertFalse(2.1 * SI.meter < 2.0 * SI.meter)
+
+        # Less than equal
+        self.assertTrue(2.0 * SI.meter <= 2.1 * SI.meter)
+        self.assertTrue(2.0 * SI.meter <= 2.0 * SI.meter)
+        self.assertFalse(2.1 * SI.meter <= 2.0 * SI.meter)
+
+        # Greater than
+        self.assertTrue(2.1 * SI.meter > 2.0 * SI.meter)
+        self.assertFalse(2.0 * SI.meter > 2.1 * SI.meter)
+
+        # Greater than equal
+        self.assertTrue(2.1 * SI.meter >= 2.0 * SI.meter)
+        self.assertTrue(2.0 * SI.meter >= 2.0 * SI.meter)
+        self.assertFalse(2.0 * SI.meter >= 2.1 * SI.meter)
 
     def test_str(self):
         self.assertEqual("5*m", str(5.0 * SI.meter))
