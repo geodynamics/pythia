@@ -12,11 +12,12 @@
 #
 
 
-
 from pyre.parsing.locators.Traceable import Traceable
 
+from .ConfigurableClass import ConfigurableClass
 
-class Configurable(Traceable):
+
+class Configurable(Traceable, metaclass=ConfigurableClass):
 
     # lifecycle management
     def init(self):
@@ -379,10 +380,6 @@ class Configurable(Traceable):
 
     # inventory
     from .Inventory import Inventory
-
-    # metaclass
-    from .ConfigurableClass import ConfigurableClass
-    __metaclass__ = ConfigurableClass
 
 
 # version

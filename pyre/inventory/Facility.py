@@ -12,12 +12,13 @@
 #
 
 
-
-from .Trait import Trait
 from pyre.inventory import Uninit
 
+from .Trait import Trait
+from .Interface import Interface
 
-class Facility(Trait):
+
+class Facility(Trait, metaclass=Interface):
 
     def __init__(self, name, family=None, default=Uninit, factory=None, args=(), meta=None,
                  vault=None):
@@ -199,10 +200,6 @@ class Facility(Trait):
 
     # interface registry
     _interfaceRegistry = {}
-
-    # metaclass
-    from .Interface import Interface
-    __metaclass__ = Interface
 
 
 # version

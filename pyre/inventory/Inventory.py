@@ -12,10 +12,10 @@
 #
 
 
+from .Notary import Notary
 
 
-class Inventory(object):
-
+class Inventory(object, metaclass=Notary):
 
     def initializeConfiguration(self, context):
         # load my settings from the persistent store
@@ -29,7 +29,6 @@ class Inventory(object):
 
         return
 
-
     def loadConfiguration(self, filestem):
         """load the registry contained in the given pml file (without the extension)"""
 
@@ -39,10 +38,8 @@ class Inventory(object):
 
         return shelf['inventory']
 
-
     def updateConfiguration(self, registry):
         return self._priv_registry.update(registry)
-
 
     def configureProperties(self, context):
         """configure my properties using user settings in my registry"""
@@ -72,7 +69,6 @@ class Inventory(object):
                 self._priv_registry.deleteProperty(name)
 
         return
-
 
     def configureComponents(self, context):
         """configure my components using options from my registry"""
@@ -112,7 +108,6 @@ class Inventory(object):
 
         return
 
-
     def retrieveConfiguration(self, registry):
         """place the current inventory configuration in the given registry"""
 
@@ -135,9 +130,8 @@ class Inventory(object):
 
         for component in self.components():
             component.retrieveConfiguration(node)
-            
-        return registry
 
+        return registry
 
     def collectDefaults(self, registry):
         """place my default values in the given registry"""
@@ -162,7 +156,6 @@ class Inventory(object):
 
         return registry
 
-
     def collectPropertyDefaults(self, registry=None):
         """place my default values in the given registry"""
 
@@ -185,7 +178,7 @@ class Inventory(object):
                 value = self._getTraitValue(prop.name)
             except KeyError:
                 value = prop.default
-            
+
             # The 'isinstance' is a limitation of the framework: e.g.,
             # files and dimensionals to not stringify cleanly.
             # Fortunately, we are only interested in string defaults
@@ -194,7 +187,6 @@ class Inventory(object):
                 registry.setProperty(prop.name, value, locator)
 
         return registry
-
 
     def configureComponent(self, component, context, registry=None):
         """configure <component> using options from the given registry"""
@@ -220,9 +212,8 @@ class Inventory(object):
 
         return
 
-
     def retrieveComponent(
-        self, name, factory, args=(), encodings=['odb'], vault=[], extraDepositories=[]):
+            self, name, factory, args=(), encodings=['odb'], vault=[], extraDepositories=[]):
         """retrieve component <name> from the persistent store"""
 
         if extraDepositories:
@@ -232,10 +223,9 @@ class Inventory(object):
         return self._priv_curator.retrieveComponent(
             name=name, facility=factory, args=args, encodings=encodings,
             vault=vault, extraDepositories=self._priv_depositories)
-        
 
     def retrieveAllComponents(
-        self, factory, args=(), encoding='odb', vault=[], extraDepositories=[]):
+            self, factory, args=(), encoding='odb', vault=[], extraDepositories=[]):
         """retrieve all possible components for <factory> from the persistent store"""
 
         if extraDepositories:
@@ -245,7 +235,6 @@ class Inventory(object):
         return self._priv_curator.retrieveAllComponents(
             facility=factory, args=args, encoding=encoding,
             vault=vault, extraDepositories=self._priv_depositories)
-        
 
     def retrieveBuiltInComponent(self, name, factory, args=(), vault=[]):
         import pkg_resources
@@ -256,9 +245,8 @@ class Inventory(object):
             return component
         return None
 
-
     def retrieveObject(
-        self, name, symbol, encodings, vault=[], extraDepositories=[]):
+            self, name, symbol, encodings, vault=[], extraDepositories=[]):
         """retrieve object <name> from the persistent store"""
 
         if extraDepositories:
@@ -268,7 +256,6 @@ class Inventory(object):
         return self._priv_curator.retrieveObject(
             name=name, symbol=symbol, encodings=encodings,
             vault=vault, extraDepositories=self._priv_depositories)
-        
 
     def init(self):
         """initialize subcomponents"""
@@ -278,7 +265,6 @@ class Inventory(object):
 
         return
 
-
     def fini(self):
         """finalize subcomponents"""
 
@@ -287,30 +273,26 @@ class Inventory(object):
 
         return
 
-
     def showHelp(self):
         for component in self.components():
             component.showHelp()
         return
 
-
     # lower level interface
+
     def getVault(self):
         """return the address of my vault"""
         return self._priv_vault
 
-
     def setVault(self, vault):
         """set the address of my vault"""
-        assert self._priv_depositories is None # must be called before setCurator()
+        assert self._priv_depositories is None  # must be called before setCurator()
         self._priv_vault = vault
         return
-
 
     def getCurator(self):
         """return the curator that resolves my trait requests"""
         return self._priv_curator
-
 
     def setCurator(self, curator):
         """set my persistent store manager and initialize my registry"""
@@ -323,21 +305,17 @@ class Inventory(object):
 
         return
 
-
     def dumpCurator(self):
         """print a description of the manager of my persistence store"""
         return self._priv_curator.dump(self._priv_depositories)
-
 
     def getDepositories(self):
         """return my private depositories"""
         return self._priv_depositories
 
-
     def retrieveShelves(self, address, extension):
         return self._priv_curator.retrieveShelves(
             address, extension, extraDepositories=self._priv_depositories)
-
 
     def getTraitDescriptor(self, traitName):
         try:
@@ -345,10 +323,9 @@ class Inventory(object):
 
         except KeyError:
             pass
-        
+
         self._forceInitialization(traitName)
         return self._getTraitDescriptor(traitName)
-
 
     def getTraitValue(self, traitName):
         try:
@@ -356,9 +333,8 @@ class Inventory(object):
 
         except KeyError:
             pass
-        
-        return self._forceInitialization(traitName)
 
+        return self._forceInitialization(traitName)
 
     def getTraitLocator(self, traitName):
         try:
@@ -366,35 +342,30 @@ class Inventory(object):
 
         except KeyError:
             pass
-        
+
         self._forceInitialization(traitName)
         return self._getTraitLocator(traitName)
-
 
     def getTrait(self, traitName):
         return self._traitRegistry[traitName]
 
-
     # accessors for the inventory items by category
+
     def properties(self):
         """return a list of my property objects"""
         return list(self._traitRegistry.values())
-
 
     def propertyNames(self):
         """return a list of the names of all my traits"""
         return list(self._traitRegistry.keys())
 
-
     def facilities(self):
         """return a list of my facility objects"""
         return list(self._facilityRegistry.values())
 
-        
     def facilityNames(self):
         """return a list of the names of all my facilities"""
         return list(self._facilityRegistry.keys())
-
 
     def components(self, context=None):
         """return a list of my components"""
@@ -417,15 +388,16 @@ class Inventory(object):
                 raise
             except Exception as error:
                 if context:
-                    import sys, traceback, pyre.parsing.locators
+                    import sys
+                    import traceback
+                    import pyre.parsing.locators
                     stackTrace = traceback.extract_tb(sys.exc_info()[2])
                     locator = pyre.parsing.locators.stackTrace(stackTrace)
                     context.error(error, locator=locator)
                 else:
                     raise
-        
-        return candidates
 
+        return candidates
 
     def __init__(self, name):
         # the name of the configurable that manages me
@@ -433,7 +405,7 @@ class Inventory(object):
 
         # the name of my vault
         self._priv_vault = []
-        
+
         # the manager of my persistent trait store
         self._priv_curator = None
 
@@ -448,22 +420,18 @@ class Inventory(object):
 
         return
 
-
     def _createDepositories(self):
         depositories = self._priv_curator.createPrivateDepositories(self._priv_name)
         return depositories
-    
 
     def _getTraitValue(self, name):
         return self._getTraitDescriptor(name).value
-
 
     def _setTraitValue(self, name, value, locator):
         descriptor = self._getTraitDescriptor(name)
         descriptor.value = value
         descriptor.locator = locator
         return
-
 
     def _initializeTraitValue(self, name, value, locator):
         descriptor = self._createTraitDescriptor()
@@ -472,29 +440,23 @@ class Inventory(object):
         self._setTraitDescriptor(name, descriptor)
         return
 
-
     def _getTraitLocator(self, name):
         return self._getTraitDescriptor(name).locator
-
 
     def _createTraitDescriptor(self):
         from .Descriptor import Descriptor
         return Descriptor()
 
-
     def _getTraitDescriptor(self, name):
         return self._priv_inventory[name]
-
 
     def _setTraitDescriptor(self, name, descriptor):
         self._priv_inventory[name] = descriptor
         return
 
-
     def _forceInitialization(self, name):
         trait = self._traitRegistry[name]
         return trait.__get__(self)
-
 
     # trait registries
     _traitRegistry = {}
@@ -503,12 +465,7 @@ class Inventory(object):
     _myTraitRegistry = {}
 
 
-    # metaclass
-    from .Notary import Notary
-    __metaclass__ = Notary
-
-
 # version
 __id__ = "$Id: Inventory.py,v 1.3 2005/03/11 06:59:08 aivazis Exp $"
 
-# End of file 
+# End of file
