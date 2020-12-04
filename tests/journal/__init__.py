@@ -12,9 +12,9 @@
 # ======================================================================
 #
 
-import test_facilities
-import test_channels
-import test_devices
+from . import test_facilities
+from . import test_channels
+from . import test_devices
 
 
 def test_cases():
