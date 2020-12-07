@@ -9,7 +9,7 @@ def template():
             BatchScriptTemplate.__init__(self, "tacc-ranger")
 
         def render(self):
-            from StringIO import StringIO
+            from io import StringIO
 
             out = StringIO()
             scheduler = self.scheduler
