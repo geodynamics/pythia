@@ -11,18 +11,15 @@
 #
 
 
-
 from pyre.inventory.Facility import Facility
 
 
 class FacilityArrayFacility(Facility):
 
-
     def __init__(self, name, itemFactory, **kwds):
         Facility.__init__(self, name=name, **kwds)
         self.itemFactory = itemFactory
         return
-
 
     def _retrieveComponent(self, instance, componentName):
         facilityNames = self._cast(componentName)
@@ -38,11 +35,10 @@ class FacilityArrayFacility(Facility):
 
         from .Inventory import Inventory
         from pyre.components.Component import Component
-        
-        Inventory = Inventory.__metaclass__("FacilityArray.Inventory", (Component.Inventory,), dict)
+        Inventory = type(Inventory)("FacilityArray.Inventory", (Component.Inventory,), dict)
 
         dict = {'Inventory': Inventory}
-        FacilityArray = Component.__metaclass__("FacilityArray", (Component,), dict)
+        FacilityArray = type(Component)("FacilityArray", (Component,), dict)
         fa = FacilityArray(self.name)
         fa.Inventory._facilityOrder = facilityOrder
 
@@ -51,14 +47,13 @@ class FacilityArrayFacility(Facility):
 
         return fa, locator
 
-
     def _cast(self, text):
         if isinstance(text, basestring):
             if text and text[0] in '[({':
                 text = text[1:]
             if text and text[-1] in '])}':
                 text = text[:-1]
-                
+
             value = text.split(",")
 
             # allow trailing comma
@@ -69,9 +64,8 @@ class FacilityArrayFacility(Facility):
 
         if isinstance(value, list):
             return value
-            
-        raise TypeError("facility '%s': could not convert '%s' to a list" % (self.name, text))
 
+        raise TypeError("facility '%s': could not convert '%s' to a list" % (self.name, text))
 
 
 # end of file
