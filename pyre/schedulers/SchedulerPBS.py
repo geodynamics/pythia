@@ -11,7 +11,6 @@
 #
 
 
-
 from .BatchScheduler import BatchScheduler
 import os
 import sys
@@ -52,18 +51,17 @@ class SchedulerPBS(BatchScheduler):
             return
 
         try:
-            import os
-            from popen2 import Popen4
+            import subprocess
 
             cmd = [self.command]
             self._info.log("spawning: %s" % ' '.join(cmd))
-            child = Popen4(cmd)
+            child = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
             self._info.log("spawned process %d" % child.pid)
 
-            child.tochild.write("%s" % script)
-            child.tochild.close()
+            child.stdin.write(script.encode("utf-8"))
+            child.stdin.close()
 
-            for line in child.fromchild:
+            for line in child.stdout:
                 self._info.line("    " + line.rstrip())
             status = child.wait()
             self._info.log()
