@@ -10,6 +10,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import itertools
 
 from configparser import SafeConfigParser
 import pyre.parsing.locators as locators
@@ -35,11 +36,12 @@ class Parser(SafeConfigParser):
             self.name = "unknown"
             self.lineno = 0
 
-        def readline(self, size=-1):
+        def __iter__(self):
             line = self.fp.readline()
-            if line:
-                self.lineno = self.lineno + 1
-            return line
+            while line:
+                self.lineno += 1
+                yield line
+                line = self.fp.readline()
 
         def __getattr__(self, name):
             return getattr(self.fp, name)
@@ -86,7 +88,7 @@ class Parser(SafeConfigParser):
             dict.__setitem__(self, key, value)
 
     def __init__(self, root, defaults=None, macros=None):
-        SafeConfigParser.__init__(self, defaults)
+        SafeConfigParser.__init__(self, defaults, empty_lines_in_values=False, strict=False)
         if macros is None:
             macros = dict()
         self._sections = Parser.SectionDict(root, macros)
@@ -101,6 +103,15 @@ class Parser(SafeConfigParser):
     def optionxform(self, optionstr):
         # Don't lower() option names.
         return optionstr
+
+    def _join_multiline_values(self):
+        defaults = self.default_section, self._defaults
+        all_sections = itertools.chain((defaults,), self._sections.items())
+        for section, options in all_sections:
+            for name, val in options.items():
+                if isinstance(val, list):
+                    raise ValueError("Multiline values in .cfg files are not currently supported.\n"
+                                     "pyre.inventory.cfg.Parser._join_multiline_values() must be reimplemented.")
 
 
 def _getNode(node, path):
