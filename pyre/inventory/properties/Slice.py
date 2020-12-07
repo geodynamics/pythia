@@ -25,7 +25,7 @@ class Slice(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             try:
                 value = pyre.util.range.sequence(value)
             except:

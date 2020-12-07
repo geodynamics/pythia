@@ -183,7 +183,7 @@ class Inventory(object, metaclass=Notary):
             # files and dimensionals to not stringify cleanly.
             # Fortunately, we are only interested in string defaults
             # at present (for macro expansion).
-            if isinstance(value, basestring):
+            if isinstance(value, str):
                 registry.setProperty(prop.name, value, locator)
 
         return registry

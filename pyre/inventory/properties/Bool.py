@@ -24,7 +24,7 @@ class Bool(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             import pyre.util.bool
             return pyre.util.bool.bool(value)
 

@@ -51,7 +51,7 @@ class Facility(Trait, metaclass=Interface):
         if not self.default in [None, Uninit]:
             component = self.default
             # if we got a string, resolve
-            if isinstance(component, basestring):
+            if isinstance(component, str):
                 component, loc = self._retrieveComponent(instance, component)
                 locator = pyre.parsing.locators.chain(loc, locator)
 
@@ -86,7 +86,7 @@ class Facility(Trait, metaclass=Interface):
         return None, None
 
     def _set(self, instance, component, locator):
-        if isinstance(component, basestring):
+        if isinstance(component, str):
             component, source = self._retrieveComponent(instance, component)
 
             import pyre.parsing.locators
