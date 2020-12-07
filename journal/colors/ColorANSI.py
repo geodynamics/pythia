@@ -18,7 +18,7 @@ $Id: ColorANSI.py,v 1.10 2004/11/04 07:58:16 fperez Exp $"""
 __all__ = ['TermColors', 'InputTermColors', 'ColorScheme', 'ColorSchemeTable']
 
 import os
-from UserDict import UserDict
+from collections import UserDict
 
 #from IPython.Struct import Struct
 
