@@ -12,7 +12,6 @@
 #
 
 
-
 from .Device import Device
 
 
@@ -26,7 +25,7 @@ class File(Device):
         name.meta['tip'] = "the name of the file in which messages will be placed"
 
     def createDevice(self):
-        logfile = file(self.inventory.name, "a", 0)
+        logfile = open(self.inventory.name, "a")
 
         import os
         import time

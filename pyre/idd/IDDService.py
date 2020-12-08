@@ -12,12 +12,10 @@
 #
 
 
-
 from pyre.services.TCPService import TCPService
 
 
 class IDDService(TCPService):
-
 
     class Inventory(TCPService.Inventory):
 
@@ -26,12 +24,11 @@ class IDDService(TCPService):
 
         tid = pyre.inventory.int('tid')
         date = pyre.inventory.str('date')
-        
+
         configfile = pyre.inventory.str("config", default=None)
 
         marshaller = pyre.inventory.facility("marshaller", factory=pyre.idd.pickler)
         locator = pyre.inventory.facility("recordLocator", factory=pyre.idd.recordLocator)
-
 
     def generateClientConfiguration(self, registry):
         """update the given registry node with sufficient information to grant access to clients"""
@@ -51,7 +48,6 @@ class IDDService(TCPService):
 
         return
 
-
     def token(self):
         if self._reload:
             self.initialize()
@@ -68,18 +64,15 @@ class IDDService(TCPService):
 
         return token
 
-
     def onTimeout(self, *unused):
         self._info.log("thump")
         self.verify()
         return True
 
-
     def onReload(self, *unused):
         self._reload = True
         return
 
-    
     def initialize(self, *unused):
         self._debug.log("reading '%s' state from %r" % (self.name, self.configfile))
         self._loadGeneratorParameters()
@@ -88,9 +81,8 @@ class IDDService(TCPService):
         self.verify()
 
         self._reload = False
-        
-        return
 
+        return
 
     def verify(self):
         import time
@@ -108,7 +100,6 @@ class IDDService(TCPService):
             self._storeGeneratorParameters()
 
         return
-
 
     def __init__(self, name=None):
         if name is None:
@@ -129,7 +120,6 @@ class IDDService(TCPService):
 
         return
 
-
     def _configure(self):
         TCPService._configure(self)
 
@@ -143,7 +133,6 @@ class IDDService(TCPService):
 
         return
 
-
     def _init(self):
         TCPService._init(self)
 
@@ -155,7 +144,6 @@ class IDDService(TCPService):
         self.initialize()
 
         return
-
 
     def _loadGeneratorParameters(self):
         import os
@@ -172,21 +160,19 @@ class IDDService(TCPService):
         # apply them
         self.updateConfiguration(mine)
         self.applyConfiguration()
-        
-        return
 
+        return
 
     def _storeGeneratorParameters(self):
         self._debug.log("saving '%s' configuration in %r" % (self.name, self.configfile))
         registry = self._describe()
 
         if registry:
-            stream = file(self.configfile, "w")
+            stream = open(self.configfile, "w")
             text = self.weaver.weave(registry, stream)
             stream.close()
 
         return
-            
 
     def _describe(self):
         import pyre.inventory
@@ -198,11 +184,11 @@ class IDDService(TCPService):
 
         # get the marshaller to save himself
         self.marshaller.retrieveConfiguration(mine)
-        
+
         return registry
 
 
 # version
 __id__ = "$Id: IDDService.py,v 1.7 2005/04/28 03:50:06 pyre Exp $"
 
-# End of file 
+# End of file

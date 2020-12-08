@@ -12,7 +12,6 @@
 #
 
 
-
 from .Stager import Stager
 
 
@@ -98,7 +97,7 @@ class Daemon(Stager):
 
     def configureJournal(self):
         # open the logfile
-        stream = file(self.name + '.log', "w")
+        stream = open(self.name + '.log', "w")
 
         # attach it as the journal device
         import journal
