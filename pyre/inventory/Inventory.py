@@ -407,7 +407,6 @@ class Inventory(object):
             keys = iter(self._facilityRegistry.keys())
         else:
             keys = self._facilityOrder
-        #for name, facility in self._facilityRegistry.iteritems():
         for name in keys:
             facility = self._facilityRegistry[name]
             try:
