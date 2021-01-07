@@ -166,8 +166,7 @@ class TestLSF(TestScheduler):
 
     def test_schedule(self):
         self.run_app()
-        with self.assertRaises(SystemExit):
-            self.scheduler.schedule(self.job)
+        self.scheduler.schedule(self.job)
 
 
 class TestPBS(TestScheduler):
@@ -198,8 +197,7 @@ class TestPBS(TestScheduler):
 
     def test_schedule(self):
         self.run_app()
-        with self.assertRaises(SystemExit):
-            self.scheduler.schedule(self.job)
+        self.scheduler.schedule(self.job)
 
 
 class TestSGE(TestScheduler):

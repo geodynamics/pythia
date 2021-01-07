@@ -23,7 +23,7 @@ class InputFile(Property):
         return
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             if value == "stdin":
                 import sys
                 value = sys.stdin

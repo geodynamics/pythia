@@ -29,7 +29,7 @@ class Dimensional(Property):
 
     def _cast(self, value):
         candidate = value
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             import pyre.units
             parser = pyre.units.parser()
             candidate = parser.parse(value)

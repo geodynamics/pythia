@@ -28,7 +28,7 @@ class Array(Property):
         return
 
     def _cast(self, text):
-        if isinstance(text, basestring):
+        if isinstance(text, str):
             if text and text[0] in '[({':
                 text = text[1:]
             if text and text[-1] in '])}':

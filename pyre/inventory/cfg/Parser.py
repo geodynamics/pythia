@@ -10,9 +10,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import itertools
 
-
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import pyre.parsing.locators as locators
 from pyre.util import expandMacros
 
@@ -26,7 +26,7 @@ class Parser(SafeConfigParser):
     # from Python's ConfigParser module.  It injects proxy 'file' and
     # 'dict' objects into ConfigParser's code.  As the file is parsed,
     # the proxy objects gain control, spying upon the parsing process.
-    
+
     # We should probably write our own parser... *sigh*
 
     class FileProxy(object):
@@ -36,11 +36,12 @@ class Parser(SafeConfigParser):
             self.name = "unknown"
             self.lineno = 0
 
-        def readline(self, size=-1):
+        def __iter__(self):
             line = self.fp.readline()
-            if line:
-                self.lineno = self.lineno + 1
-            return line
+            while line:
+                self.lineno += 1
+                yield line
+                line = self.fp.readline()
 
         def __getattr__(self, name):
             return getattr(self.fp, name)
@@ -52,7 +53,7 @@ class Parser(SafeConfigParser):
             self.node = node
             self.macros = macros
             self.fp = fp
-        
+
         def __setitem__(self, trait, value):
             locator = locators.file(self.fp.name, self.fp.lineno)
             path = trait.split('.')
@@ -73,7 +74,7 @@ class Parser(SafeConfigParser):
             self.root = root
             self.macros = macros
             self.fp = Parser.FileProxy()
-        
+
         def __contains__(self, sectname):
             # Prevent 'ConfigParser' from creating section
             # dictionaries; instead, create our own.
@@ -82,12 +83,12 @@ class Parser(SafeConfigParser):
                 cursect = Parser.Section(sectname, node, self.macros, self.fp)
                 self[sectname] = cursect
             return True
-        
+
         def __setitem__(self, key, value):
             dict.__setitem__(self, key, value)
 
     def __init__(self, root, defaults=None, macros=None):
-        SafeConfigParser.__init__(self, defaults)
+        SafeConfigParser.__init__(self, defaults, empty_lines_in_values=False, strict=False)
         if macros is None:
             macros = dict()
         self._sections = Parser.SectionDict(root, macros)
@@ -102,6 +103,15 @@ class Parser(SafeConfigParser):
     def optionxform(self, optionstr):
         # Don't lower() option names.
         return optionstr
+
+    def _join_multiline_values(self):
+        defaults = self.default_section, self._defaults
+        all_sections = itertools.chain((defaults,), self._sections.items())
+        for section, options in all_sections:
+            for name, val in options.items():
+                if isinstance(val, list):
+                    raise ValueError("Multiline values in .cfg files are not currently supported.\n"
+                                     "pyre.inventory.cfg.Parser._join_multiline_values() must be reimplemented.")
 
 
 def _getNode(node, path):

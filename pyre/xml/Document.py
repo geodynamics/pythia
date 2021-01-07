@@ -12,33 +12,25 @@
 #
 
 
-
 from .AbstractDocument import AbstractDocument
+from .DTDBuilder import DTDBuilder
 
 
-class Document(AbstractDocument):
-
+class Document(AbstractDocument, metaclass=DTDBuilder):
 
     tags = []
 
-
     # the metaclass has prepared a look up table of nested tags
+
     def node(self, tag, attributes):
         return self._mydtd[tag](self, attributes)
-
 
     def __init__(self, source):
         AbstractDocument.__init__(self, source)
         return
 
 
-    # build the lookup table
-    from .DTDBuilder import DTDBuilder
-    __metaclass__ = DTDBuilder
-    del DTDBuilder
-
-
 # version
 __id__ = "$Id: Document.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-# End of file 
+# End of file

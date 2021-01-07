@@ -24,7 +24,7 @@ class Preformatted(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             return self._splitlines(value)
 
         return value

@@ -94,7 +94,7 @@ def getLocatorContext(dct):
 
 
 def getNodeWithPath(node, path):
-    if isinstance(path, basestring):
+    if isinstance(path, str):
         path = path.split('.')
     if len(path) == 0:
         return node
@@ -103,21 +103,21 @@ def getNodeWithPath(node, path):
 
 
 def getPropertyWithPath(root, path, default=''):
-    if isinstance(path, basestring):
+    if isinstance(path, str):
         path = path.split('.')
     node = getNodeWithPath(root, path[:-1])
     return node.getProperty(path[-1], default)
 
 
 def getDescriptorWithPath(root, path, default=''):
-    if isinstance(path, basestring):
+    if isinstance(path, str):
         path = path.split('.')
     node = getNodeWithPath(root, path[:-1])
     return node.properties[path[-1]]
 
 
 def setPropertyWithPath(root, path, value, locator):
-    if isinstance(path, basestring):
+    if isinstance(path, str):
         path = path.split('.')
     node = getNodeWithPath(root, path[:-1])
     return node.setProperty(path[-1], value, locator)

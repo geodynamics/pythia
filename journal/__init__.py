@@ -161,7 +161,6 @@ _theJournal = None
 register()
         
 # version
-__version__ = "0.8.1"
-__id__ = "$Id: __init__.py,v 1.5 2005/03/14 07:32:55 aivazis Exp $"
+__version__ = "0.9.0"
 
 #  End of file 

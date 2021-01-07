@@ -15,7 +15,7 @@ except AssertionError:
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.18',
+    version = '0.9.0',
 
     scripts = ['bin/idd.py', 'bin/ipad.py', 'bin/journald.py'],
 
@@ -50,7 +50,8 @@ setup(
     },
     
     author = 'Michael A.G. Aivazis',
-    author_email = 'aivazis@caltech.edu',
+    maintainer = 'Brad Aagaard',
+    maintainer_email = 'baagaard@usgs.gov',
     description = 'An extensible, object-oriented framework for specifying and staging complex, multi-physics simulations.',
     license = 'BSD',
     url = 'http://www.geodynamics.org/cig/software/pythia/',

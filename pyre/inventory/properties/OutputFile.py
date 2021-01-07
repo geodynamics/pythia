@@ -23,7 +23,7 @@ class OutputFile(Property):
         return
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             if value == "stdout":
                 import sys
                 value = sys.stdout

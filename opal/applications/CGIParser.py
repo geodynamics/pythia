@@ -12,8 +12,7 @@
 #
 
 
-
-import urllib
+import urllib.parse
 
 
 class CGIParser(object):
@@ -74,11 +73,11 @@ class CGIParser(object):
         if len(children) == 1:
             for key in children[0]:
                 key = key.strip()
-                node.setProperty(key, urllib.unquote(value), self.locator)
+                node.setProperty(key, urllib.parse.unquote(value), self.locator)
             return
 
         for key in children[0]:
-            self._storeValue(node.getNode(key), children[1:], urllib.unquote(value))
+            self._storeValue(node.getNode(key), children[1:], urllib.parse.unquote(value))
 
         return
 

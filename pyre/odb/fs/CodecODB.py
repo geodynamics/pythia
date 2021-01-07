@@ -62,8 +62,7 @@ class CodecODB(Codec):
         """lock and then read the contents of the file into the shelf"""
 
         stream = open(shelf.name, "r")
-
-        exec(stream, shelf)
+        exec(stream.read(), shelf)
 
         return
 

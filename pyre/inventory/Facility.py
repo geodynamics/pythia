@@ -12,12 +12,13 @@
 #
 
 
-
-from .Trait import Trait
 from pyre.inventory import Uninit
 
+from .Trait import Trait
+from .Interface import Interface
 
-class Facility(Trait):
+
+class Facility(Trait, metaclass=Interface):
 
     def __init__(self, name, family=None, default=Uninit, factory=None, args=(), meta=None,
                  vault=None):
@@ -50,7 +51,7 @@ class Facility(Trait):
         if not self.default in [None, Uninit]:
             component = self.default
             # if we got a string, resolve
-            if isinstance(component, basestring):
+            if isinstance(component, str):
                 component, loc = self._retrieveComponent(instance, component)
                 locator = pyre.parsing.locators.chain(loc, locator)
 
@@ -85,7 +86,7 @@ class Facility(Trait):
         return None, None
 
     def _set(self, instance, component, locator):
-        if isinstance(component, basestring):
+        if isinstance(component, str):
             component, source = self._retrieveComponent(instance, component)
 
             import pyre.parsing.locators
@@ -199,10 +200,6 @@ class Facility(Trait):
 
     # interface registry
     _interfaceRegistry = {}
-
-    # metaclass
-    from .Interface import Interface
-    __metaclass__ = Interface
 
 
 # version
