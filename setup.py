@@ -15,7 +15,7 @@ except AssertionError:
 setup(
     
     name = 'pythia', 
-    version = '0.8.1.18',
+    version = '0.8.1.20',
 
     scripts = ['bin/idd.py', 'bin/ipad.py', 'bin/journald.py'],
 
