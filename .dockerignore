@@ -1,0 +1,7 @@
+.dockerignore
+.git
+.git*
+build
+dist
+docker
+!docker/certs

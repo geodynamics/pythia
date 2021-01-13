@@ -4,20 +4,20 @@
 ARG BASE_IMAGE
 from ${BASE_IMAGE} as src
 ARG TEST_COVERAGE=no
-ARG PYTHON_COVERAGE=coverage2
+ARG PYTHON_COVERAGE=coverage3
 ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE}
 
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
+USER root
 
-# Create 'pythia-user' user
-ENV PYTHIA_USER pythia-user
-RUN useradd --create-home --shell /bin/bash $PYTHIA_USER
+ENV BUILD_DIR /home/pythia-installer
+RUN mkdir -p $BUILD_DIR \
+  && chown $PYTHIA_USER $BUILD_DIR \
+  && chgrp $PYTHIA_USER $BUILD_DIR
+
 
 USER $PYTHIA_USER
-
-ENV TOP_DIR /home/${PYTHIA_USER}
-ENV PREFIX_DIR=${TOP_DIR}/pythia SRC_DIR=${TOP_DIR}/src
 
 ENV PATH $PATH:$PREFIX_DIR/bin
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$PREFIX_DIR/lib
@@ -25,14 +25,15 @@ ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-pack
 
 RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages && mkdir -p ${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
 
-
+ENV SRC_DIR ${BUILD_DIR}/src/pythia
 COPY --chown=pythia-user:pythia-user . ${SRC_DIR}
 WORKDIR ${SRC_DIR}
-RUN python${PYTHON_VERSION} setup.py install --prefix=${PREFIX_DIR}
+RUN PYTHONUSERBASE=${PREFIX_DIR} python3 -m pip install --user .
 
 # TESTING ----------
 from src as test
 
 RUN ./run_tests.py
+
 
 CMD /bin/bash

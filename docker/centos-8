@@ -1,0 +1,74 @@
+FROM centos:8 as os-update
+MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+
+RUN dnf install -y \
+        gcc \
+	gcc-c++ \
+	redhat-rpm-config \
+	make \
+        file \
+	which \
+	diffutils \
+        automake \
+        autoconf \
+        libtool \
+        curl \
+	openssl \
+	openssl-devel \
+        zlib-devel \
+	unzip \
+        git \
+	ca-certificates \
+	python38 \
+	python38-devel \
+	python38-pip \
+	python38-six \
+	python38-numpy \
+	python38-setuptools \
+	python38-Cython \
+	mpich \
+	mpich-devel \
+	cmake \
+	sqlite \
+	sqlite-devel \
+	gdb \
+	valgrind \
+	vim-common \
+	vim-minimal
+    
+RUN alternatives --set python /usr/bin/python3
+
+COPY docker/certs/ /usr/share/pki/ca-trust-source/anchors
+RUN update-ca-trust enable
+
+ENV PATH $PATH:/usr/lib64/mpich/bin
+
+ENV PYTHON_VERSION 3.8
+
+
+# ----------------------------------------
+FROM os-update as build-deps
+
+# Create 'pythia-user' user
+ENV PYTHIA_USER pythia-user
+RUN useradd --create-home --shell /bin/bash $PYTHIA_USER
+
+ENV PREFIX_DIR /opt/pythia
+
+RUN mkdir -p $PREFIX_DIR \
+  && chown $PYTHIA_USER $PREFIX_DIR \
+  && chgrp $PYTHIA_USER $PREFIX_DIR
+
+
+# ----------------------------------------
+FROM build-deps as clean
+
+USER root
+#RUN dnf clean all
+
+# Setup user and environment
+USER $PYTHIA_USER
+WORKDIR /home/$PYTHIA_USER
+
+
+CMD /bin/bash
