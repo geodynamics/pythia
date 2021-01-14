@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # ======================================================================
 #
 # Brad T. Aagaard, U.S. Geological Survey

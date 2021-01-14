@@ -1,0 +1,63 @@
+FROM ubuntu:20.04 as os-update
+MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
+      g++ \
+      make \
+      file \
+      automake \
+      autoconf \
+      libtool \
+      curl \
+      python3-dev \
+      libpython3.8 \
+      python3-pip \
+      python3-setuptools \
+      python3-coverage \
+      zlib1g-dev \
+      unzip \
+      git \
+      ca-certificates \
+      libmpich-dev \
+      mpich \
+      lcov \
+      gdb \
+      valgrind \
+      vim-common \
+      vim-runtime \
+      vim-nox
+
+COPY docker/certs/ /usr/local/share/ca-certificates
+RUN update-ca-certificates
+
+
+ENV PYTHON_VERSION 3.8
+
+
+# ----------------------------------------
+FROM os-update as build-deps
+
+# Create 'pythia-user' user
+ENV PYTHIA_USER pythia-user
+RUN useradd --create-home --shell /bin/bash $PYTHIA_USER
+
+ENV PREFIX_DIR /opt/pythia
+
+RUN mkdir -p $PREFIX_DIR \
+  && chown $PYTHIA_USER $PREFIX_DIR \
+  && chgrp $PYTHIA_USER $PREFIX_DIR
+
+
+# ----------------------------------------
+FROM build-deps as clean
+
+USER root
+RUN apt-get clean
+
+# Setup user and environment
+USER $PYTHIA_USER
+WORKDIR /home/$PYTHIA_USER
+
+
+CMD /bin/bash
