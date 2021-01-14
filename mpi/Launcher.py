@@ -25,7 +25,7 @@ class Launcher(Base):
     nodegen.meta[
         'tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
 
-    command = pyre.str("command", default="mpirun -np ${nodes}")
+    command = pyre.str("command", default="mpiexec -n ${nodes}")
 
     def launch(self):
         import os
