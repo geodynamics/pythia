@@ -28,7 +28,7 @@ RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages && mkdir -p
 ENV SRC_DIR ${BUILD_DIR}/src/pythia
 COPY --chown=pythia-user:pythia-user . ${SRC_DIR}
 WORKDIR ${SRC_DIR}
-RUN PYTHONUSERBASE=${PREFIX_DIR} python3 -m pip install --user .
+RUN python3 setup.py egg_info && PYTHONUSERBASE=${PREFIX_DIR} python3 -m pip install --user .
 
 # TESTING ----------
 from src as test
