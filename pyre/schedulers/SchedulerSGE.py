@@ -11,7 +11,6 @@
 #
 
 
-
 from .BatchScheduler import BatchScheduler
 import os
 import sys
@@ -21,12 +20,12 @@ class SchedulerSGE(BatchScheduler):
 
     name = "sge"
 
-    import pyre.inventory as pyre
+    import pyre.inventory
 
-    command = pyre.str("command", default="qsub")
-    peName = pyre.str("pe-name", default="mpi")
-    peNumber = pyre.str("pe-number", default="n")
-    qsubOptions = pyre.list("qsub-options")
+    command = pyre.inventory.str("command", default="qsub")
+    peName = pyre.inventory.str("pe-name", default="mpi")
+    peNumber = pyre.inventory.str("pe-number", default="n")
+    qsubOptions = pyre.inventory.list("qsub-options")
 
     def schedule(self, job):
         import pyre.util as util

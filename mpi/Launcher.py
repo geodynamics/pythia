@@ -16,16 +16,16 @@ from pyre.launchers.Launcher import Launcher as Base
 
 class Launcher(Base):
 
-    import pyre.inventory as pyre
+    import pyre.inventory
 
-    dry = pyre.bool("dry", default=False)
+    dry = pyre.inventory.bool("dry", default=False)
     dry.meta['tip'] = "prints the command line and exits"
 
-    nodegen = pyre.str("nodegen")
+    nodegen = pyre.inventory.str("nodegen")
     nodegen.meta[
         'tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
 
-    command = pyre.str("command", default="mpiexec -n ${nodes}")
+    command = pyre.inventory.str("command", default="mpiexec -n ${nodes}")
 
     def launch(self):
         import os

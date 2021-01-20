@@ -18,29 +18,23 @@ def excepthook():
     except ImportError:
         return None
 
-
     from pyre.components import Component
-
 
     class ultraTB(Component):
 
-
         name = "ultraTB"
 
+        import pyre.inventory
 
-        import pyre.inventory as pyre
-
-        mode         = pyre.str("mode", default="Verbose")
-        colorScheme  = pyre.str("color-scheme", default="Linux")
-        callPdb      = pyre.bool("call-pdb", default=False)
+        mode = pyre.inventory.str("mode", default="Verbose")
+        colorScheme = pyre.inventory.str("color-scheme", default="Linux")
+        callPdb = pyre.inventory.bool("call-pdb", default=False)
 
         callPdb.meta['tip'] = 'call pdb when an exception occurs'
-
 
         def __init__(self):
             Component.__init__(self)
             self.excepthook = None
-
 
         def _init(self):
             import sys
@@ -56,18 +50,16 @@ def excepthook():
                 callPdb = False
 
             self.excepthook = IPython.ultraTB.FormattedTB(
-                mode          = self.mode,
-                color_scheme  = colorScheme,
-                call_pdb      = callPdb
-                )
+                mode=self.mode,
+                color_scheme=colorScheme,
+                call_pdb=callPdb
+            )
 
             return
-
 
     hook = ultraTB()
 
     return hook
-    
 
 
 # end of file

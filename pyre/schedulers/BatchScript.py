@@ -17,21 +17,17 @@ from pyre.util import loadObject
 
 class BatchScript(AppRunner):
 
-
-    import pyre.inventory as pyre
-    schedulerClass = pyre.str("scheduler-class", default="pyre.schedulers:SchedulerNone")
-
+    import pyre.inventory
+    schedulerClass = pyre.inventory.str("scheduler-class", default="pyre.schedulers:SchedulerNone")
 
     def _init(self):
         super(BatchScript, self)._init()
         self.SchedulerClass = loadObject(self.schedulerClass)
         return
 
-
     def defineMacros(self, macros):
         macros['job.id'] = self.SchedulerClass.jobId()
         return
-
 
     def runSubscript(self, *args, **kwds):
         macros = kwds.setdefault('macros', {})
@@ -40,4 +36,4 @@ class BatchScript(AppRunner):
         return
 
 
-# end of file 
+# end of file

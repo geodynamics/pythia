@@ -15,38 +15,34 @@ from pyre.components import Component
 
 
 class Job(Component):
-    
-    
+
     name = "job"
-    
-    
-    import pyre.inventory as pyre
-    import pyre.util as util
+
+    import pyre.inventory
+    import pyre.util
     from pyre.units.time import minute
 
-    task              = pyre.str("name") # 'task' internally, to avoid name conflict
-    
-    queue             = pyre.str("queue")
-    mail              = pyre.bool("mail", default=False)
-    dwalltime         = pyre.dimensional("walltime", default=0*minute)
-    
-    stdin             = pyre.str("stdin", default=util.devnull())
-    stdout            = pyre.str("stdout", default="stdout.txt")
-    stderr            = pyre.str("stderr", default="stderr.txt")
+    task = pyre.inventory.str("name")  # 'task' internally, to avoid name conflict
 
-    environment       = pyre.list("environment")
+    queue = pyre.inventory.str("queue")
+    mail = pyre.inventory.bool("mail", default=False)
+    dwalltime = pyre.inventory.dimensional("walltime", default=0 * minute)
 
-    executable        = pyre.str("executable")
-    arguments         = pyre.list("arguments")
+    stdin = pyre.inventory.str("stdin", default=pyre.util.devnull())
+    stdout = pyre.inventory.str("stdout", default="stdout.txt")
+    stderr = pyre.inventory.str("stderr", default="stderr.txt")
 
-    comments          = pyre.list("comments")
+    environment = pyre.inventory.list("environment")
 
-    
+    executable = pyre.inventory.str("executable")
+    arguments = pyre.inventory.list("arguments")
+
+    comments = pyre.inventory.list("comments")
+
     def __init__(self):
         super(Job, self).__init__()
         self.nodes = 1
         self.id = None
-
 
     def getStateArgs(self, stage):
         state = []

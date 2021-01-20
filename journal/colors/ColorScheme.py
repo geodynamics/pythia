@@ -16,27 +16,25 @@ from pyre.components import Component
 
 class ColorScheme(Component):
 
+    import pyre.inventory
 
-    import pyre.inventory as pyre
+    filename = pyre.inventory.str("filename", default="NoColor")
+    line = pyre.inventory.str("line", default="NoColor")
+    function = pyre.inventory.str("function", default="NoColor")
+    stackTrace = pyre.inventory.str("stack-trace", default="NoColor")
 
-    filename         = pyre.str("filename",          default="NoColor")
-    line             = pyre.str("line",              default="NoColor")
-    function         = pyre.str("function",          default="NoColor")
-    stackTrace       = pyre.str("stack-trace",       default="NoColor")
+    src = pyre.inventory.str("src", default="NoColor")
 
-    src              = pyre.str("src",               default="NoColor")
+    facility = pyre.inventory.str("facility", default="NoColor")
+    severityDebug = pyre.inventory.str("severity-debug", default="NoColor")
+    severityInfo = pyre.inventory.str("severity-info", default="NoColor")
+    severityWarning = pyre.inventory.str("severity-warning", default="NoColor")
+    severityError = pyre.inventory.str("severity-error", default="NoColor")
 
-    facility         = pyre.str("facility",          default="NoColor")
-    severityDebug    = pyre.str("severity-debug",    default="NoColor")
-    severityInfo     = pyre.str("severity-info",     default="NoColor")
-    severityWarning  = pyre.str("severity-warning",  default="NoColor")
-    severityError    = pyre.str("severity-error",    default="NoColor")
-    
-    normal           = pyre.str("normal",            default="Normal")
-
+    normal = pyre.inventory.str("normal", default="Normal")
 
     def __getitem__(self, key):
         return self.getTraitValue(key)
 
-    
-# end of file 
+
+# end of file

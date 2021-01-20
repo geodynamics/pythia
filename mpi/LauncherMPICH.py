@@ -11,25 +11,21 @@
 #
 
 
-
 from .Launcher import Launcher
 
 
 class LauncherMPICH(Launcher):
 
-
     name = "mpich"
 
+    import pyre.inventory
 
-    import pyre.inventory as pyre
-
-    machinefile = pyre.str("machinefile", default="mpirun.nodes")
+    machinefile = pyre.inventory.str("machinefile", default="mpirun.nodes")
     machinefile.meta['tip'] = """filename of machine file"""
-
 
     def _expandNodeListArgs(self, args):
         from pyre.util import expandMacros
-        
+
         machinefile = self.machinefile
         nodegen = self.nodegen
         file = open(machinefile, "w")
@@ -39,11 +35,11 @@ class LauncherMPICH(Launcher):
 
         substitutions = {
             'launcher.machinefile': machinefile,
-            }
+        }
         for i, arg in enumerate(args):
             args[i] = expandMacros(arg, substitutions)
 
         return
 
 
-# end of file 
+# end of file

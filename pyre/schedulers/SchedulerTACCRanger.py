@@ -11,26 +11,23 @@
 #
 
 
-
 from .SchedulerSGE import SchedulerSGE
-import os, sys
+import os
+import sys
 
 
 class SchedulerTACCRanger(SchedulerSGE):
-    
-    
+
     name = "tacc-ranger"
-    
 
-    import pyre.inventory as pyre
-    
-    command      = pyre.str("command", default="qsub")
-    tpn          = pyre.int("tpn", default=16,
-                            validator=pyre.choice([1, 2, 4, 8, 12, 15, 16]))
+    import pyre.inventory
+
+    command = pyre.inventory.str("command", default="qsub")
+    tpn = pyre.inventory.int("tpn", default=16,
+                             validator=pyre.inventory.choice([1, 2, 4, 8, 12, 15, 16]))
     tpn.meta['tip'] = 'Task per node'
-    qsubOptions  = pyre.list("qsub-options")
+    qsubOptions = pyre.inventory.list("qsub-options")
 
-    
     def schedule(self, job):
         from math import ceil
         # round up to multiple of 16
@@ -38,5 +35,5 @@ class SchedulerTACCRanger(SchedulerSGE):
         self.cores = int(nodes * 16)
 
         SchedulerSGE.schedule(self, job)
-        
-# end of file 
+
+# end of file

@@ -20,10 +20,10 @@ class SchedulerLSF(BatchScheduler):
 
     name = "lsf"
 
-    import pyre.inventory as pyre
+    import pyre.inventory
 
-    command = pyre.str("command", default="bsub")
-    bsubOptions = pyre.list("bsub-options")
+    command = pyre.inventory.str("command", default="bsub")
+    bsubOptions = pyre.inventory.list("bsub-options")
 
     def schedule(self, job):
         import pyre.util as util

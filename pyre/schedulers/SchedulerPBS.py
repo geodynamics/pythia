@@ -20,12 +20,12 @@ class SchedulerPBS(BatchScheduler):
 
     name = "pbs"
 
-    import pyre.inventory as pyre
+    import pyre.inventory
 
-    command = pyre.str("command", default="qsub")
-    qsubOptions = pyre.list("qsub-options")
-    resourceList = pyre.list("resource-list")
-    ppn = pyre.int("ppn", default=1)
+    command = pyre.inventory.str("command", default="qsub")
+    qsubOptions = pyre.inventory.list("qsub-options")
+    resourceList = pyre.inventory.list("resource-list")
+    ppn = pyre.inventory.int("ppn", default=1)
 
     def schedule(self, job):
         import pyre.util as util
