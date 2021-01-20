@@ -47,8 +47,8 @@ class PortMonitor(object):
     def __init__(self):
         self.port = None
 
-        import journal
-        self._debug = journal.debug("pyre.ipc.monitor")
+        import journal.diagnostics
+        self._debug = journal.diagnostics.debug("pyre.ipc.monitor")
 
         return
 

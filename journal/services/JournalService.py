@@ -11,24 +11,22 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import journal
 from pyre.services.TCPService import TCPService
 
 
 class JournalService(TCPService):
 
-
     class Inventory(TCPService.Inventory):
 
         import pyre.inventory
 
-        marshaller = pyre.inventory.facility("marshaller", factory=journal.pickler)
-
+        import journal.services
+        marshaller = pyre.inventory.facility("marshaller", factory=journal.services.pickler)
 
     def record(self, entry):
+        import journal
         journal.journal().record(entry)
         return
-
 
     def generateClientConfiguration(self, registry):
         import pyre.parsing.locators
@@ -36,13 +34,12 @@ class JournalService(TCPService):
 
         # get the inheriter settings
         TCPService.generateClientConfiguration(self, registry)
- 
+
         # record the marshaller key
         # FIXME: generalize this to other picklers, like idd and ipa
         self.marshaller.generateClientConfiguration(registry)
 
         return
-
 
     def __init__(self, name=None):
         if name is None:
@@ -56,7 +53,6 @@ class JournalService(TCPService):
 
         return
 
-
     def _configure(self):
         TCPService._configure(self)
         self.marshaller = self.inventory.marshaller
@@ -66,4 +62,4 @@ class JournalService(TCPService):
 # version
 __id__ = "$Id: JournalService.py,v 1.3 2005/03/14 07:28:47 aivazis Exp $"
 
-# End of file 
+# End of file

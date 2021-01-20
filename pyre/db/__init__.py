@@ -12,15 +12,14 @@
 #
 
 
-
 def connect(database, wrapper=None):
 
     if wrapper is None or wrapper == "psycopg":
         from .Psycopg import Psycopg
         return Psycopg(database)
 
-    import journal
-    journal.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
+    import journal.diagnostics
+    journal.diagnostics.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
     return None
 
 
@@ -87,4 +86,4 @@ def varchar(**kwds):
 # version
 __id__ = "$Id: __init__.py,v 1.4 2005/04/06 21:02:28 aivazis Exp $"
 
-# End of file 
+# End of file

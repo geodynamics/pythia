@@ -1,20 +1,18 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005  All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
-
+#
 
 
 class CommandlineParser(object):
-
 
     def parse(self, root, argv=None):
         if argv is None:
@@ -24,7 +22,6 @@ class CommandlineParser(object):
         self._parse(argv, root)
 
         return
-
 
     def parseArgument(self, arg, prevArg):
         if arg == "":
@@ -41,14 +38,13 @@ class CommandlineParser(object):
         fields = key.split(self.separator)
         return prefix, fields, value, None
 
-
     def __init__(self):
         self.actions = {
             'complete': ['c'],
-            }
+        }
         self.aliases = {
             'help': ['?', 'h'],
-            }
+        }
         self.assignment = '='
         self.prefixes = ['--', '-']
         self.separator = '.'
@@ -61,11 +57,10 @@ class CommandlineParser(object):
         import pyre.parsing.locators
         self.locator = pyre.parsing.locators.commandLine()
 
-        import journal
-        self._debug = journal.debug("pyre.commandline")
+        import journal.diagnostics
+        self._debug = journal.diagnostics.debug("pyre.commandline")
 
         return
-
 
     def _parse(self, argv, root):
         self.action = None
@@ -75,7 +70,7 @@ class CommandlineParser(object):
 
         while self.argv:
             arg = self.argv.pop(0)
-            
+
             self._debug.line("processing '%s'" % arg)
 
             # is this an option
@@ -90,14 +85,13 @@ class CommandlineParser(object):
             candidate = self._mapAlias(candidate)
 
             lhs, rhs = self._parseArgument(candidate)
-            
+
             # store this option
             self._processArgument(lhs, rhs, root)
-            
+
         self._debug.log()
 
         return
-
 
     def _filterNonOptionArgument(self, arg):
         for prefix in self.prefixes:
@@ -111,7 +105,6 @@ class CommandlineParser(object):
         self.processed.append(arg)
         return None
 
-
     def _parseArgument(self, candidate):
         self._debug.line("    prefix: arg='%s' after prefix stripping" % candidate)
 
@@ -121,7 +114,7 @@ class CommandlineParser(object):
 
         # dangling =
         if len(tokens) > 1 and not tokens[1]:
-            tokens.append("") # allow setting a property to the empty string
+            tokens.append("")  # allow setting a property to the empty string
 
         # lhs, rhs
         lhs = tokens[0]
@@ -133,7 +126,6 @@ class CommandlineParser(object):
 
         return lhs, rhs
 
-
     def _filterAction(self, candidate):
         for action, args in self.actions.items():
             if candidate in args:
@@ -143,13 +135,11 @@ class CommandlineParser(object):
                 return None
         return candidate
 
-
     def _mapAlias(self, candidate):
         for realName, args in self.aliases.items():
             if candidate in args:
                 return realName
         return candidate
-
 
     def _processArgument(self, key, value, root):
         separator = self.separator
@@ -171,7 +161,6 @@ class CommandlineParser(object):
 
         return
 
-
     def _storeValue(self, node, children, value):
         self._debug.line("    set: children=%s" % children)
         if len(children) == 1:
@@ -187,21 +176,18 @@ class CommandlineParser(object):
 
         return
 
-
     # the class used for reporting errors
     class CommandlineException(Exception):
-
 
         def __init__(self, msg):
             self._msg = msg
             return
 
-
         def __str__(self):
             return self._msg
-            
+
 
 # version
 __id__ = "$Id: CommandlineParser.py,v 1.2 2005/03/10 06:04:50 aivazis Exp $"
 
-#  End of file 
+#  End of file

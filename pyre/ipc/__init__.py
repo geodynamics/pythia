@@ -12,7 +12,6 @@
 #
 
 
-
 def connection(mode):
     if mode == 'tcp':
         from .TCPSocket import TCPSocket
@@ -22,8 +21,8 @@ def connection(mode):
         from .UDPSocket import UDPSocket
         return UDPSocket()
 
-    import journal
-    journal.error('pyre.ipc').log("unknown connection mode '%s'" % mode)
+    import journal.diagnostics
+    journal.diagnostics.error('pyre.ipc').log("unknown connection mode '%s'" % mode)
 
     return None
 
@@ -37,8 +36,8 @@ def monitor(mode):
         from .UDPMonitor import UDPMonitor
         return UDPMonitor()
 
-    import journal
-    journal.error('pyre.ipc').log("unknown monitor mode '%s'" % mode)
+    import journal.diagnostics
+    journal.diagnostics.error('pyre.ipc').log("unknown monitor mode '%s'" % mode)
 
     return None
 
@@ -47,7 +46,8 @@ def selector():
     from .Selector import Selector
     return Selector()
 
+
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-# End of file 
+# End of file

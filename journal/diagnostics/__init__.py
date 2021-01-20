@@ -11,7 +11,30 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# version
-__id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-# End of file 
+def firewall(name):
+    from .Firewall import Firewall
+    return Firewall().diagnostic(name)
+
+
+def debug(name):
+    from .Debug import Debug
+    return Debug().diagnostic(name)
+
+
+def info(name):
+    from .Info import Info
+    return Info().diagnostic(name)
+
+
+def warning(name):
+    from .Warning import Warning
+    return Warning().diagnostic(name)
+
+
+def error(name):
+    from .Error import Error
+    return Error().diagnostic(name)
+
+
+# End of file

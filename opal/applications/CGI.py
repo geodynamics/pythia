@@ -67,12 +67,12 @@ class CGI(Script):
                 for line in sys.stdin:
                     parser.parse(registry, line, 'form')
             else:
-                import journal
-                firewall = journal.firewall('opal')
+                import journal.diagnostics
+                firewall = journal.diagnostics.firewall('opal')
                 firewall.log("NYI: unsupported content-type '%s'" % headers['content-type'])
         else:
-            import journal
-            journal.firewall('opal').log("unknown method '%s'" % method)
+            import journal.diagnostics
+            journal.diagnostics.firewall('opal').log("unknown method '%s'" % method)
 
         # if we got commandline arguments, parse them as well
         for arg in argv:

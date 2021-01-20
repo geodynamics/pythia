@@ -1,16 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
-
+#
 
 
 from .File import File
@@ -18,22 +17,17 @@ from .File import File
 
 class Directory(File):
 
-
     def identify(self, inspector):
         return inspector.onDirectory(self)
-
 
     def children(self):
         return tuple(self._children.values())
 
-
     def files(self):
         return tuple(self._files)
 
-
     def subdirectories(self):
         return tuple(self._subdirectories)
-
 
     def expand(self):
 
@@ -46,8 +40,8 @@ class Directory(File):
         from .NamedPipe import NamedPipe
         from .Socket import Socket
 
-        import journal
-        debug = journal.debug("pyre.filesystem")
+        import journal.diagnostics
+        debug = journal.diagnostics.debug("pyre.filesystem")
 
         files = []
         subdirectories = []
@@ -62,7 +56,7 @@ class Directory(File):
 
             if name in self._children:
                 continue
-            
+
             pathname = os.path.join(root, name)
             # PORTABILITY: lstat is unix only
             mode = os.lstat(pathname)[stat.ST_MODE]
@@ -98,7 +92,6 @@ class Directory(File):
 
         return subdirectories
 
-
     def __init__(self, name, parent):
         File.__init__(self, name, parent)
 
@@ -113,4 +106,4 @@ class Directory(File):
 # version
 __id__ = "$Id: Directory.py,v 1.1.1.1 2005/03/08 16:13:46 aivazis Exp $"
 
-#  End of file 
+#  End of file

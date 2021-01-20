@@ -11,7 +11,6 @@
 #
 
 
-
 from pyre.inventory.odb.Inventory import Inventory as OdbInventory
 from pyre.inventory.odb.Registry import Registry as OdbRegistry
 
@@ -134,8 +133,8 @@ if __name__ == "__main__":
 
         componentName = "UtilTest"
 
-        import pyre.inventory as pyre
-        answer = pyre.int("answer", default=42)
+        import pyre.inventory
+        answer = pyre.inventory.int("answer", default=42)
 
         def main(self, *args, **kwds):
             print("the answer is", self.answer)

@@ -51,24 +51,21 @@ import sys
 
 class Petsc(Component):
 
-
     def setDefaults(self, dct):
         locator = pyre.parsing.locators.default()
         for key, value in dct.items():
             self.options.setProperty(key, value, locator)
         return
 
-
     def updateConfiguration(self, registry):
         self.options.update(registry)
         return []
-
 
     def getArgs(self):
         options = [
             (name, descriptor.value)
             for name, descriptor in self.options.properties.items()
-            ]
+        ]
         args = []
         for iname, value in options:
             try:
@@ -83,45 +80,39 @@ class Petsc(Component):
                 args.append(value)
         return args
 
-
     def __init__(self, name):
         Component.__init__(self, name, name)
         self.options = self.createRegistry()
         return
 
 
-
 class PetscApplication(MPIApplication):
 
-
     class Inventory(MPIApplication.Inventory):
-        
-        import pyre.inventory as pyre
+
+        import pyre.inventory
 
         # a dummy facility for passing arbitrary options to PETSc
-        petsc = pyre.facility("petsc", factory=Petsc, args=["petsc"])
-
+        petsc = pyre.inventory.facility("petsc", factory=Petsc, args=["petsc"])
 
     def setPetscDefaults(self, dct):
         """Set the default options passed to PetscInitialize().
-        
-        This method should be called from _defaults()."""
-        
-        self.inventory.petsc.setDefaults(dct)
-        
-        return
 
+        This method should be called from _defaults()."""
+
+        self.inventory.petsc.setDefaults(dct)
+
+        return
 
     def _configure(self):
 
         super(PetscApplication, self)._configure()
-        
+
         self.petscArgs = [sys.executable]
         self.petscArgs.extend(self.inventory.petsc.getArgs())
         self._debug.log("PetscInitialize args: %r" % self.petscArgs)
 
         return
-
 
     def _onComputeNodes(self, *args, **kwds):
         petsc = self.petsc
@@ -130,5 +121,4 @@ class PetscApplication(MPIApplication):
         petsc.PetscFinalize()
 
 
-
-# end of file 
+# end of file

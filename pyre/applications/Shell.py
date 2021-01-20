@@ -11,7 +11,6 @@
 #
 
 
-
 from pyre.inventory.Configurable import Configurable
 
 
@@ -25,28 +24,25 @@ except ImportError:
 
 class Shell(Configurable):
 
-
     import pyre.inventory
     version = pyre.inventory.bool("version")
-    
+
     import pyre.hooks
     excepthook = pyre.hooks.facility("excepthook", family="excepthook",
                                      default=defaultExceptHook)
 
-    import journal
-    journal = journal.facility()
+    import journal.components
+    journal = journal.components.facility()
     journal.meta['tip'] = 'the logging facility'
 
     from .Preprocessor import Preprocessor
     pp = pyre.inventory.facility("macros", factory=Preprocessor, args=["macros"])
-
 
     def __init__(self, app):
         Configurable.__init__(self, app.name)
 
         self.app = app
         self.registry = None
-
 
     def run(self, *args, **kwds):
 
@@ -72,7 +68,7 @@ class Shell(Configurable):
 
         # look for settings
         self.initializeConfiguration(context)
-        
+
         # Temporarily set the app's registry to my own, so that
         # updateConfiguration() will work in readParameterFiles() and
         # collectUserInput().
@@ -85,7 +81,8 @@ class Shell(Configurable):
         app.collectUserInput(registry, context)
 
         # split the configuration in two
-        self.inventory._priv_registry, app.inventory._priv_registry = self.filterConfiguration(self.inventory._priv_registry)
+        self.inventory._priv_registry, app.inventory._priv_registry = self.filterConfiguration(
+            self.inventory._priv_registry)
         registry, app.registry = self.filterConfiguration(registry)
         self.registry = registry
 
@@ -110,14 +107,14 @@ class Shell(Configurable):
             sys.excepthook = self.excepthook.excepthook
 
         # ~~ configure the application ~~~
-        
+
         # start fresh
         context = app.newConfigContext()
-        context.receiveUnknownComponents(uc) # well, almost fresh
+        context.receiveUnknownComponents(uc)  # well, almost fresh
 
         # update user options from the command line
         app.updateConfiguration(app.registry)
-        
+
         # enable macro expansion
         self.pp.updateMacros(kwds.get('macros', {}))
         context.pp = self.pp

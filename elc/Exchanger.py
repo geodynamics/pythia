@@ -1,16 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
-
+#
 
 
 from pyre.components.Component import Component
@@ -18,30 +17,26 @@ from pyre.components.Component import Component
 
 class Exchanger(Component):
 
-
     def initialize(self, communicator=None):
         if communicator is None:
             import mpi
             communicator = mpi.world()
-            
+
         self.communicator = communicator
         self.rank = self.communicator.rank
 
         return
 
-
     def setMesh(self, mesh):
         # register the triangulation
         self.boundary.setMesh(mesh)
         return
-    
 
     def exchange(self):
         self.exchangeBoundary()
         # self.exchangeFields()
 
         return
-
 
     def exchangeBoundary(self):
         rank = self.rank
@@ -53,17 +48,15 @@ class Exchanger(Component):
         elif rank == self.sink:
             self._info.log("receiving boundary from node %d" % self.source)
             self.receiveBoundary()
-        
+
         self._info.log("done exchanging boundary %d -> %d" % (self.source, self.sink))
 
         return
-
 
     def exchangeFields(self):
         self.exchangeVelocities()
         self.exchangePressure()
         return
-    
 
     def exchangeVelocities(self):
         rank = self.rank
@@ -76,11 +69,10 @@ class Exchanger(Component):
         elif rank == self.sink:
             self._info.log("receiving velocities from node %d" % self.source)
             self.receiveVelocities()
-        
+
         self._info.log("done exchanging velocities %d -> %d" % (self.source, self.sink))
 
         return
-
 
     def exchangePressure(self):
         rank = self.rank
@@ -93,21 +85,19 @@ class Exchanger(Component):
         elif rank == self.sink:
             self._info.log("sending pressures to node %d" % self.source)
             self.sendPressures()
-        
+
         self._info.log("done exchanging pressure %d -> %d" % (self.source, self.sink))
 
         return
-
 
     def servers(self, source, sink):
         self.sink = sink
         self.source = source
         return
 
-
     def __init__(self, name):
         Component.__init__(self, name, facility="exchanger")
-        
+
         self.sink = None
         self.source = None
 
@@ -118,12 +108,12 @@ class Exchanger(Component):
         from .Boundary import Boundary
         self.boundary = Boundary()
 
-        import journal
-        self._info = journal.debug("exchanger")
+        import journal.diagnostics
+        self._info = journal.diagnostics.debug("exchanger")
         return
-        
+
 
 # version
 __id__ = "$Id: Exchanger.py,v 1.1.1.1 2005/03/08 16:13:28 aivazis Exp $"
 
-#  End of file 
+#  End of file

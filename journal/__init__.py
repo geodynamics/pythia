@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005  All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 # journal
 
@@ -18,140 +18,26 @@ def journal():
     global _theJournal
     if _theJournal is not None:
         return _theJournal
-    
+
     from .Journal import Journal
     _theJournal = Journal("journal")
     return _theJournal
 
 
-# facilities and components
-
-def facility(default=None):
-    from .components.JournalFacility import JournalFacility
-    return JournalFacility(default)
-
-
-# channels
-
-def firewall(name):
-    from .diagnostics.Firewall import Firewall
-    return Firewall().diagnostic(name)
-
-
-def debug(name):
-    from .diagnostics.Debug import Debug
-    return Debug().diagnostic(name)
-
-
-def info(name):
-    from .diagnostics.Info import Info
-    return Info().diagnostic(name)
-
-
-def warning(name):
-    from .diagnostics.Warning import Warning
-    return Warning().diagnostic(name)
-
-
-def error(name):
-    from .diagnostics.Error import Error
-    return Error().diagnostic(name)
-
-
-# indices
-
-def firewallIndex():
-    from .diagnostics.Firewall import Firewall
-    return Firewall()
-
-
-def debugIndex():
-    from .diagnostics.Debug import Debug
-    return Debug()
-
-
-def infoIndex():
-    from .diagnostics.Info import Info
-    return Info()
-
-
-def warningIndex():
-    from .diagnostics.Warning import Warning
-    return Warning()
-
-
-def errorIndex():
-    from .diagnostics.Error import Error
-    return Error()
-
-
 # register known severities
-
 def register():
-    firewallIndex()
-    debugIndex()
-    infoIndex()
-    warningIndex()
-    errorIndex()
+    from .diagnostics.Firewall import Firewall
+    from .diagnostics.Debug import Debug
+    from .diagnostics.Info import Info
+    from .diagnostics.Warning import Warning
+    from .diagnostics.Error import Error
 
+    Firewall()
+    Debug()
+    Info()
+    Warning()
+    Error()
     return
-
-
-# devices
-
-def logfile(stream):
-    from .devices.File import File
-    device = File(stream)
-
-    journal().device = device
-    return device
-
-
-def remote(key, port, host="localhost", protocol="tcp"):
-
-    if protocol == "tcp":
-        from .devices.TCPDevice import TCPDevice
-        device = TCPDevice(key, port, host)
-    elif protocol == "udp":
-        from .devices.UDPDevice import UDPDevice
-        device = UDPDevice(key, port, host)
-    else:
-        error('journal').log("unknown protocol '%s'" % protocol)
-        return
-        
-    journal().device = device
-    return device
-
-
-# special setups
-
-def daemon(name=None):
-    from .services.Daemon import Daemon
-    return Daemon(name)
-
-
-def request(command, args):
-    from pyre.services.ServiceRequest import ServiceRequest
-    return ServiceRequest(command, args)
-
-
-def service(name=None):
-    from .services.JournalService import JournalService
-    return JournalService(name)
-    
-
-def pickler(name=None):
-    if name is None:
-        name = "journal-pickler"
-        
-    from .services.Pickler import Pickler
-    return Pickler(name)
-
-
-# misc
-
-def copyright():
-    return "journal: Copyright (c) 1998-2005 Michael A.G. Aivazis";
 
 
 # statics
@@ -159,8 +45,11 @@ _theJournal = None
 
 # register the known indices
 register()
-        
-# version
+
 __version__ = "0.9.0"
 
-#  End of file 
+
+def copyright():
+    return "journal: Copyright (c) 1998-2005 Michael A.G. Aivazis"
+
+#  End of file

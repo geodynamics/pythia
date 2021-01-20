@@ -14,7 +14,6 @@
 # factories
 
 
-
 def facility(name, **kwds):
     from .Facility import Facility
     return Facility(name, **kwds)
@@ -57,20 +56,20 @@ def renderer(mode="pml"):
         from .pml.Renderer import Renderer
         return Renderer()
 
-    import journal
-    journal.error.log("'%s': unknown registry rendering mode" % mode)
+    import journal.diagnostics
+    journal.diagnostics.error.log("'%s': unknown registry rendering mode" % mode)
     return None
-    
+
 
 def parser(mode="pml"):
     if mode == "pml":
         from .pml.Parser import Parser
         return Parser()
 
-    import journal
-    journal.error.log("'%s': unknown registry parsing mode" % mode)
+    import journal.diagnostics
+    journal.diagnostics.error.log("'%s': unknown registry parsing mode" % mode)
     return None
-    
+
 
 # builtin property types
 
@@ -178,14 +177,21 @@ def isNot(v):
 
 
 # special values
-class ErrorType(object): pass
+class ErrorType(object):
+    pass
+
+
 Error = ErrorType()
 
-class UninitType(object): pass
+
+class UninitType(object):
+    pass
+
+
 Uninit = UninitType()
 
 
 # version
 __id__ = "$Id: __init__.py,v 1.4 2005/04/14 22:25:12 pyre Exp $"
 
-# End of file 
+# End of file

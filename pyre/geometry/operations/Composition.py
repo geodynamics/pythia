@@ -1,24 +1,23 @@
 #!/usr/bin/env python
 #
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import journal
+import journal.diagnostics
 from pyre.geometry.solids.Body import Body
 
 
 class Composition(Body):
 
-    _info = journal.debug("pyre.geometry.operations")
-
+    _info = journal.diagnostics.debug("pyre.geometry.operations")
 
 
 # version

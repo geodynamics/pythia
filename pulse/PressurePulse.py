@@ -12,7 +12,6 @@
 #
 
 
-
 from pyre.simulations.Solver import Solver
 
 
@@ -37,13 +36,13 @@ class PressurePulse(Solver):
         communicator = layout.communicator
 
         if not communicator:
-            import journal
-            journal.error(self.name).log("null communicator")
+            import journal.diagnostics
+            journal.diagnostics.error(self.name).log("null communicator")
             return
 
         if communicator.size > 1:
-            import journal
-            journal.error(self.name).log("this is a single processor solver")
+            import journal.diagnostics
+            journal.diagnostics.error(self.name).log("this is a single processor solver")
             return
 
         # save the communicator info

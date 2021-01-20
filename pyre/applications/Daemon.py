@@ -54,17 +54,17 @@ class Daemon(Stager):
         sys.exit(0)
 
         # unreachable
-        import journal
-        journal.firewall("pyre.services").log("UNREACHABLE")
+        import journal.diagnostics
+        journal.diagnostics.firewall("pyre.services").log("UNREACHABLE")
         return
 
     def daemon(self, pid, spawn=True):
         import os
-        import journal
+        import journal.diagnostics
 
         # change the working directory to my home directory
         if not os.path.exists(self.home):
-            journal.error(self.name).log("directory %r does not exist" % self.home)
+            journal.diagnostics.error(self.name).log("directory %r does not exist" % self.home)
             self.home = '/tmp'
 
         os.chdir(self.home)
@@ -85,10 +85,10 @@ class Daemon(Stager):
             try:
                 self.main(*self.args, **self.kwds)
             except KeyboardInterrupt:
-                journal.error(self.name).log("interrupt")
+                journal.diagnostics.error(self.name).log("interrupt")
             except Exception as e:
                 import traceback
-                journal.error(self.name).log("exception:\n%s" % traceback.format_exc())
+                journal.diagnostics.error(self.name).log("exception:\n%s" % traceback.format_exc())
         else:
             # debug mode
             self.main(*self.args, **self.kwds)
@@ -100,8 +100,8 @@ class Daemon(Stager):
         stream = open(self.name + '.log', "w")
 
         # attach it as the journal device
-        import journal
-        journal.logfile(stream)
+        import journal.devices
+        journal.devices.logfile(stream)
 
         return
 

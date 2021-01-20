@@ -9,9 +9,11 @@
 # <LicenseText>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
 
-# version
-__id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:53 aivazis Exp $"
 
-# End of file 
+def facility(default=None):
+    from .JournalFacility import JournalFacility
+    return JournalFacility(default)
+
+
+# End of file

@@ -12,20 +12,18 @@
 #
 
 
-
 from .Device import Device
 
 
 class TCPDevice(Device):
 
-
     def record(self, entry):
 
         if self._connection is None:
             return
-        
-        import journal
-        request = journal.request(command="record", args=[self.renderer.render(entry)])
+
+        import journal.services
+        request = journal.services.request(command="record", args=[self.renderer.render(entry)])
 
         try:
             self._marshaller.send(request, self._connection)
@@ -34,7 +32,6 @@ class TCPDevice(Device):
             return
 
         return
-
 
     def __init__(self, key, port, host=''):
         import socket
@@ -45,8 +42,8 @@ class TCPDevice(Device):
         self.host = host
         self.port = port
 
-        import journal
-        self._marshaller = journal.pickler()
+        import journal.services
+        self._marshaller = journal.services.pickler()
         self._marshaller.key = key
 
         import pyre.ipc

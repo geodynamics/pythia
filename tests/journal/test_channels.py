@@ -15,7 +15,8 @@
 import unittest
 import os
 
-import journal
+import journal.diagnostics
+import journal.devices
 
 
 class TestChannels(unittest.TestCase):
@@ -32,7 +33,7 @@ class TestChannels(unittest.TestCase):
         ]
 
         with open(filename, "w") as log:
-            journal.logfile(log)
+            journal.devices.logfile(log)
             i = 0
             diagnostic.activate()
             for line in lines:
@@ -53,25 +54,25 @@ class TestChannels(unittest.TestCase):
     def test_firewall(self):
         from journal.diagnostics.Diagnostic import Diagnostic
 
-        firewall = journal.firewall("test")
+        firewall = journal.diagnostics.firewall("test")
         with self.assertRaises(Diagnostic.Fatal):
             self._check_journal("firewall.log", "firewall", firewall)
         os.remove("firewall.log")
 
     def test_debug(self):
-        debug = journal.debug("test")
+        debug = journal.diagnostics.debug("test")
         self._check_journal("debug.log", "debug", debug)
 
     def test_info(self):
-        info = journal.info("test")
+        info = journal.diagnostics.info("test")
         self._check_journal("info.log", "info", info)
 
     def test_warning(self):
-        warning = journal.warning("test")
+        warning = journal.diagnostics.warning("test")
         self._check_journal("warning.log", "warning", warning)
 
     def test_error(self):
-        error = journal.error("test")
+        error = journal.diagnostics.error("test")
         self._check_journal("error.log", "error", error)
 
     def test_channels(self):

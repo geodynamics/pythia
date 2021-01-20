@@ -17,7 +17,6 @@ from pyre.applications.Script import Script
 
 class ClientServer(Script):
 
-
     class Inventory(Script.Inventory):
 
         import pyre.inventory
@@ -28,7 +27,6 @@ class ClientServer(Script):
 
         # delay before client is spawned
         delay = pyre.inventory.float("delay", default=2.0)
-
 
     def main(self, *args, **kwds):
 
@@ -44,11 +42,10 @@ class ClientServer(Script):
             self.onServer()
             self._info.log("server finished")
         else:
-            import journal
-            journal.warning(self.name).log("nothing to do; exiting")
+            import journal.diagnostics
+            journal.diagnostics.warning(self.name).log("nothing to do; exiting")
 
         return
-
 
     def __init__(self, name):
         Script.__init__(self, name)
@@ -57,14 +54,12 @@ class ClientServer(Script):
         self._doServer = False
         return
 
-
     def _configure(self):
         Script._configure(self)
         self._delay = self.inventory.delay
         self._doClient = self.inventory.client
         self._doServer = self.inventory.server
         return
-
 
     def _both(self):
         import os
@@ -90,14 +85,13 @@ class ClientServer(Script):
             self.onClient()
             self._info.log("client(%r): finished" % pid)
         else:
-            import journal
-            journal.error(self.name).log("fork: error %d" % child)
-            
-        return
+            import journal.diagnostics
+            journal.diagnostics.error(self.name).log("fork: error %d" % child)
 
+        return
 
 
 # version
 __id__ = "$Id: ClientServer.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-# End of file 
+# End of file

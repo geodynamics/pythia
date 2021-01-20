@@ -16,7 +16,6 @@ class DTDBuilder(type):
 
     CALLBACK_CHECK = 'relaxed'
 
-
     def __init__(cls, name, bases, dict):
         type.__init__(cls, name, bases, dict)
         trash = {}
@@ -48,7 +47,7 @@ class DTDBuilder(type):
             else:
                 # respect the explicit path supplied
                 module = node
-            
+
             # attempt to load the node constructor
             symbols = __import__(module, {}, {}, factory).__dict__
 
@@ -60,8 +59,8 @@ class DTDBuilder(type):
                 # verify that there is a handler for the endElement event
                 callback = 'on' + factory
                 if callback not in cls.__dict__:
-                    import journal
-                    warning = journal.warning("pyre.xml.parsing")
+                    import journal.diagnostics
+                    warning = journal.diagnostics.warning("pyre.xml.parsing")
                     warning.log("class '%s' should define a method 'on%s'" % (name, factory))
 
         cls._mydtd = dtd
@@ -72,4 +71,4 @@ class DTDBuilder(type):
 # version
 __id__ = "$Id: DTDBuilder.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-# End of file 
+# End of file

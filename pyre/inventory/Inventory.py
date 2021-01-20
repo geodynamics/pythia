@@ -217,8 +217,8 @@ class Inventory(object, metaclass=Notary):
         """retrieve component <name> from the persistent store"""
 
         if extraDepositories:
-            import journal
-            journal.firewall("inventory").log("non-null extraDepositories")
+            import journal.diagnostics
+            journal.diagnostics.firewall("inventory").log("non-null extraDepositories")
 
         return self._priv_curator.retrieveComponent(
             name=name, facility=factory, args=args, encodings=encodings,
@@ -229,8 +229,8 @@ class Inventory(object, metaclass=Notary):
         """retrieve all possible components for <factory> from the persistent store"""
 
         if extraDepositories:
-            import journal
-            journal.firewall("inventory").log("non-null extraDepositories")
+            import journal.diagnostics
+            journal.diagnostics.firewall("inventory").log("non-null extraDepositories")
 
         return self._priv_curator.retrieveAllComponents(
             facility=factory, args=args, encoding=encoding,
@@ -250,8 +250,8 @@ class Inventory(object, metaclass=Notary):
         """retrieve object <name> from the persistent store"""
 
         if extraDepositories:
-            import journal
-            journal.firewall("inventory").log("non-null extraDepositories")
+            import journal.diagnostics
+            journal.diagnostics.firewall("inventory").log("non-null extraDepositories")
 
         return self._priv_curator.retrieveObject(
             name=name, symbol=symbol, encodings=encodings,

@@ -112,8 +112,8 @@ class Weaver(Component):
         if weaver:
             return weaver
 
-        import journal
-        journal.error('pyre.weaver').log("could not locate weaver for '%s'" % language)
+        import journal.diagnostics
+        journal.diagnostics.error('pyre.weaver').log("could not locate weaver for '%s'" % language)
 
         self.getCurator().dump()
 

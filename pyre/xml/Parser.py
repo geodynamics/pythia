@@ -1,22 +1,21 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 import xml.sax
 
 
 class Parser(xml.sax.ContentHandler):
-
 
     # parsing
     def parse(self, stream, document, parserFactory=None):
@@ -26,7 +25,6 @@ class Parser(xml.sax.ContentHandler):
         self._fini()
 
         return self._document.document
-
 
     # content demultiplexing
 
@@ -38,21 +36,19 @@ class Parser(xml.sax.ContentHandler):
         self._document.locator = self._locator
         return
 
-
     def endDocument(self):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
         self._info.log("endDocument at (%d, %d)" % (line, column))
 
         if self._document != self._currentNode:
-            import journal
-            journal.firewall("pyre.xml.parsing").log("ooooops!")
+            import journal.diagnostics
+            journal.diagnostics.firewall("pyre.xml.parsing").log("ooooops!")
 
         # break a circular reference introduced above
         self._document.locator = None
 
         return
 
-        
     def startElement(self, name, attributes):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
         self._info.log("startElement: '%s', at (%d, %d)" % (name, line, column))
@@ -61,15 +57,13 @@ class Parser(xml.sax.ContentHandler):
 
         return
 
-
     def characters(self, content):
-        if content: 
+        if content:
             line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
             self._info.log("characters: '%s', at (%d, %d)" % (content, line, column))
             self._currentNode.content(content)
 
         return
-
 
     def endElement(self, name):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
@@ -83,39 +77,36 @@ class Parser(xml.sax.ContentHandler):
         except ValueError as text:
             l = self._document.locator
 
-            import journal
-            error = journal.error("pyre.xml.parsing")
+            import journal.diagnostics
+            error = journal.diagnostics.error("pyre.xml.parsing")
             error.log("%s: line %s, column %s: %s" % (l.filename, l.line, l.column, text))
 
         return
 
-
     def processingInstruction(self, target, data):
-        import journal
-        journal.firewall("pyre.xml.parsing").log(
+        import journal.diagnostics
+        journal.diagnostics.firewall("pyre.xml.parsing").log(
             "processingInstruction: target={%s}, data={%s}" % (target, data)
-            )
-        
+        )
+
         return
 
-
     # constructor
+
     def __init__(self):
         xml.sax.ContentHandler.__init__(self)
 
-        self._document= None
+        self._document = None
         self._nodeStack = []
         self._currentNode = None
 
         return
-
 
     def _init(self, document):
         self._nodeStack = []
         self._currentNode = document
         self._document = document
         return
-
 
     def _parse(self, stream, factory):
         # create a parser
@@ -131,19 +122,17 @@ class Parser(xml.sax.ContentHandler):
 
         return
 
-
     def _fini(self):
         self._nodeStack = []
         self._currentNode = None
         return
 
-
-    import journal
-    _info = journal.debug("pyre.xml.parsing")
+    import journal.diagnostics
+    _info = journal.diagnostics.debug("pyre.xml.parsing")
     del journal
 
 
 # version
 __id__ = "$Id: Parser.py,v 1.1.1.1 2005/03/08 16:13:41 aivazis Exp $"
 
-#  End of file 
+#  End of file

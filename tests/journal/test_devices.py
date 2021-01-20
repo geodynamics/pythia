@@ -16,12 +16,13 @@ import unittest
 import os
 
 import journal
+import journal.diagnostics
 
 
 class TestDevices(unittest.TestCase):
 
     def setUp(self):
-        self.journal = journal.debug("test")
+        self.journal = journal.diagnostics.debug("test")
         self.journal.activate()
 
     def test_console(self):

@@ -10,12 +10,10 @@
 #
 
 
-
 from pyre.simulations.Solver import Solver
 
 
 class Rigid(Solver):
-
 
     class Inventory(Solver.Inventory):
 
@@ -25,23 +23,22 @@ class Rigid(Solver):
         syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
         timestep = pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
 
-
     def launch(self, application):
         Solver.launch(self, application)
 
         # verify the machine layout
-        layout = application.layout  
+        layout = application.layout
         rank = layout.rank
         communicator = layout.communicator
 
         if not communicator:
-            import journal
-            journal.error(self.name).log("null communicator")
+            import journal.diagnostics
+            journal.diagnostics.error(self.name).log("null communicator")
             return
 
         if communicator.size > 1:
-            import journal
-            journal.error(self.name).log("this is a single processor solver")
+            import journal.diagnostics
+            journal.diagnostics.error(self.name).log("this is a single processor solver")
             return
 
         # save the communicator info
@@ -57,12 +54,11 @@ class Rigid(Solver):
         # initial boundary synchronization with the fluid
         if self.inventory.syncOnInit:
             self.applyBoundaryConditions()
-            
+
         from pyre.units.SI import second
-        t, step = 0.0*second, 0
+        t, step = 0.0 * second, 0
 
         return (t, step)
-
 
     def initializeModel(self, application):
         # create the model
@@ -78,11 +74,9 @@ class Rigid(Solver):
 
         return
 
-
     def visualize(self):
         self.publishState("")
         return
-
 
     def applyBoundaryConditions(self):
         Solver.applyBoundaryConditions(self)
@@ -90,10 +84,9 @@ class Rigid(Solver):
         self.coupler.exchangeFields()
         return
 
-
     def stableTimestep(self):
         dt = self.inventory.timestep
-    
+
         sink = self._fluidServer
         source = self._solidServer
 
@@ -103,7 +96,6 @@ class Rigid(Solver):
 
         Solver.stableTimestep(self, dt)
         return dt
-
 
     def publishState(self, directory):
         Solver.publishState(self, directory)
@@ -117,12 +109,10 @@ class Rigid(Solver):
         Solver.publishState(self, directory)
         return
 
-
     def verifyInterface(self):
         from . import rigid
         # NYI
         # return rigid.verify(self.coupler.boundary())
-
 
     def __init__(self):
         Solver.__init__(self, "rigid")

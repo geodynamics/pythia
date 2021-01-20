@@ -12,7 +12,6 @@
 #
 
 
-
 class Trait(object):
 
     def __init__(self, name, type, default=None, meta=None):
@@ -40,8 +39,8 @@ class Trait(object):
         except AttributeError:
             # catch bad descriptors or changes in the python conventions
             if instance is not None:
-                import journal
-                firewall = journal.firewall("pyre.inventory")
+                import journal.diagnostics
+                firewall = journal.diagnostics.firewall("pyre.inventory")
                 firewall.log("AttributeError on non-None instance. Bad descriptor?")
 
             # interpret this usage as a request for the trait object itself
@@ -86,8 +85,8 @@ class Trait(object):
             return instance._initializeTraitValue(self.name, value, locator)
 
         # UNREACHABLE
-        import journal
-        journal.firewall("pyre.inventory").log("UNREACHABLE")
+        import journal.diagnostics
+        journal.diagnostics.firewall("pyre.inventory").log("UNREACHABLE")
         return
 
 

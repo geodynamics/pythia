@@ -12,19 +12,16 @@
 #
 
 
-
 from .Device import Device
 
 
 class UDPDevice(Device):
 
-
     def record(self, entry):
-        import journal
-        request = journal.request(command="record", args=[self.renderer.render(entry)])
+        import journal.services
+        request = journal.services.request(command="record", args=[self.renderer.render(entry)])
         self._marshaller.send(request, self._connection)
         return
-
 
     def __init__(self, key, port, host=''):
         import socket
@@ -36,8 +33,8 @@ class UDPDevice(Device):
         self._connection = pyre.ipc.connection('udp')
         self._connection.connect((host, port))
 
-        import journal
-        self._marshaller = journal.pickler()
+        import journal.services
+        self._marshaller = journal.services.pickler()
         self._marshaller.key = key
 
         return

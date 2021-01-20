@@ -42,16 +42,16 @@ class Blade(Component):
             if extension:
                 encoding = extension[1:]
             else:
-                import journal
-                journal.error("blade").log("unknown layout type in '%s'" % layout)
+                import journal.diagnostics
+                journal.diagnostics.error("blade").log("unknown layout type in '%s'" % layout)
                 return
 
         print(" ++ encoding:", encoding)
         try:
             codec = self.codecs[encoding]
         except KeyError:
-            import journal
-            journal.error("blade").log("unknown encoding '%s'" % encoding)
+            import journal.diagnostics
+            journal.diagnostics.error("blade").log("unknown encoding '%s'" % encoding)
             return
 
         print(codec.open(base))

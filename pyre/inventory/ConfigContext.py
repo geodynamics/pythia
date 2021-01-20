@@ -11,13 +11,12 @@
 #
 
 
-
 class ConfigContext(object):
 
     #
     # application interface
     #
-    
+
     def error(self, error, **attributes):
         for k, v in attributes.items():
             setattr(error, k, v)
@@ -39,7 +38,6 @@ class ConfigContext(object):
         self.errors.append(error)
         return
 
-
     #
     # private
     #
@@ -48,11 +46,9 @@ class ConfigContext(object):
         self.unknownComponents.attachNode(registry)
         self.showUsage = True
 
-
     def unrecognizedProperty(self, name, value, locator):
         self.unrecognizedProperties.setProperty(name, value, locator)
         self.showUsage = True
-
 
     def configureComponent(self, component):
 
@@ -61,7 +57,7 @@ class ConfigContext(object):
         self.unrecognizedProperties = self.unrecognizedProperties.getNode(component.name)
         self.unknownComponents = self.unknownComponents.getNode(component.name)
         self.path.append(component.name)
-        
+
         # apply user settings to the component's properties
         component.configureProperties(self)
 
@@ -77,13 +73,11 @@ class ConfigContext(object):
 
         return
 
-
     def setProperty(self, prop, instance, value, locator):
         if self.pp:
             value = self.pp.expandMacros(value)
         prop._set(instance, value, locator)
         return
-
 
     def puntUnknownComponents(self):
         from pyre.inventory import registry
@@ -91,16 +85,14 @@ class ConfigContext(object):
         self.unknownComponents = registry("inventory")
         return uc
 
-
     def receiveUnknownComponents(self, uc):
         self.unknownComponents = uc
         return
 
-
     def unknownTraits(self):
         unrecognizedProperties = []
         unknownComponents = []
-        
+
         node = self.unrecognizedProperties
         for path, value, locator in node.allProperties():
             path = '.'.join(path[1:])
@@ -112,7 +104,6 @@ class ConfigContext(object):
             unknownComponents.append(path)
 
         return (unrecognizedProperties, unknownComponents)
-
 
     def verifyConfiguration(self, component, modeName):
         """verify that the user input did not contain any typos"""
@@ -136,30 +127,31 @@ class ConfigContext(object):
             def __init__(self, factory):
                 self.channel = factory("pyre.inventory")
                 self.tally = 0
+
             def line(self, message):
                 self.channel.line(message)
+
             def log(self, message=None, locator=None):
                 self.channel.log(message, locator)
                 self.tally += 1
 
-        import journal
-        info     = Channel(journal.info)
-        warning  = Channel(journal.warning)
-        error    = Channel(journal.error)
+        import journal.diagnostics
+        info = Channel(journal.diagnostics.info)
+        warning = Channel(journal.diagnostics.warning)
+        error = Channel(journal.diagnostics.error)
 
         mode = dict(
-            relaxed   = dict(up=warning, uc=info,    e=warning),
-            strict    = dict(up=error,   uc=warning, e=error),
-            pedantic  = dict(up=error,   uc=error,   e=error),
-            )
-        
+            relaxed=dict(up=warning, uc=info,    e=warning),
+            strict=dict(up=error,   uc=warning, e=error),
+            pedantic=dict(up=error,   uc=error,   e=error),
+        )
+
         channel = mode[modeName]
 
         for e in self.errors:
             self.log(channel[e.channel], e)
 
         return error.tally == 0
-
 
     def log(self, channel, error):
 
@@ -178,16 +170,15 @@ class ConfigContext(object):
         elif hasattr(error, 'path'):
             path = '.'.join(error.path[1:])
             channel.line("%s <- '%s'" % (path, error.value))
-        
+
         channel.log(error, locator)
         channel.tally = channel.tally + 1
-        
-        return
 
+        return
 
     def __init__(self):
         from pyre.inventory import registry
-        
+
         self.unrecognizedProperties = registry("inventory")
         self.unknownComponents = registry("inventory")
         self.path = []
@@ -213,19 +204,19 @@ class ConfigurationError(Exception):
 class UnrecognizedPropertyError(ConfigurationError):
 
     channel = 'up'
-        
+
     def __str__(self):
         prop = '.'.join(self.path[1:])
         return "unrecognized property '%s'" % prop
 
 
 class UnknownComponentError(ConfigurationError):
-        
+
     channel = 'uc'
-        
+
     def __str__(self):
         component = '.'.join(self.path[1:-1])
         return "unknown component '%s'" % component
-        
 
-# end of file 
+
+# end of file

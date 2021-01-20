@@ -17,31 +17,29 @@ from pyre.components.Component import Component
 
 class Evaluator(Component):
 
-
     def evaluate(self, component, command, args):
         try:
             func = component.__getattribute__(command)
         except AttributeError:
-            import journal
-            journal.error('pyre.services').log(
+            import journal.diagnostics
+            journal.diagnostics.error('pyre.services').log(
                 "%r not found in component %r" % (command, component.name))
             return
 
         if not callable(func):
-            import journal
-            journal.error('pyre.services').log(
+            import journal.diagnostics
+            journal.diagnostics.error('pyre.services').log(
                 "component %r: %r is not callable" % (component.name, command))
             return
 
         try:
             return func(*args)
         except TypeError as msg:
-            import journal
-            journal.error('pyre.services').log(
+            import journal.diagnostics
+            journal.diagnostics.error('pyre.services').log(
                 "component %r: %s" % (component.name, msg))
 
         return
-
 
     def __init__(self, name):
         if name is None:
@@ -55,4 +53,4 @@ class Evaluator(Component):
 # version
 __id__ = "$Id: Evaluator.py,v 1.1.1.1 2005/03/08 16:13:48 aivazis Exp $"
 
-# End of file 
+# End of file

@@ -12,7 +12,6 @@
 #
 
 
-
 class Selector(object):
 
     def watch(self, timeout=None):
@@ -160,8 +159,8 @@ class Selector(object):
         return
 
     # static members
-    import journal
-    _debug = journal.debug("pyre.ipc.selector")
+    import journal.diagnostics
+    _debug = journal.diagnostics.debug("pyre.ipc.selector")
     del journal
 
     # constants
