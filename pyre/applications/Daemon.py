@@ -54,25 +54,25 @@ class Daemon(Stager):
         sys.exit(0)
 
         # unreachable
-        import journal.diagnostics
-        journal.diagnostics.firewall("pyre.services").log("UNREACHABLE")
+        import pythia.journal.diagnostics
+        pythia.journal.diagnostics.firewall("pyre.services").log("UNREACHABLE")
         return
 
     def daemon(self, pid, spawn=True):
         import os
-        import journal.diagnostics
+        import pythia.journal.diagnostics
 
         # change the working directory to my home directory
         if not os.path.exists(self.home):
-            journal.diagnostics.error(self.name).log("directory %r does not exist" % self.home)
+            pythia.journal.diagnostics.error(self.name).log("directory %r does not exist" % self.home)
             self.home = '/tmp'
 
         os.chdir(self.home)
 
-        # redirect the journal output since we are about to close all the
+        # redirect the pythia.journal output since we are about to close all the
         # standard file descriptors
         # currently disabled since a better strategy is to have the application author
-        # build a journal configuration file
+        # build a pythia.journal configuration file
         # self.configureJournal()
 
         if spawn:
@@ -85,10 +85,10 @@ class Daemon(Stager):
             try:
                 self.main(*self.args, **self.kwds)
             except KeyboardInterrupt:
-                journal.diagnostics.error(self.name).log("interrupt")
+                pythia.journal.diagnostics.error(self.name).log("interrupt")
             except Exception as e:
                 import traceback
-                journal.diagnostics.error(self.name).log("exception:\n%s" % traceback.format_exc())
+                pythia.journal.diagnostics.error(self.name).log("exception:\n%s" % traceback.format_exc())
         else:
             # debug mode
             self.main(*self.args, **self.kwds)
@@ -99,9 +99,9 @@ class Daemon(Stager):
         # open the logfile
         stream = open(self.name + '.log', "w")
 
-        # attach it as the journal device
-        import journal.devices
-        journal.devices.logfile(stream)
+        # attach it as the pythia.journal device
+        import pythia.journal.devices
+        pythia.journal.devices.logfile(stream)
 
         return
 

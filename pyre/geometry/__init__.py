@@ -41,8 +41,8 @@ def renderer(format=None):
         from .pml.Renderer import Renderer
         return Renderer()
 
-    import journal.diagnostics
-    journal.diagnostics.error.log("'%s': unknown geometry rendering format" % format)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error.log("'%s': unknown geometry rendering format" % format)
     return None
 
 
@@ -54,8 +54,8 @@ def parser(format=None):
         from .pml.Parser import Parser
         return Parser()
 
-    import journal.diagnostics
-    journal.diagnostics.error.log("'%s': unknown geometry parsing format" % format)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error.log("'%s': unknown geometry parsing format" % format)
     return None
 
 

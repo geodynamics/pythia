@@ -323,11 +323,11 @@ class Configurable(Traceable, metaclass=ConfigurableClass):
         # other names by which I am known for configuration purposes
         self.aliases = [name]
 
-        import journal.diagnostics
-        self._debug = journal.diagnostics.debug(name)
-        self._info = journal.diagnostics.info(name)
-        self._error = journal.diagnostics.error(name)
-        self._warning = journal.diagnostics.warning(name)
+        from pythia.journal.diagnostics import (debug, info, error, warning)
+        self._debug = debug(name)
+        self._info = info(name)
+        self._error = error(name)
+        self._warning = warning(name)
 
         # modify the inventory defaults that were hardwired at compile time
         # gives derived components an opportunity to modify their default behavior

@@ -38,8 +38,8 @@ class Component(Configurable):
         if registry:
             name = registry.name
             if name not in self.aliases:
-                import journal.diagnostics
-                journal.diagnostics.firewall("inventory").log(
+                import pythia.journal.diagnostics
+                pythia.journal.diagnostics.firewall("inventory").log(
                     "bad registry node: %s != %s" % (name, self.name))
 
         return Configurable.updateConfiguration(self, registry)

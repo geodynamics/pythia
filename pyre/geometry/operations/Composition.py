@@ -11,13 +11,13 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import journal.diagnostics
+import pythia.journal.diagnostics
 from pyre.geometry.solids.Body import Body
 
 
 class Composition(Body):
 
-    _info = journal.diagnostics.debug("pyre.geometry.operations")
+    _info = pythia.journal.diagnostics.debug("pyre.geometry.operations")
 
 
 # version

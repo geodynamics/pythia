@@ -28,9 +28,9 @@ class Curator(object):
 
         tag = name + '.curator'
 
-        import journal.diagnostics
-        self._info = journal.diagnostics.info(tag)
-        self._debug = journal.diagnostics.debug(tag)
+        from pythia.journal.diagnostics import (info, debug)
+        self._info = info(tag)
+        self._debug = debug(tag)
 
         return
 

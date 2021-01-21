@@ -21,22 +21,22 @@ class Evaluator(Component):
         try:
             func = component.__getattribute__(command)
         except AttributeError:
-            import journal.diagnostics
-            journal.diagnostics.error('pyre.services').log(
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error('pyre.services').log(
                 "%r not found in component %r" % (command, component.name))
             return
 
         if not callable(func):
-            import journal.diagnostics
-            journal.diagnostics.error('pyre.services').log(
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error('pyre.services').log(
                 "component %r: %r is not callable" % (component.name, command))
             return
 
         try:
             return func(*args)
         except TypeError as msg:
-            import journal.diagnostics
-            journal.diagnostics.error('pyre.services').log(
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error('pyre.services').log(
                 "component %r: %s" % (component.name, msg))
 
         return

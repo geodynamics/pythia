@@ -47,8 +47,8 @@ class PortMonitor(object):
     def __init__(self):
         self.port = None
 
-        import journal.diagnostics
-        self._debug = journal.diagnostics.debug("pyre.ipc.monitor")
+        import pythia.journal.diagnostics
+        self._debug = pythia.journal.diagnostics.debug("pyre.ipc.monitor")
 
         return
 

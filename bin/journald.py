@@ -13,9 +13,9 @@
 
 
 def run():
-    import journal.services
+    import pythia.journal.services
 
-    app = journal.services.daemon()
+    app = pythia.journal.services.daemon()
     return app.run(spawn=True)
 
 
@@ -24,6 +24,6 @@ if __name__ == "__main__":
 
 
 # version
-__id__ = "$Id: journald.py,v 1.1 2005/03/14 05:48:18 aivazis Exp $"
+__id__ = "$Id: pythia.journald.py,v 1.1 2005/03/14 05:48:18 aivazis Exp $"
 
 # End of file

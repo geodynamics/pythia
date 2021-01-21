@@ -74,8 +74,8 @@ class Facility(Trait, metaclass=Interface):
 
         if self.default is Uninit:
             # oops: expect exceptions galore!
-            import journal.diagnostics
-            firewall = journal.diagnostics.firewall('pyre.inventory')
+            import pythia.journal.diagnostics
+            firewall = pythia.journal.diagnostics.firewall('pyre.inventory')
             firewall.log(
                 "facility %r was given neither a default value nor a factory method" % self.name)
 

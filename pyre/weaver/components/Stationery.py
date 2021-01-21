@@ -69,8 +69,8 @@ class Stationery(object):
         self._name = name
         self._options = None
 
-        import journal.diagnostics
-        self._debug = journal.diagnostics.debug(name)
+        from pythia.journal.diagnostics import debug
+        self._debug = debug(name)
 
         return
 

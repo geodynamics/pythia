@@ -27,8 +27,8 @@ class Registry(object):
             return default
 
         # UNREACHABLE
-        import journal.diagnostics
-        journal.diagnostics.firewall("inventory").log("UNREACHABLE")
+        import pythia.journal.diagnostics
+        pythia.journal.diagnostics.firewall("inventory").log("UNREACHABLE")
         return
 
     def setProperty(self, name, value, locator):

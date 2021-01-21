@@ -40,8 +40,8 @@ class Directory(File):
         from .NamedPipe import NamedPipe
         from .Socket import Socket
 
-        import journal.diagnostics
-        debug = journal.diagnostics.debug("pyre.filesystem")
+        import pythia.journal.diagnostics
+        debug = pythia.journal.diagnostics.debug("pyre.filesystem")
 
         files = []
         subdirectories = []

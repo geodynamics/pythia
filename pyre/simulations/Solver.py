@@ -81,9 +81,9 @@ class Solver(Component):
 
         self._elc = None
 
-        import journal.diagnostics
-        self._loopInfo = journal.diagnostics.debug("%s.timeloop" % name)
-        self._monitorInfo = journal.diagnostics.debug("%s.monitoring" % name)
+        import pythia.journal.diagnostics
+        self._loopInfo = pythia.journal.diagnostics.debug("%s.timeloop" % name)
+        self._monitorInfo = pythia.journal.diagnostics.debug("%s.monitoring" % name)
 
         from pyre.units.time import second
         self.t = 0.0 * second

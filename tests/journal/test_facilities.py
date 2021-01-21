@@ -15,7 +15,7 @@
 import unittest
 import os
 
-import journal.diagnostics
+from pythia.journal.diagnostics import (info, debug, warning, error, firewall)
 from pyre.applications.Script import Script
 
 
@@ -66,13 +66,13 @@ class JournalApp(Script):
         Script.__init__(self, name)
 
     def main(self, *args, **kwds):
-        debugOn = journal.diagnostics.debug("debug_on")
+        debugOn = debug("debug_on")
         debugOn.activate()
         debugOn.log("This journal should be on.")
         debugOn.deactivate()
         debugOn.log("This journal should be off.")
 
-        debugOff = journal.diagnostics.debug("debug_off")
+        debugOff = debug("debug_off")
         debugOff.log("This journal should be off.")
 
 

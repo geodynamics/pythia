@@ -31,8 +31,8 @@ class Shell(Configurable):
     excepthook = pyre.hooks.facility("excepthook", family="excepthook",
                                      default=defaultExceptHook)
 
-    import journal.components
-    journal = journal.components.facility()
+    import pythia.journal.components
+    journal = pythia.journal.components.facility()
     journal.meta['tip'] = 'the logging facility'
 
     from .Preprocessor import Preprocessor

@@ -18,8 +18,8 @@ def connect(database, wrapper=None):
         from .Psycopg import Psycopg
         return Psycopg(database)
 
-    import journal.diagnostics
-    journal.diagnostics.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
     return None
 
 

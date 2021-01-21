@@ -159,9 +159,9 @@ class Selector(object):
         return
 
     # static members
-    import journal.diagnostics
-    _debug = journal.diagnostics.debug("pyre.ipc.selector")
-    del journal
+    import pythia.journal.diagnostics
+    _debug = pythia.journal.diagnostics.debug("pyre.ipc.selector")
+    del pythia.journal
 
     # constants
     _TIMEOUT = .5

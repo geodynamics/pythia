@@ -42,8 +42,8 @@ class ClientServer(Script):
             self.onServer()
             self._info.log("server finished")
         else:
-            import journal.diagnostics
-            journal.diagnostics.warning(self.name).log("nothing to do; exiting")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.warning(self.name).log("nothing to do; exiting")
 
         return
 
@@ -85,8 +85,8 @@ class ClientServer(Script):
             self.onClient()
             self._info.log("client(%r): finished" % pid)
         else:
-            import journal.diagnostics
-            journal.diagnostics.error(self.name).log("fork: error %d" % child)
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error(self.name).log("fork: error %d" % child)
 
         return
 

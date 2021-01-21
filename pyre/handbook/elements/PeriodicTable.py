@@ -24,8 +24,8 @@ class PeriodicTable(object):
 
     def atomicNumber(self, n):
         if n < 1 or n > len(self._atomicNumberIndex):
-            import journal.diagnostics
-            journal.diagnostics.firewall("pyre.handbook").log(
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.firewall("pyre.handbook").log(
                 "element with atomic number %d not found" % atomicNumber)
             return None
 
@@ -54,8 +54,8 @@ def verify(elements):
             # when firewall are not fatal, this will scan through the table
             # and find all inconsistencies
             status = 0
-            import journal.diagnostics
-            firewall = journal.diagnostics.firewall("handbook")
+            import pythia.journal.diagnostics
+            firewall = pythia.journal.diagnostics.firewall("handbook")
             firewall.log(
                 "PeriodicTable: atomic number(%d) != offset(%d)" %
                 (index, elements[index].atomicNumber))
@@ -72,8 +72,8 @@ def createNameIndex(elements):
 
     # detect collisions
     if len(elements) != len(index):
-        import journal.diagnostics
-        firewall = journal.diagnostics.firewall("handbook")
+        import pythia.journal.diagnostics
+        firewall = pythia.journal.diagnostics.firewall("handbook")
         firewall.log(
             "PeriodicTable: symbol index size mismatch: %d != %d" % (len(index), len(elements)))
 
@@ -89,8 +89,8 @@ def createSymbolIndex(elements):
 
     # detect collisions
     if len(elements) != len(index):
-        import journal.diagnostics
-        firewall = journal.diagnostics.firewall("handbook")
+        import pythia.journal.diagnostics
+        firewall = pythia.journal.diagnostics.firewall("handbook")
         firewall.log(
             "PeriodicTable: symbol index size mismatch: %d != %d" % (len(index), len(elements)))
 
@@ -104,8 +104,8 @@ _thePeriodicTable = None
 
 def periodicTable():
 
-    import journal.diagnostics
-    info = journal.diagnostics.debug("pyre.initialization")
+    import pythia.journal.diagnostics
+    info = pythia.journal.diagnostics.debug("pyre.initialization")
 
     global _thePeriodicTable
     if not _thePeriodicTable:

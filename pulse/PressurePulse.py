@@ -36,13 +36,13 @@ class PressurePulse(Solver):
         communicator = layout.communicator
 
         if not communicator:
-            import journal.diagnostics
-            journal.diagnostics.error(self.name).log("null communicator")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error(self.name).log("null communicator")
             return
 
         if communicator.size > 1:
-            import journal.diagnostics
-            journal.diagnostics.error(self.name).log("this is a single processor solver")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error(self.name).log("this is a single processor solver")
             return
 
         # save the communicator info

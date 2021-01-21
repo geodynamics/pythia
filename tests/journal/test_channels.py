@@ -15,8 +15,9 @@
 import unittest
 import os
 
-import journal.diagnostics
-import journal.devices
+from pythia import journal
+from pythia.journal import diagnostics
+from pythia.journal import devices
 
 
 class TestChannels(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestChannels(unittest.TestCase):
         ]
 
         with open(filename, "w") as log:
-            journal.devices.logfile(log)
+            devices.logfile(log)
             i = 0
             diagnostic.activate()
             for line in lines:
@@ -52,27 +53,27 @@ class TestChannels(unittest.TestCase):
         os.remove(filename)
 
     def test_firewall(self):
-        from journal.diagnostics.Diagnostic import Diagnostic
+        from pythia.journal.diagnostics.Diagnostic import Diagnostic
 
-        firewall = journal.diagnostics.firewall("test")
+        firewall = diagnostics.firewall("test")
         with self.assertRaises(Diagnostic.Fatal):
             self._check_journal("firewall.log", "firewall", firewall)
         os.remove("firewall.log")
 
     def test_debug(self):
-        debug = journal.diagnostics.debug("test")
+        debug = diagnostics.debug("test")
         self._check_journal("debug.log", "debug", debug)
 
     def test_info(self):
-        info = journal.diagnostics.info("test")
+        info = diagnostics.info("test")
         self._check_journal("info.log", "info", info)
 
     def test_warning(self):
-        warning = journal.diagnostics.warning("test")
+        warning = diagnostics.warning("test")
         self._check_journal("warning.log", "warning", warning)
 
     def test_error(self):
-        error = journal.diagnostics.error("test")
+        error = diagnostics.error("test")
         self._check_journal("error.log", "error", error)
 
     def test_channels(self):

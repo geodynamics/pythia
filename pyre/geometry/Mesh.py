@@ -54,8 +54,8 @@ class Mesh(object):
         try:
             import pyre._pyre
         except ImportError:
-            import journal.diagnostics
-            error = journal.diagnostics.error('pyre')
+            import pythia.journal.diagnostics
+            error = pythia.journal.diagnostics.error('pyre')
             error.line("unable to import the C++ pyre extensions")
             error.log("mesh objects are not supported")
             self._mesh = None

@@ -37,7 +37,7 @@ class TestApp(object):
     try:
         import coverage
         src_dirs = [
-            "journal",
+            "pythia.journal",
             "pyre.applications",
             "pyre.components",
             "pyre.filesystem",

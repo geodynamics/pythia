@@ -59,8 +59,8 @@ class DTDBuilder(type):
                 # verify that there is a handler for the endElement event
                 callback = 'on' + factory
                 if callback not in cls.__dict__:
-                    import journal.diagnostics
-                    warning = journal.diagnostics.warning("pyre.xml.parsing")
+                    import pythia.journal.diagnostics
+                    warning = pythia.journal.diagnostics.warning("pyre.xml.parsing")
                     warning.log("class '%s' should define a method 'on%s'" % (name, factory))
 
         cls._mydtd = dtd

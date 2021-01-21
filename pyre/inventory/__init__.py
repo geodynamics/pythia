@@ -56,8 +56,8 @@ def renderer(mode="pml"):
         from .pml.Renderer import Renderer
         return Renderer()
 
-    import journal.diagnostics
-    journal.diagnostics.error.log("'%s': unknown registry rendering mode" % mode)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error.log("'%s': unknown registry rendering mode" % mode)
     return None
 
 
@@ -66,8 +66,8 @@ def parser(mode="pml"):
         from .pml.Parser import Parser
         return Parser()
 
-    import journal.diagnostics
-    journal.diagnostics.error.log("'%s': unknown registry parsing mode" % mode)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error.log("'%s': unknown registry parsing mode" % mode)
     return None
 
 

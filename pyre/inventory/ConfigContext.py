@@ -135,10 +135,10 @@ class ConfigContext(object):
                 self.channel.log(message, locator)
                 self.tally += 1
 
-        import journal.diagnostics
-        info = Channel(journal.diagnostics.info)
-        warning = Channel(journal.diagnostics.warning)
-        error = Channel(journal.diagnostics.error)
+        from pythia.journal.diagnostics import (info, warning, error)
+        info = Channel(info)
+        warning = Channel(warning)
+        error = Channel(error)
 
         mode = dict(
             relaxed=dict(up=warning, uc=info,    e=warning),

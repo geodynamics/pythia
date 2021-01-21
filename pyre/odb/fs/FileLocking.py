@@ -21,8 +21,8 @@ elif os.name == 'nt':
     from .FileLockingNT import FileLockingNT as FileLocking
 
 else:
-    import journal.diagnostics
-    warning = journal.diagnostics.warning('pyre.odb')
+    import pythia.journal.diagnostics
+    warning = pythia.journal.diagnostics.warning('pyre.odb')
     warning.line("no file locking services are available for %s" % os.name)
     warning.log("please contact the pyre development team")
 

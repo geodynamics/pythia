@@ -48,8 +48,8 @@ class Column(object):
         except AttributeError:
             # catch bad descriptors or changes in the python conventions
             if instance is not None:
-                import journal.diagnostics
-                firewall = journal.diagnostics.firewall("pyre.inventory")
+                import pythia.journal.diagnostics
+                firewall = pythia.journal.diagnostics.firewall("pyre.inventory")
                 firewall.log("AttributeError on non-None instance. Bad descriptor?")
 
             # interpret this usage as a request for the trait object itself
@@ -60,8 +60,8 @@ class Column(object):
             return None
 
         # not reachable
-        import journal.diagnostics
-        journal.diagnostics.firewall('pyre.db').log("UNREACHABLE")
+        import pythia.journal.diagnostics
+        pythia.journal.diagnostics.firewall('pyre.db').log("UNREACHABLE")
         return None
 
     def __set__(self, instance, value):

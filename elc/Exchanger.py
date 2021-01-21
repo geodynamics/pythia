@@ -108,8 +108,8 @@ class Exchanger(Component):
         from .Boundary import Boundary
         self.boundary = Boundary()
 
-        import journal.diagnostics
-        self._info = journal.diagnostics.debug("exchanger")
+        import pythia.journal.diagnostics
+        self._info = pythia.journal.diagnostics.debug("exchanger")
         return
 
 

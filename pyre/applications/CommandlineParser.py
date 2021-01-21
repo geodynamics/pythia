@@ -57,8 +57,8 @@ class CommandlineParser(object):
         import pyre.parsing.locators
         self.locator = pyre.parsing.locators.commandLine()
 
-        import journal.diagnostics
-        self._debug = journal.diagnostics.debug("pyre.commandline")
+        from pythia.journal.diagnostics import debug
+        self._debug = debug("pyre.commandline")
 
         return
 

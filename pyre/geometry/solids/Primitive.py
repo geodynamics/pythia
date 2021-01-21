@@ -12,13 +12,13 @@
 #
 
 
-import journal.diagnostics
+import pythia.journal.diagnostics
 from .Body import Body
 
 
 class Primitive(Body):
 
-    _info = journal.diagnostics.debug("pyre.geometry.solids")
+    _info = pythia.journal.diagnostics.debug("pyre.geometry.solids")
 
 
 # version

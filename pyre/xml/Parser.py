@@ -41,8 +41,8 @@ class Parser(xml.sax.ContentHandler):
         self._info.log("endDocument at (%d, %d)" % (line, column))
 
         if self._document != self._currentNode:
-            import journal.diagnostics
-            journal.diagnostics.firewall("pyre.xml.parsing").log("ooooops!")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.firewall("pyre.xml.parsing").log("ooooops!")
 
         # break a circular reference introduced above
         self._document.locator = None
@@ -77,15 +77,15 @@ class Parser(xml.sax.ContentHandler):
         except ValueError as text:
             l = self._document.locator
 
-            import journal.diagnostics
-            error = journal.diagnostics.error("pyre.xml.parsing")
+            import pythia.journal.diagnostics
+            error = pythia.journal.diagnostics.error("pyre.xml.parsing")
             error.log("%s: line %s, column %s: %s" % (l.filename, l.line, l.column, text))
 
         return
 
     def processingInstruction(self, target, data):
-        import journal.diagnostics
-        journal.diagnostics.firewall("pyre.xml.parsing").log(
+        import pythia.journal.diagnostics
+        pythia.journal.diagnostics.firewall("pyre.xml.parsing").log(
             "processingInstruction: target={%s}, data={%s}" % (target, data)
         )
 
@@ -127,9 +127,9 @@ class Parser(xml.sax.ContentHandler):
         self._currentNode = None
         return
 
-    import journal.diagnostics
-    _info = journal.diagnostics.debug("pyre.xml.parsing")
-    del journal
+    import pythia.journal.diagnostics
+    _info = pythia.journal.diagnostics.debug("pyre.xml.parsing")
+    del pythia.journal
 
 
 # version

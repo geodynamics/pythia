@@ -67,12 +67,12 @@ class CGI(Script):
                 for line in sys.stdin:
                     parser.parse(registry, line, 'form')
             else:
-                import journal.diagnostics
-                firewall = journal.diagnostics.firewall('opal')
+                import pythia.journal.diagnostics
+                firewall = pythia.journal.diagnostics.firewall('opal')
                 firewall.log("NYI: unsupported content-type '%s'" % headers['content-type'])
         else:
-            import journal.diagnostics
-            journal.diagnostics.firewall('opal').log("unknown method '%s'" % method)
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.firewall('opal').log("unknown method '%s'" % method)
 
         # if we got commandline arguments, parse them as well
         for arg in argv:
@@ -91,7 +91,7 @@ class CGI(Script):
             # take care of exception output
             self.initializeTraceback()
 
-            # format journal output
+            # format pythia.journal output
             self.initializeJournal()
 
         return
@@ -116,8 +116,8 @@ class CGI(Script):
         return
 
     def initializeJournal(self):
-        import journal
-        renderer = journal.journal().device.renderer
+        import pythia.journal
+        renderer = pythia.journal.journal().device.renderer
         renderer.header = '<pre>' + renderer.header
         renderer.footer = renderer.footer + '</pre>'
         return

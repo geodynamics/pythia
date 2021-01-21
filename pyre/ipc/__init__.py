@@ -21,8 +21,8 @@ def connection(mode):
         from .UDPSocket import UDPSocket
         return UDPSocket()
 
-    import journal.diagnostics
-    journal.diagnostics.error('pyre.ipc').log("unknown connection mode '%s'" % mode)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error('pyre.ipc').log("unknown connection mode '%s'" % mode)
 
     return None
 
@@ -36,8 +36,8 @@ def monitor(mode):
         from .UDPMonitor import UDPMonitor
         return UDPMonitor()
 
-    import journal.diagnostics
-    journal.diagnostics.error('pyre.ipc').log("unknown monitor mode '%s'" % mode)
+    import pythia.journal.diagnostics
+    pythia.journal.diagnostics.error('pyre.ipc').log("unknown monitor mode '%s'" % mode)
 
     return None
 

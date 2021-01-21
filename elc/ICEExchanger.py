@@ -61,8 +61,8 @@ class ICEExchanger(SynchronizedExchanger):
         if name is None:
             name = "ice"
 
-        import journal.diagnostics
-        journal.diagnostics.firewall("elc.ICE").log("NYI: this exchanger may not function properly")
+        import pythia.journal.diagnostics
+        pythia.journal.diagnostics.firewall("elc.ICE").log("NYI: this exchanger may not function properly")
 
         SynchronizedExchanger.__init__(self, name)
 
