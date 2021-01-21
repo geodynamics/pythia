@@ -42,6 +42,6 @@ class NYI(AuthenticatingActor):
 
 
 # version
-__id__ = "$Id: NYI.py,v 1.2 2005/05/05 01:50:15 pyre Exp $"
+__id__ = "$Id: NYI.py,v 1.2 2005/05/05 01:50:15 pythia.pyre Exp $"
 
 # End of file 

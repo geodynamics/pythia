@@ -65,6 +65,6 @@ class Body(ElementContainer, LiteralFactory, ParagraphFactory):
 
 
 # version
-__id__ = "$Id: Body.py,v 1.3 2005/04/22 03:42:56 pyre Exp $"
+__id__ = "$Id: Body.py,v 1.3 2005/04/22 03:42:56 pythia.pyre Exp $"
 
 # End of file 

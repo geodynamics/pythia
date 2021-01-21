@@ -14,7 +14,7 @@
 
 
 from .ElementContainer import ElementContainer
-from pyre.parsing.locators.Traceable import Traceable
+from pythia.pyre.parsing.locators.Traceable import Traceable
 
 
 class Page(ElementContainer, Traceable):
@@ -48,6 +48,6 @@ class Page(ElementContainer, Traceable):
         return
 
 # version
-__id__ = "$Id: Page.py,v 1.2 2005/04/22 03:43:11 pyre Exp $"
+__id__ = "$Id: Page.py,v 1.2 2005/04/22 03:43:11 pythia.pyre Exp $"
 
 # End of file

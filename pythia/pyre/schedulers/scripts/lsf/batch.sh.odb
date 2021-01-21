@@ -1,0 +1,46 @@
+# -*- Python -*-
+
+def template():
+    from pythia.pyre.schedulers import BatchScriptTemplate
+
+    class LSFBatchScriptTemplate(BatchScriptTemplate):
+
+        def __init__(self):
+            BatchScriptTemplate.__init__(self, "lsf")
+
+        def render(self):
+            from io import StringIO
+
+            out = StringIO()
+            scheduler = self.scheduler
+            job = self.job
+
+            out.write("#!%s\n" % scheduler.shell)
+            out.write("#BSUB -J %s\n" % job.task)
+            if job.queue:
+                out.write("#BSUB -q %s\n" % job.queue)
+            if max(job.walltime):
+                out.write("#BSUB -W %d:%02d\n" % job.walltime[0:2])
+            out.write("#BSUB -n %s\n" % job.nodes)
+            if job.stdin:
+                out.write("#BSUB -i %s\n" % job.stdin)
+            if job.stdout:
+                out.write("#BSUB -o %s\n" % job.stdout)
+            if job.stderr:
+                out.write("#BSUB -e %s\n" % job.stderr)
+            for option in scheduler.bsubOptions:
+                out.write("#BSUB %s\n" % option)
+            out.write("\n")
+            out.write("%s %s\n" % (job.executable, ' '.join(job.arguments)))
+            out.write("\n")
+            if job.comments:
+                out.write("# ~~~~ comments ~~~~\n")
+                for line in job.comments:
+                    out.write("# %s" % line)
+            out.write("\n")
+            out.write("# ~~~~ submit command ~~~~\n")
+            out.write("# %s < [script]\n" % scheduler.command)
+
+            return out.getvalue()
+
+    return LSFBatchScriptTemplate()

@@ -25,6 +25,6 @@ class Logout(GenericActor):
 
 
 # version
-__id__ = "$Id: Logout.py,v 1.2 2005/05/02 18:09:46 pyre Exp $"
+__id__ = "$Id: Logout.py,v 1.2 2005/05/02 18:09:46 pythia.pyre Exp $"
 
 # End of file 

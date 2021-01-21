@@ -49,8 +49,8 @@ class MPIExchanger(Exchanger):
         
 
     def receiveBoundary(self):
-        import pyre.geometry
-        mesh = pyre.geometry.mesh(3, 3)
+        import pythia.pyre.geometry
+        mesh = pythia.pyre.geometry.mesh(3, 3)
         
         import elc
         elc.receiveBoundaryMPI(mesh.handle(), self.source, self.sink)

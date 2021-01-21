@@ -13,7 +13,7 @@
 
 
 import acis
-from pyre.geometry.Visitor import Visitor as GeometryVisitor
+from pythia.pyre.geometry.Visitor import Visitor as GeometryVisitor
 
 
 class Pickler(GeometryVisitor):

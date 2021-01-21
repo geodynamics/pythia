@@ -13,7 +13,7 @@
 
 
 from pythia.journal.diagnostics.Entry import Entry
-from pyre.services.Pickler import Pickler
+from pythia.pyre.services.Pickler import Pickler
 
 
 # version

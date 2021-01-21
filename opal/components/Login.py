@@ -25,6 +25,6 @@ class Login(GenericActor):
 
 
 # version
-__id__ = "$Id: Login.py,v 1.3 2005/05/02 18:09:31 pyre Exp $"
+__id__ = "$Id: Login.py,v 1.3 2005/05/02 18:09:31 pythia.pyre Exp $"
 
 # End of file 

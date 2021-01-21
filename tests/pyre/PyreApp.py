@@ -12,8 +12,8 @@
 # ======================================================================
 #
 
-from pyre.applications.Script import Script
-import pyre.inventory
+from pythia.pyre.applications.Script import Script
+import pythia.pyre.inventory
 
 
 from test_vault.TestComponents import (
@@ -28,7 +28,7 @@ from test_vault.TestComponents import (
 
 class PyreApp(Script):
 
-    from pyre.units.mass import kilogram
+    from pythia.pyre.units.mass import kilogram
 
     DEFAULT_BOOLEAN = False
     DEFAULT_INT = 3
@@ -38,19 +38,19 @@ class PyreApp(Script):
     DEFAULT_LIST = ["a", "bb", "ccc"]
     DEFAULT_INTARRAY = [1, 2, 3]
 
-    debug = pyre.inventory.bool("debug", default=False)
-    valueBool = pyre.inventory.bool("value_boolean", default=DEFAULT_BOOLEAN)
-    valueInt = pyre.inventory.int("value_int", default=DEFAULT_INT, validator=pyre.inventory.greater(0))
-    valueFloat = pyre.inventory.float("value_float", default=DEFAULT_FLOAT, validator=pyre.inventory.greaterEqual(-1.0))
-    valueString = pyre.inventory.str("value_string", default=DEFAULT_STRING)
-    valueList = pyre.inventory.list("list_string", default=DEFAULT_LIST)
-    valueIntArray = pyre.inventory.array("array_int", default=DEFAULT_INTARRAY, converter=int)
-    valueMass = pyre.inventory.dimensional("value_mass", default=DEFAULT_MASS)
-    fileIn = pyre.inventory.inputFile("input_file", default="stdin")
-    fileOut = pyre.inventory.outputFile("output_file", default="stdout")
+    debug = pythia.pyre.inventory.bool("debug", default=False)
+    valueBool = pythia.pyre.inventory.bool("value_boolean", default=DEFAULT_BOOLEAN)
+    valueInt = pythia.pyre.inventory.int("value_int", default=DEFAULT_INT, validator=pythia.pyre.inventory.greater(0))
+    valueFloat = pythia.pyre.inventory.float("value_float", default=DEFAULT_FLOAT, validator=pythia.pyre.inventory.greaterEqual(-1.0))
+    valueString = pythia.pyre.inventory.str("value_string", default=DEFAULT_STRING)
+    valueList = pythia.pyre.inventory.list("list_string", default=DEFAULT_LIST)
+    valueIntArray = pythia.pyre.inventory.array("array_int", default=DEFAULT_INTARRAY, converter=int)
+    valueMass = pythia.pyre.inventory.dimensional("value_mass", default=DEFAULT_MASS)
+    fileIn = pythia.pyre.inventory.inputFile("input_file", default="stdin")
+    fileOut = pythia.pyre.inventory.outputFile("output_file", default="stdout")
 
-    facilitySimple = pyre.inventory.facility("simple_facility", family="simple", vault=VAULT, factory=SimpleFacility)
-    facilityArray = pyre.inventory.facilityArray("facility_array", itemFactory=simpleFactory, factory=ArrayTwo)
+    facilitySimple = pythia.pyre.inventory.facility("simple_facility", family="simple", vault=VAULT, factory=SimpleFacility)
+    facilityArray = pythia.pyre.inventory.facilityArray("facility_array", itemFactory=simpleFactory, factory=ArrayTwo)
 
     def __init__(self, name="pyreapp"):
         Script.__init__(self, name)

@@ -12,7 +12,7 @@
 #
 
 
-from pyre.inventory.Facility import Facility
+from pythia.pyre.inventory.Facility import Facility
 
 
 class DeviceFacility(Facility):
@@ -25,8 +25,8 @@ class DeviceFacility(Facility):
 
     def _getBuiltInDefaultValue(self, instance):
         
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.default()
+        import pythia.pyre.parsing.locators
+        locator = pythia.pyre.parsing.locators.default()
 
         import sys
         if hasattr(sys.stdout, 'isatty') and sys.stdout.isatty():
@@ -38,7 +38,7 @@ class DeviceFacility(Facility):
                 component = Console()
             else:
                 component.aliases.append(self.name)
-                locator = pyre.parsing.locators.chain(component.getLocator(), locator)
+                locator = pythia.pyre.parsing.locators.chain(component.getLocator(), locator)
         else:
             from .Stream import Stream
             component = Stream(sys.stdout, "stdout")

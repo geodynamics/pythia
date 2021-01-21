@@ -149,6 +149,6 @@ class StructuralMill(DocumentMill):
 
 
 # version
-__id__ = "$Id: StructuralMill.py,v 1.9 2005/05/05 04:46:32 pyre Exp $"
+__id__ = "$Id: StructuralMill.py,v 1.9 2005/05/05 04:46:32 pythia.pyre Exp $"
 
 # End of file 

@@ -13,7 +13,7 @@
 
 
 
-from pyre.weaver.mills.HTMLMill import HTMLMill
+from pythia.pyre.weaver.mills.HTMLMill import HTMLMill
 
 
 class PageMill(HTMLMill):
@@ -57,6 +57,6 @@ class PageMill(HTMLMill):
 
 
 # version
-__id__ = "$Id: PageMill.py,v 1.2 2005/04/23 06:28:34 pyre Exp $"
+__id__ = "$Id: PageMill.py,v 1.2 2005/04/23 06:28:34 pythia.pyre Exp $"
 
 # End of file 

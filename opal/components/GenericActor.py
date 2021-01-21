@@ -36,6 +36,6 @@ class GenericActor(Actor):
 
 
 # version
-__id__ = "$Id: GenericActor.py,v 1.2 2005/05/02 18:09:00 pyre Exp $"
+__id__ = "$Id: GenericActor.py,v 1.2 2005/05/02 18:09:00 pythia.pyre Exp $"
 
 # End of file 

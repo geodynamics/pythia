@@ -36,6 +36,6 @@ class PortletLink(Element):
 
 
 # version
-__id__ = "$Id: PortletLink.py,v 1.1 2005/05/05 04:45:08 pyre Exp $"
+__id__ = "$Id: PortletLink.py,v 1.1 2005/05/05 04:45:08 pythia.pyre Exp $"
 
 # End of file 

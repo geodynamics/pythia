@@ -12,7 +12,7 @@
 #
 
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Actor(Component):
@@ -29,6 +29,6 @@ class Actor(Component):
 
 
 # version
-__id__ = "$Id: Actor.py,v 1.2 2005/05/02 18:08:26 pyre Exp $"
+__id__ = "$Id: Actor.py,v 1.2 2005/05/02 18:08:26 pythia.pyre Exp $"
 
 # End of file 

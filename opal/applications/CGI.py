@@ -12,16 +12,16 @@
 #
 
 
-from pyre.applications.Script import Script
+from pythia.pyre.applications.Script import Script
 
 
 class CGI(Script):
 
     class Inventory(Script.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        stream = pyre.inventory.outputFile("stream")
+        stream = pythia.pyre.inventory.outputFile("stream")
         stream.meta['tip'] = "where to place the generated text"
 
     def collectUserInput(self, registry, context):

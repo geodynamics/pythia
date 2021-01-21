@@ -15,11 +15,11 @@
 import unittest
 import os
 
-from pyre.applications.Script import Script
-import pyre.inventory
+from pythia.pyre.applications.Script import Script
+import pythia.pyre.inventory
 
 
-from pyre.units.time import hour
+from pythia.pyre.units.time import hour
 
 
 class TestJob(unittest.TestCase):
@@ -75,10 +75,10 @@ class TestJob(unittest.TestCase):
 
 class JobApp(Script):
 
-    debug = pyre.inventory.bool("debug", default=False)
+    debug = pythia.pyre.inventory.bool("debug", default=False)
 
-    from pyre.schedulers.Job import Job
-    job = pyre.inventory.facility("job", factory=Job)
+    from pythia.pyre.schedulers.Job import Job
+    job = pythia.pyre.inventory.facility("job", factory=Job)
 
     def __init__(self, name="jobapp"):
         Script.__init__(self, name)
@@ -264,11 +264,11 @@ class TestTACCRanger(TestScheduler):
 
 class SchedulerApp(Script):
 
-    import pyre.schedulers
-    scheduler = pyre.schedulers.scheduler("scheduler", default="none")
+    import pythia.pyre.schedulers
+    scheduler = pythia.pyre.schedulers.scheduler("scheduler", default="none")
 
-    from pyre.schedulers.Job import Job
-    job = pyre.inventory.facility("job", factory=Job)
+    from pythia.pyre.schedulers.Job import Job
+    job = pythia.pyre.inventory.facility("job", factory=Job)
 
     def __init__(self, name="schedulerapp"):
         Script.__init__(self, name)

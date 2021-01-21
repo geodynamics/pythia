@@ -12,7 +12,7 @@
 #
 
 
-from pyre.inventory.Facility import Facility
+from pythia.pyre.inventory.Facility import Facility
 
 
 class ChannelFacility(Facility):
@@ -29,8 +29,8 @@ class ChannelFacility(Facility):
         from .Channel import Channel
         channel = Channel(componentName)
 
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.builtIn()
+        import pythia.pyre.parsing.locators
+        locator = pythia.pyre.parsing.locators.builtIn()
 
         return channel, locator
     

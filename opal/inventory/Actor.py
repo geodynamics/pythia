@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.inventory.Facility import Facility
+from pythia.pyre.inventory.Facility import Facility
 
 
 class Actor(Facility):

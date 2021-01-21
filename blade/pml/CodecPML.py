@@ -12,7 +12,7 @@
 #
 
 
-from pyre.odb.fs.CodecODB import CodecODB
+from pythia.pyre.odb.fs.CodecODB import CodecODB
 
 
 class CodecPML(CodecODB):

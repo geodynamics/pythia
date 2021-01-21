@@ -39,6 +39,6 @@ def selector(**kwds):
 
 
 # version
-__id__ = "$Id: __init__.py,v 1.4 2005/04/24 20:13:32 pyre Exp $"
+__id__ = "$Id: __init__.py,v 1.4 2005/04/24 20:13:32 pythia.pyre Exp $"
 
 # End of file 

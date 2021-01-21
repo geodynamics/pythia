@@ -13,7 +13,7 @@
 
 
 from opal.applications.CGI import CGI
-from pyre.applications.ComponentHarness import ComponentHarness
+from pythia.pyre.applications.ComponentHarness import ComponentHarness
 
 
 class WebApplication(CGI):
@@ -21,22 +21,22 @@ class WebApplication(CGI):
 
     class Inventory(CGI.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
         import opal.components
         import opal.inventory
 
         # properties
-        home = pyre.inventory.str("home")
+        home = pythia.pyre.inventory.str("home")
         home.meta['tip'] = "the path to my html files"
 
-        cgihome = pyre.inventory.str("cgi-home")
+        cgihome = pythia.pyre.inventory.str("cgi-home")
         cgihome.meta['tip'] = "the url of the main application"
 
-        routine = pyre.inventory.str("routine", default=None)
+        routine = pythia.pyre.inventory.str("routine", default=None)
         routine.meta['tip'] = "the action to be performed by the actor"
 
         # components
-        sentry = pyre.inventory.facility("sentry", factory=opal.components.sentry)
+        sentry = pythia.pyre.inventory.facility("sentry", factory=opal.components.sentry)
         sentry.meta['tip'] = "the ipa session manager"
 
         actor = opal.inventory.actor(default="error")
@@ -129,6 +129,6 @@ class WebApplication(CGI):
 
 
 # version
-__id__ = "$Id: WebApplication.py,v 1.9 2005/05/02 18:11:06 pyre Exp $"
+__id__ = "$Id: WebApplication.py,v 1.9 2005/05/02 18:11:06 pythia.pyre Exp $"
 
 # End of file 

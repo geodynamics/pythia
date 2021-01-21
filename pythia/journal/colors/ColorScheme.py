@@ -11,27 +11,27 @@
 #
 
 
-from pyre.components import Component
+from pythia.pyre.components import Component
 
 
 class ColorScheme(Component):
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="NoColor")
-    line = pyre.inventory.str("line", default="NoColor")
-    function = pyre.inventory.str("function", default="NoColor")
-    stackTrace = pyre.inventory.str("stack-trace", default="NoColor")
+    filename = pythia.pyre.inventory.str("filename", default="NoColor")
+    line = pythia.pyre.inventory.str("line", default="NoColor")
+    function = pythia.pyre.inventory.str("function", default="NoColor")
+    stackTrace = pythia.pyre.inventory.str("stack-trace", default="NoColor")
 
-    src = pyre.inventory.str("src", default="NoColor")
+    src = pythia.pyre.inventory.str("src", default="NoColor")
 
-    facility = pyre.inventory.str("facility", default="NoColor")
-    severityDebug = pyre.inventory.str("severity-debug", default="NoColor")
-    severityInfo = pyre.inventory.str("severity-info", default="NoColor")
-    severityWarning = pyre.inventory.str("severity-warning", default="NoColor")
-    severityError = pyre.inventory.str("severity-error", default="NoColor")
+    facility = pythia.pyre.inventory.str("facility", default="NoColor")
+    severityDebug = pythia.pyre.inventory.str("severity-debug", default="NoColor")
+    severityInfo = pythia.pyre.inventory.str("severity-info", default="NoColor")
+    severityWarning = pythia.pyre.inventory.str("severity-warning", default="NoColor")
+    severityError = pythia.pyre.inventory.str("severity-error", default="NoColor")
 
-    normal = pyre.inventory.str("normal", default="Normal")
+    normal = pythia.pyre.inventory.str("normal", default="Normal")
 
     def __getitem__(self, key):
         return self.getTraitValue(key)

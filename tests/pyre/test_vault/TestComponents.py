@@ -12,8 +12,8 @@
 # ======================================================================
 #
 
-from pyre.components.Component import Component
-import pyre.inventory
+from pythia.pyre.components.Component import Component
+import pythia.pyre.inventory
 
 VAULT = ["tests/pyre/test_vault"]
 
@@ -24,10 +24,10 @@ class SimpleFacility(Component):
     DEFAULT_FLOAT = 8.0
     DEFAULT_STRING = "Goodbye"
 
-    valueInt = pyre.inventory.int("simple_int", default=DEFAULT_INT, validator=pyre.inventory.isBoth(
-        pyre.inventory.greaterEqual(0), pyre.inventory.less(100)))
-    valueFloat = pyre.inventory.float("simple_float", default=DEFAULT_FLOAT)
-    valueString = pyre.inventory.str("simple_string", default=DEFAULT_STRING)
+    valueInt = pythia.pyre.inventory.int("simple_int", default=DEFAULT_INT, validator=pythia.pyre.inventory.isBoth(
+        pythia.pyre.inventory.greaterEqual(0), pythia.pyre.inventory.less(100)))
+    valueFloat = pythia.pyre.inventory.float("simple_float", default=DEFAULT_FLOAT)
+    valueString = pythia.pyre.inventory.str("simple_string", default=DEFAULT_STRING)
 
     def __init__(self, name="simplefacility"):
         Component.__init__(self, name, facility="simple")
@@ -46,10 +46,10 @@ class SimpleTooFacility(Component):
     DEFAULT_FLOAT = 24.0
     DEFAULT_STRING = "Welcome"
 
-    nonzero = pyre.inventory.isEither(pyre.inventory.greater(0), pyre.inventory.less(0))
-    valueInt = pyre.inventory.int("too_int", default=DEFAULT_INT, validator=nonzero)
-    valueFloat = pyre.inventory.float("too_float", default=DEFAULT_FLOAT, validator=pyre.inventory.range(0.0, 200.0))
-    valueString = pyre.inventory.str("too_string", default=DEFAULT_STRING)
+    nonzero = pythia.pyre.inventory.isEither(pythia.pyre.inventory.greater(0), pythia.pyre.inventory.less(0))
+    valueInt = pythia.pyre.inventory.int("too_int", default=DEFAULT_INT, validator=nonzero)
+    valueFloat = pythia.pyre.inventory.float("too_float", default=DEFAULT_FLOAT, validator=pythia.pyre.inventory.range(0.0, 200.0))
+    valueString = pythia.pyre.inventory.str("too_string", default=DEFAULT_STRING)
 
     def __init__(self, name="simpletoofacility"):
         Component.__init__(self, name, facility="simple")
@@ -68,10 +68,10 @@ class ComplexFacility(Component):
     DEFAULT_FLOAT = 20.0
     DEFAULT_STRING = "Howdy"
 
-    valueInt = pyre.inventory.int("complex_int", default=DEFAULT_INT, validator=pyre.inventory.lessEqual(20))
-    valueFloat = pyre.inventory.float("complex_float", default=DEFAULT_FLOAT)
-    valueString = pyre.inventory.str("complex_string", default=DEFAULT_STRING)
-    nestedFacility = pyre.inventory.facility("complex_facility", family="simple", factory=SimpleFacility)
+    valueInt = pythia.pyre.inventory.int("complex_int", default=DEFAULT_INT, validator=pythia.pyre.inventory.lessEqual(20))
+    valueFloat = pythia.pyre.inventory.float("complex_float", default=DEFAULT_FLOAT)
+    valueString = pythia.pyre.inventory.str("complex_string", default=DEFAULT_STRING)
+    nestedFacility = pythia.pyre.inventory.facility("complex_facility", family="simple", factory=SimpleFacility)
 
     def __init__(self, name="complexfacility"):
         Component.__init__(self, name, facility="complex")
@@ -87,8 +87,8 @@ class ComplexFacility(Component):
 
 class ArrayTwo(Component):
 
-    one = pyre.inventory.facility("one", family="simple", vault=VAULT, factory=SimpleFacility)
-    two = pyre.inventory.facility("two", family="simple", vault=VAULT, factory=SimpleFacility)
+    one = pythia.pyre.inventory.facility("one", family="simple", vault=VAULT, factory=SimpleFacility)
+    two = pythia.pyre.inventory.facility("two", family="simple", vault=VAULT, factory=SimpleFacility)
 
     def __init__(self, name="arraytwo"):
         Component.__init__(self, name, facility="simple")
@@ -98,7 +98,7 @@ class ArrayTwo(Component):
 
 
 def simpleFactory(name):
-    return pyre.inventory.facility(name, family="simple", vault=VAULT, factory=SimpleFacility)
+    return pythia.pyre.inventory.facility(name, family="simple", vault=VAULT, factory=SimpleFacility)
 
 
 # End of file

@@ -12,7 +12,7 @@
 #
 
 
-from pyre.parsing.locators.Traceable import Traceable
+from pythia.pyre.parsing.locators.Traceable import Traceable
 
 
 class Inspector(Traceable):

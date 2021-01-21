@@ -13,9 +13,9 @@
 
 
 def run():
-    import pyre.idd
+    import pythia.pyre.idd
 
-    app = pyre.idd.daemon()
+    app = pythia.pyre.idd.daemon()
     return app.run(spawn=True)
     
 

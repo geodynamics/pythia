@@ -38,16 +38,16 @@ class TestApp(object):
         import coverage
         src_dirs = [
             "pythia.journal",
-            "pyre.applications",
-            "pyre.components",
-            "pyre.filesystem",
-            "pyre.inventory",
-            "pyre.odb",
-            "pyre.parsing",
-            "pyre.schedulers",
-            "pyre.units",
-            "pyre.util",
-            "pyre.xml",
+            "pythia.pyre.applications",
+            "pythia.pyre.components",
+            "pythia.pyre.filesystem",
+            "pythia.pyre.inventory",
+            "pythia.pyre.odb",
+            "pythia.pyre.parsing",
+            "pythia.pyre.schedulers",
+            "pythia.pyre.units",
+            "pythia.pyre.util",
+            "pythia.pyre.xml",
         ]
         cov = coverage.Coverage(source=src_dirs)
     except ImportError:

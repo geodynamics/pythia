@@ -12,7 +12,7 @@
 #
 
 
-from pyre.xml.Parser import Parser as BaseParser
+from pythia.pyre.xml.Parser import Parser as BaseParser
 
 
 class Parser(BaseParser):

@@ -127,6 +127,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.5 2005/05/05 17:44:22 pyre Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.5 2005/05/05 17:44:22 pythia.pyre Exp $"
 
 # End of file 

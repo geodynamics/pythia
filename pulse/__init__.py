@@ -18,7 +18,7 @@ def solver():
 
 
 def copyright():
-    return "pulse pyre module: Copyright (c) 1998-2005 California Institute of Technology";
+    return "pulse pythia.pyre module: Copyright (c) 1998-2005 California Institute of Technology";
 
 
 # version

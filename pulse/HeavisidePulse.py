@@ -19,13 +19,13 @@ class HeavisidePulse(Load):
 
     class Inventory(Load.Inventory):
 
-        import pyre.inventory
-        from pyre.units.SI import meter, second, pascal
+        import pythia.pyre.inventory
+        from pythia.pyre.units.SI import meter, second, pascal
 
-        amplitude = pyre.inventory.dimensional("amplitude", default=0.0*pascal)
-        position = pyre.inventory.dimensional(
+        amplitude = pythia.pyre.inventory.dimensional("amplitude", default=0.0*pascal)
+        position = pythia.pyre.inventory.dimensional(
             "position", default=(0.0*meter, 0.0*meter, 0.0*meter))
-        velocity = pyre.inventory.dimensional(
+        velocity = pythia.pyre.inventory.dimensional(
             "velocity", default=(0.0*meter/second, 0.0*meter/second, 0.0*meter/second))
 
 

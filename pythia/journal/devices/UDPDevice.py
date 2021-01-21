@@ -29,8 +29,8 @@ class UDPDevice(Device):
 
         Device.__init__(self, NetRenderer())
 
-        import pyre.ipc
-        self._connection = pyre.ipc.connection('udp')
+        import pythia.pyre.ipc
+        self._connection = pythia.pyre.ipc.connection('udp')
         self._connection.connect((host, port))
 
         import pythia.journal.services

@@ -50,7 +50,7 @@ class SynchronizedExchanger(Exchanger):
 
 
     def exchangeVelocities(self, communicator=None):
-        import pyre
+        import pythia.pyre
 
         if communicator is None:
             import mpi

@@ -13,7 +13,7 @@
 
 
 from pythia.journal import journal
-from pyre.parsing.locators import here
+from pythia.pyre.parsing.locators import here
 from .Entry import Entry
 
 

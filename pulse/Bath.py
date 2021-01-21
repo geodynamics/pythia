@@ -19,16 +19,16 @@ class Bath(Load):
 
     class Inventory(Load.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
         
-        from pyre.units.mass import kg
-        from pyre.units.length import meter
-        from pyre.units.volume import liter
-        from pyre.units.pressure import atm
+        from pythia.pyre.units.mass import kg
+        from pythia.pyre.units.length import meter
+        from pythia.pyre.units.volume import liter
+        from pythia.pyre.units.pressure import atm
 
-        ambient = pyre.inventory.dimensional("ambient", default=1.0*atm)
-        surface = pyre.inventory.dimensional("surface", default=0.0*meter)
-        density = pyre.inventory.dimensional("density", default=1.0*kg/liter)
+        ambient = pythia.pyre.inventory.dimensional("ambient", default=1.0*atm)
+        surface = pythia.pyre.inventory.dimensional("surface", default=0.0*meter)
+        density = pythia.pyre.inventory.dimensional("density", default=1.0*kg/liter)
 
 
     def updatePressure(self, boundary):

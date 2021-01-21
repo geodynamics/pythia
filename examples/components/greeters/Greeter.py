@@ -12,13 +12,13 @@
 # ======================================================================
 #
 
-from pyre.components.Component import Component
-import pyre.inventory
+from pythia.pyre.components.Component import Component
+import pythia.pyre.inventory
 
 
 class Greeter(Component):
 
-    greeting = pyre.inventory.str("greeting", default="Hello world!")
+    greeting = pythia.pyre.inventory.str("greeting", default="Hello world!")
     greeting.meta["tip"] = "Greeter message."
 
     def __init__(self, name="greeter"):

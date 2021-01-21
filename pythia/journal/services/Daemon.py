@@ -12,7 +12,7 @@
 # 
 
 
-from pyre.applications.ServiceDaemon import ServiceDaemon
+from pythia.pyre.applications.ServiceDaemon import ServiceDaemon
 
 
 class Daemon(ServiceDaemon):

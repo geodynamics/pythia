@@ -11,13 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Channel(Component):
 
     def updateConfiguration(self, registry):
-        from pyre.util.bool import bool
+        from pythia.pyre.util.bool import bool
         listing = self._listing(registry)
 
         from pythia.journal import journal

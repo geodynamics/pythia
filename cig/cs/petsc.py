@@ -42,17 +42,17 @@
 #
 
 
-from pyre.components import Component
+from pythia.pyre.components import Component
 from mpi.Application import Application as MPIApplication
-import pyre.parsing.locators
-import pyre.util.bool
+import pythia.pyre.parsing.locators
+import pythia.pyre.util.bool
 import sys
 
 
 class Petsc(Component):
 
     def setDefaults(self, dct):
-        locator = pyre.parsing.locators.default()
+        locator = pythia.pyre.parsing.locators.default()
         for key, value in dct.items():
             self.options.setProperty(key, value, locator)
         return
@@ -69,7 +69,7 @@ class Petsc(Component):
         args = []
         for iname, value in options:
             try:
-                if pyre.util.bool.bool(value):
+                if pythia.pyre.util.bool.bool(value):
                     args.append('-' + iname)
                 else:
                     # The only way to turn off a PETSc option is to omit it.
@@ -90,10 +90,10 @@ class PetscApplication(MPIApplication):
 
     class Inventory(MPIApplication.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
         # a dummy facility for passing arbitrary options to PETSc
-        petsc = pyre.inventory.facility("petsc", factory=Petsc, args=["petsc"])
+        petsc = pythia.pyre.inventory.facility("petsc", factory=Petsc, args=["petsc"])
 
     def setPetscDefaults(self, dct):
         """Set the default options passed to PetscInitialize().

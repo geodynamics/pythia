@@ -10,18 +10,18 @@
 #
 
 
-from pyre.simulations.Solver import Solver
+from pythia.pyre.simulations.Solver import Solver
 
 
 class Rigid(Solver):
 
     class Inventory(Solver.Inventory):
 
-        import pyre.inventory
-        from pyre.units.SI import second
+        import pythia.pyre.inventory
+        from pythia.pyre.units.SI import second
 
-        syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
-        timestep = pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
+        syncOnInit = pythia.pyre.inventory.bool("syncOnInit", default=True)
+        timestep = pythia.pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
 
     def launch(self, application):
         Solver.launch(self, application)
@@ -55,7 +55,7 @@ class Rigid(Solver):
         if self.inventory.syncOnInit:
             self.applyBoundaryConditions()
 
-        from pyre.units.SI import second
+        from pythia.pyre.units.SI import second
         t, step = 0.0 * second, 0
 
         return (t, step)
@@ -91,7 +91,7 @@ class Rigid(Solver):
         source = self._solidServer
 
         from .rigid import timestep
-        from pyre.units.time import second
+        from pythia.pyre.units.time import second
         dt = timestep(sink, source, dt.value) * second
 
         Solver.stableTimestep(self, dt)

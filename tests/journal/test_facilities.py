@@ -16,7 +16,7 @@ import unittest
 import os
 
 from pythia.journal.diagnostics import (info, debug, warning, error, firewall)
-from pyre.applications.Script import Script
+from pythia.pyre.applications.Script import Script
 
 
 class TestFacilities(unittest.TestCase):

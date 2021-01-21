@@ -37,6 +37,6 @@ class Registrar(Actor):
 
 
 # version
-__id__ = "$Id: Registrar.py,v 1.1 2005/05/02 18:10:33 pyre Exp $"
+__id__ = "$Id: Registrar.py,v 1.1 2005/05/02 18:10:33 pythia.pyre Exp $"
 
 # End of file 

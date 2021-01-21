@@ -15,8 +15,8 @@
 
 import sys
 
-from pyre.applications.Script import Script
-import pyre.inventory
+from pythia.pyre.applications.Script import Script
+import pythia.pyre.inventory
 
 sys.path.append("./greeters")
 
@@ -25,7 +25,7 @@ class GreeterApp(Script):
     """Greeter application with a single greeter and a vault of greeters."""
 
     from greeters.Greeter import Greeter
-    greeter = pyre.inventory.facility("greeter", vault=["greeters"], factory=Greeter)
+    greeter = pythia.pyre.inventory.facility("greeter", vault=["greeters"], factory=Greeter)
     greeter.meta["tip"] = "Greeter for application."
 
     def __init__(self, name="greeterapp"):

@@ -20,19 +20,19 @@ class Remote(Device):
 
     class Inventory(Device.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
         from .NetRenderer import NetRenderer
         from .RendererFacility import RendererFacility
 
-        key = pyre.inventory.str("key")
+        key = pythia.pyre.inventory.str("key")
         key.meta['tip'] = (
             "the passkey of the remote service -- normally, this is set automatically")
-        host = pyre.inventory.str("host", default="localhost")
+        host = pythia.pyre.inventory.str("host", default="localhost")
 
         host.meta['tip'] = "the hostname where the remote pythia.journal service is running"
 
-        port = pyre.inventory.int("port", default=50000)
-        port.validator = pyre.inventory.range(1024 + 1, 64 * 1024 - 1)
+        port = pythia.pyre.inventory.int("port", default=50000)
+        port.validator = pythia.pyre.inventory.range(1024 + 1, 64 * 1024 - 1)
         port.meta['tip'] = (
             "the port that the remote pythia.journal service is monitoring for incoming requests")
 

@@ -35,6 +35,6 @@ class Selector(Element):
         
 
 # version
-__id__ = "$Id: Selector.py,v 1.1 2005/04/25 05:38:02 pyre Exp $"
+__id__ = "$Id: Selector.py,v 1.1 2005/04/25 05:38:02 pythia.pyre Exp $"
 
 # End of file 

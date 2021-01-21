@@ -18,13 +18,13 @@ class LauncherMPICH(Launcher):
 
     name = "mpich"
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    machinefile = pyre.inventory.str("machinefile", default="mpirun.nodes")
+    machinefile = pythia.pyre.inventory.str("machinefile", default="mpirun.nodes")
     machinefile.meta['tip'] = """filename of machine file"""
 
     def _expandNodeListArgs(self, args):
-        from pyre.util import expandMacros
+        from pythia.pyre.util import expandMacros
 
         machinefile = self.machinefile
         nodegen = self.nodegen

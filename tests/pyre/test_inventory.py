@@ -107,7 +107,7 @@ class TestInventory(unittest.TestCase):
         self.assertEqual("two-two", sdata["string"])
 
     def test_cfg(self):
-        from pyre.units.mass import g
+        from pythia.pyre.units.mass import g
 
         app = PyreApp()
         app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.cfg"])
@@ -152,7 +152,7 @@ class TestInventory(unittest.TestCase):
         self.assertEqual("sixty", sdata["string"])
 
     def test_pml(self):
-        from pyre.units.mass import kg
+        from pythia.pyre.units.mass import kg
 
         app = PyreApp()
         app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.pml"])
@@ -175,7 +175,7 @@ class TestInventory(unittest.TestCase):
         self.assertEqual("heLLo", sdata["string"])
 
     def test_pcs(self):
-        from pyre.units.mass import g
+        from pythia.pyre.units.mass import g
 
         app = PyreApp()
         app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.pcs"])

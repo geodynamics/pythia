@@ -11,21 +11,21 @@
 #
 
 
-from pyre.applications.Script import Script
+from pythia.pyre.applications.Script import Script
 
 
 class Application(Script):
 
 
-    import pyre.inventory
-    nodes = pyre.inventory.int("nodes", default=1)
+    import pythia.pyre.inventory
+    nodes = pythia.pyre.inventory.int("nodes", default=1)
 
-    import pyre.schedulers
-    scheduler = pyre.schedulers.scheduler("scheduler", default="none")
-    job = pyre.schedulers.job("job")
+    import pythia.pyre.schedulers
+    scheduler = pythia.pyre.schedulers.scheduler("scheduler", default="none")
+    job = pythia.pyre.schedulers.job("job")
         
-    import pyre.launchers
-    launcher = pyre.launchers.facility("launcher", default="mpich")
+    import pythia.pyre.launchers
+    launcher = pythia.pyre.launchers.facility("launcher", default="mpich")
 
 
     nodes.meta['tip'] = """number of machine nodes"""
@@ -54,7 +54,7 @@ class Application(Script):
         job.nodes = self.nodes
         job.executable = self.jobExecutable
         job.arguments = (["--pyre-start", path, requires,
-                          "pyre.schedulers:jobstart"] + batchScriptArgs +
+                          "pythia.pyre.schedulers:jobstart"] + batchScriptArgs +
                           [entry] + argv + state)
 
         # for debugging purposes, add 'mpirun' command as a comment

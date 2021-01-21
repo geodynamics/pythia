@@ -12,20 +12,20 @@
 #
 
 
-from pyre.simulations.Solver import Solver
+from pythia.pyre.simulations.Solver import Solver
 
 
 class PressurePulse(Solver):
 
     class Inventory(Solver.Inventory):
 
-        import pyre.inventory
-        from pyre.units.SI import second
+        import pythia.pyre.inventory
+        from pythia.pyre.units.SI import second
         from .HeavisidePulse import HeavisidePulse
 
-        syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
-        generator = pyre.inventory.facility("generator", factory=HeavisidePulse)
-        timestep = pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
+        syncOnInit = pythia.pyre.inventory.bool("syncOnInit", default=True)
+        generator = pythia.pyre.inventory.facility("generator", factory=HeavisidePulse)
+        timestep = pythia.pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
 
     def launch(self, application):
         Solver.launch(self, application)
@@ -57,7 +57,7 @@ class PressurePulse(Solver):
         else:
             raise ValueError("pulse requires options.syncBoundaryInitialization=true")
 
-        from pyre.units.SI import second
+        from pythia.pyre.units.SI import second
         t, step = 0.0 * second, 0
 
         return (t, step)
@@ -81,7 +81,7 @@ class PressurePulse(Solver):
         source = self._solidServer
 
         import pulse
-        from pyre.units.time import second
+        from pythia.pyre.units.time import second
         dt = pulse.timestep(sink, source, dt.value) * second
 
         Solver.stableTimestep(self, dt)

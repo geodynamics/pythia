@@ -14,7 +14,7 @@
 
 
 from .ElementContainer import ElementContainer
-from pyre.parsing.locators.Traceable import Traceable
+from pythia.pyre.parsing.locators.Traceable import Traceable
 
 
 class Portlet(ElementContainer, Traceable):
@@ -56,6 +56,6 @@ class Portlet(ElementContainer, Traceable):
 
 
 # version
-__id__ = "$Id: Portlet.py,v 1.7 2005/05/05 04:44:48 pyre Exp $"
+__id__ = "$Id: Portlet.py,v 1.7 2005/05/05 04:44:48 pythia.pyre Exp $"
 
 # End of file 

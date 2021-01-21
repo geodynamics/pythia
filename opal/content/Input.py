@@ -32,6 +32,6 @@ class Input(Element):
         return
 
 # version
-__id__ = "$Id: Input.py,v 1.1 2005/04/25 05:38:18 pyre Exp $"
+__id__ = "$Id: Input.py,v 1.1 2005/04/25 05:38:18 pythia.pyre Exp $"
 
 # End of file 

@@ -18,8 +18,8 @@ import urllib.parse
 class CGIParser(object):
 
     def parse(self, registry, arg, source):
-        import pyre.parsing.locators
-        self.locator = pyre.parsing.locators.simple(source)
+        import pythia.pyre.parsing.locators
+        self.locator = pythia.pyre.parsing.locators.simple(source)
 
         for field in arg.split(self.argsep):
             tokens = field.split(self.assignment)
@@ -83,6 +83,6 @@ class CGIParser(object):
 
 
 # version
-__id__ = "$Id: CGIParser.py,v 1.2 2005/05/03 03:04:21 pyre Exp $"
+__id__ = "$Id: CGIParser.py,v 1.2 2005/05/03 03:04:21 pythia.pyre Exp $"
 
 #  End of file

@@ -34,6 +34,6 @@ class AuthenticatingActor(GenericActor):
 
 
 # version
-__id__ = "$Id: AuthenticatingActor.py,v 1.3 2005/05/02 18:08:45 pyre Exp $"
+__id__ = "$Id: AuthenticatingActor.py,v 1.3 2005/05/02 18:08:45 pythia.pyre Exp $"
 
 # End of file 

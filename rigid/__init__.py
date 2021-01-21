@@ -18,7 +18,7 @@ def solver():
 
 
 def copyright():
-    return "rigid pyre module: Copyright (c) 1998-2005 Michael A.G. Aivazis";
+    return "rigid pythia.pyre module: Copyright (c) 1998-2005 Michael A.G. Aivazis";
 
 
 # version

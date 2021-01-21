@@ -12,18 +12,18 @@
 #
 
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Blade(Component):
 
     class Inventory(Component.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        layout = pyre.inventory.str('layout', default='')
-        toolkit = pyre.inventory.str('toolkit', default='')
-        language = pyre.inventory.str('language', default='')
+        layout = pythia.pyre.inventory.str('layout', default='')
+        toolkit = pythia.pyre.inventory.str('toolkit', default='')
+        language = pythia.pyre.inventory.str('language', default='')
 
     def render(self):
 

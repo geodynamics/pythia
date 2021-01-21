@@ -12,24 +12,24 @@
 #
 
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Renderer(Component):
 
     class Inventory(Component.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        header = pyre.inventory.str(
+        header = pythia.pyre.inventory.str(
             "header",
             default=" >> %(filename)s:%(line)s:%(function)s\n -- %(facility)s(%(severity)s)")
         header.meta['tip'] = "the first line of the generated message"
 
-        footer = pyre.inventory.str("footer", default="")
+        footer = pythia.pyre.inventory.str("footer", default="")
         footer.meta['tip'] = "the last line of the generated message"
 
-        format = pyre.inventory.str("format", default=" -- %s")
+        format = pythia.pyre.inventory.str("format", default=" -- %s")
         format.meta['tip'] = "the format string used to render the message"
 
     def __init__(self, name="renderer"):

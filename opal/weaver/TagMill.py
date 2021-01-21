@@ -80,6 +80,6 @@ class TagMill(object):
 
 
 # version
-__id__ = "$Id: TagMill.py,v 1.3 2005/05/03 03:00:41 pyre Exp $"
+__id__ = "$Id: TagMill.py,v 1.3 2005/05/03 03:00:41 pythia.pyre Exp $"
 
 # End of file 

@@ -29,6 +29,6 @@ class FormField(Element):
         return
 
 # version
-__id__ = "$Id: FormField.py,v 1.2 2005/04/25 05:37:49 pyre Exp $"
+__id__ = "$Id: FormField.py,v 1.2 2005/04/25 05:37:49 pythia.pyre Exp $"
 
 # End of file 

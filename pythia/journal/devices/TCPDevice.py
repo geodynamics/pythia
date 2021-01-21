@@ -46,8 +46,8 @@ class TCPDevice(Device):
         self._marshaller = pythia.journal.services.pickler()
         self._marshaller.key = key
 
-        import pyre.ipc
-        self._connection = pyre.ipc.connection('tcp')
+        import pythia.pyre.ipc
+        self._connection = pythia.pyre.ipc.connection('tcp')
 
         self._connection.connect((self.host, self.port))
 

@@ -13,7 +13,7 @@
 
 
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Faceter(Component):
@@ -21,11 +21,11 @@ class Faceter(Component):
 
     class Inventory(Component.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        gridAspectRatio = pyre.inventory.float("gridAspectRatio")
-        maximumEdgeLength = pyre.inventory.float("maximumEdgeLength")
-        maximumSurfaceTolerance = pyre.inventory.float("maximumSurfaceTolerance")
+        gridAspectRatio = pythia.pyre.inventory.float("gridAspectRatio")
+        maximumEdgeLength = pythia.pyre.inventory.float("maximumEdgeLength")
+        maximumSurfaceTolerance = pythia.pyre.inventory.float("maximumSurfaceTolerance")
 
 
     def facet(self, body):
@@ -35,9 +35,9 @@ class Faceter(Component):
         body = pickler.pickle(body)
         
         import acis
-        import pyre.geometry
+        import pythia.pyre.geometry
 
-        mesh = pyre.geometry.mesh(3, 3)
+        mesh = pythia.pyre.geometry.mesh(3, 3)
         properties = self.inventory
         acis.facet(mesh.handle(), body.handle(), properties)
         bbox = acis.box(body.handle())

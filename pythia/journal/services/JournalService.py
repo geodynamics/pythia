@@ -11,17 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.services.TCPService import TCPService
+from pythia.pyre.services.TCPService import TCPService
 
 
 class JournalService(TCPService):
 
     class Inventory(TCPService.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
         import pythia.journal.services
-        marshaller = pyre.inventory.facility("marshaller", factory=pythia.journal.services.pickler)
+        marshaller = pythia.pyre.inventory.facility("marshaller", factory=pythia.journal.services.pickler)
 
     def record(self, entry):
         import pythia.journal
@@ -29,8 +29,8 @@ class JournalService(TCPService):
         return
 
     def generateClientConfiguration(self, registry):
-        import pyre.parsing.locators
-        locator = pyre.parsing.locators.simple('service')
+        import pythia.pyre.parsing.locators
+        locator = pythia.pyre.parsing.locators.simple('service')
 
         # get the inheriter settings
         TCPService.generateClientConfiguration(self, registry)

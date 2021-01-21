@@ -11,21 +11,21 @@
 #
 
 
-from pyre.launchers.Launcher import Launcher as Base
+from pythia.pyre.launchers.Launcher import Launcher as Base
 
 
 class Launcher(Base):
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    dry = pyre.inventory.bool("dry", default=False)
+    dry = pythia.pyre.inventory.bool("dry", default=False)
     dry.meta['tip'] = "prints the command line and exits"
 
-    nodegen = pyre.inventory.str("nodegen")
+    nodegen = pythia.pyre.inventory.str("nodegen")
     nodegen.meta[
         'tip'] = """a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., "n%03d")"""
 
-    command = pyre.inventory.str("command", default="mpiexec -n ${nodes}")
+    command = pythia.pyre.inventory.str("command", default="mpiexec -n ${nodes}")
 
     def launch(self):
         import os

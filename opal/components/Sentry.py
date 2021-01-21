@@ -12,7 +12,7 @@
 #
 
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Sentry(Component):
@@ -20,22 +20,22 @@ class Sentry(Component):
 
     class Inventory(Component.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        username = pyre.inventory.str('username')
+        username = pythia.pyre.inventory.str('username')
         username.meta['tip'] = "the requestor's username"
 
-        passwd = pyre.inventory.str('passwd')
+        passwd = pythia.pyre.inventory.str('passwd')
         passwd.meta['tip'] = "the requestor's passwd"
 
-        ticket = pyre.inventory.str('ticket')
+        ticket = pythia.pyre.inventory.str('ticket')
         ticket.meta['tip'] = "the requestor's previously obtained ticket"
 
-        attempts = pyre.inventory.int('attempts')
+        attempts = pythia.pyre.inventory.int('attempts')
         attempts.meta['tip'] = "the number of unsuccessful attempts to login"
 
-        import pyre.ipa
-        ipa = pyre.inventory .facility("session", family="ipa", factory=pyre.ipa.session)
+        import pythia.pyre.ipa
+        ipa = pythia.pyre.inventory .facility("session", family="ipa", factory=pythia.pyre.ipa.session)
         ipa.meta['tip'] = "the ipa session manager"
 
 

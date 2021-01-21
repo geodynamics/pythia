@@ -19,9 +19,9 @@ class File(Device):
 
     class Inventory(Device.Inventory):
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
-        name = pyre.inventory.str("name", default="journal.log")
+        name = pythia.pyre.inventory.str("name", default="journal.log")
         name.meta['tip'] = "the name of the file in which messages will be placed"
 
     def createDevice(self):
