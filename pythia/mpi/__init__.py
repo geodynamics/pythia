@@ -25,7 +25,7 @@ def mpistart(argv=None, **kwds):
 
     import sys
     from pythia.pyre.applications import start, AppRunner
-    from mpi import MPI_Comm_rank, MPI_COMM_WORLD
+    from pythia.mpi import MPI_Comm_rank, MPI_COMM_WORLD
 
     rank = MPI_Comm_rank(MPI_COMM_WORLD)
     macros = {

@@ -43,7 +43,7 @@
 
 
 from pythia.pyre.components import Component
-from mpi.Application import Application as MPIApplication
+from pythia.mpi.Application import Application as MPIApplication
 import pythia.pyre.parsing.locators
 import pythia.pyre.util.bool
 import sys

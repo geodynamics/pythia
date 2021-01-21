@@ -19,8 +19,8 @@ class Exchanger(Component):
 
     def initialize(self, communicator=None):
         if communicator is None:
-            import mpi
-            communicator = mpi.world()
+            import pythia.mpi
+            communicator = pythia.mpi.world()
 
         self.communicator = communicator
         self.rank = self.communicator.rank

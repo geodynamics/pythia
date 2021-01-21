@@ -12,7 +12,7 @@
 
 
 def launcher():
-    from mpi.LauncherMPICH import LauncherMPICH
+    from pythia.mpi.LauncherMPICH import LauncherMPICH
     return LauncherMPICH()
 
 

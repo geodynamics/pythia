@@ -16,19 +16,17 @@ from pythia.pyre.applications import SuperScript
 
 def mpirun():
     # only import this as needed
-    from mpi.scripts import mpirun
+    from pythia.mpi.scripts import mpirun
     return mpirun()
 
 
 class PyreScript(SuperScript):
 
-
     name = "pyre"
-
 
     subscripts = {
         "mpirun": mpirun,
-        }
+    }
 
 
 if __name__ == '__main__':

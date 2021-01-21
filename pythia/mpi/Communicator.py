@@ -12,53 +12,47 @@
 #
 
 
-
-
 class Communicator(object):
-
 
     def handle(self):
         return self._handle
 
-
     def barrier(self):
-        from mpi import MPI_Barrier
+        from pythia.mpi import MPI_Barrier
         MPI_Barrier(self._handle)
 
-
     # communicator factories
+
     def cartesian(self, axes, periods, reorder=1):
         from .CartesianCommunicator import CartesianCommunicator
         return CartesianCommunicator(self._handle, axes, periods, reorder)
 
-
      # communicator group interface
+
     def group(self):
-        from mpi import MPI_Comm_group
+        from pythia.mpi import MPI_Comm_group
         from .CommunicatorGroup import CommunicatorGroup
         grpHandle = MPI_Comm_group(self._handle)
         return CommunicatorGroup(grpHandle)
 
-
     def include(self, included):
-        from mpi import MPI_Comm_create, MPI_COMM_NULL
+        from pythia.mpi import MPI_Comm_create, MPI_COMM_NULL
         grp = self.group().include(included)
         handle = MPI_Comm_create(self._handle, grp.handle())
         if handle is MPI_COMM_NULL:
             return None
         return Communicator(handle)
 
-
     def exclude(self, excluded):
-        from mpi import MPI_Comm_create, MPI_COMM_NULL
+        from pytia.mpi import MPI_Comm_create, MPI_COMM_NULL
         grp = self.group().exclude(excluded)
         handle = MPI_Comm_create(self._handle, grp.handle())
         if handle is MPI_COMM_NULL:
             return None
         return Communicator(handle)
 
-
     # ports
+
     def port(self, peer, tag):
         from .Port import Port
         return Port(self, peer, tag)
@@ -66,11 +60,11 @@ class Communicator(object):
     def __init__(self, handle):
 
         self._handle = handle
-        
-        from mpi import MPI_Comm_rank, MPI_Comm_size
+
+        from pythia.mpi import MPI_Comm_rank, MPI_Comm_size
         self.rank = MPI_Comm_rank(self._handle)
         self.size = MPI_Comm_size(self._handle)
-        
+
         return
 
 
@@ -81,7 +75,7 @@ class Communicator(object):
 def world():
     global _mpi_world
     if not _mpi_world:
-        from mpi import MPI_COMM_WORLD
+        from pythia.mpi import MPI_COMM_WORLD
         _mpi_world = Communicator(MPI_COMM_WORLD)
     return _mpi_world
 

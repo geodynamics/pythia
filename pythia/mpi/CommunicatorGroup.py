@@ -12,34 +12,29 @@
 #
 
 
-
 class CommunicatorGroup(object):
-
 
     def handle(self):
         return self._handle
 
-
     def include(self, included):
-        from mpi import MPI_Group_incl
+        from pythia.mpi import MPI_Group_incl
         handle = MPI_Group_incl(self._handle, included)
         return CommunicatorGroup(handle)
 
-
     def exclude(self, excluded):
-        from mpi import MPI_Group_excl
+        from pythia.mpi import MPI_Group_excl
         handle = MPI_Group_excl(self._handle, excluded)
         return CommunicatorGroup(handle)
-
 
     def __init__(self, handle):
 
         self._handle = handle
-        
-        from mpi import MPI_Group_rank, MPI_Group_size
+
+        from pythia.mpi import MPI_Group_rank, MPI_Group_size
         self.rank = MPI_Group_rank(self._handle)
         self.size = MPI_Group_size(self._handle)
-        
+
         return
 
 

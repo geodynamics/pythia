@@ -65,8 +65,8 @@ class PressurePulse(Solver):
     def applyBoundaryConditions(self):
         Solver.applyBoundaryConditions(self)
 
-        import mpi
-        rank = mpi.world().rank
+        import pythia.mpi
+        rank = pythia.mpi.world().rank
 
         self.coupler.exchangeBoundary()
         self.generator.updatePressure(self.coupler.boundary)

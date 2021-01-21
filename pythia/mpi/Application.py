@@ -79,7 +79,7 @@ class Application(Script):
         launcher = self.launcher
         launcher.nodes = self.nodes
         launcher.executable = self.mpiExecutable
-        launcher.arguments = ["--pyre-start", path, requires, "mpi:mpistart", entry] + argv + state
+        launcher.arguments = ["--pyre-start", path, requires, "pythia.mpi:mpistart", entry] + argv + state
 
         return launcher
 

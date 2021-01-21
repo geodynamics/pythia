@@ -86,7 +86,7 @@ class Launcher(Base):
 
         # Environment variable references such as ${PBS_NODEFILE} are
         # allowed in 'command', thanks to the Preprocessor component.
-        # See mpi.Application.getStateArgs() to see how the ${nodes}
+        # See pythia.mpi.Application.getStateArgs() to see how the ${nodes}
         # macro is defined.
         args = self.command.split()
 
