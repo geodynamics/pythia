@@ -12,7 +12,7 @@
 #
 
 def pageMill():
-    from opal.weaver.PageMill import PageMill
+    from pythia.opal.weaver.PageMill import PageMill
     return PageMill()
 
 

@@ -12,7 +12,7 @@
 #
 
 
-from opal.applications.CGI import CGI
+from pythia.opal.applications.CGI import CGI
 from pythia.pyre.applications.ComponentHarness import ComponentHarness
 
 
@@ -22,8 +22,8 @@ class WebApplication(CGI):
     class Inventory(CGI.Inventory):
 
         import pythia.pyre.inventory
-        import opal.components
-        import opal.inventory
+        import pythia.opal.components
+        import pythia.opal.inventory
 
         # properties
         home = pythia.pyre.inventory.str("home")
@@ -36,10 +36,10 @@ class WebApplication(CGI):
         routine.meta['tip'] = "the action to be performed by the actor"
 
         # components
-        sentry = pythia.pyre.inventory.facility("sentry", factory=opal.components.sentry)
+        sentry = pythia.pyre.inventory.facility("sentry", factory=pythia.opal.components.sentry)
         sentry.meta['tip'] = "the ipa session manager"
 
-        actor = opal.inventory.actor(default="error")
+        actor = pythia.opal.inventory.actor(default="error")
         actor.meta['tip'] = "the agent that defines the application behavior"
 
 
@@ -109,8 +109,8 @@ class WebApplication(CGI):
         CGI._configure(self)
 
         # create our renderer
-        import opal
-        self.pageMill = opal.pageMill()
+        import pythia.opal
+        self.pageMill = pythia.opal.pageMill()
 
         # the authenticator
         self.sentry = self.inventory.sentry

@@ -139,8 +139,8 @@ class CGI(Script):
         return
 
     def _createCGIParser(self):
-        import opal.applications
-        return opal.applications.cgiParser()
+        import pythia.opal.applications
+        return pythia.opal.applications.cgiParser()
 
 
 # version
