@@ -1,23 +1,21 @@
 #!/usr/bin/env python
 #
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-
 
 
 from pythia.pyre.components.Component import Component
 
 
 class Faceter(Component):
-
 
     class Inventory(Component.Inventory):
 
@@ -27,14 +25,13 @@ class Faceter(Component):
         maximumEdgeLength = pythia.pyre.inventory.float("maximumEdgeLength")
         maximumSurfaceTolerance = pythia.pyre.inventory.float("maximumSurfaceTolerance")
 
-
     def facet(self, body):
 
         from .Pickler import Pickler
         pickler = Pickler()
         body = pickler.pickle(body)
-        
-        import acis
+
+        from . import acis
         import pythia.pyre.geometry
 
         mesh = pythia.pyre.geometry.mesh(3, 3)
@@ -44,12 +41,11 @@ class Faceter(Component):
 
         return mesh, bbox
 
-
     def mesh(self, body):
         from .Pickler import Pickler
         pickler = Pickler()
         body = pickler.pickle(body)
-        
+
         import acis
 
         properties = self.inventory
@@ -57,7 +53,6 @@ class Faceter(Component):
 
         from .Body import Body
         return Body(meshed)
-
 
     def __init__(self, options=None):
         Component.__init__(self, "acis-faceter", "surfaceMesher")

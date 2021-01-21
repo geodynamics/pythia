@@ -12,7 +12,7 @@
 #
 
 
-import acis
+from . import acis
 
 
 class Entity(object):

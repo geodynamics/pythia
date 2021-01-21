@@ -29,7 +29,7 @@ def mesh(body):
 
 
 def save(file, bodies, format=1):
-    import acis
+    from . import acis
 
     entities = [pickle(body).handle() for body in bodies]
     acis.save(file, entities, format)
