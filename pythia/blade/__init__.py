@@ -12,14 +12,20 @@
 #
 
 
-def renderer(blade):
-    """alias for gnome-2.x"""
+def blade():
+    """create the UI manager"""
 
-    component = blade.retrieveRenderer(toolkit='gnome-2.x', language='viewer')
-    return component
+    from .components.Blade import Blade
+    return Blade()
+
+
+# misc
+def copyright():
+    return "blade: Copyright (c) 1998-2005 Michael A.G. Aivazis"
 
 
 # version
-__id__ = "$Id: viewer.odb,v 1.1.1.1 2005/03/08 16:13:56 aivazis Exp $"
+__version__ = "0.8.1"
+__id__ = "$Id: __init__.py,v 1.1.1.1 2005/03/08 16:13:56 aivazis Exp $"
 
-# End of file 
+# End of file

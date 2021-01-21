@@ -81,9 +81,9 @@ class Blade(Component):
         self.toolkit = None
         self.language = None
 
-        import blade.pml
+        import pythia.blade.pml
         self.codecs = {
-            'pml': blade.pml.codecPML()
+            'pml': pythia.blade.pml.codecPML()
         }
 
         return

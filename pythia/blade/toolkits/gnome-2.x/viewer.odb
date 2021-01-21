@@ -12,11 +12,10 @@
 #
 
 
-def renderer(blade):
-    """alias for gtk-2.x"""
-
-    component = blade.retrieveRenderer(toolkit='gtk-2.x', language='viewer')
-    return component
+def renderer(pythia.blade):
+    from pythia.blade.components.Inspector import Inspector
+    inspector = Inspector()
+    return inspector
 
 
 # version
