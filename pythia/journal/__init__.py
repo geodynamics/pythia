@@ -44,10 +44,4 @@ _theJournal = None
 # register the known indices
 register()
 
-__version__ = "0.9.0"
-
-
-def copyright():
-    return "journal: Copyright (c) 1998-2005 Michael A.G. Aivazis"
-
 #  End of file
