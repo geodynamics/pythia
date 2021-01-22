@@ -53,7 +53,7 @@ class Application(Script):
         job = self.job
         job.nodes = self.nodes
         job.executable = self.jobExecutable
-        job.arguments = (["--pyre-start", path, requires,
+        job.arguments = (["--pythia-start", path, requires,
                           "pythia.pyre.schedulers:jobstart"] + batchScriptArgs +
                           [entry] + argv + state)
 
@@ -79,7 +79,7 @@ class Application(Script):
         launcher = self.launcher
         launcher.nodes = self.nodes
         launcher.executable = self.mpiExecutable
-        launcher.arguments = ["--pyre-start", path, requires, "pythia.mpi:mpistart", entry] + argv + state
+        launcher.arguments = ["--pythia-start", path, requires, "pythia.mpi:mpistart", entry] + argv + state
 
         return launcher
 
