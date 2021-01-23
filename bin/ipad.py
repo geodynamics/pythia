@@ -13,9 +13,9 @@
 
 
 def run():
-    import pyre.ipa
+    import pythia.pyre.ipa
 
-    app = pyre.ipa.daemon()
+    app = pythia.pyre.ipa.daemon()
     return app.run(spawn=True)
     
 

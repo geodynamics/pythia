@@ -14,15 +14,15 @@
 #
 
 from .Greeter import Greeter
-import pyre.inventory
+import pythia.pyre.inventory
 
 
 class Alien(Greeter):
 
-    alienName = pyre.inventory.str("name", default="Zorg")
+    alienName = pythia.pyre.inventory.str("name", default="Zorg")
     alienName.meta["tip"] = "Name of alien."
 
-    planet = pyre.inventory.str("planet", default="Zipium")
+    planet = pythia.pyre.inventory.str("planet", default="Zipium")
     planet.meta["tip"] = "Planet of origin."
 
     def __init__(self):

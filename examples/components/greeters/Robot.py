@@ -14,12 +14,12 @@
 #
 
 from .Greeter import Greeter
-import pyre.inventory
+import pythia.pyre.inventory
 
 
 class Robot(Greeter):
 
-    model = pyre.inventory.str("model", default="X52")
+    model = pythia.pyre.inventory.str("model", default="X52")
     model.meta["tip"] = "Robot model name."
 
     def __init__(self):

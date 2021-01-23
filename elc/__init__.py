@@ -30,7 +30,7 @@ def serialExchanger():
 
 # copyright note
 def copyright():
-    return "elc pyre module: Copyright (c) 1998-2005 Michael A.G. Aivazis";
+    return "elc pythia.pyre module: Copyright (c) 1998-2005 Michael A.G. Aivazis";
 
 
 # version

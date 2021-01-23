@@ -15,8 +15,8 @@
 import unittest
 from math import pi
 
-import pyre.units.SI as SI
-import pyre.units.unit as unit
+import pythia.pyre.units.SI as SI
+import pythia.pyre.units.unit as unit
 
 
 class TestUnits(unittest.TestCase):
@@ -73,7 +73,7 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(SI.kibi**6, SI.exbi)
 
     def test_angle(self):
-        import pyre.units.angle as angle
+        import pythia.pyre.units.angle as angle
         self.assertEqual(pi / 180.0, angle.degree.value)
         self.assertEqual(angle.degree, angle.deg)
         self.assertEqual(angle.degree / 60.0, angle.arcminute)
@@ -81,8 +81,8 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(SI.radian, angle.rad)
 
     def test_area(self):
-        import pyre.units.area as area
-        from pyre.units.length import meter, centimeter, foot, inch, mile
+        import pythia.pyre.units.area as area
+        from pythia.pyre.units.length import meter, centimeter, foot, inch, mile
         self.assertEqual(meter**2, area.square_meter)
         self.assertEqual(centimeter**2, area.square_centimeter)
         self.assertEqual(foot**2, area.square_foot)
@@ -90,13 +90,13 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(mile**2, area.square_mile)
 
     def test_density(self):
-        import pyre.units.density as density
-        from pyre.units.mass import kilogram
-        from pyre.units.length import meter
+        import pythia.pyre.units.density as density
+        from pythia.pyre.units.mass import kilogram
+        from pythia.pyre.units.length import meter
         self.assertEqual(kilogram / meter**3, density.kg / density.meter**3)
 
     def test_energy(self):
-        import pyre.units.energy as energy
+        import pythia.pyre.units.energy as energy
         self.assertEqual(1.0e-7 * SI.joule, energy.erg)
         self.assertEqual(4.1858 * SI.joule, energy.calorie)
         self.assertEqual(4.1858e+3 * SI.joule, energy.Calorie)
@@ -109,11 +109,11 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(1.0e+3 * energy.calorie, energy.kcal)
 
     def test_force(self):
-        import pyre.units.force as force
+        import pythia.pyre.units.force as force
         self.assertEqual(0.01 * SI.meter / SI.second**2, force.gal)
 
     def test_length(self):
-        import pyre.units.length as length
+        import pythia.pyre.units.length as length
         self.assertEqual(SI.nano * SI.meter, length.nanometer)
         self.assertEqual(SI.micro * SI.meter, length.micrometer)
         self.assertEqual(SI.milli * SI.meter, length.millimeter)
@@ -134,7 +134,7 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(1852 * SI.meter, length.nautical_mile)
 
     def test_mass(self):
-        import pyre.units.mass as mass
+        import pythia.pyre.units.mass as mass
         self.assertEqual(SI.kilogram / SI.kilo, mass.gram)
         self.assertEqual(SI.centi * mass.gram, mass.centigram)
         self.assertEqual(SI.milli * mass.gram, mass.milligram)
@@ -148,12 +148,12 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(2000 * mass.pound, mass.ton)
 
     def test_power(self):
-        import pyre.units.power as power
+        import pythia.pyre.units.power as power
         self.assertEqual(SI.kilo * SI.watt, power.kilowatt)
         self.assertEqual(745.7 * SI.watt, power.horsepower)
 
     def test_pressure(self):
-        import pyre.units.pressure as pressure
+        import pythia.pyre.units.pressure as pressure
         self.assertEqual(SI.pascal, pressure.Pa)
         self.assertEqual(SI.kilo * SI.pascal, pressure.kPa)
         self.assertEqual(SI.mega * SI.pascal, pressure.MPa)
@@ -165,22 +165,22 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(pressure.atmosphere, pressure.atm)
 
     def test_speed(self):
-        import pyre.units.speed as speed
-        from pyre.units.time import hour
-        from pyre.units.length import nautical_mile
+        import pythia.pyre.units.speed as speed
+        from pythia.pyre.units.time import hour
+        from pythia.pyre.units.length import nautical_mile
         self.assertEqual(nautical_mile / hour, speed.knot)
 
     def test_substance(self):
-        import pyre.units.substance as substance
+        import pythia.pyre.units.substance as substance
         self.assertEqual(SI.mole, substance.mol)
         self.assertEqual(SI.kilo * SI.mole, substance.kmol)
 
     def test_temperature(self):
-        import pyre.units.temperature as temperature
+        import pythia.pyre.units.temperature as temperature
         self.assertEqual(SI.kelvin, temperature.K)
 
     def test_time(self):
-        import pyre.units.time as time
+        import pythia.pyre.units.time as time
         self.assertEqual(SI.pico * SI.second, time.picosecond)
         self.assertEqual(SI.nano * SI.second, time.nanosecond)
         self.assertEqual(SI.micro * SI.second, time.microsecond)
@@ -196,8 +196,8 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(365.25 * time.day, time.year)
 
     def test_volume(self):
-        import pyre.units.volume as volume
-        from pyre.units.length import centimeter, foot, inch
+        import pythia.pyre.units.volume as volume
+        from pythia.pyre.units.length import centimeter, foot, inch
         self.assertEqual(SI.meter**3, volume.cubic_meter)
         self.assertEqual(centimeter**3, volume.cubic_centimeter)
         self.assertEqual(foot**3, volume.cubic_foot)
@@ -209,8 +209,8 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(4 * volume.us_fluid_quart, volume.us_fluid_gallon)
 
     def test_parser(self):
-        import pyre.units
-        parser = pyre.units.parser()
+        import pythia.pyre.units
+        parser = pythia.pyre.units.parser()
         self.assertEqual(1.0, parser.parse("1.0"))
         self.assertEqual(2.0 * SI.meter, parser.parse("2.0*meter"))
         self.assertEqual(3.0 * SI.kilogram, parser.parse("3.0*kilogram"))

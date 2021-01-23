@@ -13,15 +13,15 @@
 # ======================================================================
 #
 
-import pyre.inventory
-from pyre.applications.Script import Script
+import pythia.pyre.inventory
+from pythia.pyre.applications.Script import Script
 
 
 class GreeterApp(Script):
     """Greeter application with a single greeter."""
 
     from greeters.Greeter import Greeter
-    greeter = pyre.inventory.facility("greeter", factory=Greeter)
+    greeter = pythia.pyre.inventory.facility("greeter", factory=Greeter)
     greeter.meta["tip"] = "Greeter for application."
 
     def __init__(self, name="greeterapp"):

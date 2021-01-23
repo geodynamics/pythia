@@ -15,9 +15,9 @@
 
 import sys
 
-from pyre.applications.Script import Script
-from pyre.components.Component import Component
-import pyre.inventory
+from pythia.pyre.applications.Script import Script
+from pythia.pyre.components.Component import Component
+import pythia.pyre.inventory
 
 from greeters.Greeter import Greeter
 
@@ -25,15 +25,15 @@ sys.path.append("./greeters")
 
 
 def greeterFactory(name):
-    return pyre.inventory.facility(name, family="greeter", vault=["greeters"], factory=Greeter)
+    return pythia.pyre.inventory.facility(name, family="greeter", vault=["greeters"], factory=Greeter)
 
 
 class TwoGreeters(Component):
 
-    right = pyre.inventory.facility("right", family="greeter", vault=["greeters"], factory=Greeter)
+    right = pythia.pyre.inventory.facility("right", family="greeter", vault=["greeters"], factory=Greeter)
     right.meta["tip"] = "Greeter 'right'."
 
-    left = pyre.inventory.facility("left", family="greeter", vault=["greeters"], factory=Greeter)
+    left = pythia.pyre.inventory.facility("left", family="greeter", vault=["greeters"], factory=Greeter)
     left.meta["tip"] = "Greeter 'left'."
 
     def __init__(self, name="twogreeters"):
@@ -46,7 +46,7 @@ class TwoGreeters(Component):
 class GreeterApp(Script):
     """Greeter application with facility array."""
 
-    greeters = pyre.inventory.facilityArray("greeters", itemFactory=greeterFactory, factory=TwoGreeters)
+    greeters = pythia.pyre.inventory.facilityArray("greeters", itemFactory=greeterFactory, factory=TwoGreeters)
     greeters.meta["tip"] = "Greeter for application."
 
     def __init__(self, name="greeterapp"):

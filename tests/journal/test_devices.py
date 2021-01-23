@@ -15,27 +15,28 @@
 import unittest
 import os
 
-import journal
+from pythia import journal
+from pythia.journal import diagnostics
 
 
 class TestDevices(unittest.TestCase):
 
     def setUp(self):
-        self.journal = journal.debug("test")
+        self.journal = diagnostics.debug("test")
         self.journal.activate()
 
     def test_console(self):
-        from journal.devices.Console import Console
+        from pythia.journal.devices.Console import Console
         journal.journal().device = Console()
         self.journal.log("Hello")
 
     def test_colorconsole(self):
-        from journal.devices.ANSIColorConsole import ANSIColorConsole
+        from pythia.journal.devices.ANSIColorConsole import ANSIColorConsole
         journal.journal().device = ANSIColorConsole()
         self.journal.log("Hello")
 
     def test_textfile(self):
-        from journal.devices.TextFile import TextFile
+        from pythia.journal.devices.TextFile import TextFile
 
         filename = "debug.log"
         with open(filename, "w") as log:

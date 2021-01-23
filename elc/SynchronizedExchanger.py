@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
-# 
+#
 #  <LicenseText>
-# 
+#
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 
+#
 
 
 from .Exchanger import Exchanger
@@ -17,11 +17,10 @@ from .Exchanger import Exchanger
 
 class SynchronizedExchanger(Exchanger):
 
-
     def exchangeBoundary(self, communicator=None):
         if communicator is None:
-            import mpi
-            communicator = mpi.world()
+            import pythia.mpi
+            communicator = pythia.mpi.world()
 
         rank = communicator.rank
 
@@ -40,21 +39,20 @@ class SynchronizedExchanger(Exchanger):
         else:
             # other processors can skip this exchange
             self._info.log("rank %d: innocent bystander" % rank)
-            import mpi
-            if communicator == mpi.world():
+            import pythia.mpi
+            if communicator == pythia.mpi.world():
                 communicator.barrier()
-        
+
         self._info.log("done exchanging boundary %d -> %d" % (self.source, self.sink))
 
         return
 
-
     def exchangeVelocities(self, communicator=None):
-        import pyre
+        import pythia.pyre
 
         if communicator is None:
-            import mpi
-            communicator = mpi.world()
+            import pythia.mpi
+            communicator = pythia.mpi.world()
 
         rank = communicator.rank
 
@@ -74,20 +72,19 @@ class SynchronizedExchanger(Exchanger):
         else:
             # other processors can skip this exchange
             self._info.log("rank %d: innocent bystander" % rank)
-            import mpi
-            if communicator == mpi.world():
+            import pythia.mpi
+            if communicator == pythia.mpi.world():
                 communicator.barrier()
-        
+
         self._info.log("done exchanging velocities %d -> %d" % (self.source, self.sink))
 
         return
 
-
     def exchangePressure(self, communicator=None):
 
         if communicator is None:
-            import mpi
-            world = mpi.world()
+            import pythia.mpi
+            world = pythia.mpi.world()
 
         rank = communicator.rank
 
@@ -109,21 +106,20 @@ class SynchronizedExchanger(Exchanger):
         else:
             # other processors can skip this exchange
             self._info.log("rank %d: innocent bystander" % rank)
-            import mpi
-            if communicator == mpi.world():
+            import pythia.mpi
+            if communicator == pythia.mpi.world():
                 communicator.barrier()
-        
+
         self._info.log("done exchanging pressure %d -> %d" % (self.source, self.sink))
 
         return
 
-
     def __init__(self, name):
         Exchanger.__init__(self, name)
         return
-        
+
 
 # version
 __id__ = "$Id: SynchronizedExchanger.py,v 1.1.1.1 2005/03/08 16:13:28 aivazis Exp $"
 
-#  End of file 
+#  End of file

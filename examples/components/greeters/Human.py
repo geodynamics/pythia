@@ -14,12 +14,12 @@
 #
 
 from .Greeter import Greeter
-import pyre.inventory
+import pythia.pyre.inventory
 
 
 class Human(Greeter):
 
-    personName = pyre.inventory.str("name", default="John Doe")
+    personName = pythia.pyre.inventory.str("name", default="John Doe")
     personName.meta["tip"] = "Name of person."
 
     def __init__(self):

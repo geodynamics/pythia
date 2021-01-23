@@ -12,21 +12,20 @@
 #
 
 
-
-from pyre.simulations.Solver import Solver
+from pythia.pyre.simulations.Solver import Solver
 
 
 class PressurePulse(Solver):
 
     class Inventory(Solver.Inventory):
 
-        import pyre.inventory
-        from pyre.units.SI import second
+        import pythia.pyre.inventory
+        from pythia.pyre.units.SI import second
         from .HeavisidePulse import HeavisidePulse
 
-        syncOnInit = pyre.inventory.bool("syncOnInit", default=True)
-        generator = pyre.inventory.facility("generator", factory=HeavisidePulse)
-        timestep = pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
+        syncOnInit = pythia.pyre.inventory.bool("syncOnInit", default=True)
+        generator = pythia.pyre.inventory.facility("generator", factory=HeavisidePulse)
+        timestep = pythia.pyre.inventory.dimensional("timestep", default=1.0e-6 * second)
 
     def launch(self, application):
         Solver.launch(self, application)
@@ -37,13 +36,13 @@ class PressurePulse(Solver):
         communicator = layout.communicator
 
         if not communicator:
-            import journal
-            journal.error(self.name).log("null communicator")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error(self.name).log("null communicator")
             return
 
         if communicator.size > 1:
-            import journal
-            journal.error(self.name).log("this is a single processor solver")
+            import pythia.journal.diagnostics
+            pythia.journal.diagnostics.error(self.name).log("this is a single processor solver")
             return
 
         # save the communicator info
@@ -58,7 +57,7 @@ class PressurePulse(Solver):
         else:
             raise ValueError("pulse requires options.syncBoundaryInitialization=true")
 
-        from pyre.units.SI import second
+        from pythia.pyre.units.SI import second
         t, step = 0.0 * second, 0
 
         return (t, step)
@@ -66,8 +65,8 @@ class PressurePulse(Solver):
     def applyBoundaryConditions(self):
         Solver.applyBoundaryConditions(self)
 
-        import mpi
-        rank = mpi.world().rank
+        import pythia.mpi
+        rank = pythia.mpi.world().rank
 
         self.coupler.exchangeBoundary()
         self.generator.updatePressure(self.coupler.boundary)
@@ -82,7 +81,7 @@ class PressurePulse(Solver):
         source = self._solidServer
 
         import pulse
-        from pyre.units.time import second
+        from pythia.pyre.units.time import second
         dt = pulse.timestep(sink, source, dt.value) * second
 
         Solver.stableTimestep(self, dt)

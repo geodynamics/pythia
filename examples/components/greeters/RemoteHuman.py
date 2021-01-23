@@ -12,22 +12,22 @@
 # ======================================================================
 #
 
-from pyre.components.Component import Component
-import pyre.inventory
+from pythia.pyre.components.Component import Component
+import pythia.pyre.inventory
 
 
 class RemoteHuman(Component):
 
-    greeting = pyre.inventory.str("greeting", default="Hello.")
+    greeting = pythia.pyre.inventory.str("greeting", default="Hello.")
     greeting.meta["tip"] = "Greeter message."
 
-    personName = pyre.inventory.str("name", default="John Doe")
+    personName = pythia.pyre.inventory.str("name", default="John Doe")
     personName.meta["tip"] = "Name of person."
 
-    location = pyre.inventory.str("location", default="an island in the Pacific Ocean")
+    location = pythia.pyre.inventory.str("location", default="an island in the Pacific Ocean")
     location.meta["tip"] = "Location of person."
 
-    technology = pyre.inventory.str("technology", default="satellite phone")
+    technology = pythia.pyre.inventory.str("technology", default="satellite phone")
     technology.meta["tip"] = "Communication technology."
 
     def __init__(self):
