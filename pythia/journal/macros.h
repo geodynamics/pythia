@@ -13,8 +13,8 @@
  * 
  */
 
-#if !defined(journal_macros_h)
-#define journal_macros_h
+#if !defined(pythia_journal_macros_h)
+#define pythia_journal_macros_h
 
 
 /*

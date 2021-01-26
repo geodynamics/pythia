@@ -11,18 +11,20 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_SeverityFirewall_h)
-#define journal_SeverityFirewall_h
+#if !defined(pythia_journal_SeverityFirewall_h)
+#define pythia_journal_SeverityFirewall_h
 
 
 // forward declarations
-namespace journal {
-    class Diagnostic;
-    class SeverityFirewall;
+namespace pythia {
+    namespace journal {
+        class Diagnostic;
+        class SeverityFirewall;
+    }
 }
 
 
-class journal::SeverityFirewall : public journal::Diagnostic {
+class pythia::journal::SeverityFirewall : public pythia::journal::Diagnostic {
 
 // interface
 public:

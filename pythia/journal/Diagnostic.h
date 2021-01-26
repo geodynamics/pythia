@@ -11,20 +11,22 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_Diagnostic_h)
-#define journal_Diagnostic_h
+#if !defined(pythia_journal_Diagnostic_h)
+#define pythia_journal_Diagnostic_h
 
 
 #include <Python.h>
 
 
 // forward declarations
-namespace journal {
-    class Diagnostic;
+namespace pythia {
+    namespace journal {
+        class Diagnostic;
+    }
 }
 
 
-class journal::Diagnostic {
+class pythia::journal::Diagnostic {
 
 // types
 public:
@@ -90,10 +92,10 @@ private:
     static PyObject *_journal() {
         static PyObject *journal;
         if (!journal) {
-            journal = PyImport_ImportModule((char *)"journal");
+            journal = PyImport_ImportModule((char *)"pythia.journal.diagnostics");
             if (!journal) {
                 PyErr_Print();
-                Py_FatalError("could not import journal module");
+                Py_FatalError("could not import pythia.journal.diagnostics module");
             }
         }
         return journal;
@@ -139,7 +141,7 @@ private:
 
 // the injection operator
 template <typename item_t>
-inline journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, item_t item) {
+inline pythia::journal::Diagnostic & operator<< (pythia::journal::Diagnostic & diagnostic, item_t item) {
     return diagnostic.inject(item);
 }
 

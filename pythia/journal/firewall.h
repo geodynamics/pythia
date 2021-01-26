@@ -13,8 +13,8 @@
  */
 
 
-#if !defined(journal_firewall_h)
-#define journal_firewall_h
+#if !defined(pythia_journal_firewall_h)
+#define pythia_journal_firewall_h
 
 
 /* get definition of __HERE__ macros */
@@ -42,9 +42,10 @@ void firewall_affirm(int condition, __HERE_DECL__, const char * fmt, ...);
 #include "manipulators.h"
 
 /* forward declarations */
-namespace journal {
-
-    typedef SeverityFirewall firewall_t;
+namespace pythia {
+    namespace journal {
+        typedef SeverityFirewall firewall_t;
+    }
 }
 #endif /* __cplusplus */
 

@@ -11,8 +11,8 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_debug_h)
-#define journal_debug_h
+#if !defined(pythia_journal_debug_h)
+#define pythia_journal_debug_h
 
 #include <string>
 
@@ -26,9 +26,11 @@
 #include "manipulators.h"
 
 // forward declarations
-namespace journal {
+namespace pythia {
+    namespace journal {
 
-    typedef SeverityDebug debug_t;
+        typedef SeverityDebug debug_t;
+    }
 }
 
 #else
@@ -37,9 +39,10 @@ namespace journal {
 // manipulators
 
 // forward declarations
-namespace journal {
-
-    typedef NullDiagnostic debug_t;
+namespace pythia {
+    namespace journal {
+        typedef NullDiagnostic debug_t;
+    }
 }
 
 
