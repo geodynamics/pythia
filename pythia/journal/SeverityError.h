@@ -11,18 +11,20 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_SeverityError_h)
-#define journal_SeverityError_h
+#if !defined(pythia_journal_SeverityError_h)
+#define pythia_journal_SeverityError_h
 
 
 // forward declarations
-namespace journal {
-    class Diagnostic;
-    class SeverityError;
+namespace pythia {
+    namespace journal {
+        class Diagnostic;
+        class SeverityError;
+    }
 }
 
 
-class journal::SeverityError : public journal::Diagnostic {
+class pythia::journal::SeverityError : public pythia::journal::Diagnostic {
 
 // interface
 public:

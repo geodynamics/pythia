@@ -11,8 +11,8 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_info_h)
-#define journal_info_h
+#if !defined(pythia_journal_info_h)
+#define pythia_journal_info_h
 
 #include <string>
 #include <sstream>
@@ -24,9 +24,10 @@
 #include "manipulators.h"
 
 // forward declarations
-namespace journal {
-
-    typedef SeverityInfo info_t;
+namespace pythia {
+    namespace journal {
+        typedef SeverityInfo info_t;
+    }
 }
 
 

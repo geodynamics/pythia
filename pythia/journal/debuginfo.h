@@ -12,8 +12,8 @@
  * 
  */
 
-#if !defined(journal_debuginfo_h)
-#define journal_debuginfo_h
+#if !defined(pythia_journal_debuginfo_h)
+#define pythia_journal_debuginfo_h
 
 
 /* get definition of __HERE__ macros */

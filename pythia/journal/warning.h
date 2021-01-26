@@ -11,8 +11,8 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_warning_h)
-#define journal_warning_h
+#if !defined(pythia_journal_warning_h)
+#define pythia_journal_warning_h
 
 #include <string>
 #include <sstream>
@@ -24,9 +24,10 @@
 #include "manipulators.h"
 
 // forward declarations
-namespace journal {
-
-    typedef SeverityWarning warning_t;
+namespace pythia {
+    namespace journal {
+        typedef SeverityWarning warning_t;
+    }
 }
 
 

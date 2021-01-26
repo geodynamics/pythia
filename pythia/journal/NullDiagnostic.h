@@ -11,17 +11,19 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 
-#if !defined(journal_NullDiagnostic_h)
-#define journal_NullDiagnostic_h
+#if !defined(pythia_journal_NullDiagnostic_h)
+#define pythia_journal_NullDiagnostic_h
 
 
 // forward declarations
-namespace journal {
-    class NullDiagnostic;
+namespace pythia {
+    namespace journal {
+        class NullDiagnostic;
+    }
 }
 
 
-class journal::NullDiagnostic {
+class pythia::journal::NullDiagnostic {
 
 // types
 public:
@@ -61,7 +63,7 @@ namespace journal {
 
 // the injection operator
 template <typename item_t>
-inline journal::NullDiagnostic & operator<< (journal::NullDiagnostic & diagnostic, item_t) {
+inline pythia::journal::NullDiagnostic & operator<< (pythia::journal::NullDiagnostic & diagnostic, item_t) {
     return diagnostic;
 }
 
