@@ -16,7 +16,7 @@ from pythia.pyre.applications.Script import Script
 import pythia.pyre.inventory
 
 
-from test_vault.TestComponents import (
+from .TestComponents import (
     SimpleFacility,
     SimpleTooFacility,
     ComplexFacility,

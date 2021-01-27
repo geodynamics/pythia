@@ -15,7 +15,7 @@
 import unittest
 import os
 
-from MPIApp import MPIApp
+from .MPIApp import MPIApp
 
 
 class TestApplication(unittest.TestCase):

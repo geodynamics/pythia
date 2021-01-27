@@ -1,19 +1,14 @@
-ACLOCAL_AMFLAGS = -I m4
+bin_PROGRAMS = nemesis mpinemesis
 
-SUBDIRS = \
-	src
+AM_CPPFLAGS = $(PYTHON_CPPFLAGS)
+AM_LDFLAGS = $(PYTHON_LDFLAGS)
+LIBS = $(PYTHON_LIBS)
 
-if ENABLE_TESTING
-  SUBDIRS += tests
-endif
+# nemesis (links MPI, but does not initialize it)
+nemesis_SOURCES = nemesis.c
 
-DISTCHECK_CONFIGURE_FLAGS = \
-	--enable-testing \
-	CPPFLAGS="-I${CPPUNIT_INCDIR} -I${PYTHIA_INCDIR} -I${CIG_INCDIR}" \
-	LDFLAGS="-L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
-
-EXTRA_DIST = \
-	CHANGES
-
+# mpinemesis (initializes MPI before starting Python)
+mpinemesis_SOURCES = nemesis.c
+mpinemesis_CFLAGS = -DUSE_MPI
 
 # End of file

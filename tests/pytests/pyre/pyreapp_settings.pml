@@ -9,8 +9,8 @@
         <property name="value_mass">5.0*kg</property>
         <property name="list_string">[kk, ll, mm, oo]</property>
         <property name="array_int">[7, 4]</property>
-        <property name="input_file">tests/pyre/input.txt</property>
-        <property name="output_file">tests/pyre/output.txt</property>
+        <property name="input_file">pyre/input.txt</property>
+        <property name="output_file">pyre/output.txt</property>
         <component name="simple_facility">
            <property name="simple_int">12</property>
            <property name="simple_float">-0.2</property>

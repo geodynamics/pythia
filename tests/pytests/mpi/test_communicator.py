@@ -15,7 +15,7 @@
 
 import unittest
 
-from MPICommApp import MPICommApp
+from .MPICommApp import MPICommApp
 
 
 class TestCommunicator(unittest.TestCase):

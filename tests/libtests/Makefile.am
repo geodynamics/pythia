@@ -1,17 +1,17 @@
 include $(top_srcdir)/check.am
 
-TESTS = testnemesis
+TESTS = testpythia
 
-check_PROGRAMS = testnemesis
+check_PROGRAMS = testpythia
 
-testnemesis_SOURCES = \
+testpythia_SOURCES = \
 	TestDriver.cc \
 	journal/TestDiagnostics.cc \
 	test_driver.cc
 
-AM_CPPFLAGS += $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR)
+AM_CPPFLAGS += -I$(PYTHON_INCDIR)
 
-testnemesis_LDADD = \
+testpythia_LDADD = \
 	-lcppunit -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 

@@ -12,9 +12,9 @@
 # ======================================================================
 #
 
-from PyreApp import PyreApp
+from .PyreApp import PyreApp
 
-from test_vault.TestComponents import (
+from .TestComponents import (
     SimpleFacility,
     SimpleTooFacility,
 )
@@ -66,8 +66,8 @@ class TestInventory(unittest.TestCase):
             "--value_string=Hooray",
             "--list_string=[iii, jjj, kkk]",
             "--array_int=[6, 5, 4]",
-            "--input_file=tests/pyre/data.in",
-            "--output_file=tests/pyre/data.out",
+            "--input_file=pyre/data.in",
+            "--output_file=pyre/data.out",
             "--simple_facility=simpletoo-facility",
             "--facility_array.one.simple_int=34",
             "--facility_array.one.simple_string=one-one",
@@ -110,7 +110,7 @@ class TestInventory(unittest.TestCase):
         from pythia.pyre.units.mass import g
 
         app = PyreApp()
-        app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.cfg"])
+        app.run(argv=["pyreapp", "pyre/pyreapp_settings.cfg"])
 
         self.assertEqual(False, app.data["boolean"])
         self.assertEqual(83, app.data["int"])
@@ -155,7 +155,7 @@ class TestInventory(unittest.TestCase):
         from pythia.pyre.units.mass import kg
 
         app = PyreApp()
-        app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.pml"])
+        app.run(argv=["pyreapp", "pyre/pyreapp_settings.pml"])
 
         self.assertEqual(False, app.data["boolean"])
         self.assertEqual(82, app.data["int"])
@@ -178,7 +178,7 @@ class TestInventory(unittest.TestCase):
         from pythia.pyre.units.mass import g
 
         app = PyreApp()
-        app.run(argv=["pyreapp", "tests/pyre/pyreapp_settings.pcs"])
+        app.run(argv=["pyreapp", "pyre/pyreapp_settings.pcs"])
 
         self.assertEqual(False, app.data["boolean"])
         self.assertEqual(83, app.data["int"])

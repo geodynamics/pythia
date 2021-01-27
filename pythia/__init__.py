@@ -12,8 +12,13 @@
 #
 
 
-__version__ = "0.10.0"
+try:
+    from pkg_resources import get_distribution
+    version = get_distribution("pythia").version
+except:
+    version = "Could not get verion information via pkg_resources."
 
+__version__ = version
 
 
 def copyright():
