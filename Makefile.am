@@ -1,14 +1,50 @@
-bin_PROGRAMS = nemesis mpinemesis
+ACLOCAL_AMFLAGS = -I m4
 
-AM_CPPFLAGS = $(PYTHON_CPPFLAGS)
-AM_LDFLAGS = $(PYTHON_LDFLAGS)
-LIBS = $(PYTHON_LIBS)
+SUBDIRS = \
+	bin \
+	libsrc 
 
-# nemesis (links MPI, but does not initialize it)
-nemesis_SOURCES = nemesis.c
+if ENABLE_MPI
+  SUBDIRS += nemesis
+endif
 
-# mpinemesis (initializes MPI before starting Python)
-mpinemesis_SOURCES = nemesis.c
-mpinemesis_CFLAGS = -DUSE_MPI
+
+if ENABLE_TESTING
+  SUBDIRS += tests
+endif
+
+EXTRA_DIST = \
+	CHANGES
+
+
+install-exec-local:
+	$(PYTHON) -m pip install --prefix=$(DESTDIR)$(prefix) $(top_srcdir)
+
+
+.PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage
+
+if ENABLE_TEST_COVERAGE
+coverage-libtests:
+	$(LCOV) --directory tests/libtests --capture --output-file coverage-libtests.info
+	$(LCOV) --remove coverage-libtests.info '/usr/*' '/Library/*' "v1" "*/object.h" "*/include/cppunit/*" "*/libtests/*" -o coverage-libtests.info
+	$(LCOV) --list coverage-libtests.info
+
+coverage-pytests:
+	$(PYTHON_COVERAGE) combine tests/pytests/.coverage
+	$(PYTHON_COVERAGE) xml -o coverage-pytests.xml
+
+coverage-html: coverage-libtests coverage-pytests
+	genhtml -o coverage-libtests coverage-libtests.info
+	$(PYTHON_COVERAGE) html -d coverage-pytests
+
+clean-coverage:
+	$(RM) `find . -name "*.gcda"`
+	$(RM) `find . -name ".coverage"`
+
+else
+coverage-libtests coverage-pytests coverage-html clean-coverage:
+	$(warning Test coverage not enabled. Ignoring test coverage targets)
+endif
+
 
 # End of file
