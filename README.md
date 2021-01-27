@@ -20,6 +20,7 @@ simulations. This fork focuses (and maintains) functionality for:
 * user-friendly interface to popular batch job schedulers
 * Python and C++ interfaces for logging
 
+**Note** Starting with Pythia 1.0.0, nemesis is part of Pythia.
 
 ## Main page: [https://geodynamics.org/cig/software/pythia](https://geodynamics.org/cig/software/pythia)
 
