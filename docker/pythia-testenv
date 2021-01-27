@@ -33,12 +33,14 @@ RUN autoreconf --install --verbose
 
 RUN mkdir -p $BUILD_DIR/build/pythia
 WORKDIR ${BUILD_DIR}/build/pythia
-RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}
+RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  LDFLAGS="--coverage" CXXFLAGS="-g -O --coverage"
 
+WORKDIR ${SRC_DIR}
 
 # TESTING ----------
 from src as test
 
+WORKDIR ${BUILD_DIR}/build/pythia
 RUN make install && make check VERBOSE=1
 RUN make coverage-libtests
 RUN make coverage-pytests

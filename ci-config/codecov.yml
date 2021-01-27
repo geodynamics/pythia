@@ -15,4 +15,4 @@ parsers:
       macro: no
 
 fixes:
-  - "/home/pythia-user/src/::"
+  - "/opt/pythia/lib/python3.9/site-packages/::"

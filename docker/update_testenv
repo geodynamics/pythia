@@ -20,7 +20,7 @@ ENVS = (
     ("centos:8", "centos-8"),
     )
 
-TAG_TEMPLATE = "geodynamics/pylith-testenv-{env}"
+TAG_TEMPLATE = "geodynamics/pythia-testenv-{env}"
 
 def run_docker(cmd, verbose=True):
     """Run docker command.

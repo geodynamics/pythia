@@ -20,6 +20,8 @@ RUN apt-get update \
       unzip \
       git \
       ca-certificates \
+      libcppunit-1.14.0 \
+      libcppunit-dev \
       libopenmpi-dev \
       libopenmpi2 \
       openmpi-bin \
