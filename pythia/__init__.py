@@ -16,7 +16,7 @@ try:
     from pkg_resources import get_distribution
     version = get_distribution("pythia").version
 except:
-    version = "Could not get verion information via pkg_resources."
+    version = "Could not get version information via pkg_resources."
 
 __version__ = version
 
