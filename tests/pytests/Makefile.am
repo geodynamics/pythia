@@ -32,7 +32,6 @@ dist_noinst_DATA = \
 	pyre/pyreapp_settings.cfg \
 	pyre/data.in \
 	pyre/input.txt \
-	pyre/output.txt \
 	pyre/__init__.py \
 	pyre/TestComponents.py \
 	pyre/simpletoo-facility.odb \
