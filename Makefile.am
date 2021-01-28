@@ -18,7 +18,7 @@ EXTRA_DIST = \
 
 
 install-exec-local:
-	$(PYTHON) -m pip install --prefix=$(DESTDIR)$(prefix) $(top_srcdir)
+	PYTHONUSERBASE=$(DESTDIR)$(prefix) $(PYTHON) -m pip install --user $(top_srcdir)
 
 
 .PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage
