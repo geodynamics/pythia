@@ -25,15 +25,25 @@ ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-pack
 
 RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages && mkdir -p ${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
 
+
 ENV SRC_DIR ${BUILD_DIR}/src/pythia
 COPY --chown=pythia-user:pythia-user . ${SRC_DIR}
 WORKDIR ${SRC_DIR}
-RUN python3 setup.py egg_info && PYTHONUSERBASE=${PREFIX_DIR} python3 -m pip install --user .
+RUN autoreconf --install --verbose
+
+RUN mkdir -p $BUILD_DIR/build/pythia
+WORKDIR ${BUILD_DIR}/build/pythia
+RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  LDFLAGS="--coverage" CXXFLAGS="-g -O --coverage"
+
+WORKDIR ${SRC_DIR}
 
 # TESTING ----------
 from src as test
 
-RUN ./run_tests.py
+WORKDIR ${BUILD_DIR}/build/pythia
+RUN make install && make check VERBOSE=1
+RUN make coverage-libtests
+RUN make coverage-pytests
 
 
 CMD /bin/bash

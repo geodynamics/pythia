@@ -15,7 +15,7 @@
 from pythia.pyre.components.Component import Component
 import pythia.pyre.inventory
 
-VAULT = ["tests/pyre/test_vault"]
+VAULT = ["./pyre"]
 
 
 class SimpleFacility(Component):

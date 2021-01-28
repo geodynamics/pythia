@@ -14,7 +14,7 @@
 #
 # ======================================================================
 
-"""Script to run test suite.
+"""Script to run pythia (minus mpi) test suite.
 
 Run `coverage report` to generate a report (included).
 Run `coverage html -d DIR` to generate an HTML report in directory `DIR`.
@@ -27,7 +27,7 @@ import unittest
 import sys
 
 
-sys.path.append("./tests/pyre/test_vault")
+sys.path.append("./pyre")
 
 
 class TestApp(object):
@@ -60,10 +60,7 @@ class TestApp(object):
         if self.cov:
             self.cov.start()
 
-        sys.path.append("tests/pyre")
-
         success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
-
         if not success:
             sys.exit(1)
 
@@ -76,15 +73,27 @@ class TestApp(object):
     def _suite(self):
         """Setup the test suite.
         """
-        import tests.pyre
-        import tests.journal
+        import pyre.test_units
+        import pyre.test_inventory
+        import pyre.test_schedulers
+        import journal.test_channels
+        import journal.test_devices
+        import journal.test_facilities
+        
+        test_cases = []
+        for mod in [
+            pyre.test_units,
+            pyre.test_inventory,
+            pyre.test_schedulers,
+            journal.test_channels,
+            journal.test_devices,
+            journal.test_facilities,                
+            ]:
+            test_cases += mod.test_classes()
 
         suite = unittest.TestSuite()
-
-        test_cases = []
-        for mod in [tests.pyre, tests.journal]:
-            for test_case in mod.test_cases():
-                suite.addTest(unittest.makeSuite(test_case))
+        for test_case in test_cases:
+            suite.addTest(unittest.makeSuite(test_case))
 
         return suite
 

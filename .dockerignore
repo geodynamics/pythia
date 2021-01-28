@@ -1,7 +1,7 @@
 .dockerignore
 .git
 .git*
-build
-dist
 docker
 !docker/certs
+autom4te.cache
+aux-config

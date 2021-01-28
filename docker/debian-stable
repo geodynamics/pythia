@@ -19,6 +19,7 @@ RUN apt-get update \
       unzip \
       git \
       ca-certificates \
+      libcppunit-dev \
       libmpich-dev \
       mpich \
       lcov \

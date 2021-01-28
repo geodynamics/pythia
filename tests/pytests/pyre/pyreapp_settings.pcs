@@ -10,8 +10,8 @@ pyreapp {
   value_mass: "5.0*g";
   //list_string: ["d", "e", "f", "g"];
   //array_int: [7, 8, 9];
-  input_file: "tests/pyre/input.txt";
-  output_file: "tests/pyre/output.txt";
+  input_file: "pyre/input.txt";
+  output_file: "pyre/output.txt";
 
   simple_facility {
     simple_int : 11;
