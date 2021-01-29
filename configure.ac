@@ -45,14 +45,13 @@ dnl ----------------------------------------------------------------------
 dnl CHECK FOR MPI
 if test "$enable_mpi" = "yes" ; then
 AC_PROG_CC([mpicc hcc mpcc mpcc_r mpxlc cmpicc gcc cc cl icc ecc pgcc xlc xlc_r])
+AC_PROG_CXX
 AC_SEARCH_LIBS([MPI_Init], [mpi mpich], [], [AC_MSG_ERROR([MPI library not found])])
 AC_CHECK_HEADER([mpi.h], [], [AC_MSG_ERROR([header 'mpi.h' not found])])
 fi
 
 dnl CHECK FOR C++ compiler
 if test "$enable_testing" = "yes"; then
-AC_PROG_CXX
-
 dnl Require C++-11
 AX_CXX_COMPILE_STDCXX(11)
 fi
