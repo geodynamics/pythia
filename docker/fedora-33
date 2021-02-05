@@ -42,29 +42,4 @@ RUN update-ca-trust enable
 ENV PYTHON_VERSION 3.9
 
 
-# ----------------------------------------
-FROM os-update as build-deps
-
-# Create 'pythia-user' user
-ENV PYTHIA_USER pythia-user
-RUN useradd --create-home --shell /bin/bash $PYTHIA_USER
-
-ENV PREFIX_DIR /opt/pythia
-
-RUN mkdir -p $PREFIX_DIR \
-  && chown $PYTHIA_USER $PREFIX_DIR \
-  && chgrp $PYTHIA_USER $PREFIX_DIR
-
-
-# ----------------------------------------
-FROM build-deps as clean
-
-USER root
-#RUN dnf clean all
-
-# Setup user and environment
-USER $PYTHIA_USER
-WORKDIR /home/$PYTHIA_USER
-
-
 CMD /bin/bash
