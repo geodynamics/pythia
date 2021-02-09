@@ -34,7 +34,6 @@ RUN apt-get update \
 
 COPY docker/certs/ /usr/local/share/ca-certificates
 RUN update-ca-certificates
-RUN apt-get clean
 
 
 ENV PYTHON_VERSION 3.9
