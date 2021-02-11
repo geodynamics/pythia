@@ -11,28 +11,28 @@ jobs:
   include:
     - name: debian-stable
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-stable TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
+      env: BASE_IMAGE=testenv-debian-stable TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
     - name: debian-testing
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-debian-testing TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
+      env: BASE_IMAGE=testenv-debian-testing TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
     - name: ubuntu-18.04
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-ubuntu-18.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
+      env: BASE_IMAGE=testenv-ubuntu-18.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
     - name: ubuntu-20.04
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-ubuntu-20.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
+      env: BASE_IMAGE=testenv-ubuntu-20.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
     - name: ubuntu-20.10
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-ubuntu-20.10 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
+      env: BASE_IMAGE=testenv-ubuntu-20.10 TEST_COVERAGE=yes PYTHON_COVERAGE=python3-coverage
     - name: fedora-32
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-fedora-32 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage3
+      env: BASE_IMAGE=testenv-fedora-32 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage3
     - name: fedora-33
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-fedora-33 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage3
+      env: BASE_IMAGE=testenv-fedora-33 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage3
     - name: centos-8
       os: linux
-      env: BASE_IMAGE=geodynamics/pythia-testenv-centos-8
+      env: BASE_IMAGE=testenv-centos-8
 
 
 addons:
@@ -47,7 +47,7 @@ git:
 
 
 install:
-  - docker build -t pythia-testenv --build-arg BASE_IMAGE=$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
+  - docker build -t pythia-testenv --build-arg BASE_IMAGE=registry.gitlab.com/cig-pylith/pythia/$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
 
 
 script: 

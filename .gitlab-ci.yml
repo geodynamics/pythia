@@ -17,8 +17,9 @@ stages:
   stage: other-platforms
   variables:
     GIT_SUBMODULE_STRATEGY: "normal"
+    IMAGE_REGISTRY: "registry.gitlab.com/cig-pylith/pythia"
   script:
-    - docker build -t pythia-testenv --build-arg BASE_IMAGE=$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
+    - docker build -t pythia-testenv --build-arg BASE_IMAGE=$IMAGE_REGISTRY/$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
     - docker run -e CI_JOB_ID -e GITLAB_CI -e CI_BUILD_REF_NAME -e CI_BUILD_ID -e CI_BUILD_REPO -e CI_BUILD_REF -e CODECOV_TOKEN pythia-testenv ci-config/run_test_coverage.sh
 
 .builder-first:
@@ -30,7 +31,7 @@ stages:
   tags:
     - docker
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-debian-stable"
+    BASE_IMAGE: "testenv-debian-stable"
   script:
     - echo "-TODO- Generate documentation."
 
@@ -47,56 +48,56 @@ trigger-job:
 debian-stable-job:
   extends: .builder-first
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-debian-stable"
+    BASE_IMAGE: "testenv-debian-stable"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "python3-coverage"
 
 debian-testing-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-debian-testing"
+    BASE_IMAGE: "testenv-debian-testing"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "python3-coverage"
 
 ubuntu-18.04-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-ubuntu-18.04"
+    BASE_IMAGE: "testenv-ubuntu-18.04"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "python3-coverage"
 
 ubuntu-20.04-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-ubuntu-20.04"
+    BASE_IMAGE: "testenv-ubuntu-20.04"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "python3-coverage"
 
 ubuntu-20.10-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-ubuntu-20.10"
+    BASE_IMAGE: "testenv-ubuntu-20.10"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "python3-coverage"
 
 fedora-32-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-fedora-32"
+    BASE_IMAGE: "testenv-fedora-32"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "coverage3"
 
 fedora-33-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-fedora-33"
+    BASE_IMAGE: "testenv-fedora-33"
     TEST_COVERAGE: "yes"
     PYTHON_COVERAGE: "coverage3"
 
 centos-8-job:
   extends: .builder
   variables:
-    BASE_IMAGE: "geodynamics/pythia-testenv-centos-8"
+    BASE_IMAGE: "testenv-centos-8"
     TEST_COVERAGE: "no"
 
 
