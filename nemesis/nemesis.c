@@ -71,7 +71,9 @@ struct _inittab inittab[] = {
 void
 freeWchar(wchar_t** strings,
 	  const int nstrings) {
-  for (int i = 0; i < nstrings; ++i) {
+  int i;
+  
+  for (i = 0; i < nstrings; ++i) {
     PyMem_RawFree(strings[i]);
   }
   PyMem_Del(strings);
@@ -81,12 +83,14 @@ freeWchar(wchar_t** strings,
 wchar_t**
 wcharFromChar(char* strings[],
 	      const int nstrings) {
+  int i;
+
   wchar_t** wstrings = PyMem_New(wchar_t*, nstrings);
   if (!wstrings) {
     return NULL;
   }
 
-  for (int i = 0; i < nstrings; ++i) {
+  for (i = 0; i < nstrings; ++i) {
     wstrings[i] = Py_DecodeLocale(strings[i], NULL);
     if (!wstrings[i]) {
       freeWchar(wstrings, i);
