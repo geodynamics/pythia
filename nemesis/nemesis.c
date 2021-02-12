@@ -105,6 +105,7 @@ wcharFromChar(char* strings[],
 int main(int argc, char* argv[])
 {
     int status;
+    int i;
     
 #ifdef USE_MPI
     /* initialize MPI */
@@ -121,6 +122,12 @@ int main(int argc, char* argv[])
     }
 
     wchar_t** _argv = wcharFromChar(argv, argc);
+    /* Create copy of _argv so we can properly free memory, because it may get modified by Py_Main(). */
+    wchar_t** _argvCopy = PyMem_New(wchar_t*, argc);
+    for (i=0; i < argc; ++i) {
+            _argvCopy[i] = _argv[i];
+    }
+
     if (!_argv) {
         fprintf(stderr, "%s: Decoding argv strings failed! Exiting...\n", argv[0]);
         return 1;
@@ -128,7 +135,8 @@ int main(int argc, char* argv[])
     
     if (argc < 3 || strcmp(argv[1], "--pythia-start") != 0) {
       status = Py_Main(argc, _argv);
-      freeWchar(_argv, argc);
+      freeWchar(_argvCopy, argc);
+      PyMem_Del(_argv);
       return status;
     }
     
@@ -141,7 +149,8 @@ int main(int argc, char* argv[])
     /* initialize sys.argv */
     PySys_SetArgv(argc - 1, _argv + 1);
 
-    freeWchar(_argv, argc);
+    freeWchar(_argvCopy, argc);
+    PyMem_Del(_argv);
     
     /* run the Python command */
     status = PyRun_SimpleString(COMMAND) != 0;
