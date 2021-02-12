@@ -23,7 +23,8 @@ noinst_PYTHON = \
 	pyre/PyreApp.py \
 	pyre/test_inventory.py \
 	pyre/test_schedulers.py \
-	pyre/test_units.py
+	pyre/test_units.py \
+	pyre/test_nemesis.py
 
 
 dist_noinst_DATA = \
