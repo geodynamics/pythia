@@ -76,6 +76,7 @@ class TestApp(object):
         import pyre.test_units
         import pyre.test_inventory
         import pyre.test_schedulers
+        import pyre.test_pyredoc
         import pyre.test_nemesis
         import journal.test_channels
         import journal.test_devices
@@ -86,6 +87,7 @@ class TestApp(object):
             pyre.test_units,
             pyre.test_inventory,
             pyre.test_schedulers,
+            pyre.test_pyredoc,
             pyre.test_nemesis,
             journal.test_channels,
             journal.test_devices,

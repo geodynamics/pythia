@@ -24,6 +24,7 @@ noinst_PYTHON = \
 	pyre/test_inventory.py \
 	pyre/test_schedulers.py \
 	pyre/test_units.py \
+	pyre/test_pyredoc.py \
 	pyre/test_nemesis.py
 
 
