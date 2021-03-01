@@ -19,7 +19,7 @@ import subprocess
 COLORCONSOLE_OUTPUT = \
 """No help available for module pythia.journal.components.ColorConsole.
 
-No help available for ColorConsole.
+No help available for class ColorConsole.
 facilities of 'console':
     renderer=<component name>: the facility that controls how the messages are formatted
         current value: 'renderer', from {default}
@@ -42,7 +42,7 @@ properties of 'console':
 SCHEDULERLSF_OUTPUT = \
 """No help available for module pythia.pyre.schedulers.SchedulerLSF.
 
-No help available for SchedulerLSF.
+No help available for class SchedulerLSF.
 facilities of 'lsf':
 properties of 'lsf':
     bsub-options=<list>: (no documentation available)
