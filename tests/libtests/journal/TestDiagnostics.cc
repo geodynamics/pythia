@@ -18,6 +18,7 @@ class pythia::journal::TestDiagnostics : public CppUnit::TestFixture {
     CPPUNIT_TEST(testWarning);
     CPPUNIT_TEST(testError);
     CPPUNIT_TEST(testFirewall);
+    CPPUNIT_TEST(testLocator);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,6 +34,8 @@ public:
     void testError(void);
 
     void testFirewall(void);
+
+    void testLocator(void);
 
 }; // TestDiagnostics
 
@@ -130,6 +133,17 @@ pythia::journal::TestDiagnostics::testFirewall(void) {
 
     firewall.activate();
     CPPUNIT_ASSERT_MESSAGE("Expected activated state.", firewall.state());
+}
+
+
+// ---------------------------------------------------------------------------------
+void
+pythia::journal::TestDiagnostics::testLocator(void) {
+    std::ostringstream msg;
+    msg << pythia::journal::at(__HERE__);
+    const std::string& here = msg.str();
+    CPPUNIT_ASSERT(here.find("TestDiagnostics.cc:") < here.length());
+    CPPUNIT_ASSERT(here.find(":143") < here.length());
 }
 
 

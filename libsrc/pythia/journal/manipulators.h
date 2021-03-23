@@ -99,6 +99,16 @@ inline pythia::journal::Diagnostic & operator<< (pythia::journal::Diagnostic & s
     return (*m._f)(s, m._file, m._line, m._function);
 }
 
+// Utility functions for getting location in C++
+
+inline std::ostream& operator<<(std::ostream& s, pythia::journal::loc2_t loc) {
+  return s << " >> " << loc._file << ":" << loc._line << ":<unknown>\n";
+}
+
+inline std::ostream& operator<<(std::ostream& s, pythia::journal::loc3_t loc) {
+    return s << " >> " << loc._file << ":" << loc._line << ":" << loc._function << "\n";
+}
+
 
 // forward declarations
 namespace pythia {
