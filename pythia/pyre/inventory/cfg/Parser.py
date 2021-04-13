@@ -12,15 +12,16 @@
 
 import itertools
 
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 import pythia.pyre.parsing.locators as locators
 from pythia.pyre.util import expandMacros
 
 
-class Parser(SafeConfigParser):
+class Parser(ConfigParser):
+    """Python's ConfigParser, hacked to provide file & line info, and extended to populate a Pyre Registry.
 
-    """Python's SafeConfigParser, hacked to provide file & line info,
-    and extended to populate a Pyre Registry."""
+    The dictionary is created for compatibility with ConfigParser. We use the Pyre Registry. 
+    """
 
     # This class goes to extreme lengths to extract file and line info
     # from Python's ConfigParser module.  It injects proxy 'file' and
@@ -53,6 +54,7 @@ class Parser(SafeConfigParser):
             self.node = node
             self.macros = macros
             self.fp = fp
+            self.locators = {}
 
         def __setitem__(self, trait, value):
             locator = locators.file(self.fp.name, self.fp.lineno)
@@ -60,12 +62,18 @@ class Parser(SafeConfigParser):
             key = path[-1]
             path = path[:-1]
             node = _getNode(self.node, path)
+
+            # In the initial pass, everything comes in as a list. We save the locator because when
+            # the lists are removed in the second pass, the locator will be at the end of the file.
+            # In the first pass we store the value in the dictionry using the trait and then get
+            # the correct node in the registry in the second pass.
             if isinstance(value, list):
                 assert(1 == len(value))
-                value = value[0]
-            value = expandMacros(value, self.macros)
-            node.setProperty(key, value, locator)
-            dict.__setitem__(self, key, value)
+                self.locators[trait] = locator
+                dict.__setitem__(self, trait, value)
+            else:
+                value = expandMacros(value, self.macros)
+                node.setProperty(key, value, self.locators[trait])
 
     class SectionDict(dict):
 
@@ -88,7 +96,8 @@ class Parser(SafeConfigParser):
             dict.__setitem__(self, key, value)
 
     def __init__(self, root, defaults=None, macros=None):
-        SafeConfigParser.__init__(self, defaults, empty_lines_in_values=False, strict=False)
+        ConfigParser.__init__(
+            self, defaults, empty_lines_in_values=False, strict=False)
         if macros is None:
             macros = dict()
         self._sections = Parser.SectionDict(root, macros)
@@ -97,7 +106,7 @@ class Parser(SafeConfigParser):
         self._sections.fp.fp = fp
         self._sections.fp.name = fpname
         self._sections.fp.lineno = 0
-        SafeConfigParser._read(self, self._sections.fp, fpname)
+        ConfigParser._read(self, self._sections.fp, fpname)
         self._sections.fp.__init__()
 
     def optionxform(self, optionstr):
@@ -110,8 +119,9 @@ class Parser(SafeConfigParser):
         for section, options in all_sections:
             for name, val in options.items():
                 if isinstance(val, list):
-                    raise ValueError("Multiline values in .cfg files are not currently supported.\n"
-                                     "pyre.inventory.cfg.Parser._join_multiline_values() must be reimplemented.")
+                    val = '\n'.join(val).rstrip()
+                options[name] = self._interpolation.before_read(
+                    self, section, name, val)
 
 
 def _getNode(node, path):

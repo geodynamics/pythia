@@ -58,7 +58,7 @@ class Stationery(object):
     def separator(self):
         options = self._options
         banner = options.bannerCharacter
-        cycles = options.bannerWidth / len(banner)
+        cycles = options.bannerWidth // len(banner)
         separator = ' ' + banner * cycles
         return separator
 
