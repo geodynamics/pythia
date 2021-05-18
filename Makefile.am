@@ -14,7 +14,23 @@ if ENABLE_TESTING
 endif
 
 EXTRA_DIST = \
-	CHANGES
+	AUTHORS \
+	COPYING \
+	NEWS \
+	README.md \
+	CHANGES.md \
+	setup.py \
+	setup.cfg \
+	configure.ac \
+	docker/builder.py \
+	docker/debian-stable \
+	docker/debian-testing \
+	docker/ubuntu-18.04 \
+	docker/ubuntu-20.04 \
+	docker/ubuntu-21.04 \
+	docker/fedora-33 \
+	docker/fedora-34 \
+	docker/centos-8
 
 
 install-exec-local:
