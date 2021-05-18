@@ -1,0 +1,39 @@
+FROM ubuntu:21.04 as os-update
+MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
+      g++ \
+      make \
+      file \
+      automake \
+      autoconf \
+      libtool \
+      curl \
+      python3-dev \
+      libpython3.9 \
+      python3-pip \
+      python3-setuptools \
+      python3-coverage \
+      zlib1g-dev \
+      unzip \
+      git \
+      ca-certificates \
+      libcppunit-dev \
+      libmpich-dev \
+      mpich \
+      lcov \
+      gdb \
+      valgrind \
+      vim-common \
+      vim-runtime \
+      vim-nox
+
+COPY docker/certs/ /usr/local/share/ca-certificates
+RUN update-ca-certificates
+
+
+ENV PYTHON_VERSION 3.9
+
+
+CMD /bin/bash
