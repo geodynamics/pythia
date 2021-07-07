@@ -1,0 +1,22 @@
+# Docker
+
+trigger:
+  - main
+
+pool:
+  vmImage: "ubuntu-20.04"
+
+steps:
+  - checkout: self
+    submodules: "true"
+  - task: Docker@2
+    displayName: Build
+    inputs:
+      command: "build"
+      Dockerfile: "docker/pythia-testenv"
+      buildContext: $(Build.SourcesDirectory)
+      arguments: "-t pythia-testenv --build-arg BASE_IMAGE=registry.gitlab.com/cig-pylith/pylith_installer/testenv-debian-stable --target build"
+      addPipelineData: false
+      addBaseImageData: false
+  - script: docker run pythia-testenv ci-config/run_tests.sh
+    displayName: Test

@@ -30,7 +30,9 @@ EXTRA_DIST = \
 	docker/ubuntu-21.04 \
 	docker/fedora-33 \
 	docker/fedora-34 \
-	docker/centos-8
+	docker/centos-8 \
+	ci-config/run_tests.sh \
+	ci-config/codecov.yml
 
 
 install-exec-local:
