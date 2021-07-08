@@ -1,10 +1,8 @@
 # Pythia
 
 [![BSD License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/geodynamics/pythia/blob/master/COPYING)
-
-
-## Build status
-* Master: [![Build Status](https://travis-ci.org/geodynamics/pythia.svg?branch=master)](https://travis-ci.org/geodynamics/pythia)
+[![Build Status](https://dev.azure.com/baagaard-usgs/pylith/_apis/build/status/geodynamics.pythia?branchName=main)](https://dev.azure.com/baagaard-usgs/pylith/_build/latest?definitionId=3&branchName=main)
+[![codecov](https://codecov.io/gh/geodynamics/pythia/branch/main/graph/badge.svg?token=BrMjs88Evs)](https://codecov.io/gh/geodynamics/pythia)
 
 ## Description
 
