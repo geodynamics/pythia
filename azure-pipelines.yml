@@ -50,6 +50,8 @@ stages:
               BASE_IMAGE: "testenv-fedora-34"
             centos_8:
               BASE_IMAGE: "testenv-centos-8"
+            centos_7:
+              BASE_IMAGE: "testenv-centos-7"
         steps:
           - checkout: self
             submodules: "true"
