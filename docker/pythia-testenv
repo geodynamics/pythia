@@ -9,31 +9,14 @@ ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE}
 
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
-USER root
-
-# Create 'pythia-tester' user
-ENV TEST_USER pythia-tester
-RUN useradd --create-home --shell /bin/bash $TEST_USER
-ENV  INSTALL_DIR=/opt/pythia  HOME=/home/$TEST_USER
-ENV  TOPSRC_DIR=$HOME/src  TOPBUILD_DIR=$HOME/build
-
-RUN mkdir ${INSTALL_DIR} \
-  && chown ${TEST_USER} ${INSTALL_DIR} \
-  && chgrp ${TEST_USER} ${INSTALL_DIR}
-ENV PATH $PATH:$INSTALL_DIR/bin
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$INSTALL_DIR/lib
-ENV PYTHONPATH ${PYTHONPATH}:${INSTALL_DIR}/lib/python${PYTHON_VERSION}/site-packages:${INSTALL_DIR}/lib64/python${PYTHON_VERSION}/site-packages
-
-USER $TEST_USER
-RUN mkdir -p ${INSTALL_DIR}/lib/python${PYTHON_VERSION}/site-packages && mkdir -p ${INSTALL_DIR}/lib64/python${PYTHON_VERSION}/site-packages
-
+USER ${TEST_USER}
 
 # ------------------------------------------------------------------------------
 from setup as configure
 
 ENV  src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
 RUN mkdir -p ${src_dir} && mkdir -p ${build_dir}
-COPY --chown=pythia-tester:pythia-tester . ${src_dir}
+COPY --chown=pylith-tester:pylith-tester . ${src_dir}
 
 WORKDIR ${src_dir}
 RUN autoreconf --install --verbose
