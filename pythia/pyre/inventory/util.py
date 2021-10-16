@@ -87,7 +87,7 @@ def locatorRepr(locator):
 
 def getLocatorContext(dct):
     for className in ['FileLocator', 'ScriptLocator', 'SimpleFileLocator', 'SimpleLocator']:
-        m = __import__('pyre.parsing.locators.' + className, globals(), locals(), [className])
+        m = __import__('pythia.pyre.parsing.locators.' + className, globals(), locals(), [className])
         dct[className] = getattr(m, className)
     return
 
