@@ -16,6 +16,8 @@ stages:
       - job: debian_stable
         variables:
           BASE_IMAGE: "testenv-debian-stable"
+          TEST_COVERAGE: "yes"
+          PYTHON_COVERAGE: "coverage3"
         steps:
           - checkout: self
             submodules: "true"
@@ -25,11 +27,13 @@ stages:
               command: "build"
               Dockerfile: "docker/pythia-testenv"
               buildContext: $(Build.SourcesDirectory)
-              arguments: "-t pythia-testenv --build-arg BASE_IMAGE=$(IMAGE_REGISTRY)/$(BASE_IMAGE) --target build"
+              arguments: "-t pythia-testenv --build-arg BASE_IMAGE=$(IMAGE_REGISTRY)/$(BASE_IMAGE) --build-arg TEST_COVERAGE=$(TEST_COVERAGE) --build-arg PYTHON_COVERAGE=$(PYTHON_COVERAGE) --target build"
               addPipelineData: false
               addBaseImageData: false
-          - script: docker run pythia-testenv ci-config/run_tests.sh
+          - script: ci_env=`bash <(curl -s https://codecov.io/env)`; docker run $ci_env -e CI=true pythia-testenv ci-config/run_tests.sh
             displayName: Test
+            env:
+                CODECOV_TOKEN: $(codecovToken)
   - stage: other_platforms
     displayName: "Other Builds"
     jobs:
