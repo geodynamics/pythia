@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# WARNING: This script downlaods the CodeCov uploader for Linux.
+# WARNING: If test coverage is enabled, this script downlaods the
+# CodeCov uploader for Linux.
 #
 # Run tests to generate coverage information. Upload test coverage data.
 # Must run codeocov script in top-level source directory.
@@ -16,16 +17,18 @@ if [ $? != 0 ]; then exit 1; fi
 make coverage-libtests
 if [ $? != 0 ]; then exit 1; fi
 
-curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
-curl -Os https://uploader.codecov.io/latest/linux/codecov
-curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
-curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
-gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
-shasum -a 256 -c codecov.SHA256SUM
-chmod +x codecov
-
 if [ -r coverage-libtests.info ]; then
-  pushd ${SRC_DIR} && \
+    curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+    curl -Os https://uploader.codecov.io/latest/linux/codecov
+    curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+    curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+    gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+    if [ $? != 0 ]; then exit 1; fi
+    shasum -a 256 -c codecov.SHA256SUM
+    if [ $? != 0 ]; then exit 1; fi
+    chmod +x codecov
+
+    pushd ${SRC_DIR} && \
       ${BUILD_DIR}/codecov -C ${BUILD_SOURCEVERSION} -r geodynamics/pythia -f ${BUILD_DIR}/coverage-libtests.info -F libtests -y ci-config/codecov.yml \
 	  || echo "Codecov did not collect coverage reports." && \
       popd
