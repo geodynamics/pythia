@@ -13,6 +13,7 @@
 
 
 from pythia.pyre.parsing.locators.Traceable import Traceable
+from pythia.pyre.util.help import Ascii
 
 from .ConfigurableClass import ConfigurableClass
 
@@ -202,46 +203,42 @@ class Configurable(Traceable, metaclass=ConfigurableClass):
 
     # support for the help facility
 
-    def showProperties(self):
+    def showProperties(self, formatter=Ascii, omitHelp=False):
         """print a report describing my properties"""
         facilityNames = self.inventory.facilityNames()
         propertyNames = sorted(self.inventory.propertyNames())
 
-        print("properties of %r:" % self.name)
+        propertiesHelp = []
         for name in propertyNames:
             if name in facilityNames:
+                continue
+            if omitHelp and name.startswith("help"):
                 continue
 
             # get the trait object
             trait = self.inventory.getTrait(name)
             # get the common trait attributes
-            traitType = trait.type
-            default = trait.default
-            meta = trait.meta
-            validator = trait.validator
             try:
-                tip = meta['tip']
+                tip = trait.meta['tip']
             except KeyError:
                 tip = '(no documentation available)'
 
             # get the trait descriptor from the instance
             descriptor = self.inventory.getTraitDescriptor(name)
-            # extract the instance specific values
-            value = descriptor.value
-            locator = descriptor.locator
 
-            print("    %s=<%s>: %s" % (name, traitType, tip))
-            print("        default value: %r" % default)
-            print("        current value: %r, from %s" % (value, locator))
-            if validator:
-                print("        validator: %s" % validator)
+            info = {
+                "name": name,
+                "doc": tip,
+                "trait": trait,
+                "descriptor": descriptor
+                }
+            propertiesHelp.append(info)
+        formatter.formatProperties(self.name, propertiesHelp)
 
-        return
-
-    def showComponents(self):
+    def showComponents(self, formatter=Ascii):
         facilityNames = sorted(self.inventory.facilityNames())
 
-        print("facilities of %r:" % self.name)
+        facilitiesHelp = []
         for name in facilityNames:
 
             # get the facility object
@@ -254,15 +251,14 @@ class Configurable(Traceable, metaclass=ConfigurableClass):
 
             # get the trait descriptor from the instance
             descriptor = self.inventory.getTraitDescriptor(name)
-            # extract the instance specific values
-            value = descriptor.value
-            locator = descriptor.locator
 
-            print("    %s=<component name>: %s" % (name, tip))
-            print("        current value: %r, from %s" % (value.name, locator))
-            print("        configurable as: %s" % ", ".join(value.aliases))
-
-        return
+            info = {
+                "name": name,
+                "doc": tip,
+                "descriptor": descriptor
+                }
+            facilitiesHelp.append(info)
+        formatter.formatComponents(self.name, facilitiesHelp)
 
     def showUsage(self):
         """print a high level usage screen"""

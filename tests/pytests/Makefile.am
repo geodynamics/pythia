@@ -8,7 +8,6 @@ endif
 dist_check_SCRIPTS = test_pythia.py test_mpi.py
 
 noinst_PYTHON = \
-	__init__.py \
 	journal/__init__.py \
 	journal/test_channels.py \
 	journal/test_devices.py \
