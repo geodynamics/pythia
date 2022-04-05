@@ -1,8 +1,11 @@
+ARG BUILD_ENV=nocerts
 FROM debian:stable as os-update
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
+ENV BUILD_ENV=${BUILD_ENV}
+
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
       g++ \
       make \
       file \
@@ -11,10 +14,9 @@ RUN apt-get update \
       libtool \
       curl \
       python3-dev \
-      libpython3.7 \
+      libpython3.9 \
       python3-pip \
       python3-setuptools \
-      python3-coverage \
       zlib1g-dev \
       unzip \
       git \
@@ -22,6 +24,9 @@ RUN apt-get update \
       libcppunit-dev \
       libmpich-dev \
       mpich \
+      openssl \
+      libssl1.1 \
+      libssl-dev \
       lcov \
       gdb \
       valgrind \
@@ -29,11 +34,34 @@ RUN apt-get update \
       vim-runtime \
       vim-nox
 
-COPY docker/certs/ /usr/local/share/ca-certificates
-RUN update-ca-certificates
+# ------------------------------------------------------------------------------
+from os-update as build-certs-doi
 
+ONBUILD COPY docker/certs/ /usr/local/share/ca-certificates
+ONBUILD RUN update-ca-certificates
+ONBUILD ENV CERT_PATH=/etc/ssl/certs CERT_FILE=DOIRootCA2.pem
 
-ENV PYTHON_VERSION 3.7
+from os-update as build-nocerts
+ONBUILD ENV CERT_PATH=no  CERT_FILE=no
+
+# ------------------------------------------------------------------------------
+from build-${BUILD_ENV} as build-deps
+
+ENV TEST_USER=pylith-tester \
+    INSTALL_DIR=/opt/pylith \
+    PYTHON_VERSION=3.9
+
+# Create 'pylith-tester' user
+RUN useradd --create-home --shell /bin/bash $TEST_USER
+ENV  HOME=/home/$TEST_USER
+ENV  TOPSRC_DIR=${HOME}/src \
+     TOPBUILD_DIR=${HOME}/build \
+     PATH=${INSTALL_DIR}/bin:$PATH \
+     LD_LIBRARY_PATH=${INSTALL_DIR}/lib:${LD_LIBRARY_PATH} \
+     PYTHONPATH=${INSTALL_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PYTHONPATH}
+RUN mkdir ${INSTALL_DIR} \
+  && chown ${TEST_USER} ${INSTALL_DIR} \
+  && chgrp ${TEST_USER} ${INSTALL_DIR}
 
 
 CMD /bin/bash

@@ -1,45 +1,52 @@
 ARG BUILD_ENV=nocerts
-FROM ubuntu:20.04 as os-update
+FROM fedora:35 as os-update
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
 ENV BUILD_ENV=${BUILD_ENV}
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
-      g++ \
-      make \
-      file \
-      automake \
-      autoconf \
-      libtool \
-      curl \
-      python3-dev \
-      libpython3.8 \
-      python3-pip \
-      python3-setuptools \
-      zlib1g-dev \
-      unzip \
-      git \
-      ca-certificates \
-      libcppunit-dev \
-      libmpich-dev \
-      mpich \
-      openssl \
-      libssl1.1 \
-      libssl-dev \
-      lcov \
-      gdb \
-      valgrind \
-      vim-common \
-      vim-runtime \
-      vim-nox
+RUN dnf install -y \
+    gcc \
+    gcc-c++ \
+    make \
+    file \
+    diffutils \
+    automake \
+    autoconf \
+    libtool \
+    curl \
+    openssh \
+    python3 \
+    python3-devel \
+    python3-pip \
+    python3-setuptools \
+    python3-coverage \
+    zlib \
+    zlib-devel \
+    openssl \
+    openssl-libs \
+    unzip \
+    git \
+    ca-certificates \
+    cppunit \
+    cppunit-devel \
+    mpich \
+    mpich-devel \
+    hdf5-mpich \
+    hdf5-mpich-devel \
+    lcov \
+    gdb \
+    valgrind \
+    vim \
+    vim-common
+
+ENV PATH $PATH:/usr/lib64/mpich/bin
 
 # ------------------------------------------------------------------------------
 from os-update as build-certs-doi
 
-ONBUILD COPY docker/certs/ /usr/local/share/ca-certificates
-ONBUILD RUN update-ca-certificates
-ONBUILD ENV CERT_PATH=/etc/ssl/certs CERT_FILE=DOIRootCA2.pem
+ONBUILD COPY docker/certs/ /usr/share/pki/ca-trust-source/anchors
+ONBUILD RUN update-ca-trust enable
+ONBUILD ENV CERT_PATH=/etc/ssl/certs CERT_FILE=ca-bundle.crt 
 
 from os-update as build-nocerts
 ONBUILD ENV CERT_PATH=no  CERT_FILE=no
@@ -49,7 +56,7 @@ from build-${BUILD_ENV} as build-deps
 
 ENV TEST_USER=pylith-tester \
     INSTALL_DIR=/opt/pylith \
-    PYTHON_VERSION=3.8
+    PYTHON_VERSION=3.10
 
 # Create 'pylith-tester' user
 RUN useradd --create-home --shell /bin/bash $TEST_USER

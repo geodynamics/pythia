@@ -1,5 +1,5 @@
 ARG BUILD_ENV=nocerts
-FROM ubuntu:20.04 as os-update
+FROM ubuntu:22.04 as os-update
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
 ENV BUILD_ENV=${BUILD_ENV}
@@ -14,7 +14,7 @@ RUN apt-get update \
       libtool \
       curl \
       python3-dev \
-      libpython3.8 \
+      libpython3.10 \
       python3-pip \
       python3-setuptools \
       zlib1g-dev \
@@ -22,10 +22,12 @@ RUN apt-get update \
       git \
       ca-certificates \
       libcppunit-dev \
-      libmpich-dev \
-      mpich \
+      libopenmpi3 \
+      libopenmpi-dev \
+      openmpi-bin \
+      openmpi-common \
       openssl \
-      libssl1.1 \
+      libssl3 \
       libssl-dev \
       lcov \
       gdb \
@@ -49,7 +51,7 @@ from build-${BUILD_ENV} as build-deps
 
 ENV TEST_USER=pylith-tester \
     INSTALL_DIR=/opt/pylith \
-    PYTHON_VERSION=3.8
+    PYTHON_VERSION=3.10
 
 # Create 'pylith-tester' user
 RUN useradd --create-home --shell /bin/bash $TEST_USER

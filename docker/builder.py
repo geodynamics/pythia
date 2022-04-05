@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # ----------------------------------------------------------------------
 #
@@ -36,7 +36,7 @@ class DockerApp(object):
         self.initialize(args)
 
         if args.build:
-            self.build()
+            self.build(args.build_env)
 
         if args.push:
             self.push()
@@ -45,13 +45,18 @@ class DockerApp(object):
         """Initialize builder.
         """
         self.docker_filename = args.dockerfile
-        self.tag = "-".join([args.prefix, os.path.split(args.dockerfile)[-1]])
-        return
+        if not args.prefix.endswith("/"):
+            self.tag = "-".join([args.prefix, os.path.split(args.dockerfile)[-1]])
+        else:
+            self.tag = args.prefix + os.path.split(args.dockerfile)[-1]
 
-    def build(self):
+    def build(self, build_env):
         """Build docker image.
         """
-        cmd = "docker build -t {tag} -f {dockerfile} .".format(tag=self.tag, dockerfile=self.docker_filename)
+        if build_env:
+            cmd = f"docker build -t {self.tag} -f {self.docker_filename} --build-arg BUILD_ENV={build_env} ."
+        else:
+            cmd = f"docker build -t {self.tag} -f {self.docker_filename} ."
         self._run_cmd(cmd)
 
     def push(self):
@@ -70,6 +75,7 @@ class DockerApp(object):
         parser.add_argument("--prefix", action="store", dest="prefix", default="registry.gitlab.com/cig-pylith/pythia/testenv")
         parser.add_argument("--build", action="store_true", dest="build")
         parser.add_argument("--push", action="store_true", dest="push")
+        parser.add_argument("--build-env", action="store", dest="build_env", default=None)
         return parser.parse_args()
 
     @staticmethod

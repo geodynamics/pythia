@@ -1,5 +1,9 @@
+ARG BUILD_ENV=nocerts
 FROM ubuntu:18.04 as os-update
-MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
+
+ENV BUILD_ENV=${BUILD_ENV}
+
 
 RUN apt-get update \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
@@ -10,12 +14,14 @@ RUN apt-get update \
       autoconf \
       libtool \
       curl \
+      libcurl4 \
+      libcurl4-openssl-dev \
+      openssl \
+      libssl1.1 \
+      libssl-dev \
+      libffi6 \
+      libffi-dev \
       ssh \
-      python3-dev \
-      libpython3.6 \
-      python3-pip \
-      python3-setuptools \
-      python3-coverage \
       zlib1g-dev \
       unzip \
       git \
@@ -26,6 +32,9 @@ RUN apt-get update \
       libopenmpi2 \
       openmpi-bin \
       openmpi-common \
+      sqlite3 \
+      libsqlite3-0 \
+      libsqlite3-dev \
       lcov \
       gdb \
       valgrind \
@@ -33,11 +42,34 @@ RUN apt-get update \
       vim-runtime \
       vim-nox
 
-COPY docker/certs/ /usr/local/share/ca-certificates
-RUN update-ca-certificates
+# ------------------------------------------------------------------------------
+from os-update as build-certs-doi
 
+ONBUILD COPY docker/certs/ /usr/local/share/ca-certificates
+ONBUILD RUN update-ca-certificates
+ONBUILD ENV CERT_PATH=/etc/ssl/certs CERT_FILE=DOIRootCA2.pem
 
-ENV PYTHON_VERSION 3.6
+from os-update as build-nocerts
+ONBUILD ENV CERT_PATH=no  CERT_FILE=no
+
+# ------------------------------------------------------------------------------
+from build-${BUILD_ENV} as build-deps
+
+ENV TEST_USER=pylith-tester \
+    INSTALL_DIR=/opt/pylith \
+    PYTHON_VERSION=3.6
+
+# Create 'pylith-tester' user
+RUN useradd --create-home --shell /bin/bash $TEST_USER
+ENV  HOME=/home/$TEST_USER
+ENV  TOPSRC_DIR=${HOME}/src \
+     TOPBUILD_DIR=${HOME}/build \
+     PATH=${INSTALL_DIR}/bin:$PATH \
+     LD_LIBRARY_PATH=${INSTALL_DIR}/lib:${LD_LIBRARY_PATH} \
+     PYTHONPATH=${INSTALL_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PYTHONPATH}
+RUN mkdir ${INSTALL_DIR} \
+  && chown ${TEST_USER} ${INSTALL_DIR} \
+  && chgrp ${TEST_USER} ${INSTALL_DIR}
 
 
 CMD /bin/bash
