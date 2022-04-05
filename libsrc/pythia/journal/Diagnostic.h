@@ -14,7 +14,7 @@
 #if !defined(pythia_journal_Diagnostic_h)
 #define pythia_journal_Diagnostic_h
 
-
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 
@@ -63,18 +63,18 @@ public:
     }
     void newline() {
         string_t message = str();
-        PyObject *ret = PyObject_CallMethod(_self, (char *)"line", (char *)"s#", message.c_str(), message.size());
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"line", (char *)"s#", message.c_str(), (Py_ssize_t)message.size());
         if (ret) { Py_DECREF(ret); } else { _error(); }
         _buffer.str(string_t());
     }
     void attribute(string_t key, string_t value) {
         PyObject *ret = PyObject_CallMethod(_self, (char *)"attribute", (char *)"s#s#",
-                                            key.c_str(), key.size(),
-                                            value.c_str(), value.size());
+                                            key.c_str(), (Py_ssize_t)key.size(),
+                                            value.c_str(), (Py_ssize_t)value.size());
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
     void attribute(string_t key, long value) {
-        PyObject *ret = PyObject_CallMethod(_self, (char *)"attribute", (char *)"s#l", key.c_str(), key.size(), value);
+        PyObject *ret = PyObject_CallMethod(_self, (char *)"attribute", (char *)"s#l", key.c_str(), (Py_ssize_t)key.size(), value);
         if (ret) { Py_DECREF(ret); } else { _error(); }
     }
 
@@ -102,7 +102,7 @@ private:
     }
     static PyObject *_getDiagnostic(string_t facility, string_t severity) {
         PyObject *factory = PyObject_GetAttrString(_journal(), (char *)severity.c_str()); if (!factory) { _error(); }
-        PyObject *diag = PyObject_CallFunction(factory, (char *)"s#", facility.c_str(), facility.size()); if (!diag) { _error(); }
+        PyObject *diag = PyObject_CallFunction(factory, (char *)"s#", facility.c_str(), (Py_ssize_t)facility.size()); if (!diag) { _error(); }
         Py_DECREF(factory);
         return diag;
     }

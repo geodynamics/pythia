@@ -4385,9 +4385,9 @@ static void __pyx_tp_dealloc_3mpi_4_mpi_MPI_Comm(PyObject *o) {
   {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
-    ++Py_REFCNT(o);
+    /*++Py_REFCNT(o);*/
     __pyx_pw_3mpi_4_mpi_8MPI_Comm_3__dealloc__(o);
-    --Py_REFCNT(o);
+    /*--Py_REFCNT(o);*/
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
@@ -4488,9 +4488,9 @@ static void __pyx_tp_dealloc_3mpi_4_mpi_MPI_Group(PyObject *o) {
   {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
-    ++Py_REFCNT(o);
+    /*++Py_REFCNT(o);*/
     __pyx_pw_3mpi_4_mpi_9MPI_Group_3__dealloc__(o);
-    --Py_REFCNT(o);
+    /*--Py_REFCNT(o);*/
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
