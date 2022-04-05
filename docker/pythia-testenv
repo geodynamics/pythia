@@ -14,12 +14,12 @@ USER ${TEST_USER}
 # ------------------------------------------------------------------------------
 from setup as configure
 
-ENV  src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
-RUN mkdir -p ${src_dir} && mkdir -p ${build_dir}
+ENV src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
 COPY --chown=pylith-tester:pylith-tester . ${src_dir}
 
 WORKDIR ${src_dir}
-RUN autoreconf --install --verbose
+RUN autoreconf --install --verbose && \
+    mkdir -p ${build_dir}
 
 WORKDIR ${build_dir}
 RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  LDFLAGS="--coverage" CXXFLAGS="-g -O --coverage"
