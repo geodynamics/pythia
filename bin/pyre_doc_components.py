@@ -100,9 +100,10 @@ class App():
         if isinstance(cls_obj, Component) and not isinstance(cls_obj, Application):
             file_dir = pathlib.Path(filename).parents[0]
             file_dir.mkdir(parents=True, exist_ok=True)
-            if not file_dir.name in self.toc:
-                self.toc[file_dir.name] = []
-            self.toc[file_dir.name].append(cls_name)
+            key = "/".join(file_dir.parts)
+            if not key in self.toc:
+                self.toc[key] = []
+            self.toc[key].append(cls_name)
             with open(filename, "w") as mfile:
                 self._write_markdown(mfile, cls_obj, cls_name, self.mod.__name__)
                 
