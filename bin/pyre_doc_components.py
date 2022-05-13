@@ -132,7 +132,9 @@ class App():
 
         mfile.write(f"# {cls_name}\n\n")
         mfile.write("% WARNING: Do not edit; this is a generated file!\n")
-        mfile.write(f"Full name: `{full_name}`\n\n")
+        mfile.write(f":Full name: `{full_name}`\n")
+        mfile.write(f":Journal name: `{cls_obj.name}`\n\n")
+            
         if cls_obj.__doc__:
             mfile.write(dedent(cls_obj.__doc__))
             mfile.write("\n")
