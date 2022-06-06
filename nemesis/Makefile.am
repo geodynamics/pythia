@@ -11,4 +11,12 @@ nemesis_SOURCES = nemesis.c
 mpinemesis_SOURCES = nemesis.c
 mpinemesis_CFLAGS = -DUSE_MPI
 
+EXTRA_DIST = \
+    _mpi.c \
+    _mpi.pxd \
+    _mpi.pyx \
+    cmpi.pxd \
+    mpi.pxd \
+    pympi.h
+
 # End of file

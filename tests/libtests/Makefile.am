@@ -16,4 +16,7 @@ testpythia_LDADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
+EXTRA_DIST = \
+	TestDriver.hh
+
 # End of file
