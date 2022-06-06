@@ -27,10 +27,13 @@ EXTRA_DIST = \
 	docker/debian-testing \
 	docker/ubuntu-18.04 \
 	docker/ubuntu-20.04 \
-	docker/ubuntu-21.04 \
-	docker/fedora-33 \
+	docker/ubuntu-22.04 \
 	docker/fedora-34 \
-	docker/centos-8 \
+	docker/fedora-35 \
+	docker/fedora-36 \
+	docker/rockylinux-8 \
+	docker/pythia-testenv \
+	developer/uncrustify.cfg \
 	ci-config/run_tests.sh \
 	ci-config/codecov.yml
 
