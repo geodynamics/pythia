@@ -2,7 +2,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = \
 	bin \
-	libsrc 
+	libsrc \
+	pythia
 
 if ENABLE_MPI
   SUBDIRS += nemesis
@@ -36,10 +37,6 @@ EXTRA_DIST = \
 	developer/uncrustify.cfg \
 	ci-config/run_tests.sh \
 	ci-config/codecov.yml
-
-
-install-exec-local:
-	$(PYTHON) -m pip install $(top_srcdir)
 
 
 .PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage

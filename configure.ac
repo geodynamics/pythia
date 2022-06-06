@@ -92,6 +92,7 @@ AC_CONFIG_FILES([
   bin/Makefile
   libsrc/Makefile
   libsrc/pythia/Makefile
+  pythia/Makefile
   tests/Makefile
   tests/pytests/Makefile
   tests/libtests/Makefile
