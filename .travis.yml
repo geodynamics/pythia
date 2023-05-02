@@ -47,7 +47,7 @@ git:
 
 
 install:
-  - docker build -t pythia-testenv --build-arg BASE_IMAGE=registry.gitlab.com/cig-pylith/pythia/$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
+  - docker build -t pythia-testenv --build-arg BASE_IMAGE=registry.gitlab.com/cig-pylith/pylith_installer/$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/pythia-testenv .
 
 
 script: 
