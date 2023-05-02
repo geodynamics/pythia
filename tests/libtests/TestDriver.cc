@@ -96,7 +96,7 @@ nemesis::TestDriver::_parseArgs(int argc,
 
     while (true) {
         // extern char* optarg;
-        const char c = getopt_long(argc, argv, "hlm:", options, NULL);
+        const int c = getopt_long(argc, argv, "hlm:", options, NULL);
         if (-1 == c) { break; }
         switch (c) {
         case 'h':
