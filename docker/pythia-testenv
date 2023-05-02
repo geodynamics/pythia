@@ -22,7 +22,7 @@ RUN autoreconf --install --verbose && \
     mkdir -p ${build_dir}
 
 WORKDIR ${build_dir}
-RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  LDFLAGS="--coverage" CXXFLAGS="-g -O --coverage"
+RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  CPPFLAGS=-I${INSTALL_DIR}/include LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 
 # ------------------------------------------------------------------------------
 from configure as build
