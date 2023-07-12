@@ -1,149 +1,165 @@
-#include <cppunit/extensions/HelperMacros.h>
+#include "catch2/catch_test_macros.hpp"
+
 
 #include "pythia/journal/diagnostics.h" // USES journal diagnostics
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace pythia {
     namespace journal {
         class TestDiagnostics;
     } // journal
 } // pythia
 
-class pythia::journal::TestDiagnostics : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestDiagnostics);
-
-    CPPUNIT_TEST(testInfo);
-    CPPUNIT_TEST(testDebug);
-    CPPUNIT_TEST(testWarning);
-    CPPUNIT_TEST(testError);
-    CPPUNIT_TEST(testFirewall);
-    CPPUNIT_TEST(testLocator);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class pythia::journal::TestDiagnostics {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
+    static
     void testInfo(void);
 
+    static
     void testDebug(void);
 
+    static
     void testWarning(void);
 
+    static
     void testError(void);
 
+    static
     void testFirewall(void);
 
+    static
     void testLocator(void);
 
 }; // TestDiagnostics
 
-CPPUNIT_TEST_SUITE_REGISTRATION(pythia::journal::TestDiagnostics);
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestDiagnostics::testInfo", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testInfo();
+}
+TEST_CASE("TestDiagnostics::testDebug", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testDebug();
+}
+TEST_CASE("TestDiagnostics::testWarning", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testWarning();
+}
+TEST_CASE("TestDiagnostics::testError", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testError();
+}
+TEST_CASE("TestDiagnostics::testFirewall", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testFirewall();
+}
+TEST_CASE("TestDiagnostics::testLocator", "[TestDiagnostics]") {
+    pythia::journal::TestDiagnostics::testLocator();
+}
+
+// ------------------------------------------------------------------------------------------------
+
+
 void
 pythia::journal::TestDiagnostics::testInfo(void) {
     pythia::journal::info_t info("my_info");
 
-    CPPUNIT_ASSERT_MESSAGE("Expected false default state.", !info.state());
+    CHECK(!info.state());
 
     info.activate();
-    CPPUNIT_ASSERT_MESSAGE("Expected activated state.", info.state());
+    CHECK(info.state());
     info << journal::at(__HERE__)
          << "Info output" << journal::endl;
 
     info.deactivate();
-    CPPUNIT_ASSERT_MESSAGE("Expected deactivated state.", !info.state());
+    CHECK(!info.state());
     info << journal::at(__HERE__)
          << "No info output" << journal::endl;
 }
 
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 void
 pythia::journal::TestDiagnostics::testDebug(void) {
     pythia::journal::debug_t debug("my_debug");
 
-    CPPUNIT_ASSERT_MESSAGE("Expected false default state.", !debug.state());
+    CHECK(!debug.state());
 
     debug.activate();
-    CPPUNIT_ASSERT_MESSAGE("Expected activated state.", debug.state());
+    CHECK(debug.state());
     debug << journal::at(__HERE__)
           << "Debug output" << journal::endl;
 
     debug.deactivate();
-    CPPUNIT_ASSERT_MESSAGE("Expected deactivated state.", !debug.state());
+    CHECK(!debug.state());
     debug << journal::at(__HERE__)
           << "No debug output" << journal::endl;
 }
 
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 void
 pythia::journal::TestDiagnostics::testWarning(void) {
     pythia::journal::warning_t warning("my_warning");
 
-    CPPUNIT_ASSERT_MESSAGE("Expected true default state.", warning.state());
+    CHECK(warning.state());
 
     warning << journal::at(__HERE__)
             << "Warning output" << journal::endl;
 
     warning.deactivate();
-    CPPUNIT_ASSERT_MESSAGE("Expected deactivated state.", !warning.state());
+    CHECK(!warning.state());
     warning << journal::at(__HERE__)
             << "No warning output" << journal::endl;
 
     warning.activate();
-    CPPUNIT_ASSERT_MESSAGE("Expected activated state.", warning.state());
+    CHECK(warning.state());
 }
 
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 void
 pythia::journal::TestDiagnostics::testError(void) {
     pythia::journal::error_t error("my_error");
 
-    CPPUNIT_ASSERT_MESSAGE("Expected true default state.", error.state());
+    CHECK(error.state());
 
     error << journal::at(__HERE__)
           << "Error output" << journal::endl;
 
     error.deactivate();
-    CPPUNIT_ASSERT_MESSAGE("Expected deactivated state.", !error.state());
+    CHECK(!error.state());
     error << journal::at(__HERE__)
           << "No error output" << journal::endl;
 
     error.activate();
-    CPPUNIT_ASSERT_MESSAGE("Expected activated state.", error.state());
+    CHECK(error.state());
 }
 
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 void
 pythia::journal::TestDiagnostics::testFirewall(void) {
     pythia::journal::firewall_t firewall("my_firewall");
 
-    CPPUNIT_ASSERT_MESSAGE("Expected true default state.", firewall.state());
+    CHECK(firewall.state());
 
     firewall.deactivate();
-    CPPUNIT_ASSERT_MESSAGE("Expected deactivated state.", !firewall.state());
+    CHECK(!firewall.state());
     firewall << journal::at(__HERE__)
              << "No firewall output" << journal::endl;
 
     firewall.activate();
-    CPPUNIT_ASSERT_MESSAGE("Expected activated state.", firewall.state());
+    CHECK(firewall.state());
 }
 
 
-// ---------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 void
 pythia::journal::TestDiagnostics::testLocator(void) {
     std::ostringstream msg;
     msg << pythia::journal::at(__HERE__);
     const std::string& here = msg.str();
-    CPPUNIT_ASSERT(here.find("TestDiagnostics.cc:") < here.length());
-    CPPUNIT_ASSERT(here.find(":143") < here.length());
+    CHECK(here.find("TestDiagnostics.cc:") < here.length());
+    CHECK(here.find(":159") < here.length());
 }
 
 

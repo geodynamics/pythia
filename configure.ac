@@ -52,8 +52,8 @@ fi
 
 dnl CHECK FOR C++ compiler
 if test "$enable_testing" = "yes"; then
-dnl Require C++-11
-AX_CXX_COMPILE_STDCXX(11)
+dnl Require C++-14
+AX_CXX_COMPILE_STDCXX(14)
 fi
 
 AC_PROG_INSTALL
@@ -69,8 +69,8 @@ CIT_CHECK_PYTHON_SHARED
 dnl ----------------------------------------------------------------------
 dnl CPPUNIT
 if test "$enable_testing" = "yes" ; then
-  CIT_CPPUNIT_HEADER
-  CIT_CPPUNIT_LIB
+  CIT_CATCH2_HEADER
+  CIT_CATCH2_LIB
 fi
 
 # TEST COVERAGE

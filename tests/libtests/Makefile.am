@@ -1,22 +1,20 @@
 include $(top_srcdir)/check.am
 
-TESTS = testpythia
+TESTS = libtest_pythia
 
-check_PROGRAMS = testpythia
+check_PROGRAMS = libtest_pythia
 
-testpythia_SOURCES = \
-	TestDriver.cc \
+libtest_pythia_SOURCES = \
 	journal/TestDiagnostics.cc \
-	test_driver.cc
+	driver_catch2.cc
 
 AM_CPPFLAGS += -I$(PYTHON_INCDIR)
 
-testpythia_LDADD = \
-	-lcppunit -ldl \
+libtest_pythia_LDADD = \
+	-lCatch2 -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-EXTRA_DIST = \
-	TestDriver.hh
+EXTRA_DIST = 
 
 # End of file
