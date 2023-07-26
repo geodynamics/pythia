@@ -7,7 +7,7 @@ pool:
   vmImage: "ubuntu-20.04"
 
 variables:
-  IMAGE_REGISTRY: "registry.gitlab.com/cig-pylith/pylith_installer"
+  IMAGE_REGISTRY: "ghcr.io/geodynamics/pylith_installer"
 
 stages:
   - stage: basic_build
