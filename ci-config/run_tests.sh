@@ -42,7 +42,7 @@ if [ $? != 0 ]; then exit 1; fi
 
 if [ -r coverage-pytests.xml ]; then
   pushd ${SRC_DIR} && \
-      ${BUILD_DIR}/codecov -C ${BUILD_SOURCEVERSION} -r geodynamics/spatialdata -f ${BUILD_DIR}/coverage-pytests.xml -F pytests -y ci-config/codecov.yml \
+      ${BUILD_DIR}/codecov -C ${BUILD_SOURCEVERSION} -r geodynamics/pythia -f ${BUILD_DIR}/coverage-pytests.xml -F pytests -y ci-config/codecov.yml \
 	  || echo "Codecov did not collect coverage reports." && \
       popd
 fi
