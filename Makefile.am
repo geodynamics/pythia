@@ -23,16 +23,6 @@ EXTRA_DIST = \
 	setup.py \
 	setup.cfg \
 	configure.ac \
-	docker/builder.py \
-	docker/debian-stable \
-	docker/debian-testing \
-	docker/ubuntu-18.04 \
-	docker/ubuntu-20.04 \
-	docker/ubuntu-22.04 \
-	docker/fedora-34 \
-	docker/fedora-35 \
-	docker/fedora-36 \
-	docker/rockylinux-8 \
 	docker/pythia-testenv \
 	developer/uncrustify.cfg \
 	ci-config/run_tests.sh \
