@@ -30,9 +30,7 @@ import sys
 sys.path.append("./pyre")
 
 
-class TestApp(object):
-    """Application to run tests.
-    """
+def create_coverage():
     cov = None
     try:
         import coverage
@@ -50,56 +48,42 @@ class TestApp(object):
             "pythia.pyre.xml",
         ]
         cov = coverage.Coverage(source=src_dirs)
-    except ImportError:
+        cov.start()
+    except ImportError as ex:
         pass
+    return cov
 
-    def main(self):
-        """
-        Run the application.
-        """
-        if self.cov:
-            self.cov.start()
+def close_coverage(cov):
+    if cov:
+        cov.stop()
+        cov.save()
+        cov.report()
+        cov.xml_report(outfile="coverage.xml")
 
-        success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
-        if not success:
-            sys.exit(1)
 
-        if self.cov:
-            self.cov.stop()
-            self.cov.save()
-            self.cov.report()
-            self.cov.xml_report(outfile="coverage.xml")
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        import pyre.test_units
-        import pyre.test_inventory
-        import pyre.test_schedulers
-        import pyre.test_pyredoc
-        import pyre.test_nemesis
-        import journal.test_channels
-        import journal.test_devices
-        import journal.test_facilities
-        
-        test_cases = []
-        for mod in [
-            pyre.test_units,
-            pyre.test_inventory,
-            pyre.test_schedulers,
-            pyre.test_pyredoc,
-            pyre.test_nemesis,
-            journal.test_channels,
-            journal.test_devices,
-            journal.test_facilities,                
-            ]:
-            test_cases += mod.test_classes()
-
-        suite = unittest.TestSuite()
-        for test_case in test_cases:
-            suite.addTest(unittest.makeSuite(test_case))
-
-        return suite
+def load_tests(loader, tests, pattern):
+    import pyre.test_units
+    import pyre.test_inventory
+    import pyre.test_schedulers
+    import pyre.test_pyredoc
+    import pyre.test_nemesis
+    import journal.test_channels
+    import journal.test_devices
+    import journal.test_facilities
+    
+    suite = unittest.TestSuite()
+    for mod in [
+        pyre.test_units,
+        pyre.test_inventory,
+        pyre.test_schedulers,
+        pyre.test_pyredoc,
+        pyre.test_nemesis,
+        journal.test_channels,
+        journal.test_devices,
+        journal.test_facilities,                
+        ]:
+        suite.addTests(loader.loadTestsFromModule(mod))
+    return suite
 
 
 def configureSubcomponents(facility):
@@ -110,9 +94,16 @@ def configureSubcomponents(facility):
     return
 
 
+
 # ----------------------------------------------------------------------
 if __name__ == '__main__':
-    TestApp().main()
+    cov = create_coverage()
+
+    suite = load_tests(unittest.defaultTestLoader, tests=None, pattern=None)
+    success = unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful()
+    close_coverage(cov)
+    if not success:
+        sys.exit(1)
 
 
 # End of file

@@ -22,41 +22,6 @@ which is not measured by coverage.
 """
 
 import unittest
-import sys
-
-
-class TestApp(object):
-    """Application to run tests.
-    """
-
-    def main(self):
-        """
-        Run the application.
-        """
-        success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
-        if not success:
-            sys.exit(1)
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        import mpi.test_application
-        import mpi.test_communicator
-        import mpi.test_launcher
-
-        test_cases = []
-        for mod in [
-                mpi.test_application,
-                mpi.test_communicator,
-                mpi.test_launcher,
-                ]:
-            test_cases += mod.test_classes()
-        
-        suite = unittest.TestSuite()
-        for test_case in test_cases:
-            suite.addTest(unittest.makeSuite(test_case))
-
-        return suite
 
 
 def configureSubcomponents(facility):
@@ -66,10 +31,26 @@ def configureSubcomponents(facility):
         component._configure()
     return
 
+def load_tests(loader, tests, pattern):
+    import mpi.test_application
+    import mpi.test_communicator
+    import mpi.test_launcher
+
+    suite = unittest.TestSuite()
+    for mod in [
+        mpi.test_application,
+        mpi.test_communicator,
+        mpi.test_launcher,
+        ]:
+        suite.addTests(loader.loadTestsFromModule(mod))
+
+    return suite
+
+
 
 # ----------------------------------------------------------------------
 if __name__ == '__main__':
-    TestApp().main()
+    unittest.main(verbosity=2)
 
 
 # End of file

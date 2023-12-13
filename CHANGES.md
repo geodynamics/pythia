@@ -1,6 +1,10 @@
 See <https://github.com/geodynamics/pythia/commits/master> for the complete log of changes made to Pythia/Pyre.
 
 
+## Version 1.1.0
+
+* Switch from CppUnit to Catch2 for C++ testing.
+
 ## Version 1.0.0
 
 Merged pythia and nemesis into a single repository.

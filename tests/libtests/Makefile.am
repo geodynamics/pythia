@@ -9,6 +9,7 @@ libtest_pythia_SOURCES = \
 	driver_catch2.cc
 
 AM_CPPFLAGS += -I$(PYTHON_INCDIR)
+LDFLAGS += $(AM_LDFLAGS) $(PYTHON_LDFLAGS)
 
 libtest_pythia_LDADD = \
 	-lCatch2 -ldl \
