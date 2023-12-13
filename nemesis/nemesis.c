@@ -40,6 +40,13 @@
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */ 
 
+/*
+ * Python 3.8 introduced a new way (https://peps.python.org/pep-0587/)
+ * to initialize the Python interpreter.
+ *
+ * The previous implementation used here does not work for Python 3.12 and later.
+ */
+
 #include <Python.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -67,45 +74,11 @@ struct _inittab inittab[] = {
     { 0, 0 }
 };
 
-
-void
-freeWchar(wchar_t** strings,
-	  const int nstrings) {
-  int i;
-  
-  for (i = 0; i < nstrings; ++i) {
-    PyMem_RawFree(strings[i]);
-  }
-  PyMem_Del(strings);
-} 
-  
-
-wchar_t**
-wcharFromChar(char* strings[],
-	      const int nstrings) {
-  int i;
-
-  wchar_t** wstrings = PyMem_New(wchar_t*, nstrings);
-  if (!wstrings) {
-    return NULL;
-  }
-
-  for (i = 0; i < nstrings; ++i) {
-    wstrings[i] = Py_DecodeLocale(strings[i], NULL);
-    if (!wstrings[i]) {
-      freeWchar(wstrings, i);
-      return NULL;
-    }
-  }
-
-  return wstrings;
-}
-
-
 int main(int argc, char* argv[])
 {
-    int status;
-    int i;
+    int c_status;
+    PyStatus py_status;
+    PyConfig config;
     
 #ifdef USE_MPI
     /* initialize MPI */
@@ -116,54 +89,52 @@ int main(int argc, char* argv[])
 #endif
     
     /* add our extension module */
-    if (PyImport_ExtendInittab(inittab) == -1) {
+    if (PyImport_ExtendInittab(inittab) != 0) {
         fprintf(stderr, "%s: PyImport_ExtendInittab failed! Exiting...\n", argv[0]);
         return 1;
     }
 
-    wchar_t** _argv = wcharFromChar(argv, argc);
-    /* Create copy of _argv so we can properly free memory, because it may get modified by Py_Main(). */
-    wchar_t** _argvCopy = PyMem_New(wchar_t*, argc);
-    for (i=0; i < argc; ++i) {
-            _argvCopy[i] = _argv[i];
-    }
-
-    if (!_argv) {
-        fprintf(stderr, "%s: Decoding argv strings failed! Exiting...\n", argv[0]);
-        return 1;
-    }
-    
     if (argc < 3 || strcmp(argv[1], "--pythia-start") != 0) {
-      status = Py_Main(argc, _argv);
-      freeWchar(_argvCopy, argc);
-      PyMem_Del(_argv);
-      return status;
-    }
-    
-    /* make sure 'sys.executable' is set to the path of this program  */
-    Py_SetProgramName(_argv[0]);
-    
-    /* initialize Python */
-    Py_Initialize();
-    
-    /* initialize sys.argv */
-    PySys_SetArgv(argc - 1, _argv + 1);
+        PyConfig_InitPythonConfig(&config);
+        py_status = PyConfig_SetBytesArgv(&config, argc, argv);
+        if (PyStatus_Exception(py_status)) { goto exception; }
 
-    freeWchar(_argvCopy, argc);
-    PyMem_Del(_argv);
-    
-    /* run the Python command */
-    status = PyRun_SimpleString(COMMAND) != 0;
-    
-    /* shut down Python */
-    Py_FinalizeEx();
-    
+        py_status = Py_InitializeFromConfig(&config);
+        if (PyStatus_Exception(py_status)) { goto exception; }
+
+        PyConfig_Clear(&config);
+
+        return Py_RunMain();
+    } else {
+        PyConfig_InitIsolatedConfig(&config);
+
+        py_status = PyConfig_SetBytesString(&config, &config.program_name, argv[0]);
+        if (PyStatus_Exception(py_status)) { goto exception; }
+
+        py_status = PyConfig_SetBytesArgv(&config, argc-1, argv+1);
+        if (PyStatus_Exception(py_status)) { goto exception; }
+
+        py_status = Py_InitializeFromConfig(&config);
+        if (PyStatus_Exception(py_status)) { goto exception; }
+
+        PyConfig_Clear(&config);
+
+        c_status = PyRun_SimpleString(COMMAND);
+
+        Py_FinalizeEx();
+    }
+
+
 #ifdef USE_MPI
     /* shut down MPI */
     MPI_Finalize();
 #endif
     
-    return status;
+    return c_status;
+
+exception:
+    PyConfig_Clear(&config);
+    Py_ExitStatusException(py_status);
 }
 
 /* end of file */

@@ -58,7 +58,7 @@ fi
 
 AC_PROG_INSTALL
 
-AM_PATH_PYTHON([3.6])
+AM_PATH_PYTHON([3.8])
 AC_ARG_VAR(PYTHON, [Python interpreter])
 AC_ARG_VAR(PYTHONPATH, [Python module search path])
 CIT_PYTHON_SYSCONFIG
