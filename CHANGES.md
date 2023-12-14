@@ -4,6 +4,7 @@ See <https://github.com/geodynamics/pythia/commits/master> for the complete log 
 ## Version 1.1.0
 
 * Switch from CppUnit to Catch2 for C++ testing.
+* Update Python requirement to version 3.8 or later.
 
 ## Version 1.0.0
 
