@@ -74,6 +74,39 @@ struct _inittab inittab[] = {
     { 0, 0 }
 };
 
+
+void
+freeWchar(wchar_t* strings[],
+	  const int nstrings) {
+  int i;
+
+  for (i = 0; i < nstrings; ++i) {
+    PyMem_RawFree(strings[i]);
+  }
+  PyMem_RawFree(strings);
+} 
+
+
+wchar_t**
+wcharFromChar(char* strings[],
+	      const int nstrings) {
+  int i;
+
+  wchar_t** wstrings = PyMem_RawMalloc(sizeof(wchar_t*)*nstrings);
+  if (!wstrings) { return NULL; }
+
+  for (i = 0; i < nstrings; ++i) {
+    wstrings[i] = Py_DecodeLocale(strings[i], NULL);
+    if (!wstrings[i]) {
+      freeWchar(wstrings, i);
+      return NULL;
+    }
+  }
+
+  return wstrings;
+}
+
+
 int main(int argc, char* argv[])
 {
     int c_status;
@@ -106,12 +139,9 @@ int main(int argc, char* argv[])
 
         return Py_RunMain();
     } else {
-        PyConfig_InitIsolatedConfig(&config);
+        PyConfig_InitPythonConfig(&config);
 
         py_status = PyConfig_SetBytesString(&config, &config.program_name, argv[0]);
-        if (PyStatus_Exception(py_status)) { goto exception; }
-
-        py_status = PyConfig_SetBytesArgv(&config, argc-1, argv+1);
         if (PyStatus_Exception(py_status)) { goto exception; }
 
         py_status = Py_InitializeFromConfig(&config);
@@ -119,6 +149,15 @@ int main(int argc, char* argv[])
 
         PyConfig_Clear(&config);
 
+	/* :KLUDGE: PySys_SetArgv() is deprecated in v3.11 and is scheduled
+	 * for removal in v3.13. Switching to Michael Aivazis' current Pyre
+	 * should make this code obsolete and allow us to circumvent this
+	 * deprecation.
+	 */
+	wchar_t** w_argv = wcharFromChar(argv, argc);
+	PySys_SetArgv(argc - 1, w_argv + 1);
+	freeWchar(w_argv, argc);
+	
         c_status = PyRun_SimpleString(COMMAND);
 
         Py_FinalizeEx();
