@@ -40,7 +40,7 @@ dist_noinst_DATA = \
 
 
 # 'export' the input files by performing a mock install
-export_datadir = $(top_builddir)/tests/pytests/pyre/
+export_datadir = $(abs_builddir)/pyre
 export-data: $(noinst_DATA)
 	if [ "X$(top_srcdir)" != "X$(top_builddir)" ]; then $(install_sh) -d $(export_datadir); for f in $(dist_noinst_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done; fi
 
