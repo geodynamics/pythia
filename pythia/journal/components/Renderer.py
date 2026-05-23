@@ -23,7 +23,7 @@ class Renderer(Component):
 
         header = pythia.pyre.inventory.str(
             "header",
-            default=" >> %(filename)s:%(line)s:%(function)s\n -- %(facility)s(%(severity)s)")
+            default=" >> %(filename)s:%(line)s:%(function)s\n -- %(severity)s (%(facility)s)")
         header.meta['tip'] = "the first line of the generated message"
 
         footer = pythia.pyre.inventory.str("footer", default="")
