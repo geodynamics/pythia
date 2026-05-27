@@ -48,9 +48,9 @@ EXTRA_DIST = \
     journal/colors/__init__.py \
     journal/colors/__vault__.odb \
     journal/colors/dark-bg.odb \
+    journal/colors/dark-bg.cfg \
     journal/colors/light-bg.odb \
     journal/colors/light-bg.cfg \
-    journal/colors/dark-bg.cfg \
     journal/colors/none.odb \
     journal/components/Channel.py \
     journal/components/ChannelFacility.py \

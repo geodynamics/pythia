@@ -54,7 +54,7 @@ class TestFacilities(unittest.TestCase):
             logLines = log.readlines()
             self.assertEqual(4, len(logLines))
             iLine = 2
-            self.assertEqual("-- debug_on(debug)", logLines[iLine].strip())
+            self.assertEqual("-- debug (debug_on)", logLines[iLine].strip())
             iLine += 1
             self.assertEqual("-- This journal should be on.", logLines[iLine].strip())
         os.remove(filename)

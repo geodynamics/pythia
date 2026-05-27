@@ -21,7 +21,8 @@ class Console(Device):
     def _write(self, text):
         for line in text:
             print(line)
-
+        import sys
+        sys.stdout.flush()
         return
 
 

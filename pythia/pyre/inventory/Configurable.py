@@ -324,6 +324,7 @@ class Configurable(Traceable, metaclass=ConfigurableClass):
         self._info = info(name)
         self._error = error(name)
         self._warning = warning(name)
+        self._flow = info("application-flow")
 
         # modify the inventory defaults that were hardwired at compile time
         # gives derived components an opportunity to modify their default behavior
