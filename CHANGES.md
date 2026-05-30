@@ -1,12 +1,16 @@
 See <https://github.com/geodynamics/pythia/commits/master> for the complete log of changes made to Pythia/Pyre.
 
+## Version 1.2.0 (2026-05-30)
 
-## Version 1.1.0
+* Added `_flow` journal channel to Component for application flow.
+* Fixed installation of color-console .cfg files.
+
+## Version 1.1.0 (2024-)
 
 * Switch from CppUnit to Catch2 for C++ testing.
 * Update Python requirement to version 3.8 or later.
 
-## Version 1.0.0
+## Version 1.0.0 (2023-12-15)
 
 Merged pythia and nemesis into a single repository.
 
