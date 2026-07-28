@@ -1,5 +1,9 @@
 See <https://github.com/geodynamics/pythia/commits/master> for the complete log of changes made to Pythia/Pyre.
 
+## Version 1.3.0 (2026-06-07)
+
+* Added pygments lexer `pyrejournal' for syntax highlighting of journal output.
+
 ## Version 1.2.0 (2026-05-30)
 
 * Added `_flow` journal channel to Component for application flow.
