@@ -93,6 +93,9 @@ AC_CONFIG_FILES([
   libsrc/Makefile
   libsrc/pythia/Makefile
   pythia/Makefile
+  markup/Makefile
+  markup/pygments/Makefile
+  markup/texmf/Makefile
   tests/Makefile
   tests/pytests/Makefile
   tests/libtests/Makefile

@@ -3,7 +3,8 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = \
 	bin \
 	libsrc \
-	pythia
+	pythia \
+	markup
 
 if ENABLE_MPI
   SUBDIRS += nemesis

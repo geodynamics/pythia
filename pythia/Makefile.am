@@ -1,5 +1,5 @@
 install-exec-local:
-	$(PYTHON) -m pip install $(top_srcdir)
+	$(PYTHON) -m pip install --no-build-isolation --prefix=$(prefix) $(top_srcdir)
 
 EXTRA_DIST = \
     __init__.py \

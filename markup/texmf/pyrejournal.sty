@@ -1,0 +1,38 @@
+% pyrejournal.sty — minted-based environment for PyLith output.
+%
+% Requirements:
+%   1. pip install -e .   (in the pylith-output-lexer/ directory)
+%   2. Compile with shell-escape, e.g.:
+%        pdflatex -shell-escape main.tex
+%
+% Usage:
+%   \usepackage{pyre-journal}
+%   \begin{pyre-journal}
+%   >> ../../../pylith-5.0.0/libsrc/pylith/meshio/MeshIOPetsc.cc:205:...
+%   -- info (application-flow)
+%   -- Component 'meshiopetsc.reader': Reading finite-element mesh ...
+%   \end{pyre-journal}
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pyrejournal}[2026/06/03 PyLith output highlighting]
+
+\RequirePackage{minted}
+\RequirePackage{xcolor}
+
+% Configure minted defaults for the custom lexer + style.
+\setminted[pyrejournal]{
+  bgcolor=ltslate!50!white,
+  fontsize=\tiny,
+  autogobble,
+  style=pyre_journal_style,
+  breaklines=false,
+}
+
+% Convenience environment so callers don't repeat the language name.
+\newminted[pyrejournal]{pyrejournal}{}
+
+% Inline form and file-input form.
+\newmintinline[pyrejournalinline]{pyrejournal}{}
+\newmintedfile[pyrejournalfile]{pyrejournal}{}
+
+\endinput
