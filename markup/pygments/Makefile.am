@@ -1,5 +1,5 @@
 install-exec-local:
-	$(PYTHON) -m pip install $(srcdir)
+	$(PYTHON) -m pip install --prefix=$(prefix) $(PIP_ISOLATION_FLAG) $(srcdir)
 
 EXTRA_DIST = \
     pyrejournal_lexer.py \
