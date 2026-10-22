@@ -75,38 +75,6 @@ struct _inittab inittab[] = {
 };
 
 
-void
-freeWchar(wchar_t* strings[],
-	  const int nstrings) {
-  int i;
-
-  for (i = 0; i < nstrings; ++i) {
-    PyMem_RawFree(strings[i]);
-  }
-  PyMem_RawFree(strings);
-} 
-
-
-wchar_t**
-wcharFromChar(char* strings[],
-	      const int nstrings) {
-  int i;
-
-  wchar_t** wstrings = PyMem_RawMalloc(sizeof(wchar_t*)*nstrings);
-  if (!wstrings) { return NULL; }
-
-  for (i = 0; i < nstrings; ++i) {
-    wstrings[i] = Py_DecodeLocale(strings[i], NULL);
-    if (!wstrings[i]) {
-      freeWchar(wstrings, i);
-      return NULL;
-    }
-  }
-
-  return wstrings;
-}
-
-
 int main(int argc, char* argv[])
 {
     int c_status;
@@ -144,20 +112,26 @@ int main(int argc, char* argv[])
         py_status = PyConfig_SetBytesString(&config, &config.program_name, argv[0]);
         if (PyStatus_Exception(py_status)) { goto exception; }
 
+	/* Set sys.argv via PyConfig instead of the removed PySys_SetArgv().
+	 * PySys_SetArgv() was deprecated in v3.11 and removed in v3.13.
+	 *
+	 * The previous call was PySys_SetArgv(argc - 1, w_argv + 1), which
+	 * dropped argv[0] (the program name) so that the original argv[1]
+	 * ("--pythia-start") became sys.argv[0], argv[2] became sys.argv[1],
+	 * and so on. We reproduce that by handing PyConfig the same
+	 * (argc - 1, argv + 1) slice. parse_argv is disabled so the
+	 * interpreter passes these through to sys.argv verbatim rather than
+	 * consuming any as its own options, matching PySys_SetArgv().
+	 */
+	config.parse_argv = 0;
+	py_status = PyConfig_SetBytesArgv(&config, argc - 1, argv + 1);
+	if (PyStatus_Exception(py_status)) { goto exception; }
+
         py_status = Py_InitializeFromConfig(&config);
         if (PyStatus_Exception(py_status)) { goto exception; }
 
         PyConfig_Clear(&config);
 
-	/* :KLUDGE: PySys_SetArgv() is deprecated in v3.11 and is scheduled
-	 * for removal in v3.13. Switching to Michael Aivazis' current Pyre
-	 * should make this code obsolete and allow us to circumvent this
-	 * deprecation.
-	 */
-	wchar_t** w_argv = wcharFromChar(argv, argc);
-	PySys_SetArgv(argc - 1, w_argv + 1);
-	freeWchar(w_argv, argc);
-	
         c_status = PyRun_SimpleString(COMMAND);
 
         Py_FinalizeEx();
