@@ -12,11 +12,11 @@
 #
 
 
+from importlib.metadata import version as _get_version, PackageNotFoundError
 try:
-    from pkg_resources import get_distribution
-    version = get_distribution("pythia").version
-except:
-    version = "Could not get version information via pkg_resources."
+    version = _get_version("pythia")
+except PackageNotFoundError:
+    version = "Could not get version information via importlib.metadata."
 
 __version__ = version
 
