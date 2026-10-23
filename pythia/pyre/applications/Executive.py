@@ -165,17 +165,21 @@ class Executive(object):
         return
 
     def version(self):
-        from pkg_resources import get_provider, Requirement
+        from importlib.metadata import metadata, PackageNotFoundError
+        from packaging.requirements import Requirement
         try:
             req = self.requires()
         except ImportError:
             print("Please consider writing version info for this application.")
             return
-        req = Requirement.parse(req)
-        provider = get_provider(req)
+        req = Requirement(req)
+        try:
+            meta = metadata(req.name)
+        except PackageNotFoundError:
+            print("No metadata found for '%s'." % req.name)
+            return
         # NYI: make this pretty
-        for line in provider.get_metadata_lines("PKG-INFO"):
-            print(line)
+        print(meta)
         return
 
     def __init__(self):

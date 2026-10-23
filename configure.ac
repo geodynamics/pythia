@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 
 AC_PREREQ(2.59)
-AC_INIT([pythia], [1.3.0], [baagaard@usgs.gov])
+AC_INIT([pythia], [1.3.1], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
@@ -66,7 +66,7 @@ fi
 
 AC_PROG_INSTALL
 
-AM_PATH_PYTHON([3.8])
+AM_PATH_PYTHON([3.10])
 AC_ARG_VAR(PYTHON, [Python interpreter])
 AC_ARG_VAR(PYTHONPATH, [Python module search path])
 CIT_PYTHON_SYSCONFIG

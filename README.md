@@ -24,8 +24,8 @@ simulations. This fork focuses (and maintains) functionality for:
 
 ## Release Notes
 
-See [CHANGES](CHANGES) for a list of changes for recent releases.
+See [CHANGES](CHANGES.md) for a list of changes for recent releases.
 
 ## Maintainer
 
-* Brad Aagaard, Geologic Hazards Science Center, U.S. Geological Survey, USA
+* Brad Aagaard, U.S. Geological Survey, Geologic Hazards Science Center, USA

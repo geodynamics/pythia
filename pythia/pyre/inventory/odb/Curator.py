@@ -189,16 +189,13 @@ class Curator(Base):
         systemDepository = self.setSystemDepository(system)
 
         # create the built-in depositories
-        from pkg_resources import resource_listdir, resource_isdir, resource_exists, resource_filename, Requirement
+        from importlib.resources import files, as_file
         import os
-        pythia = Requirement.parse("pythia")
-        entries = resource_listdir(pythia, "pythia")
-        for entry in entries:
-            entry_path = os.path.join("pythia", entry)
-            if resource_isdir(pythia, entry_path):
-                vault = entry_path + '/__vault__.odb'
-                if resource_exists(pythia, vault):
-                    builtin = self.createDepository(resource_filename(pythia, entry_path))
+        root = files("pythia")
+        for entry in root.iterdir():
+            if entry.is_dir() and entry.joinpath("__vault__.odb").is_file():
+                with as_file(entry) as entry_path:
+                    builtin = self.createDepository(os.fspath(entry_path))
                     self.builtinDepositories.append(builtin)
 
         return

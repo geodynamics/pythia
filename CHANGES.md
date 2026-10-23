@@ -1,5 +1,11 @@
 See <https://github.com/geodynamics/pythia/commits/master> for the complete log of changes made to Pythia/Pyre.
 
+## Version 1.3.1 (2026-10-23)
+
+* Fixed incompatibilities with Python 3.13 and later in nemesis.
+* Replaced deprecated `pkg_resources` usage with `importlib.metadata`, `importlib.resources`, and `packaging` for compatibility with setuptools 81+ (where `pkg_resources` is removed).
+* Updated Python requirement to version 3.10 or later.
+
 ## Version 1.3.0 (2026-08-17)
 
 * Added pygments lexer `pyrejournal' for syntax highlighting of journal output.

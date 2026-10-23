@@ -237,9 +237,9 @@ class Inventory(object, metaclass=Notary):
             vault=vault, extraDepositories=self._priv_depositories)
 
     def retrieveBuiltInComponent(self, name, factory, args=(), vault=[]):
-        import pkg_resources
+        from importlib.metadata import entry_points
         group = "pyre.odb." + (".".join([self._priv_name] + vault))
-        for ep in pkg_resources.iter_entry_points(group, name):
+        for ep in entry_points(group=group, name=name):
             factory = ep.load()
             component = factory(*args)
             return component
