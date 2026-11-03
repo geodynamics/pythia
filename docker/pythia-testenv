@@ -2,7 +2,7 @@
 
 
 ARG BASE_IMAGE
-from ${BASE_IMAGE} as setup
+FROM ${BASE_IMAGE} AS setup
 ARG TEST_COVERAGE=no
 ARG PYTHON_COVERAGE=coverage3
 ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE}
@@ -12,7 +12,7 @@ LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 USER ${TEST_USER}
 
 # ------------------------------------------------------------------------------
-from setup as configure
+FROM setup AS configure
 
 ENV src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
 COPY --chown=pylith-tester:pylith-tester . ${src_dir}
@@ -25,15 +25,15 @@ WORKDIR ${build_dir}
 RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE}  CPPFLAGS=-I${INSTALL_DIR}/include LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 
 # ------------------------------------------------------------------------------
-from configure as build
+FROM configure AS build
 
 RUN make -j$(nproc) && make install
 
-# Want source directory as current directory for running test coverage script via test runner.
+# Want source directory AS current directory for running test coverage script via test runner.
 WORKDIR ${src_dir}
 
 # ------------------------------------------------------------------------------
-from build as test
+FROM build AS test
 
 WORKDIR ${build_dir}
 RUN make check VERBOSE=1
