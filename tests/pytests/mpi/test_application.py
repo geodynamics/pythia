@@ -25,8 +25,10 @@ class TestApplication(unittest.TestCase):
         self.assertEqual("mpiapp", app.name)
 
     def test_run(self):
+        max_cores = 2
         app = MPIApp()
-        app.nodes = 3
+        n_cores = len(os.sched_getaffinity(0))
+        app.nodes = min(max_cores, n_cores) if n_cores > 0 else max_cores
         app.run(argv=["mpiapp", "--launcher.command=mpiexec -n ${nodes} -host localhost:${nodes}"])
         for node in range(app.nodes):
             filename = app.log_filename(node)
